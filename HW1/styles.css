@@ -1,0 +1,92 @@
+/* General Reset */
+body, h1, h2, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #F2D4AE;
+    color: #333;
+    line-height: 1.6;
+    text-align: center; /* Centers content vertically and horizontally */
+    padding: 20px; /* Optional, for spacing content */
+}
+img {
+    max-width: 100%; /* Ensures the image doesn't overflow */
+    height: auto; /* Maintains the aspect ratio */
+    filter: opacity(50%); /* Fades the image */
+}
+
+header {
+    background: #333;
+    color: #92A599;
+    padding: 10px 20px;
+}
+
+header nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: #fff;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #0396A6;
+}
+
+section {
+    padding: 20px;
+    text-align: center;
+}
+
+#home {
+    background: #69564D;
+    color: #fff;
+    padding: 50px 20px;
+}
+
+#about, #projects, #contact {
+    background: #92A599;
+    margin: 10px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    padding: 20px;
+}
+
+.card {
+    background: #f4f4f9;
+    margin: 15px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+footer {
+    background: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
