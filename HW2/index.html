@@ -3,79 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="A clean and modern personal website.">
-    <title>My Modern Website</title>
+    <meta name="description" content="A site dedicated to Bernedoodles and Maltese dogs.">
+    <title>Bernedoodles and Maltese</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #f4f4f4;
+            padding: 10px;
         }
         .header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
         }
         .header img {
-            width: 50px; /* Reduce the width */
-            height: auto; /* Maintain aspect ratio */
-            margin-right: 10px; /* Add some spacing between image and text */
+            width: 50px;
+            height: auto;
+            margin-right: 10px;
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 15px;
+        }
+        nav ul li {
+            display: inline;
+        }
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+        section {
+            padding: 20px;
+        }
+        .card {
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            max-width: 100%;
+            border-radius: 15px;
         }
     </style>
 </head>
 <body>
     <header>
         <div class="header">
-        <img src="./imgs/filthy406logo.png" alt="Filthy 406 Logo">
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
+            <img src="./imgs/dog-logo.png" alt="Dog Logo">
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#bernese">Bernedoodles</a></li>
+                    <li><a href="#maltese">Maltese</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-  
-  
-    
-
     <section id="home">
-        <h1>Welcome to My Website</h1>
-        <p>Homework 2</p>
+        <h1>Welcome to Our Dog World</h1>
+        <p>Discover the beauty, personality, and joy of Bernedoodles and Maltese dogs!</p>
     </section>
-   
-    <section id="about">
-        <img src=".\imgs\filthy_406_horse copy.jpg" alt="horses">
-        <h2>About Me</h2>
-        <p>Hello! I'm a student, who attempts to work on websites. My full-time job is with the Montana National Guard, I "moonlight" and do a lot of media work. It's harder than expected.</p>
-    </section>
-    <section id="projects">
-        <h2>Projects</h2>
+
+    <section id="bernese">
+        <h2>Bernedoodles</h2>
         <div class="card">
-            <h3>MTARNG SAPR Webpage</h3>
-            <p><a href="https://montanaguard.gov/SAPR/SAPR.html">Montana National Guard SAPR Program</a>
-            </a>  I created this section of the website, the SAPR portion</p>
+            <img src="./imgs/bernedoodle1.jpg" alt="A playful Bernedoodle">
+            <p>Bernedoodles are intelligent, loving, and a mix of Bernese Mountain Dogs and Poodles.</p>
         </div>
         <div class="card">
-            <h3>MTARNG SAPR Newsletter</h3>
-            <p><a href="https://www.canva.com/design/DAGYRgy__lI/cbWO4ZM6qveJ2iK4Bt_7GQ/view?utm_content=DAGYRgy__lI&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h86d69d1bfc">A newsletter for the program I create and curate!</a>
+            <img src="./imgs/bernedoodle2.jpg" alt="A Bernedoodle in the park">
+            <p>Perfect for families, they have low-shedding coats and playful temperaments.</p>
+        </div>
+        <div class="card">
+            <img src="./imgs/bernedoodle3.jpg" alt="A happy Bernedoodle">
+            <p>They come in a variety of colors and sizes, making them unique companions.</p>
         </div>
     </section>
-    <section id="more">
-        <h2>Some of my Favorite Things</h2>
-        <p>Do I think games can help change the world?</p>
-        <br>
-        <p>Yes - I think like anything, they can be a cognitive tool to help people see new ways of seeing things or different ways to find solutions. The issue is that many of the most popular games are not necessarily the right type of games to build that</p>
+
+    <section id="maltese">
+        <h2>Maltese</h2>
+        <div class="card">
+            <img src="./imgs/maltese1.jpg" alt="A cute Maltese puppy">
+            <p>The Maltese is a small, affectionate breed with silky white fur.</p>
+        </div>
+        <div class="card">
+            <img src="./imgs/maltese2.jpg" alt="Maltese playing in the garden">
+            <p>Known for their charm and intelligence, they are a favorite lapdog.</p>
+        </div>
+        <div class="card">
+            <img src="./imgs/maltese3.jpg" alt="Maltese in a cozy bed">
+            <p>Despite their small size, they have a big personality and love to play.</p>
+        </div>
     </section>
-      <!-- JavaScript linked at the end of the document -->
-  <script src="script.js"></script>
-  
+
     <section id="contact">
         <h2>Contact</h2>
-        <p>Feel free to reach out at <a href="mailto:rosekrieg07@gmail.com">rosekrieg07@gmail.com</a></p>
+        <p>Want to learn more about these amazing dogs? Reach out at <a href="mailto:rosekrieg07@gmail.com">rosekrieg07@gmail.com</a></p>
     </section>
+
     <footer>
-        <p>&copy; 2025 Rose Krieg. All rights reserved.</p>
+        <p>&copy; 2025 MiniBernes or Maltesies. All rights reserved.</p>
     </footer>
 </body>
 </html>
