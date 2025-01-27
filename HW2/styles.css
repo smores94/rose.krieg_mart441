@@ -9,7 +9,7 @@ body, h1, h2, p, ul, li, a {
 }
 
 body {
-    background-color: #F2D4AE;
+    background-color: #D9988E;
     color: #333;
     line-height: 1.6;
     text-align: center; /* Centers content vertically and horizontally */
@@ -22,8 +22,8 @@ img {
 }
 
 header {
-    background: #333;
-    color: #92A599;
+    background: #733D45;
+    color: #EBB064;
     padding: 10px 20px;
 }
 
@@ -34,13 +34,13 @@ header nav ul {
 }
 
 header nav ul li a {
-    color: #fff;
+    color: #F2EFDA;
     font-weight: bold;
     transition: color 0.3s;
 }
 
 header nav ul li a:hover {
-    color: #0396A6;
+    color: #EF5E58;
 }
 
 section {
@@ -49,13 +49,13 @@ section {
 }
 
 #home {
-    background: #69564D;
-    color: #fff;
+    background: #733D45;
+    color: #F2EFDA;
     padding: 50px 20px;
 }
 
 #about, #projects, #contact {
-    background: #92A599;
+    background: #D9988E;
     margin: 10px auto;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
