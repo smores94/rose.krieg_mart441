@@ -1,0 +1,108 @@
+/* General Reset */
+body, h1, h2, p, ul, li, a {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+.scrolling-text {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.scrolling-text::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px; /* Divider below the text */
+    background-color: #ccc; /* Light gray divider */
+    margin-top: 10px; /* Spacing for cleaner UI */
+}
+body {
+    background-color: #D9988E;
+    color: #333;
+    line-height: 1.6;
+    text-align: center; /* Centers content vertically and horizontally */
+    padding: 20px; /* Optional, for spacing content */
+}
+img {
+    max-width: 100%; /* Ensures the image doesn't overflow */
+    height: auto; /* Maintains the aspect ratio */
+    filter: opacity(50%); /* Fades the image */
+}
+
+header {
+    background: #733D45;
+    color: #EBB064;
+    padding: 10px 20px;
+}
+
+header nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: #EBB064;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: #EF5E58;
+}
+
+section {
+    padding: 20px;
+    text-align: center;
+}
+
+#home {
+    background: #733D45;
+    color: #F2EFDA;
+    padding: 50px 20px;
+}
+
+#about, #projects, #contact {
+    background: #EF5E58;
+    margin: 10px auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    padding: 20px;
+}
+
+.card {
+    background: #f4f4f9;
+    margin: 15px 0;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+footer {
+    background: #333;
+    color: #F2EFDA;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+
