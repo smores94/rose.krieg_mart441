@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spa-like Webpage</title>
+    <style>
+        body {
+            background-color: #E0F7FA; /* Light aqua color for a spa-like feel */
+            color: #006064; /* Dark teal color for text */
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        img {
+            width: 300px;
+            border-radius: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to Your Mellow Spa-like Webpage</h1>
+    <p>Relax and unwind as you explore.</p>
+    <img src="https://via.placeholder.com/300" alt="Relaxing spa image">
+    <script src="app.js"></script> <!-- Link to the external JavaScript file -->
+</body>
+</html>
