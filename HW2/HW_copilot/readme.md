@@ -1,0 +1,3 @@
+# rose.krieg_mart441
+ 
+For some strange reason, I actually had a harder time with the copilot version. It just would not work for the longest time, and I ended up deleting the whole thing and starting fresh because whatever was going on, I seemed unable to figure it out. After all that, I was able to get things functional. That said, I think using chatgpt or copilot is great for giving an initial basic page, but everything would have to be updated/changed/personalized to make it look nicer. Copilot gave me a nice basic page and I left the color it chose for the background, I provided an image, so it looked a little more put together. I had to ask it to create a menu, because it really went basic when I asked it to create the homework. 
