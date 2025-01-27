@@ -18,7 +18,7 @@ console.log("2. Montana's Charlie Russell");
 console.log("3. I love art that features the American West - too many to list");
 
 // Prompting the user for a question and logging their response
-const question = "What is your favorite hobby?";
+const question = "What is your favorite dog?";
 const answer = prompt(question);
 console.log("Anything True Crime, Reading, Embroidery: " + answer);
 
