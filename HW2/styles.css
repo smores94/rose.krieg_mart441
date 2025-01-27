@@ -7,7 +7,22 @@ body, h1, h2, p, ul, li, a {
     box-sizing: border-box;
     font-family: Arial, sans-serif;
 }
+.scrolling-text {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    box-sizing: border-box;
+}
 
+.scrolling-text::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px; /* Divider below the text */
+    background-color: #ccc; /* Light gray divider */
+    margin-top: 10px; /* Spacing for cleaner UI */
+}
 body {
     background-color: #D9988E;
     color: #333;
@@ -90,19 +105,4 @@ footer p {
     font-size: 14px;
 }
 
-.scrolling-text {
-    display: block;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    box-sizing: border-box;
-}
 
-.scrolling-text::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px; /* Divider below the text */
-    background-color: #ccc; /* Light gray divider */
-    margin-top: 10px; /* Spacing for cleaner UI */
-}
