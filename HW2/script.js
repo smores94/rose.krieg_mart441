@@ -22,3 +22,23 @@ const question = "What is your favorite pet?";
 const answer = prompt(question);
 console.log("Anything True Crime, Reading, Embroidery: " + answer);
 
+// Adding click events to each dog section
+document.addEventListener("DOMContentLoaded", () => {
+    // Select all cards
+    const cards = document.querySelectorAll(".card");
+    
+    // Add click events to cards
+    cards.forEach(card => {
+        card.addEventListener("click", () => {
+            alert("You clicked on a dog card!");
+        });
+    });
+
+    // Display a message when the user scrolls to the Maltese section
+    const malteseSection = document.querySelector("#maltese");
+    if (malteseSection) {
+        malteseSection.addEventListener("mouseenter", () => {
+            console.log("You’re exploring the Maltese section!");
+        });
+    }
+});
