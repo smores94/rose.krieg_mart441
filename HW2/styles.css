@@ -34,7 +34,7 @@ header nav ul {
 }
 
 header nav ul li a {
-    color: #F2EFDA;
+    color: #EBB064;
     font-weight: bold;
     transition: color 0.3s;
 }
@@ -79,7 +79,7 @@ section {
 
 footer {
     background: #333;
-    color: #fff;
+    color: #F2EFDA;
     text-align: center;
     padding: 10px 0;
     margin-top: 20px;
