@@ -1,44 +1,19 @@
-// Logging my favorite websites
+// Console log with favorite websites, games, and artists
 console.log("Favorite Websites:");
-console.log("1. https://www.etsy.com/");
-console.log("2. https://people.com/");
-console.log("3. https://www.reddit.com/");
+console.log("1. https://www.netflix.com");
+console.log("2. https://www.wikipedia.org");
+console.log("3. https://www.github.com");
 
-
-// Logging my favorite games
 console.log("Favorite Games:");
-console.log("1. Candyland");
-console.log("2. CK3 - AGOT");
-console.log("3. Cell to Singularity");
+console.log("1. Chess");
+console.log("2. Settlers of Catan");
+console.log("3. Monopoly");
 
-// Logging my favorite artists and their cultural importance
-console.log("Favorite Artists:");
-console.log("1. Tamara de Lempicka");
-console.log("2. Montana's Charlie Russell");
-console.log("3. I love art that features the American West - too many to list");
+console.log("Favorite Artists and Their Cultural Importance:");
+console.log("1. Vincent van Gogh - Revolutionized Post-Impressionism.");
+console.log("2. Frida Kahlo - Icon of feminist art and Mexican culture.");
+console.log("3. Banksy - Provocative street artist challenging societal norms.");
 
-// Prompting the user for a question and logging their response
-const question = "What is your favorite pet?";
-const answer = prompt(question);
-console.log("Anything True Crime, Reading, Embroidery: " + answer);
-
-// Adding click events to each dog section
-document.addEventListener("DOMContentLoaded", () => {
-    // Select all cards
-    const cards = document.querySelectorAll(".card");
-    
-    // Add click events to cards
-    cards.forEach(card => {
-        card.addEventListener("click", () => {
-            alert("You clicked on a dog card!");
-        });
-    });
-
-    // Display a message when the user scrolls to the Maltese section
-    const malteseSection = document.querySelector("#maltese");
-    if (malteseSection) {
-        malteseSection.addEventListener("mouseenter", () => {
-            console.log("You’re exploring the Maltese section!");
-        });
-    }
-});
+// Simple question and answer using prompt
+const favoriteColor = prompt("What is your favorite color?");
+console.log("Your favorite color is: " + favoriteColor);
