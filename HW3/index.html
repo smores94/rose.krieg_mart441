@@ -3,84 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DnD Adventure: The Cursed Ruins</title>
+    <title>Alchemical Time Traveler</title>
     <style>
         body {
-            font-family: 'Georgia', serif;
-            background: url('https://source.unsplash.com/1600x900/?fantasy,castle') no-repeat center center fixed;
-            background-size: cover;
-            color: #fff;
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #2c2c2c;
+            color: #d4af37;
             text-align: center;
             padding: 20px;
         }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: rgba(0, 0, 0, 0.8);
+        #story {
+            font-size: 1.2em;
+            margin: 20px auto;
+            width: 60%;
             padding: 20px;
+            background-color: #3b3b3b;
+            border: 2px solid #d4af37;
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
         }
-        h1 {
-            color: #f4c542;
-        }
-        button {
-            background: #822000;
-            color: white;
-            font-size: 18px;
-            padding: 10px;
+        .choice-btn {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #d4af37;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            margin: 10px;
         }
-        button:hover {
-            background: #a82e00;
+        .choice-btn:hover {
+            background-color: #b08e2d;
         }
         img {
-            width: 100%;
-            border-radius: 10px;
-            margin-top: 15px;
+            width: 300px;
+            height: auto;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-
-    <div class="container">
-        <h1>⚔️ DnD Adventure: The Cursed Ruins ⚔️</h1>
-        <p id="story">You stand before the entrance to the ancient ruins of Eldenmoor. Rumors say a powerful artifact lies within, but so does an unspeakable danger. Do you enter?</p>
-        <button onclick="choosePath('enter')">Enter the Ruins</button>
-        <button onclick="choosePath('leave')">Walk Away</button>
-        <img id="sceneImage" src="https://source.unsplash.com/600x400/?fantasy,dungeon" alt="Dungeon Entrance">
+    <h1>Alchemical Time Traveler</h1>
+    <div id="story"> 
+        <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
+        <button class="choice-btn" onclick="choose('book')">Read the Alchemical Tome</button>
+        <button class="choice-btn" onclick="choose('device')">Activate the Time Device</button>
     </div>
-
     <script>
-        function choosePath(choice) {
-            let storyText = document.getElementById("story");
-            let image = document.getElementById("sceneImage");
-
-            if (choice === "enter") {
-                storyText.innerHTML = "You step inside the ruins. The air is thick with dust. Ahead, you see two paths: a dark corridor to the left and a faintly glowing door to the right. Where do you go?";
-                image.src = "https://source.unsplash.com/600x400/?cave,torches";
-                document.querySelector(".container").innerHTML += `
-                    <button onclick="choosePath('left')">Take the Dark Corridor</button>
-                    <button onclick="choosePath('right')">Enter the Glowing Door</button>
+        function choose(option) {
+            const storyDiv = document.getElementById('story');
+            if (option === 'book') {
+                storyDiv.innerHTML = `
+                    <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
+                    <button class="choice-btn" onclick="choose('brew')">Brew the Potion</button>
+                    <button class="choice-btn" onclick="choose('explore')">Explore the Workshop</button>
+                    <img src="alchemy.jpg" alt="Alchemy book">
                 `;
-            } 
-            else if (choice === "leave") {
-                storyText.innerHTML = "You turn away, deciding some mysteries are best left undiscovered. Perhaps another day...";
-                image.src = "https://source.unsplash.com/600x400/?forest,path";
-            } 
-            else if (choice === "left") {
-                storyText.innerHTML = "You step into the darkness. Suddenly, glowing red eyes appear. A horde of goblins ambushes you! You draw your weapon...";
-                image.src = "https://source.unsplash.com/600x400/?goblins,danger";
-            } 
-            else if (choice === "right") {
-                storyText.innerHTML = "You enter the glowing door and find a chamber filled with treasure. But as you step forward, the ground shifts—it's a trap!";
-                image.src = "https://source.unsplash.com/600x400/?treasure,gold";
+            } else if (option === 'device') {
+                storyDiv.innerHTML = `
+                    <p>You activate the time device! A vortex opens, offering two choices: Victorian London or a futuristic steampunk city.</p>
+                    <button class="choice-btn" onclick="choose('victorian')">Travel to Victorian London</button>
+                    <button class="choice-btn" onclick="choose('steampunk')">Enter the Steampunk Metropolis</button>
+                    <img src="time_machine.jpg" alt="Steampunk time device">
+                `;
+            } else if (option === 'brew') {
+                storyDiv.innerHTML = `
+                    <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
+                    <img src="elixir.jpg" alt="Magic potion">
+                `;
+            } else if (option === 'explore') {
+                storyDiv.innerHTML = `
+                    <p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
+                    <img src="airship.jpg" alt="Steampunk airship">
+                `;
+            } else if (option === 'victorian') {
+                storyDiv.innerHTML = `
+                    <p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>
+                    <img src="victorian_london.jpg" alt="Victorian London">
+                `;
+            } else if (option === 'steampunk') {
+                storyDiv.innerHTML = `
+                    <p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>
+                    <img src="steampunk_city.jpg" alt="Steampunk city">
+                `;
             }
         }
     </script>
-
 </body>
 </html>
