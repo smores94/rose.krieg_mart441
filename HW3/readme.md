@@ -1,0 +1,3 @@
+# rose.krieg_mart441
+ 
+This was kind of fun, I have had both doodles and Maltese, so that was just a random thing that popped into my head. My creative ideas are going to run out soon though!  I had some trouble initially with the console command, and again, never really figured out what was happening, but deleted it all and tried again and it worked great. Added a bit more for something fun! I like to use Adobe color picker for themes, gives me some ideas and that's what I did here. I am curious to see where it goes with java, as I'm very unknowledgeable about it and would like to learn to make web pages more interesting! 
