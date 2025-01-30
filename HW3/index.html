@@ -1,11 +1,23 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alchemical Time Traveler</title>
-    
+    <div id="audio-container">
+        <audio autoplay loop>
+            <source src="In the House of the Inventor.ogg" type="audio/ogg">
+            <source src="In the House of the Inventor.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </div> 
     <style>
+ #audio-container {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+    }
+
         /* Fullscreen intro animation */
         #intro-animation {
             position: fixed;
@@ -55,7 +67,10 @@
     letter-spacing: 5px; /* Adds space between letters for a more industrial look */
     text-transform: uppercase; /* Makes text uppercase for emphasis */
 }
-        body {
+        body 
+    
+        
+        {
             font-family: 'Times New Roman', serif;
             background-image: url('./imgs/alchemistlab.jpg');
             background-size: cover;
