@@ -1,98 +1,58 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
-    <div id="intro-animation">
-        <img id="zoom-image" src="../chronosphere_opening.jpg" alt="Intro Image">
-    </div>
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alchemical Time Traveler</title>
-    <style>
-      <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        setTimeout(() => {
-            let introAnimation = document.getElementById("intro-animation");
-            if (introAnimation) {
-                introAnimation.style.display = "none";
-            } else {
-                console.error("Element with ID 'intro-animation' not found.");
-            }
-        }, 3000); // Hides the animation after 3 seconds
-    });
-</script>
-
-        body {
-    font-family: 'Times New Roman', serif;
-    background-image: url('./imgs/alchemistlab.jpg'); /* Example relative path */
-    background-size: cover; /* Ensures the image covers the whole page */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents tiling */
-    color: white; /* Ensures text is readable */
-}
-<style>
-    #intro-animation {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        background-color: black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: opacity 1s ease-out; /* Smooth fade */
-    }
     
-    #intro-animation img {
-        max-width: 100%;
-        height: auto;
-    }
+    <style>
+        /* Fullscreen intro animation */
+        #intro-animation {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-out; /* Smooth fade */
+            z-index: 9999;
+        }
+        
+        #intro-animation img {
+            width: 500px; /* Adjust size as needed */
+            max-width: 80vw;
+            opacity: 1;
+            animation: zoomFade 10s ease-in-out forwards;
+        }
 
-    .hidden {
-        opacity: 0;
-        pointer-events: none; /* Prevent interactions after fade */
-    }
-</style>
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-<div id="intro-animation">
-    <img src="your-image.jpg" alt="Intro Image">
-</div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        setTimeout(() => {
-            let introAnimation = document.getElementById("intro-animation");
-            if (introAnimation) {
-                introAnimation.classList.add("hidden");
-                setTimeout(() => {
-                    introAnimation.style.display = "none"; // Fully remove after fade-out
-                }, 1000); // Wait for fade-out animation
+        /* Zoom & fade animation */
+        @keyframes zoomFade {
+            0% {
+                transform: scale(1);
+                opacity: 1;
             }
-        }, 3000); // Wait 3 seconds before fading out
-    });
+            100% {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
 
+        /* Main content styles */
+        body {
+            font-family: 'Times New Roman', serif;
+            background-image: url('./imgs/alchemistlab.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white;
+        }
 
-
-/* Make the image larger */
-#zoom-image {
-    width: 500px; /* Increased starting size */
-    max-width: 80vw; /* Prevents it from being too large on small screens */
-    opacity: 1;
-    animation: zoomFade 10s ease-in-out forwards;
-}
-
-/* Zoom & fade animation */
-@keyframes zoomFade {
-    0% {
-        transform: scale(1); /* Starts at normal size */
-        opacity: 1;
-    }
-    100% {
-        transform: scale(4); /* Grows 4x its original size */
-        opacity: 0; /* Fades out */
-    }
-}
-</script>
-<style>
         #story {
             font-size: 1.2em;
             margin: 20px auto;
@@ -102,6 +62,7 @@
             border: 2px solid #d4af37;
             border-radius: 10px;
         }
+
         .choice-btn {
             display: block;
             margin: 10px auto;
@@ -111,9 +72,11 @@
             border: none;
             cursor: pointer;
         }
+
         .choice-btn:hover {
             background-color: #b08e2d;
         }
+
         img {
             width: 300px;
             height: auto;
@@ -121,52 +84,78 @@
         }
     </style>
 </head>
+
 <body>
+
+    <!-- Intro Animation -->
+    <div id="intro-animation">
+        <img id="zoom-image" src="../chronosphere_opening.jpg" alt="Intro Image">
+    </div>
+
     <h1>Chronosphere</h1>
     <div id="story"> 
         <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
         <button class="choice-btn" onclick="choose('book')">Read the Alchemical Tome</button>
         <button class="choice-btn" onclick="choose('device')">Activate the Time Device</button>
     </div>
+
     <script>
+        // Hide intro animation after 3 seconds
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                let introAnimation = document.getElementById("intro-animation");
+                if (introAnimation) {
+                    introAnimation.classList.add("hidden");
+                    setTimeout(() => {
+                        introAnimation.style.display = "none"; // Remove from DOM
+                    }, 1000);
+                }
+            }, 3000);
+        });
+
+        // Interactive Story Function
         function choose(option) {
             const storyDiv = document.getElementById('story');
-            if (option === 'book') {
-                storyDiv.innerHTML = `
-                    <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
-                    <button class="choice-btn" onclick="choose('brew')">Brew the Potion</button>
-                    <button class="choice-btn" onclick="choose('explore')">Explore the Workshop</button>
-                    <img src="alchemy.jpg" alt="Alchemy book">
-                `;
-            } else if (option === 'device') {
-                storyDiv.innerHTML = `
-                    <p>You activate the time device! A vortex opens, offering two choices: Victorian London or a futuristic steampunk city.</p>
-                    <button class="choice-btn" onclick="choose('victorian')">Travel to Victorian London</button>
-                    <button class="choice-btn" onclick="choose('steampunk')">Enter the Steampunk Metropolis</button>
-                    <img src="time_machine.jpg" alt="Steampunk time device">
-                `;
-            } else if (option === 'brew') {
-                storyDiv.innerHTML = `
-                    <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
-                    <img src="elixir.jpg" alt="Magic potion">
-                `;
-            } else if (option === 'explore') {
-                storyDiv.innerHTML = `
-                    <p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
-                    <img src="airship.jpg" alt="Steampunk airship">
-                `;
-            } else if (option === 'victorian') {
-                storyDiv.innerHTML = `
-                    <p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>
-                    <img src="victorian_london.jpg" alt="Victorian London">
-                `;
-            } else if (option === 'steampunk') {
-                storyDiv.innerHTML = `
-                    <p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>
-                    <img src="steampunk_city.jpg" alt="Steampunk city">
-                `;
+            let content = "";
+
+            switch (option) {
+                case 'book':
+                    content = `
+                        <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
+                        <button class="choice-btn" onclick="choose('brew')">Brew the Potion</button>
+                        <button class="choice-btn" onclick="choose('explore')">Explore the Workshop</button>
+                        <img src="alchemy.jpg" alt="Alchemy book">
+                    `;
+                    break;
+                case 'device':
+                    content = `
+                        <p>You activate the time device! A vortex opens, offering two choices: Victorian London or a futuristic steampunk city.</p>
+                        <button class="choice-btn" onclick="choose('victorian')">Travel to Victorian London</button>
+                        <button class="choice-btn" onclick="choose('steampunk')">Enter the Steampunk Metropolis</button>
+                        <img src="time_machine.jpg" alt="Steampunk time device">
+                    `;
+                    break;
+                case 'brew':
+                    content = `<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
+                               <img src="elixir.jpg" alt="Magic potion">`;
+                    break;
+                case 'explore':
+                    content = `<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
+                               <img src="airship.jpg" alt="Steampunk airship">`;
+                    break;
+                case 'victorian':
+                    content = `<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>
+                               <img src="victorian_london.jpg" alt="Victorian London">`;
+                    break;
+                case 'steampunk':
+                    content = `<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>
+                               <img src="steampunk_city.jpg" alt="Steampunk city">`;
+                    break;
             }
+
+            storyDiv.innerHTML = content;
         }
     </script>
+
 </body>
 </html>
