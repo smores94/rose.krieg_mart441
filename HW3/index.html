@@ -133,58 +133,81 @@
 
         // Interactive Story Function
         function choose(option) {
-            const storyDiv = document.getElementById('story');
-            let content = "";
+    const storyDiv = document.getElementById('story');
+    let content = "";
 
-            switch (option) {
-                case 'book':
-                    content = `<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
-                               <button class="choice-btn" onclick="choose('brew')">Brew the Potion</button>
-                               <button class="choice-btn" onclick="choose('explore')">Explore the Workshop</button>
-                               <img src="./imgs/corpushermetic.png" alt="Alchemy book">`;
-                    break;
+    switch (option) {
+        case 'book':
+            content = `<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
+                       <button class="choice-btn" onclick="choose('brew')">Brew the Potion</button>
+                       <button class="choice-btn" onclick="choose('explore')">Explore the Workshop</button>
+                       <img src="./imgs/corpushermetic.png" alt="Alchemy book">`;
+            break;
 
-                case 'device':
-                    content = `<p>You activate the time device! A vortex opens, offering two choices: Victorian London or a futuristic steampunk city.</p>
-                               <button class="choice-btn" onclick="choose('victorian')">Travel to Victorian London</button>
-                               <button class="choice-btn" onclick="choose('steampunk')">Enter the Steampunk Metropolis</button>
-                               <img src="./imgs/antikythera.png" alt="time device">`;
-                    break;
+        case 'device':
+            content = `<p>You activate the time device! A vortex opens, offering two choices: Victorian London or a futuristic steampunk city.</p>
+                       <button class="choice-btn" onclick="choose('victorian')">Travel to Victorian London</button>
+                       <button class="choice-btn" onclick="choose('steampunk')">Enter the Steampunk Metropolis</button>
+                       <img src="./imgs/antikythera.png" alt="time device">`;
+            break;
 
-                case 'brew':
-                    content = `<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
-                               <img src="./imgs/potion.png" alt="Magic potion">
-                               <button class="choice-btn" onclick="choose('predict')">Use your vision to predict events</button>
-                               <button class="choice-btn" onclick="choose('alter')">Attempt to alter fate</button>`;
-                    break;
+        case 'brew':
+            content = `<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
+                       <img src="./imgs/potion.png" alt="Magic potion">
+                       <button class="choice-btn" onclick="choose('predict')">Use your vision to predict events</button>
+                       <button class="choice-btn" onclick="choose('alter')">Attempt to alter fate</button>`;
+            break;
 
-                case 'explore':
-                    content = `<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
-                               <img src="./imgs/airship.jpg" alt="Steampunk airship">
-                               <button class="choice-btn" onclick="choose('build')">Build the airship</button>
-                               <button class="choice-btn" onclick="choose('sell')">Sell the blueprints for gold</button>`;
-                    break;
+        case 'explore':
+            content = `<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
+                       <img src="./imgs/airship.jpg" alt="Steampunk airship">
+                       <button class="choice-btn" onclick="choose('build')">Build the airship</button>
+                       <button class="choice-btn" onclick="choose('sell')">Sell the blueprints for gold</button>`;
+            break;
 
-                case 'victorian':
-                    content = `<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>
-                               <img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">
-                               <button class="choice-btn" onclick="choose('join')">Join the secret society</button>
-                               <button class="choice-btn" onclick="choose('oppose')">Oppose them and uncover their secrets</button>`;
-                    break;
+        case 'victorian':
+            content = `<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>
+                       <img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">
+                       <button class="choice-btn" onclick="choose('join')">Join the secret society</button>
+                       <button class="choice-btn" onclick="choose('oppose')">Oppose them and uncover their secrets</button>`;
+            break;
 
-                case 'steampunk':
-                    content = `<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>
-                               <img src="./imgs/maskedman.jpg" alt="Steampunk city">
-                               <button class="choice-btn" onclick="choose('accept')">Accept the mission</button>
-                               <button class="choice-btn" onclick="choose('decline')">Decline and explore the city</button>`;
-                    break;
+        case 'steampunk':
+            content = `<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>
+                       <img src="./imgs/maskedman.jpg" alt="Steampunk city">
+                       <button class="choice-btn" onclick="choose('accept')">Accept the mission</button>
+                       <button class="choice-btn" onclick="choose('decline')">Decline and explore the city</button>`;
+            break;
 
-                default:
-                    content = `<p>Something mysterious happens...</p>`;
-            }
+        case 'accept':
+        case 'decline':
+        case 'brew':
+        case 'explore':
+        case 'victorian':
+        case 'steampunk':
+            content += `<br><button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+            break;
 
-            storyDiv.innerHTML = content;
-        }
+        default:
+            content = `<p>Something mysterious happens... but maybe you can influence the outcome?</p>`;
+    }
+
+    // **Add Restart Button to all paths**
+    content += `<br><button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+
+    // **Updating the story section**
+    storyDiv.innerHTML = content;
+}
+
+// **Restart Function**
+function restart() {
+    document.getElementById('story').innerHTML = `
+        <p>You find yourself in a dimly lit chamber, ancient texts and strange devices surrounding you. What do you do?</p>
+        <button class="choice-btn" onclick="choose('book')">Examine the Ancient Tome</button>
+        <button class="choice-btn" onclick="choose('device')">Activate the Time Device</button>
+    `;
+}
+
     </script>
 
 </body>
