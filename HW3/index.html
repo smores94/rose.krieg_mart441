@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <div id="intro-animation">
-        <img id="zoom-image" src="../Krieg_Chronosphere_opening.jpg" alt="Intro Image">
+        <img id="zoom-image" src="../chronosphere_opening.jpg" alt="Intro Image">
     </div>
     
 <head>
@@ -9,10 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alchemical Time Traveler</title>
     <style>
-        <script>
+      <script>
     document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
-            document.getElementById("intro-animation").style.display = "none";
+            let introAnimation = document.getElementById("intro-animation");
+            if (introAnimation) {
+                introAnimation.style.display = "none";
+            } else {
+                console.error("Element with ID 'intro-animation' not found.");
+            }
         }, 3000); // Hides the animation after 3 seconds
     });
 </script>
