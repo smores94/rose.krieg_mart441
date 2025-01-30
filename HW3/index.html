@@ -153,24 +153,80 @@
                         <button class="choice-btn" onclick="choose('steampunk')">Enter the Steampunk Metropolis</button>
                         <img src="./imgs/antikythera.png" alt="time device">
                     `;
-                    break;
-                case 'brew':
-                    content = `<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
-                               <img src="./imgs/potion.png" alt="Magic potion">`;
-                    break;
-                case 'explore':
-                    content = `<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
-                               <img src="./imgs/airship.jpg" alt="Steampunk airship">`;
-                    break;
-                case 'victorian':
-                    content = `<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>
-                               <img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">`;
-                    break;
-                case 'steampunk':
-                    content = `<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>
-                               <img src="./imgs/maskedman.jpg" alt="Steampunk city">`;
-                    break;
-            }
+                  function choose(option) {
+    let content = '';
+
+    switch (option) {
+        case 'brew':
+            content = `<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
+                       <img src="./imgs/potion.png" alt="Magic potion">
+                       <button class="choice-btn" onclick="choose('predict')">Use your vision to predict events</button>
+                       <button class="choice-btn" onclick="choose('alter')">Attempt to alter fate</button>`;
+            break;
+
+        case 'explore':
+            content = `<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
+                       <img src="./imgs/airship.jpg" alt="Steampunk airship">
+                       <button class="choice-btn" onclick="choose('build')">Build the airship</button>
+                       <button class="choice-btn" onclick="choose('sell')">Sell the blueprints for gold</button>`;
+            break;
+
+        case 'victorian':
+            content = `<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>
+                       <img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">
+                       <button class="choice-btn" onclick="choose('join')">Join the secret society</button>
+                       <button class="choice-btn" onclick="choose('oppose')">Oppose them and uncover their secrets</button>`;
+            break;
+
+        case 'steampunk':
+            content = `<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>
+                       <img src="./imgs/maskedman.jpg" alt="Steampunk city">
+                       <button class="choice-btn" onclick="choose('accept')">Accept the mission</button>
+                       <button class="choice-btn" onclick="choose('decline')">Decline and explore the city</button>`;
+            break;
+
+        // Add cases for the new choices
+        case 'predict':
+            content = `<p>Your visions reveal an upcoming catastrophe. Will you warn the city or keep the knowledge to yourself?</p>
+                       <button class="choice-btn" onclick="choose('warn')">Warn the people</button>
+                       <button class="choice-btn" onclick="choose('hide')">Keep the knowledge secret</button>`;
+            break;
+
+        case 'alter':
+            content = `<p>You attempt to change fate, but tampering with time has unexpected consequences...</p>`;
+            break;
+
+        case 'build':
+            content = `<p>You construct a magnificent airship, ready for adventure in the skies!</p>`;
+            break;
+
+        case 'sell':
+            content = `<p>You sell the blueprints and become wealthy, but at what cost?</p>`;
+            break;
+
+        case 'join':
+            content = `<p>You are initiated into the order, learning their deepest secrets.</p>`;
+            break;
+
+        case 'oppose':
+            content = `<p>You challenge the society and uncover a dangerous conspiracy!</p>`;
+            break;
+
+        case 'accept':
+            content = `<p>You embark on a daring heist with the masked figure.</p>`;
+            break;
+
+        case 'decline':
+            content = `<p>You wander the streets, uncovering hidden mysteries of the metropolis.</p>`;
+            break;
+
+        default:
+            content = `<p>Something mysterious happens...</p>`;
+    }
+
+    document.getElementById('story').innerHTML = content;
+}
+
 
             storyDiv.innerHTML = content;
         }
