@@ -15,7 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 6s ease-out; /* Smooth fade */
+            transition: opacity 1s ease-out; /* Smooth fade */
             z-index: 9999;
         }
         
@@ -135,7 +135,7 @@
                         <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
                         <button class="choice-btn" onclick="choose('brew')">Brew the Potion</button>
                         <button class="choice-btn" onclick="choose('explore')">Explore the Workshop</button>
-                        <img src="alchemy.jpg" alt="Alchemy book">
+                        <img src=";./imgs/corpushermetic.png" alt="Alchemy book">
                     `;
                     break;
                 case 'device':
@@ -143,24 +143,24 @@
                         <p>You activate the time device! A vortex opens, offering two choices: Victorian London or a futuristic steampunk city.</p>
                         <button class="choice-btn" onclick="choose('victorian')">Travel to Victorian London</button>
                         <button class="choice-btn" onclick="choose('steampunk')">Enter the Steampunk Metropolis</button>
-                        <img src="time_machine.jpg" alt="Steampunk time device">
+                        <img src="./imgs/antikythera.png" alt="time device">
                     `;
                     break;
                 case 'brew':
                     content = `<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
-                               <img src="elixir.jpg" alt="Magic potion">`;
+                               <img src="./imgs/potion.png" alt="Magic potion">`;
                     break;
                 case 'explore':
                     content = `<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
-                               <img src="airship.jpg" alt="Steampunk airship">`;
+                               <img src="./imgs/airship.jpg" alt="Steampunk airship">`;
                     break;
                 case 'victorian':
                     content = `<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>
-                               <img src="victorian_london.jpg" alt="Victorian London">`;
+                               <img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">`;
                     break;
                 case 'steampunk':
                     content = `<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>
-                               <img src="steampunk_city.jpg" alt="Steampunk city">`;
+                               <img src="./imgs/maskedman.jpg" alt="Steampunk city">`;
                     break;
             }
 
