@@ -30,19 +30,47 @@
     background-repeat: no-repeat; /* Prevents tiling */
     color: white; /* Ensures text is readable */
 }
-/* Full-screen overlay for the animation */
-#intro-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: black; /* Optional: keeps focus on the animation */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; /* Ensures it's on top of everything */
-}
+<style>
+    #intro-animation {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 1s ease-out; /* Smooth fade */
+    }
+    
+    #intro-animation img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .hidden {
+        opacity: 0;
+        pointer-events: none; /* Prevent interactions after fade */
+    }
+</style>
+
+<div id="intro-animation">
+    <img src="your-image.jpg" alt="Intro Image">
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            let introAnimation = document.getElementById("intro-animation");
+            if (introAnimation) {
+                introAnimation.classList.add("hidden");
+                setTimeout(() => {
+                    introAnimation.style.display = "none"; // Fully remove after fade-out
+                }, 1000); // Wait for fade-out animation
+            }
+        }, 3000); // Wait 3 seconds before fading out
+    });
+
+
 
 /* Make the image larger */
 #zoom-image {
@@ -63,7 +91,8 @@
         opacity: 0; /* Fades out */
     }
 }
-
+</script>
+<style>
         #story {
             font-size: 1.2em;
             margin: 20px auto;
@@ -78,7 +107,7 @@
             margin: 10px auto;
             padding: 10px 20px;
             font-size: 1.2em;
-            background-color: #d4af37;
+            background-color: #55a7ef;
             border: none;
             cursor: pointer;
         }
