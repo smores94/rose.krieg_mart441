@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <div id="intro-animation">
-        <img id="zoom-image" src="your-image.jpg" alt="Intro Image">
+        <img id="zoom-image" src="./Krieg_Chronosphere_opening.jpg" alt="Intro Image">
     </div>
     
 <head>
@@ -9,6 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alchemical Time Traveler</title>
     <style>
+        <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            document.getElementById("intro-animation").style.display = "none";
+        }, 3000); // Hides the animation after 3 seconds
+    });
+</script>
+
         body {
     font-family: 'Times New Roman', serif;
     background-image: url('./imgs/alchemistlab.jpg'); /* Example relative path */
@@ -16,6 +24,38 @@
     background-position: center; /* Centers the image */
     background-repeat: no-repeat; /* Prevents tiling */
     color: white; /* Ensures text is readable */
+}
+/* Full-screen overlay for the animation */
+#intro-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black; /* Optional: keeps focus on the animation */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensures it's on top of everything */
+}
+
+/* The image starts small and zooms in */
+#zoom-image {
+    width: 200px; /* Start small */
+    opacity: 1;
+    animation: zoomFade 3s ease-in-out forwards;
+}
+
+/* Zoom & fade animation */
+@keyframes zoomFade {
+    0% {
+        transform: scale(0.2); /* Small */
+        opacity: 1;
+    }
+    100% {
+        transform: scale(3); /* Zoom in */
+        opacity: 0; /* Fade out */
+    }
 }
 
         #story {
