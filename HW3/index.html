@@ -39,9 +39,10 @@
     z-index: 9999; /* Ensures it's on top of everything */
 }
 
-/* The image starts small and zooms in */
+/* Make the image larger */
 #zoom-image {
-    width: 200px; /* Start small */
+    width: 500px; /* Increased starting size */
+    max-width: 80vw; /* Prevents it from being too large on small screens */
     opacity: 1;
     animation: zoomFade 3s ease-in-out forwards;
 }
