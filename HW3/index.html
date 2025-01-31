@@ -118,18 +118,20 @@
     </div>
 
     <script>
-        // Hide intro animation after 10 seconds
-        document.addEventListener("DOMContentLoaded", () => {
+       document.addEventListener("DOMContentLoaded", () => {
+    let introAnimation = document.getElementById("intro-animation");
+
+    setTimeout(() => {
+        if (introAnimation) {
+            introAnimation.style.transition = "opacity 1s ease-out"; // Ensure transition applies
+            introAnimation.style.opacity = "0";
+            
             setTimeout(() => {
-                let introAnimation = document.getElementById("intro-animation");
-                if (introAnimation) {
-                    introAnimation.classList.add("hidden");
-                    setTimeout(() => {
-                        introAnimation.style.display = "none";
-                    }, 1000);
-                }
-            }, 10000);
-        });
+                introAnimation.style.display = "none"; // Fully remove it after fade-out
+            }, 1000); // Matches the transition duration
+        }
+    }, 10000); // 10 seconds before fade-out starts
+});
 
         // Interactive Story Function
         function choose(option) {
