@@ -14,7 +14,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease-out;
+            transition: opacity 1s ease-out, visibility 1s ease-out;
             z-index: 9999;
         }
         
@@ -25,8 +25,8 @@
             animation: zoomFade 15s ease-in-out forwards;
         }
 
-        .hidden {
-            opacity: 0;
+        opacity: 0;
+            visibility: hidden;
             pointer-events: none;
         }
 
@@ -208,4 +208,3 @@
     </script>
 </body>
 </html>
-
