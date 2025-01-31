@@ -222,7 +222,23 @@ The candlelight wavers. The air grows heavy. Behind you, the door has closed.</p
                    <button class="choice-btn" onclick="choose('Yes')">Lift the veil</button>
                    <button class="choice-btn" onclick="choose('No')">You change your mind. You turn to walk away...you hear footsteps getting closer behind you.</button>`;
         break;
+        case 'Yes':
+        content = `<p>You take a deep breath, feeling the weight of the moment. With a steady hand, you dip the quill into the ink and sign your name in the ledger. The hooded figures murmur in approval, their voices a low, harmonious chant. The man smiles, a glint of satisfaction in his eyes.
 
+"Welcome," he says, "to the Order of the Serpent. Your journey into the arcane begins now."
+
+As the ink dries, you feel a strange warmth spread through your body, as if ancient knowledge is being etched into your very soul. The room seems to shift, the shadows deepening, and you realize that you have crossed a threshold into a world hidden from ordinary sight.</p>
+                   <img src="./imgs/cult.jpg" alt="cult">`;
+        break;
+
+    case 'No':
+        content = `<p>You step back, shaking your head. "I cannot," you say, your voice firm despite the tremor in your heart. The man's smile fades, replaced by a look of cold disappointment.
+
+"Very well," he replies, his tone icy. "But know this: once you leave, you can never return."
+
+The hooded figures part, creating a path to the door. As you turn to leave, the air grows colder, and the shadows seem to reach out, as if reluctant to let you go. You step outside, the door closing behind you with a final, echoing thud. The alleyway feels darker, the mist thicker, and you can't shake the feeling that you have just walked away from a destiny that will forever remain a mystery. <br> <br> Aghhhh! Your stomach cramps, your heart pounds, your vision begins to go black...</p>
+                   <img src="./imgs/walkingaway.jpg" alt="walking away">`;
+        break;  
 
 }
 
