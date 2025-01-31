@@ -212,10 +212,29 @@ As you stand together in the golden light of the Philosopher's Engine, you feel 
         break;
 
     case 'scary':
-        content = `<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
-                   <img src="./imgs/airship.jpg" alt="Steampunk airship">
-                   <button class="choice-btn" onclick="choose('build')">Build the airship</button>
-                   <button class="choice-btn" onclick="choose('sell')">Sell the blueprints for gold</button>`;
+        content = `<p>You feel a chill run down your spine as Cleopatra's words sink in. The grandeur of the alchemical laboratory, the shimmering elixirs, and the ancient machinery all seem to take on a more sinister tone. The flickering candlelight casts eerie shadows on the walls, and the hum of the arcane devices grows louder, more menacing.<br><br>
+Cleopatra's eyes, once filled with wisdom and warmth, now seem to bore into your soul with an unsettling intensity. "The path of the alchemist is fraught with peril," she repeats, her voice echoing in the chamber. "But you, my dear, have the potential to unlock the true power of the Philosopher's Stone." She glances down at a book, you can barely see the title, it looks like “Chrysopoeia of Cleopatra”<br><br>
+A sense of dread washes over you. The Philosopher's Stone, the legendary artifact said to grant immortality and turn base metals into gold, suddenly feels like a curse rather than a blessing. You take a step back, your heart pounding in your chest.<br><br>
+Cleopatra's smile fades, replaced by a look of cold determination. "There is no turning back now," she says, her voice a whisper of menace. "You will be the catalyst, the spark that ignites the transformation."<br><br>
+</p>
+                   <img src="./imgs/thechrysopoeiaofcleopatr.jpg" alt="Chrysopoeia of Cleopatra">
+                   <button class="choice-btn" onclick="choose('death')">Continue</button>
+                  <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+        break;
+
+        case 'death':
+        content = `<p>Before you can react, the room begins to shift and change. The walls close in, the gears and pistons of the Philosopher's Engine whirring to life with a deafening roar. The crystalline sphere at the heart of the apparatus glows brighter, casting an eerie light that fills the chamber.<br><br>
+You try to move, to escape, but your body feels heavy, rooted to the spot. Cleopatra steps forward, her hands weaving intricate patterns in the air. You feel a strange energy envelop you, pulling you towards the center of the room.<br><br>
+"The Philosopher's Stone requires a sacrifice," Cleopatra intones, her voice cold and unyielding. "Your essence, your very being, will fuel its creation."<br><br>
+Panic sets in as you realize the horrifying truth. Your body, your life, is to be consumed by the alchemical process. The crystalline sphere pulses with a hungry light, and you feel your strength ebbing away, drawn into the heart of the machine.<br><br>
+The pain is excruciating, a searing agony that tears through your very soul. Your vision blurs, and the world around you fades into darkness. The last thing you see is Cleopatra's face, her expression one of grim satisfaction.<br><br>
+As your consciousness slips away, you become aware of a strange transformation. Your body dissolves into pure energy, merging with the glowing sphere. The Philosopher's Engine shudders and groans, the gears grinding as the alchemical process reaches its climax.<br><br>
+In a blinding flash of light, the transformation is complete. The Philosopher's Stone, a perfect, gleaming gem, lies at the heart of the apparatus. Cleopatra steps forward, her eyes gleaming with triumph.<br><br>
+"You have served your purpose," she whispers, her voice filled with a dark satisfaction. "The Philosopher's Stone is mine."<br><br>
+The chamber falls silent, the hum of the machinery fading into nothingness. The alchemical laboratory, once a place of wonder and discovery, now feels like a tomb. And you, the catalyst, are forever bound to the stone, your essence trapped in its cold, unyielding heart.
+</p>
+                   <img src="./imgs/triumph.jpg" alt="triumph of Cleopatra">
+                   <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
         break;
 
     case 'dreaming':
