@@ -189,7 +189,7 @@
                                <img src="./imgs/fadinghands.png" alt="hands in workshop">`;
                     break;          
                     case 'build':
-                    content = `<p>You build the airship and sell it, on the day of it's maiden flight, you stand proudly on the deck of the ship, looking down at the city. All of sudden you hear and explosion. You look around. Part of the ship is missing and the part you are standing on is in flames. You are in shock, as more explosions rip through the air. You make your peace.</p>
+                    content = `<p>You build the airship and sell it, on the day of it's maiden flight, you stand proudly on the deck of the ship, looking down at the city. All of sudden you hear an explosion. You look around. Part of the ship is missing and the part you are standing on is in flames. You are in shock, as more explosions rip through the air. You make your peace.</p>
                                <img src="./imgs/airshipflames.jpg" alt="airship in flames">`;
                     break;  
 
@@ -197,16 +197,30 @@
                     content = `<p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen. You decide to sell them. As you reach for your pile of gold, you feel a pain in your back. The buyer looks at you says "It's not personal mate. But I'm not going to risk competition." He smiles. Everything begins to fade.</p>
                                <img src="./imgs/gold.jpg" alt="gold">`;
                     break;  
-                default:
-                    content = `<p>Something mysterious happens... but maybe you can influence the outcome?</p>`;
-            }
 
-            // Add Restart Button to all paths
-            content += `<br><button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+                    break;          
+                    case 'join':
+    content = `<p>The Invitation
+London, 1887. The air is thick with soot and secrecy, the gas lamps flickering in defiance of the smog. You tread carefully through the damp alleyways, your boots echoing against cobblestone streets slick with evening mist. The letter in your coat pocket is sealed with black wax, stamped with an insignia you do not recognize—a serpent entwined with a dagger. It had arrived without explanation, slipped under your door as if by ghostly hands.
 
-            // Updating the story section
-            storyDiv.innerHTML = content;
-        }
+You reach the unmarked door as instructed. A single knock. A pause. Then, it creaks open just enough to reveal the glint of watchful eyes. No words are spoken. You step inside.
+
+The room beyond is dimly lit by candelabras dripping wax like blood. Hooded figures stand in a circle, their faces obscured, their eyes burning through the shadows. The scent of old books, ink, and something metallic—like rust or dried blood—lingers in the air.
+
+A man steps forward. His voice is velvet over steel.
+
+"You stand at the threshold of something far greater than yourself. The world outside is blind, shackled by ignorance. But we... we see beyond the veil. We unearth truths long buried. We shape the fate of nations from the darkness in which we dwell."
+
+He gestures to a table draped in crimson cloth. Upon it, a quill and a ledger, its pages aged and yellowed. Names fill its lines—some crossed out, others stained, perhaps with ink… or something else.
+
+"One mark, and you are bound to us. No king, no parliament, no god shall own you. Only the pursuit of power, knowledge, and the unseen forces that weave the fabric of this world. But beware—once the ink dries, there is no turning back."
+
+The candlelight wavers. The air grows heavy. Behind you, the door has closed.</p>
+    <img src="./imgs/letter.jpg" alt="letter">
+    <button class="choice-btn" onclick="choose('Yes')">Lift the veil</button>
+    <button class="choice-btn" onclick="choose('No')">You change your mind. You turn to walk away...you hear footsteps getting closer behind you.>`;
+    break;
+
 
         // Restart Function
         function restart() {
