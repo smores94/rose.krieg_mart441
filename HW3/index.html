@@ -119,17 +119,22 @@
 
     <script>
 
-      // Hide intro animation after 3 seconds
-      document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
+    let introAnimation = document.getElementById("intro-animation");
+    let zoomImage = document.getElementById("zoom-image");
+
+    if (introAnimation && zoomImage) {
+        zoomImage.addEventListener("animationend", () => {
+            introAnimation.style.transition = "opacity 1s ease-out, visibility 0s linear 1s";
+            introAnimation.style.opacity = "0";
+            introAnimation.style.visibility = "hidden"; // Fully hides it
             setTimeout(() => {
-                let introAnimation = document.getElementById("intro-animation");
-                if (introAnimation) {
-                    introAnimation.classList.add("hidden");
-                    setTimeout(() => {
-                        introAnimation.style.display = "none";
-                    }, 1000);
-                }
-            }, 10000);
+                introAnimation.style.display = "none"; // Removes it completely
+            }, 1000);
+        });
+    }
+});
+
 
 
 
