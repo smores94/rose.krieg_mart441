@@ -29,53 +29,31 @@
         <button class="choice-btn" onclick="choose('wait')">Wait, what is that?</button>
     </div>
 
-    
- <script> 
-    document.addEventListener("DOMContentLoaded", () => {
-        let introAnimation = document.getElementById("intro-animation");
-        let zoomImage = document.getElementById("zoom-image");
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            let introAnimation = document.getElementById("intro-animation");
+            let zoomImage = document.getElementById("zoom-image");
 
-        function hideIntro() {
-            console.log("Animation ended, hiding intro screen...");
-            introAnimation.style.opacity = "0";
-            document.body.classList.add("background-active"); 
-            document.querySelector("h1").style.display = "block"; 
-            document.getElementById("story").style.display = "block"; 
+            function hideIntro() {
+                console.log("Animation ended, hiding intro screen...");
 
-            setTimeout(() => {
-                console.log("Setting display to none...");
-                introAnimation.style.display = "none";
-                introAnimation.remove();
-            }, 1000);
-        }
+                introAnimation.style.opacity = "0";
+                document.body.classList.add("background-active"); // Apply background
+                document.querySelector("h1").style.display = "block"; // Show content
+                document.getElementById("story").style.display = "block"; 
 
-        if (zoomImage) {
-            zoomImage.addEventListener("animationend", hideIntro);
-            setTimeout(hideIntro, 4000);
-        }
-    });
+                setTimeout(() => {
+                    console.log("Setting display to none...");
+                    introAnimation.style.display = "none";
+                    introAnimation.remove();
+                }, 1000);
+            }
 
-    // Interactive Story Function
-    function choose(option) {
-        const storyDiv = document.getElementById('story');
-        let content = "<p>You make a choice...</p>"; // Starting text
-
-        if (option === 'book') {
-            content += "<p>The alchemical tome glows as you flip the pages. You read an incantation aloud, and suddenly, the room begins to shift. A portal opens!</p>";
-            content += '<button class="choice-btn" onclick="choose(\'enterPortal\')">Step into the portal</button>';
-            content += '<button class="choice-btn" onclick="choose(\'stay\')">Stay and study more</button>';
-        } 
-        else if (option === 'device') {
-            content += "<p>The time device hums as you activate it. A blinding light fills the room, and suddenly, you find yourself in the past, surrounded by alchemists!</p>";
-            content += '<button class="choice-btn" onclick="choose(\'talk\')">Talk to the alchemists</button>';
-            content += '<button class="choice-btn" onclick="choose(\'hide\')">Hide in the shadows</button>';
-        } 
-        else if (option === 'wait') {
-            content += "<p>A strange noise echoes from the corner of the room. As you hesitate, a hidden door creaks open, revealing a mysterious figure cloaked in shadows.</p>";
-            content += '<button class="choice-btn" onclick="choose(\'approach\')">Approach the figure</button>';
-            content += '<button class="choice-btn" onclick="choose(\'run\')">Run away</button>';
-        }
-
+            if (zoomImage) {
+                zoomImage.addEventListener("animationend", hideIntro);
+                setTimeout(hideIntro, 4000); // Fallback if event doesn't fire
+            }
+        });
 
         // Interactive Story Function
         function choose(option) {
