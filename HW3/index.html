@@ -14,15 +14,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999;
             transition: opacity 1s ease-out;
+            z-index: 9999;
+           
         }
 
-        #zoom-image {
+       
+        #intro-animation img {
             width: 500px;
             max-width: 80vw;
             opacity: 1;
-            animation: zoomFade 4s ease-in-out forwards;
+            animation: zoomFade 15s ease-in-out forwards;
         }
 
         .hidden {
@@ -37,10 +39,11 @@
                 opacity: 1;
             }
             100% {
-                transform: scale(3);
+                transform: scale(4);
                 opacity: 0;
             }
         }
+
 
         /* Main content styles */
         body {
