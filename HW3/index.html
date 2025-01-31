@@ -31,32 +31,36 @@
         // Variables
         let score = 0;
 
-        // Hide Intro Animation
         document.addEventListener("DOMContentLoaded", () => {
-            let introAnimation = document.getElementById("intro-animation");
-            let zoomImage = document.getElementById("zoom-image");
+    let introAnimation = document.getElementById("intro-animation");
+    let zoomImage = document.getElementById("zoom-image");
 
-            function hideIntro() {
-                console.log("Animation ended, hiding intro screen...");
+    function hideIntro() {
+        console.log("Animation ended, hiding intro screen...");
 
-                introAnimation.style.opacity = "0";
-                document.body.classList.add("background-active"); // Apply background
-                document.querySelector("h1").style.display = "block"; // Show content
-                document.getElementById("story").style.display = "block"; 
+        // Fade out the intro animation
+        introAnimation.style.opacity = "0";
 
-                setTimeout(() => {
-                    console.log("Setting display to none...");
-                    introAnimation.style.display = "none";
-                    introAnimation.remove();
-                }, 1000);
-            }
+        // Apply background and show content
+        document.body.classList.add("background-active");
+        document.querySelector("h1").style.display = "block";
+        document.getElementById("story").style.display = "block";
 
-            if (zoomImage) {
-                zoomImage.addEventListener("animationend", hideIntro);
-                setTimeout(hideIntro, 4000); // Fallback if event doesn't fire
-            }
-        });
+        // Remove the intro animation from the DOM after the fade-out
+        setTimeout(() => {
+            console.log("Removing intro animation from the DOM...");
+            introAnimation.remove(); // This removes the element entirely
+        }, 1000); // Wait for the fade-out to complete
+    }
 
+    if (zoomImage) {
+        // Listen for the end of the animation
+        zoomImage.addEventListener("animationend", hideIntro);
+
+        // Fallback in case the animationend event doesn't fire
+        setTimeout(hideIntro, 4000); // Fallback after 4 seconds
+    }
+});
         // Interactive Story Function
         function choose(option) {
             const storyDiv = document.getElementById('story');
