@@ -118,6 +118,7 @@
     </div>
 
     <h1>Chronosphere</h1>
+    
     <div id="story"> 
         <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
         <button class="choice-btn" onclick="choose('book')">Read the Alchemical Tome</button>
@@ -156,6 +157,14 @@
             let content = "";
 
             switch (option) {
+
+                case 'book':
+            content = `<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
+                       <button class="choice-btn" onclick="choose('brew')">Brew the Potion</button>
+                       <button class="choice-btn" onclick="choose('explore')">Explore the Workshop</button>
+                       <img src="./imgs/corpushermetic.png" alt="Alchemy book">`;
+            break;
+
     case 'device':
         content = `<p>You activate the time device! A vortex opens, offering two choices: Victorian London or a futuristic steampunk city.</p>
                    <button class="choice-btn" onclick="choose('victorian')">Travel to Victorian London</button>
