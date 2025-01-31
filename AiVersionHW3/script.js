@@ -10,6 +10,7 @@ function choose(option) {
         content = `
             <p>You follow the narrow path, battling through thick vines and swarms of insects. You lose 20 health but find a mysterious map leading deeper into the jungle.</p>
             <button onclick="choose('map')">Follow the Map</button>
+            <img src="./imgs/map.jpg" alt="map">      
             <button onclick="choose('back')">Go Back</button>
             <img src="./imgs/path.jpg" alt="Jungle Path">
         `;
@@ -18,6 +19,7 @@ function choose(option) {
         content = `
             <p>You head towards the river, where you find fresh water and a small boat. You restore 10 health. Do you take the boat or continue on foot?</p>
             <button onclick="choose('boat')">Take the Boat</button>
+            <img src="./imgs/boat.jpg" alt="boat">
             <button onclick="choose('foot')">Continue on Foot</button>
             <img src="./imgs/river.jpg" alt="River">
         `;
