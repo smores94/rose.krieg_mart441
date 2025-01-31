@@ -118,20 +118,19 @@
     </div>
 
     <script>
+
+      // Hide intro animation after 3 seconds
       document.addEventListener("DOMContentLoaded", () => {
-    let introAnimation = document.getElementById("intro-animation");
-
-    setTimeout(() => {
-        if (introAnimation) {
-            introAnimation.style.transition = "opacity 1s ease-out";
-            introAnimation.style.opacity = "0";
-
             setTimeout(() => {
-                introAnimation.style.display = "none"; // Completely remove it from view
-            }, 1000); // Matches the fade-out duration
-        }
-    }, 10000); // Delay before fade-out starts
-});
+                let introAnimation = document.getElementById("intro-animation");
+                if (introAnimation) {
+                    introAnimation.classList.add("hidden");
+                    setTimeout(() => {
+                        introAnimation.style.display = "none";
+                    }, 1000);
+                }
+            }, 10000);
+
 
 
         // Interactive Story Function
