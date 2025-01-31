@@ -43,13 +43,7 @@
     display: none;
 }
 
-/* Hide content until animation finishes */
-.hidden {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-    display: none;
-}
+
 
 /* Body & Background */
 body {
