@@ -11,7 +11,7 @@ function choose(option) {
             <p>You follow the narrow path, battling through thick vines and swarms of insects. You lose 20 health but find a mysterious map leading deeper into the jungle.</p>
             <button onclick="choose('map')">Follow the Map</button>
             <button onclick="choose('back')">Go Back</button>
-            <img src="./imgs/jungle_path.jpg" alt="Jungle Path">
+            <img src="./imgs/path.jpg" alt="Jungle Path">
         `;
     } else if (option === 'river') {
         health += 10; // Restore health by drinking from the river
@@ -33,7 +33,7 @@ function choose(option) {
         content = `
             <p>Following the map, you discover a hidden chamber filled with gold and jewels! You gain 50 treasure.</p>
             <button onclick="restart()">Restart Adventure</button>
-            <img src="./imgs/treasure.jpg" alt="Treasure">
+            <img src="./imgs/chamber.jpg" alt="Treasure">
         `;
     } else if (option === 'boat') {
         content = `
@@ -47,7 +47,7 @@ function choose(option) {
         content = `
             <p>You investigate the noises and are attacked by a jungle predator! You lose 30 health.</p>
             <button onclick="restart()">Restart Adventure</button>
-            <img src="./imgs/predator.jpg" alt="Predator">
+            <img src="./imgs/jaguar.jpg" alt="Predator">
         `;
     }
 
