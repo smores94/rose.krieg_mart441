@@ -235,13 +235,35 @@ As the ink dries, you feel a strange warmth spread through your body, as if anci
 "Very well," he replies, his tone icy. "But know this: once you leave, you can never return."
 The hooded figures part, creating a path to the door. As you turn to leave, the air grows colder, and the shadows seem to reach out, as if reluctant to let you go. You step outside, the door closing behind you with a final, echoing thud. The alleyway feels darker, the mist thicker, and you can't shake the feeling that you have just walked away from a destiny that will forever remain a mystery.<br><br>Aghhhh! Your stomach cramps, your heart pounds, your vision begins to go black...</p>
                    <img src="./imgs/walkingaway.jpg" alt="walking away">`;
-        break;
+                   
+    
+        content += `<br><button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+            break;
+
+        default:
+            content = `<p>Something mysterious happens... but maybe you can influence the outcome?</p>`;
+    }
+
+    // **Add Restart Button to all paths**
+    content += `<br><button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+
+    // **Updating the story section**
+    storyDiv.innerHTML = content;
+}
+
+// **Restart Function**
+function restart() {
+    document.getElementById('story').innerHTML = `
+        <p>You find yourself in a dimly lit chamber, ancient texts and strange devices surrounding you. What do you do?</p>
+        <button class="choice-btn" onclick="choose('book')">Examine the Ancient Tome</button>
+        <button class="choice-btn" onclick="choose('device')">Activate the Time Device</button>
+    `;
 
 }
 
 storyDiv.innerHTML = content;
             storyDiv.innerHTML = content;
-        }
+        
 
          // Restart Function
          function restart() {
