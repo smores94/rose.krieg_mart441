@@ -1,108 +1,110 @@
-/* General Reset */
-body, h1, h2, p, ul, li, a {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    text-decoration: none;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-.scrolling-text {
-    display: block;
+<style>
+
+
+/* Fullscreen intro animation */
+#intro-animation {
+    position: fixed;
     width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    box-sizing: border-box;
-}
-
-.scrolling-text::after {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 1px; /* Divider below the text */
-    background-color: #ccc; /* Light gray divider */
-    margin-top: 10px; /* Spacing for cleaner UI */
-}
-body {
-    background-color: #D9988E;
-    color: #333;
-    line-height: 1.6;
-    text-align: center; /* Centers content vertically and horizontally */
-    padding: 20px; /* Optional, for spacing content */
-}
-img {
-    max-width: 100%; /* Ensures the image doesn't overflow */
-    height: auto; /* Maintains the aspect ratio */
-    filter: opacity(50%); /* Fades the image */
-}
-
-header {
-    background: #733D45;
-    color: #EBB064;
-    padding: 10px 20px;
-}
-
-header nav ul {
+    height: 100%;
+    background-color: rgb(12, 3, 52);
     display: flex;
     justify-content: center;
-    gap: 20px;
+    align-items: center;
+    transition: opacity 1s ease-out;
+    z-index: 9999;
+   
 }
 
-header nav ul li a {
-    color: #EBB064;
-    font-weight: bold;
-    transition: color 0.3s;
+
+#intro-animation img {
+    width: 500px;
+    max-width: 80vw;
+    opacity: 1;
+    animation: zoomFade 22s ease-in-out forwards;
 }
 
-header nav ul li a:hover {
-    color: #EF5E58;
+.hidden {
+    opacity: 0;
+    pointer-events: none;
 }
 
-section {
-    padding: 20px;
+/* Zoom & fade animation */
+@keyframes zoomFade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+
+/* Main content styles */
+body {
+    font-family: 'Times New Roman', serif;
+    background-color: black; /* Prevents flickering before background loads */
+    color: white;
+    transition: background-image 1s ease-in;
+}
+
+.background-active {
+    background-image: url('./imgs/alchemistlab.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+h1 {
     text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 4em;
+    color: #7cb3e7;
+    text-shadow: 5px 5px 7px rgba(0, 0, 0, 0.6);
+    margin-top: 50px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    display: none; /* Hide content until animation finishes */
 }
 
-#home {
-    background: #733D45;
-    color: #F2EFDA;
-    padding: 50px 20px;
-}
-
-#about, #projects, #contact {
-    background: #EF5E58;
-    margin: 10px auto;
+#story {
+    font-size: 1.2em;
+    margin: 20px auto;
+    width: 60%;
+    padding: 20px;
+    background-color: #3b3b3b;
+    border: 2px solid #d4af37;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    padding: 20px;
+    display: none; /* Hide content until animation finishes */
 }
 
-.card {
-    background: #f4f4f9;
-    margin: 15px 0;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+.choice-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #55a7ef;
+    border: none;
+    cursor: pointer;
 }
 
+.choice-btn:hover {
+    background-color: #b08e2d;
+}
 
-
-
-
-
-footer {
-    background: #333;
-    color: #F2EFDA;
-    text-align: center;
-    padding: 10px 0;
+img {
+    width: 300px;
+    height: auto;
     margin-top: 20px;
 }
 
-footer p {
-    margin: 0;
-    font-size: 14px;
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    display: none;
 }
 
 
+</style>
