@@ -1,9 +1,8 @@
-<style>
-
-
 /* Fullscreen intro animation */
 #intro-animation {
-    position: center;
+    position: fixed;  /* Fixed to cover full screen */
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     background-color: rgb(12, 3, 52);
@@ -12,36 +11,38 @@
     align-items: center;
     transition: opacity 1s ease-out;
     z-index: 9999;
-   
 }
 
-
+/* Centering and Smooth Scaling of Image */
 #intro-animation img {
     width: 500px;
     max-width: 80vw;
+    max-height: 80vh; /* Prevents it from going off-screen */
     opacity: 1;
     animation: zoomFade 22s ease-in-out forwards;
 }
 
-.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Zoom & fade animation */
+/* Smooth zoom and fade animation */
 @keyframes zoomFade {
     0% {
         transform: scale(1);
         opacity: 1;
     }
     100% {
-        transform: scale(4);
+        transform: scale(2.5); /* Less extreme scaling */
         opacity: 0;
     }
 }
 
+/* Hide content until animation finishes */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    display: none;
+}
 
-/* Main content styles */
+/* Body & Background */
 body {
     font-family: 'Times New Roman', serif;
     background-color: black; /* Prevents flickering before background loads */
@@ -49,6 +50,7 @@ body {
     transition: background-image 1s ease-in;
 }
 
+/* Background Activation */
 .background-active {
     background-image: url('./imgs/alchemistlab.jpg');
     background-size: cover;
@@ -56,6 +58,7 @@ body {
     background-repeat: no-repeat;
 }
 
+/* Header Styling */
 h1 {
     text-align: center;
     font-family: 'Cinzel', serif;
@@ -65,9 +68,10 @@ h1 {
     margin-top: 50px;
     letter-spacing: 5px;
     text-transform: uppercase;
-    display: none; /* Hide content until animation finishes */
+    display: none;
 }
 
+/* Story Box */
 #story {
     font-size: 1.2em;
     margin: 20px auto;
@@ -76,9 +80,10 @@ h1 {
     background-color: #3b3b3b;
     border: 2px solid #d4af37;
     border-radius: 10px;
-    display: none; /* Hide content until animation finishes */
+    display: none;
 }
 
+/* Choice Buttons */
 .choice-btn {
     display: block;
     margin: 10px auto;
@@ -93,18 +98,9 @@ h1 {
     background-color: #b08e2d;
 }
 
+/* Image Styling */
 img {
     width: 300px;
     height: auto;
     margin-top: 20px;
 }
-
-.hidden {
-    opacity: 0;
-    pointer-events: none;
-    visibility: hidden;
-    display: none;
-}
-
-
-</style>
