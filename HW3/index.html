@@ -200,9 +200,9 @@
                    <button class="choice-btn" onclick="choose('decline')">Decline and explore the city</button>`;
         break;
         case 'accept':
-        content = `<p>You nod, curiosity and excitement bubbling within you. The masked figure's eyes gleam with approval as he hands you a brass key, intricately designed with gears and cogs. "This key," he whispers, "unlocks the heart of the city. You must find the Clockwork Cathedral and retrieve the Chrono Crystal before the clock strikes midnight."
+        content = `<p>You nod, curiosity and excitement bubbling within you. The masked figure's eyes gleam with approval as he hands you a brass key, intricately designed with gears and cogs. "This key," he whispers, "unlocks the heart of the city. You must find the Clockwork Cathedral and retrieve the Chrono Crystal before the clock strikes midnight."<br><br>
 
-With a flourish of his cloak, he vanishes into the steam-filled night. You set off, navigating the bustling streets filled with steam-powered carriages and towering airships. Automatons tip their hats as you pass, their gears whirring in polite acknowledgment. The city pulses with life, a symphony of hissing steam and clanking metal.
+With a flourish of his cloak, he vanishes into the steam-filled night. You set off, navigating the bustling streets filled with steam-powered carriages and towering airships. Automatons tip their hats as you pass, their gears whirring in polite acknowledgment. The city pulses with life, a symphony of hissing steam and clanking metal.<br><br>
 
 Reaching the Clockwork Cathedral, you insert the key into a hidden lock. The massive doors creak open, revealing a labyrinth of gears and pistons. You race against time, dodging mechanical guardians and solving intricate puzzles. Finally, you reach the altar, where the Chrono Crystal glows with an ethereal light. As you grasp it, the city seems to hold its breath, waiting for the dawn of a new era.</p>
                    <img src="./imgs/clockworkcrystal.jpg" alt="clockwork crystal">
@@ -210,42 +210,53 @@ Reaching the Clockwork Cathedral, you insert the key into a hidden lock. The mas
         break;
 
     case 'decline':
-        content = `<p>You shake your head, the weight of the unknown too great to bear. The masked figure's eyes narrow, but he nods in understanding. "Very well," he says, his voice a blend of disappointment and respect. "But know this: the city will remember your choice."
+        content = `<p>You shake your head, the weight of the unknown too great to bear. The masked figure's eyes narrow, but he nods in understanding. <br><br>"Very well," he says, his voice a blend of disappointment and respect. "But know this: the city will remember your choice."<br><br>
 
-As he disappears into the mist, you turn away, the bustling metropolis still alive with its mechanical wonders. You wander the streets, watching airships soar above and automatons go about their duties. The city is a marvel, but you can't shake the feeling that you've missed out on something extraordinary.
+As he disappears into the mist, you turn away, the bustling metropolis still alive with its mechanical wonders. You wander the streets, watching airships soar above and automatons go about their duties. The city is a marvel, but you can't shake the feeling that you've missed out on something extraordinary.<br><br>
 
 Suddenly, a small automaton scurries up to you, its eyes glowing with a soft blue light. It hands you a tiny, intricately crafted music box. As you wind it up, a haunting melody fills the air, and you realize that even in your refusal, the city has gifted you a piece of its magic. The music box's tune lingers in your mind, a reminder of the adventure that could have been.</p>
                    <img src="./imgs/notoadventure.jpg" alt="no to adventure">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
         break;
     case 'predict':
-        content = `<p>You predict the future, becoming wealthy beyond all your dreams. You are famous, loved, but always a feeling of fear surrounds you.</p>
+        content = `<p>You predict the future, becoming wealthy beyond all your dreams. 
+            You are famous, loved, but always a feeling of fear surrounds you.</p>
                    <img src="./imgs/family.png" alt="Family">
                <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
         break;  
 
     case 'alter':
-        content = `<p>Your Great-Grandparents were immigrants to Quebec, and always talked about the glory of France. You decide to try and stop the French Revolution. But oh no...Without the revolution, King Louis XVI, Marie Antoinette, their descendants and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledgling United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated. You see your hand fading in front of you.....as you cease to exist.</p>
+        content = `<p>Your Great-Grandparents were immigrants to Quebec, and always talked about the glory of France. You decide to try and stop the French Revolution. <br><br>
+            But oh no...Without the revolution, King Louis XVI, Marie Antoinette, their descendants and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledgling United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated. 
+            <br><br>You see your hand fading in front of you.....as you cease to exist.</p>
                    <img src="./imgs/fadinghands.png" alt="hands in workshop">
                  <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
         break;          
 
     case 'build':
-        content = `<p>You build the airship and sell it. On the day of its maiden flight, you stand proudly on the deck of the ship, looking down at the city. All of a sudden you hear an explosion. You look around. Part of the ship is missing and the part you are standing on is in flames. You are in shock, as more explosions rip through the air. You make your peace.</p>
+        content = `<p>You build the airship and sell it. 
+            <br><br>On the day of its maiden flight, you stand proudly on the deck of the ship, looking down at the city. 
+            <br><br>All of a sudden you hear an explosion. You look around. Part of the ship is missing and the part you are standing on is in flames. You are in shock, as more explosions rip through the air. 
+            <br><br>You make your peace.</p>
                    <img src="./imgs/airshipflames.jpg" alt="airship in flames">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
         break;
 
     case 'sell':
-        content = `<p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen. You decide to sell them. As you reach for your pile of gold, you feel a pain in your back. The buyer looks at you and says "It's not personal mate. But I'm not going to risk competition." He smiles. Everything begins to fade.</p>
+        content = `<p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen. <br><br>
+            You decide to sell them. As you reach for your pile of gold, you feel a pain in your back. 
+            <br><br>The buyer looks at you and says "It's not personal mate. But I'm not going to risk competition." He smiles. Everything begins to fade.</p>
                    <img src="./imgs/gold.jpg" alt="gold">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
         break;  
 
         case 'join':
         content = `<p>The Invitation<br>
-London, 1887. The air is thick with soot and secrecy, the gas lamps flickering in defiance of the smog. You tread carefully through the damp alleyways, your boots echoing against cobblestone streets slick with evening mist. The letter in your coat pocket is sealed with black wax, stamped with an insignia you do not recognize—a serpent entwined with a dagger. It had arrived without explanation, slipped under your door as if by ghostly hands.<br><br>
-You reach the unmarked door as instructed. A single knock. A pause. Then, it creaks open just enough to reveal the glint of watchful eyes. No words are spoken. You step inside.<br><br>
+London, 1887. <br><br>
+The air is thick with soot and secrecy, the gas lamps flickering in defiance of the smog. You tread carefully through the damp alleyways, your boots echoing against cobblestone streets slick with evening mist. The letter in your coat pocket is sealed with black wax, stamped with an insignia you do not recognize—a serpent entwined with a dagger. 
+It had arrived without explanation, slipped under your door as if by ghostly hands.<br><br>
+You reach the unmarked door as instructed. A single knock. A pause. 
+<br><br>Then, it creaks open just enough to reveal the glint of watchful eyes. No words are spoken. You step inside.<br><br>
 The room beyond is dimly lit by candelabras dripping wax like blood. Hooded figures stand in a circle, their faces obscured, their eyes burning through the shadows. The scent of old books, ink, and something metallic—like rust or dried blood—lingers in the air.<br><br>
 A man steps forward. His voice is velvet over steel.<br><br>
 "You stand at the threshold of something far greater than yourself. The world outside is blind, shackled by ignorance. But we... we see beyond the veil. We unearth truths long buried. We shape the fate of nations from the darkness in which we dwell."<br><br>
@@ -259,40 +270,42 @@ The candlelight wavers. The air grows heavy. Behind you, the door has closed.</p
 
         case 'oppose':
         content = `<p>The Invitation<br>
-You take a step back, defiance burning in your eyes. "I will not join you," you declare, your voice steady despite the fear gnawing at your insides. The man's smile vanishes, replaced by a cold, calculating stare.
+You take a step back, defiance burning in your eyes. "I will not join you," you declare, your voice steady despite the fear gnawing at your insides. The man's smile vanishes, replaced by a cold, calculating stare.<br><br>
 
-"Very well," he says, his voice a whisper of menace. "But know this: those who oppose us do not leave unscathed."
+"Very well," he says, his voice a whisper of menace. "But know this: those who oppose us do not leave unscathed."<br><br>
 
-The hooded figures close in, their shadows stretching like dark tendrils. The room grows colder, the air thick with an oppressive silence. Suddenly, the candles flicker and extinguish, plunging you into darkness. You hear the hiss of steam and the clank of metal as hidden mechanisms spring to life.
+The hooded figures close in, their shadows stretching like dark tendrils. The room grows colder, the air thick with an oppressive silence. Suddenly, the candles flicker and extinguish, plunging you into darkness. You hear the hiss of steam and the clank of metal as hidden mechanisms spring to life.<br><br>
 
-A chilling voice echoes through the void. "You have chosen poorly. Now, face the consequences."
+A chilling voice echoes through the void. "You have chosen poorly. Now, face the consequences."<br><br>
 
 The floor beneath you shifts, and you plummet into a hidden chamber below. The walls are lined with gears and pistons, all moving in a sinister, synchronized dance. The only light comes from the eerie glow of luminescent tubes filled with a strange, bubbling liquid.
 
 You scramble to your feet, but the walls begin to close in, the gears grinding ominously. Panic sets in as you realize there's no escape. The air grows thin, and the sound of your own heartbeat drowns out everything else.
 
-Just as you think all hope is lost, a hidden door creaks open, revealing a narrow passage. You dash through it, the walls scraping your shoulders. The passage twists and turns, leading you deeper into the bowels of the city.
+<br><br>Just as you think all hope is lost, a hidden door creaks open, revealing a narrow passage. You dash through it, the walls scraping your shoulders. The passage twists and turns, leading you deeper into the bowels of the city.
 
 Finally, you emerge into a forgotten alley, the night air biting at your skin. You look back, but the passage has vanished, leaving only a solid brick wall. The city looms around you, its steam-powered heart beating with a relentless rhythm.
 
-You know now that the secret society will stop at nothing to hunt you down. The shadows seem to whisper your name, and every corner holds a new threat. The game has begun, and you are the prey.</p>
+<br><br>You know now that the secret society will stop at nothing to hunt you down. The shadows seem to whisper your name, and every corner holds a new threat. The game has begun, and you are the prey.</p>
                    <img src="./imgs/wallsclose.jpg" alt="walls">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
         break;
 
     
           case 'yes':
-        content = `<p>You take a deep breath, feeling the weight of the moment. With a steady hand, you dip the quill into the ink and sign your name in the ledger. The hooded figures murmur in approval, their voices a low, harmonious chant. The man smiles, a glint of satisfaction in his eyes.
-"Welcome," he says, "to the Order of the Serpent. Your journey into the arcane begins now."
+        content = `<p>You take a deep breath, feeling the weight of the moment. With a steady hand, you dip the quill into the ink and sign your name in the ledger. 
+            <br><br>The hooded figures murmur in approval, their voices a low, harmonious chant. The man smiles, a glint of satisfaction in his eyes.
+<br><br>"Welcome," he says, "to the Order of the Serpent. Your journey into the arcane begins now."<br><br>
 As the ink dries, you feel a strange warmth spread through your body, as if ancient knowledge is being etched into your very soul. The room seems to shift, the shadows deepening, and you realize that you have crossed a threshold into a world hidden from ordinary sight.</p>
                    <img src="./imgs/cult.jpg" alt="cult">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
         break;
 
     case 'no':
-        content = `<p>You step back, shaking your head. "I cannot," you say, your voice firm despite the tremor in your heart. The man's smile fades, replaced by a look of cold disappointment.
+        content = `<p>You step back, shaking your head. "I cannot," you say, your voice firm despite the tremor in your heart. The man's smile fades, replaced by a look of cold disappointment.<br><br>
 "Very well," he replies, his tone icy. "But know this: once you leave, you can never return."
-The hooded figures part, creating a path to the door. As you turn to leave, the air grows colder, and the shadows seem to reach out, as if reluctant to let you go. You step outside, the door closing behind you with a final, echoing thud. The alleyway feels darker, the mist thicker, and you can't shake the feeling that you have just walked away from a destiny that will forever remain a mystery.<br><br>Aghhhh! Your stomach cramps, your heart pounds, your vision begins to go black...</p>
+The hooded figures part, creating a path to the door. As you turn to leave, the air grows colder, and the shadows seem to reach out, as if reluctant to let you go. 
+<br><br>You step outside, the door closing behind you with a final, echoing thud. The alleyway feels darker, the mist thicker, and you can't shake the feeling that you have just walked away from a destiny that will forever remain a mystery.<br><br>Aghhhh! Your stomach cramps, your heart pounds, your vision begins to go black...</p>
                    <img src="./imgs/walkingaway.jpg" alt="walking away">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
         break;
