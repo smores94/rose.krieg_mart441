@@ -125,15 +125,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (introAnimation && zoomImage) {
         zoomImage.addEventListener("animationend", () => {
+            console.log("Animation ended, hiding intro screen..."); // Debugging log
+
+            introAnimation.style.transition = "opacity 1s ease-out";
             introAnimation.style.opacity = "0";
-            introAnimation.style.visibility = "hidden"; 
-            introAnimation.style.pointerEvents = "none"; // Ensures it doesn’t block interactions
+
             setTimeout(() => {
-                introAnimation.remove(); // Completely removes it from the DOM
-            }, 1000);
+                console.log("Setting display to none...");
+                introAnimation.style.display = "none";
+                introAnimation.remove(); // Removes it from the DOM
+            }, 1000); // Matches fade-out timing
         });
     }
 });
+
 
 
 
