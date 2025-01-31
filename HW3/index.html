@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Chronosphere</title>
     <style>
+    
         /* Fullscreen intro animation */
         #intro-animation {
             position: fixed;
@@ -14,7 +15,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease-out, visibility 1s ease-out;
+            transition: opacity 1s ease-out;
             z-index: 9999;
         }
         
@@ -25,7 +26,8 @@
             animation: zoomFade 15s ease-in-out forwards;
         }
 
-       : hidden;
+        .hidden {
+            opacity: 0;
             pointer-events: none;
         }
 
@@ -39,6 +41,7 @@
                 transform: scale(4);
                 opacity: 0;
             }
+
         }
 
         /* Main content styles */
@@ -181,7 +184,7 @@
                     break;  
 
                 case 'alter':
-                    content = `<p>Your Great-Grandparents were immigrants to Quebec, and always talked about the glory of France. You decide to try and stop the French Revolution. But oh no...Without the revolution, King Louis XVI, Marie Antoinette, and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledging United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated. You see your hand fading in front of you.....as you cease to exist.</p>
+                    content = `<p>Your Great-Grandparents were immigrants to Quebec, and always talked about the glory of France. You decide to try and stop the French Revolution. But oh no...Without the revolution, King Louis XVI, Marie Antoinette,their descendants and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledging United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated. You see your hand fading in front of you.....as you cease to exist.</p>
                                <img src="./imgs/fadinghands.png" alt="hands in workshop">`;
                     break;          
 
