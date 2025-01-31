@@ -123,6 +123,7 @@
         <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
         <button class="choice-btn" onclick="choose('book')">Read the Alchemical Tome</button>
         <button class="choice-btn" onclick="choose('device')">Activate the Time Device</button>
+        <button class="choice-btn" onclick="choose('wait')">Wait, what is that?</button>
     </div>
 
     <script>
@@ -171,6 +172,63 @@
                    <button class="choice-btn" onclick="choose('steampunk')">Enter the Steampunk Metropolis</button>
                    <img src="./imgs/antikythera.png" alt="time device">`;
         break;
+
+        case 'wait':
+            content = `<p>In the dimly lit alchemical laboratory, the air is thick with the scent of ancient herbs and the faint hum of arcane machinery. Beakers and flasks bubble with mysterious concoctions, their contents glowing with an otherworldly light. The walls are lined with shelves, each crammed with ancient tomes and strange artifacts, their secrets long forgotten by the world outside.<br><br>
+In the center of the room, a cauldron simmers, emitting a swirling mist that dances and twirls in the flickering candlelight. As you watch, the mist begins to coalesce, its ethereal tendrils weaving together to form a shape. Slowly, the outline of a woman emerges, her form becoming more defined with each passing moment.<br><br>
+Her presence is both regal and otherworldly, her features sharp and commanding. She is adorned in flowing robes that shimmer like liquid gold, and her eyes, dark and piercing, hold the wisdom of ages. This is Cleopatra, not the queen of ancient Egypt, but Cleopatra the Alchemist, a master of the mystical arts.<br><br>
+She steps forward, her movements graceful and deliberate, as if she is both part of the mist and separate from it. Her voice, when she speaks, is a melodic whisper that seems to resonate with the very essence of the laboratory.<br><br>
+"Welcome, seeker of knowledge," she intones, her gaze locking onto yours. "You have ventured far to uncover the secrets of the ancients. I am Cleopatra, guardian of the alchemical mysteries. What is it that you seek?"<br><br>
+As she speaks, the room seems to come alive, the symbols on the ancient tomes glowing faintly, and the bubbling concoctions in the flasks responding to her presence. The air is charged with a palpable energy, and you can feel the weight of centuries of knowledge pressing in around you.<br><br>
+Cleopatra extends a hand, and a small vial materializes in her palm, its contents swirling with a vibrant, iridescent liquid. "This elixir," she explains, "holds the key to transformation, the power to unlock the hidden potential within. But be warned, the path of the alchemist is fraught with peril and requires great wisdom and courage."<br><br>
+You stand at the threshold of a journey that promises to reveal the deepest secrets of the universe, guided by one of history's most enigmatic figures. The choice is yours: to embrace the unknown and follow Cleopatra into the mysteries of alchemy, or to turn back and leave these ancient secrets undisturbed.<br><br>
+</p>
+                       <button class="choice-btn" onclick="choose('join her')">You reach out your hand to join her</button>
+                       <button class="choice-btn" onclick="choose('dreaming')">You close your eyes and shake your head</button>
+                       <img src="./imgs/cleo.jpg" alt="Cleo">`;
+            break;
+            case 'join her':
+        content = `<p>"This," Cleopatra explains, "is the Philosopher's Engine, a device capable of transmuting base materials into pure gold and unlocking the secrets of immortality. But it requires a catalyst, a spark of life to set it in motion."<br><br>
+She turns to you, her eyes filled with a mixture of hope and determination. "You have the potential to be that catalyst, to unlock the true power of the Philosopher's Engine. But the path is not without its dangers. Are you prepared to face the trials that lie ahead?"<br><br>
+</p>
+                   <img src="./imgs/philospopherengine.jpg" alt="engine">
+                   <button class="choice-btn" onclick="choose('catalyst')">You enthusiastically agree!</button>
+                   <button class="choice-btn" onclick="choose('scary')">Wait, this sounds scary>`;
+        break;
+
+        case 'catalyst':
+        content = `<p>She turns to you, her eyes filled with a mixture of hope and determination. "You have the potential to be that catalyst, to unlock the true power of the Philosopher's Engine. But the path is not without its dangers. Are you prepared to face the trials that lie ahead?"<br><br>
+You nod, your resolve firm. Cleopatra smiles, a look of pride and anticipation crossing her features. "Very well," she says. "Let us begin."<br><br>
+With a series of precise movements, Cleopatra activates the Philosopher's Engine, the gears and pistons whirring to life. The crystalline sphere begins to glow brighter, casting a warm, golden light throughout the chamber. You can feel the energy building, a palpable force that seems to resonate with your very soul.<br><br>
+As the process unfolds, Cleopatra guides you through the intricate steps of the alchemical transformation, her voice a constant source of reassurance and wisdom. You work together, your hands moving in perfect harmony as you manipulate the arcane machinery and channel the mystical energies.<br><br>
+Hours pass in a blur of light and sound, the chamber filled with the hum of the Philosopher's Engine and the glow of the crystalline sphere. Finally, with a triumphant cry, Cleopatra completes the final step, the apparatus shuddering to a halt as the transformation is complete.<br><br>
+Before you, where once there was only base material, now lies a gleaming ingot of pure gold, its surface shimmering with an otherworldly light. Cleopatra turns to you, her eyes filled with pride and gratitude.<br><br>
+"You have done well," she says, her voice filled with warmth. "Together, we have unlocked the secrets of the ancients and harnessed the true power of alchemy. The journey is far from over, but you have proven yourself worthy of the path that lies ahead."<br><br>
+As you stand together in the golden light of the Philosopher's Engine, you feel a sense of accomplishment and wonder, knowing that you have taken the first steps on a journey that will change your life forever.<br><br>
+</p>
+                   <img src="./imgs/duo.jpg" alt="duo">
+                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+        break;
+
+    case 'scary':
+        content = `<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
+                   <img src="./imgs/airship.jpg" alt="Steampunk airship">
+                   <button class="choice-btn" onclick="choose('build')">Build the airship</button>
+                   <button class="choice-btn" onclick="choose('sell')">Sell the blueprints for gold</button>`;
+        break;
+
+    case 'dreaming':
+        content = `<p>But the doubt is too strong, the line between dream and reality too blurred. The golden light dims, the hum of the Philosopher's Engine fades, and the chamber begins to dissolve into darkness. You close your eyes, willing yourself to wake up, to escape this strange, dreamlike state.<br><br>
+When you open your eyes again, you find yourself back in the dimly lit workshop, the ancient alchemical tome and brass time device still humming with energy on the desk. The mist has dissipated, and Cleopatra is nowhere to be seen. The room is silent, save for the faint ticking of a clock in the corner.<br><br>
+You take a deep breath, trying to steady your racing heart. Was it all a dream? A figment of your imagination? The memory of Cleopatra's presence lingers, her words echoing in your mind. You can't shake the feeling that something profound has happened, that you have glimpsed a world beyond the ordinary.<br><br>
+As you gather your thoughts, you notice a small vial on the desk, filled with a vibrant, iridescent liquid. A note lies beside it, written in an elegant, flowing script: "For the seeker of knowledge. Remember, the journey is never truly over."<br><br>
+You pick up the vial, the liquid inside swirling with an otherworldly light. Perhaps it was a dream, or perhaps it was something more. Either way, the path of the alchemist is now yours to follow, and the mysteries of the ancients await.<br><br>
+</p>
+                   <img src="./imgs/vialtheend.jpg" alt="vial">
+                     <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+        break;
+
+      
 
     case 'brew':
         content = `<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
