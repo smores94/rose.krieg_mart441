@@ -118,20 +118,21 @@
     </div>
 
     <script>
-       document.addEventListener("DOMContentLoaded", () => {
+      document.addEventListener("DOMContentLoaded", () => {
     let introAnimation = document.getElementById("intro-animation");
 
     setTimeout(() => {
         if (introAnimation) {
-            introAnimation.style.transition = "opacity 1s ease-out"; // Ensure transition applies
+            introAnimation.style.transition = "opacity 1s ease-out";
             introAnimation.style.opacity = "0";
-            
+
             setTimeout(() => {
-                introAnimation.style.display = "none"; // Fully remove it after fade-out
-            }, 1000); // Matches the transition duration
+                introAnimation.style.display = "none"; // Completely remove it from view
+            }, 1000); // Matches the fade-out duration
         }
-    }, 10000); // 10 seconds before fade-out starts
+    }, 10000); // Delay before fade-out starts
 });
+
 
         // Interactive Story Function
         function choose(option) {
