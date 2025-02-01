@@ -181,7 +181,7 @@ Reaching the Clockwork Cathedral, you insert the key into a hidden lock. The mas
                    <img src="./imgs/darkcrystal.jpg" alt="dark crystal">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
 
-                } else if (option === 'dark') {
+                } else if (option === 'golden') {
                     content = `<p>As your fingers close around the Chrono Crystal, a warm, golden light floods the cathedral. The gears around you hum with newfound energy, and the air fills with the sound of joyous chimes. The crystal pulses in your hand, and you feel a surge of power and clarity, as if the very essence of time is flowing through you.
 The masked figure reappears, but this time, his mask is gone, revealing a kind, smiling face. "You have done it," he says, his voice filled with pride. "The Chrono Crystal has chosen you as its guardian. With its power, you can restore balance to the city and usher in a new era of prosperity."
 The cathedral doors swing open, and you step outside to find the city transformed. The streets are alive with celebration, as steam-powered carriages and airships glide effortlessly through the air. The automatons dance in the streets, their gears whirring in perfect harmony. The people of the city cheer as you raise the Chrono Crystal high, its light bathing everything in a warm, golden glow.
