@@ -1,6 +1,13 @@
 let health = 100; // Track the player's health
 let treasure = 0; // Track the treasure collected
 
+// Play background music when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+    const bgMusic = document.getElementById("./VIABLE_AdobeStock_452598590.wav");
+    bgMusic.play();
+});
+
+
 function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
