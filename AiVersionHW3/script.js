@@ -3,7 +3,7 @@ let treasure = 0; // Track the treasure collected
 
 // Play background music when the page loads
 document.addEventListener("DOMContentLoaded", () => {
-    const bgMusic = document.getElementById("./VIABLE_AdobeStock_452598590.wav");
+    const bgMusic = document.getElementById("background-music");
     bgMusic.play();
 });
 
