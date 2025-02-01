@@ -179,7 +179,7 @@ Looking down, you see the crystal embedding itself into your skin, its tendrils 
 The masked figure reappears, his laughter echoing through the cathedral. "Foolish mortal," he sneers. "The Chrono Crystal does not belong to you—it belongs to time itself. And now, you are its prisoner."<br><br>
 The walls of the cathedral begin to collapse, but instead of rubble, they dissolve into a swirling void of darkness.<br><br>
  You try to run, but your feet are rooted to the ground, the crystal's energy binding you in place. The masked figure's voice fades as the void consumes everything around you.<br><br>
- hen you open your eyes, you are no longer in the cathedral. You are trapped in a timeless void, surrounded by endless gears and ticking clocks. The Chrono Crystal has fused with your body, and you realize with horror that you have become the new guardian of time—doomed to watch the ages pass, unable to interact with the world, forever alone in the endless machinery of eternity.
+ Then you open your eyes, you are no longer in the cathedral. You are trapped in a timeless void, surrounded by endless gears and ticking clocks. The Chrono Crystal has fused with your body, and you realize with horror that you have become the new guardian of time—doomed to watch the ages pass, unable to interact with the world, forever alone in the endless machinery of eternity.
 </p>
                    <img src="./imgs/darkcrystal.jpg" alt="dark crystal">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
