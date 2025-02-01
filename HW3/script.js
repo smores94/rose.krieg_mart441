@@ -170,8 +170,33 @@ a symphony of hissing steam and clanking metal.<br><br>
 
 Reaching the Clockwork Cathedral, you insert the key into a hidden lock. The massive doors creak open, revealing a labyrinth of gears and pistons. You race against time, dodging mechanical guardians and solving intricate puzzles. Finally, you reach the altar, where the Chrono Crystal glows with an ethereal light. As you grasp it, the city seems to hold its breath, waiting for the dawn of a new era.</p>
                    <img src="./imgs/clockworkcrystal.jpg" alt="clockwork crystal">
+                   <button class="choice-btn" onclick="choose('dark')">The Crystal Glows Dark</button>
+                   <button class="choice-btn" onclick="choose('golden')">The Crystal Glows Golden</button>`;
+
+  } else if (option === 'dark') {
+        content = `<p>As your fingers close around the Chrono Crystal, a deafening silence falls over the cathedral. The gears grind to a halt, and the air grows heavy with an unnatural stillness. The crystal pulses with a cold, eerie light, and you feel a sharp, searing pain in your palm. Looking down, you see the crystal embedding itself into your skin, its tendrils of light spreading like veins up your arm.
+        The masked figure reappears, his laughter echoing through the cathedral. <br>"Foolish mortal," he sneers. "The Chrono Crystal does not belong to you—it belongs to time itself. And now, you are its prisoner."
+        The walls of the cathedral begin to collapse, but instead of rubble, they dissolve into a swirling void of darkness.<br> You try to run, but your feet are rooted to the ground, the crystal's energy binding you in place. The masked figure's voice fades as the void consumes everything around you.
+        When you open your eyes, you are no longer in the cathedral. You are trapped in a timeless void, surrounded by endless gears and ticking clocks. The Chrono Crystal has fused with your body, and you realize with horror that you have become the new guardian of time—doomed to watch the ages pass, unable to interact with the world, forever alone in the endless machinery of eternity.</p>
+                   <img src="./imgs/darkcrystal.jpg" alt="dark crystal">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
-    } else if (option === 'decline') {
+
+                } else if (option === 'dark') {
+                    content = `<p>As your fingers close around the Chrono Crystal, a warm, golden light floods the cathedral. The gears around you hum with newfound energy, and the air fills with the sound of joyous chimes. The crystal pulses in your hand, and you feel a surge of power and clarity, as if the very essence of time is flowing through you.
+The masked figure reappears, but this time, his mask is gone, revealing a kind, smiling face. "You have done it," he says, his voice filled with pride. "The Chrono Crystal has chosen you as its guardian. With its power, you can restore balance to the city and usher in a new era of prosperity."
+The cathedral doors swing open, and you step outside to find the city transformed. The streets are alive with celebration, as steam-powered carriages and airships glide effortlessly through the air. The automatons dance in the streets, their gears whirring in perfect harmony. The people of the city cheer as you raise the Chrono Crystal high, its light bathing everything in a warm, golden glow.
+In the days that follow, you use the crystal's power to heal the city, repairing its broken machinery and bringing hope to its people. The masked figure, now revealed as the city's former guardian, guides you in your new role. Together, you build a future where technology and humanity coexist in perfect harmony, and the city becomes a beacon of progress and joy for the entire world.
+As the sun rises on a new day, you stand atop the Clockwork Cathedral, the Chrono Crystal glowing brightly in your hand. You know that your journey has only just begun, but for the first time in a long time, you feel truly alive—ready to embrace the endless possibilities of this extraordinary new era.</p>
+                               <img src="./imgs/golden.jpg" alt="golden crystal">
+                               <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+
+              
+    
+    
+    
+    
+    
+                } else if (option === 'decline') {
         content = `<p>You shake your head, the weight of the unknown too great to bear. The masked figure's eyes narrow, but he nods in understanding. <br><br>"Very well," he says, his voice a blend of disappointment and respect. "But know this: the city will remember your choice."<br><br>
 
 As he disappears into the mist, you turn away, the bustling metropolis still alive with its mechanical wonders. You wander the streets, watching airships soar above and automatons go about their duties. The city is a marvel, but you can't shake the feeling that you've missed out on something extraordinary.<br><br>
