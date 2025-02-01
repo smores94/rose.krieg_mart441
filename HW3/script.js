@@ -29,7 +29,7 @@ if (zoomImage) {
 zoomImage.addEventListener("animationend", hideIntro);
 
 // Fallback in case the animationend event doesn't fire
-setTimeout(hideIntro, 4000); // Fallback after 4 seconds
+setTimeout(hideIntro, 9000); // Fallback after 4 seconds
 }
 });
 // Interactive Story Function
