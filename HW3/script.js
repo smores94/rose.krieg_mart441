@@ -104,7 +104,7 @@ Cleopatra's smile fades, replaced by a look of cold determination. "There is no 
         content = `<p>Your mind races, searching for a way out. The room feels smaller, the air thicker. Desperation claws at your thoughts. In a moment of sheer panic, you draw your dagger, the blade glinting ominously in the dim light.<br><br>
 Cleopatra's eyes widen in surprise, but she doesn't move. "You don't have the courage," she taunts, her voice steady.<br><br>
 But you do. With a swift, decisive motion, you plunge the dagger into her chest. Her eyes lock onto yours, a mixture of shock and betrayal. She gasps, a sound that will haunt you forever, and collapses to the ground.<br><br>
-You stand there, trembling, the dagger still in your hand. The reality of what you've done crashes over you like a tidal wave. Cleopatra, the powerful queen, lies lifeless at your feet. The room is eerily silent, save for the sound of your ragged breathing.<br><br>
+You stand there, trembling, the dagger still in your hand. The reality of what you've done crashes over you like a tidal wave. Cleopatra, the powerful alchemist, lies lifeless at your feet. The room is eerily silent, save for the sound of your ragged breathing.<br><br>
 You drop the dagger, your hands shaking uncontrollably. Tears blur your vision as you stumble backward, your mind reeling. The Philosopher's Stone feels heavier in your pocket, a constant reminder of the irreversible act you've committed.<br><br>
 You sink to the floor, overwhelmed by a crushing sense of sorrow and guilt. The weight of your actions presses down on you, and you can't help but wonder if you will ever find peace again.<br><br>
 </p>
