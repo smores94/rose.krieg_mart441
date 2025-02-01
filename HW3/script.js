@@ -18,6 +18,9 @@ document.querySelector("h1").style.display = "block";
 document.getElementById("story").style.display = "block";
 
 // Remove the intro animation from the DOM after the fade-out
+
+setTimeout(hideIntro, 6000); // Fallback after 6 seconds
+
 setTimeout(() => {
     console.log("Removing intro animation from the DOM...");
     introAnimation.remove(); // This removes the element entirely

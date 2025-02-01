@@ -24,6 +24,11 @@
 }
 
 /* Zoom & fade animation */
+
+#zoom-image {
+    animation: zoomIn 6s ease-out; /* Increased from 3s to 6s */
+}
+
 @keyframes zoomFade {
     0% {
         transform: scale(1);
