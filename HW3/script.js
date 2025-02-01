@@ -281,7 +281,7 @@ As the first rays of dawn break over the city, you look out over the skyline, kn
 The last thing you see is the eerie glow of the luminescent tubes, their strange liquid bubbling as if mocking your struggle. The walls meet with a final, deafening crash, and everything goes dark.<br><br>
 When the secret society retrieves your body, they place it in a glass coffin, a warning to all who might dare to defy them. The coffin is displayed in the heart of the city, surrounded by their symbols and machinery. The people pass by, their eyes downcast, too afraid to speak your name.<br><br>
 But in the shadows, whispers begin to spread. Your defiance, though ultimately fatal, has planted a seed of rebellion. Others begin to question the society’s power, and your story becomes a rallying cry for those who dream of freedom. Though you are gone, your spirit lives on in the hearts of the oppressed, a reminder that even in the face of certain death, courage can spark a revolution.
-As the first rays of dawn break over the city, you look out over the skyline, knowing that the fight is far from over. But for the first time, you feel a sense of control. You are no longer the prey—you are the hunter, and the game has just begun.</p>
+</p>
                                                   <img src="./imgs/coffin.jpg" alt="crystal coffin">
                                            <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
  
