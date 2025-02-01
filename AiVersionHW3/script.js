@@ -2,17 +2,26 @@ let health = 100; // Track the player's health
 let treasure = 0; // Track the treasure collected
 
 // Play background music when the page loads
-
-
 const bgMusic = document.getElementById("background-music");
 const playMusicBtn = document.getElementById("play-music-btn");
 
-playMusicBtn.addEventListener("click", () => {
-    bgMusic.play();
-    playMusicBtn.style.display = "none"; // Hide the button after clicking
-});
+if (bgMusic && playMusicBtn) {
+    playMusicBtn.addEventListener("click", () => {
+        console.log("Play button clicked. Attempting to play music...");
+        bgMusic.play()
+            .then(() => {
+                console.log("Music is playing.");
+                playMusicBtn.style.display = "none"; // Hide the button after clicking
+            })
+            .catch((error) => {
+                console.error("Error playing music:", error);
+            });
+    });
+} else {
+    console.error("Audio element or play button not found.");
+}
 
-
+// Rest of your JavaScript code...
 function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
@@ -59,26 +68,4 @@ function choose(option) {
     } else if (option === 'investigate') {
         health -= 30; // Lose health to a jungle predator
         content = `
-            <p>You investigate the noises and are attacked by a jungle predator! You lose 30 health.</p>
-            <button onclick="restart()">Restart Adventure</button>
-            <img src="./imgs/jaguar.jpg" alt="Predator">
-        `;
-    }
-
-    // Update the DOM
-    storyDiv.innerHTML = `
-        <p>Health: ${health}</p>
-        <p>Treasure: ${treasure}</p>
-        ${content}
-    `;
-    document.getElementById('intro').style.display = 'none';
-    storyDiv.style.display = 'block';
-}
-
-function restart() {
-    health = 100;
-    treasure = 0;
-    document.getElementById('story').innerHTML = '';
-    document.getElementById('intro').style.display = 'block';
-    document.getElementById('story').style.display = 'none';
-}
+            <p>You investigate the noises and are attacked by a jungle predator! You lose 30

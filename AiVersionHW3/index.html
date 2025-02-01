@@ -6,27 +6,32 @@
     <title>The Lost Temple of Azura</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
-<audio id="background-music" loop>
-    <source src="./VIABLE_AdobeStock_452598590.wav" type="audio/wav">
-    Your browser does not support the audio element.
-</audio>
-
 <body>
+    <!-- Audio Element -->
+    <audio id="background-music" loop>
+        <source src="./VIABLE_AdobeStock_452598590.wav" type="audio/wav">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Play Music Button -->
+    <button id="play-music-btn">Play Music</button>
+
+    <!-- Intro Section -->
     <div id="intro">
         <h1>The Lost Temple of Azura</h1>
         <p>You stand at the edge of a dense jungle, the air thick with humidity and the sounds of exotic birds. A narrow path leads deeper into the foliage, where the Lost Temple of Azura is said to lie. What will you do?</p>
         <button onclick="choose('path')">Follow the Path</button>
         <button onclick="choose('river')">Head Towards the River</button>
         <button onclick="choose('camp')">Set Up Camp</button>
+        <img src="./imgs/azura.jpg" alt="Jungle Path">
     </div>
-    <img src="./imgs/azura.jpg" alt="Jungle Path">
+
+    <!-- Story Section (Dynamically Updated) -->
     <div id="story" style="display: none;">
         <!-- Story content will be dynamically updated here -->
     </div>
-    <button id="play-music-btn">Play Music</button>
-    
+
+    <!-- Link to JavaScript File -->
     <script src="script.js"></script>
- 
 </body>
 </html>
