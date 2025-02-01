@@ -181,7 +181,7 @@ The walls of the cathedral begin to collapse, but instead of rubble, they dissol
  You try to run, but your feet are rooted to the ground, the crystal's energy binding you in place. The masked figure's voice fades as the void consumes everything around you.<br><br>
  Then you open your eyes, you are no longer in the cathedral. You are trapped in a timeless void, surrounded by endless gears and ticking clocks. The Chrono Crystal has fused with your body, and you realize with horror that you have become the new guardian of time—doomed to watch the ages pass, unable to interact with the world, forever alone in the endless machinery of eternity.
 </p>
-                   <img src="./imgs/darkcrystal.jpg" alt="dark crystal">
+                   <img src="./imgs/coffin (3).jpg" alt="dark crystal">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
 
                 } else if (option === 'golden') {
@@ -249,7 +249,9 @@ The candlelight wavers. The air grows heavy. Behind you, the door has closed.</p
                    <img src="./imgs/letter.jpg" alt="letter">
                    <button class="choice-btn" onclick="choose('yes')">Lift the veil</button>
                    <button class="choice-btn" onclick="choose('no')">You change your mind. You are a person of reason. This makes no sense you realize.</button>`;
-    } else if (option === 'oppose') {
+ 
+ 
+                } else if (option === 'oppose') {
         content = `<p>The Invitation<br>London, 1887. <br><br>
 You take a step back, defiance burning in your eyes. "I will not join you," you declare, your voice steady despite the fear gnawing at your insides. The man's smile vanishes, replaced by a cold, calculating stare.<br><br>
 "Very well," he says, his voice a whisper of menace. "But know this: those who oppose us do not leave unscathed."<br><br>
@@ -261,8 +263,31 @@ You scramble to your feet, but the walls begin to close in, the gears grinding o
 Finally, you emerge into a forgotten alley, the night air biting at your skin. You look back, but the passage has vanished, leaving only a solid brick wall. The city looms around you, its steam-powered heart beating with a relentless rhythm.
 <br><br>You know now that the secret society will stop at nothing to hunt you down. The shadows seem to whisper your name, and every corner holds a new threat. The game has begun, and you are the prey.</p>
                    <img src="./imgs/wallsclose.jpg" alt="walls">
-                   <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
-    } else if (option === 'yes') {
+                  <button class="choice-btn" onclick="choose('hunter')">Become the Hunter</button>
+                   <button class="choice-btn" onclick="choose('ends')">It ends here</button>`;
+ 
+    
+
+            } else if (option === 'hunter') {
+                    content = `<p>As you stand in the forgotten alley, catching your breath, you realize that survival is no longer enough. You need to fight back. The secret society may be powerful, but they’ve underestimated your resourcefulness and determination. You glance around, spotting a discarded steam-powered gadget on the ground. It’s damaged, but with a few quick adjustments, you manage to get it working.<br><br>
+Using the arcane gadget to mask your presence, you navigate the city’s labyrinthine streets, staying one step ahead of your pursuers. Along the way, you encounter others who have also defied the society—outcasts, rebels, and dreamers who refuse to bow to tyranny. Together, you form a resistance, pooling your skills and knowledge to strike back at the society’s hidden strongholds.<br><br>
+Months later, the city begins to change. The society’s grip weakens as their secrets are exposed, and the people rise up to reclaim their freedom. You stand at the forefront of this revolution, a symbol of defiance and hope. The night air no longer feels oppressive; it’s filled with the hum of possibility and the promise of a brighter future.<br><br>
+As the first rays of dawn break over the city, you look out over the skyline, knowing that the fight is far from over. But for the first time, you feel a sense of control. You are no longer the prey—you are the hunter, and the game has just begun.
+</p>                               <img src="./imgs/leader.jpg" alt="leader">
+                               <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+ 
+                            } else if (option === 'ends') {
+                                content = `<p>You find yourself back in the hidden chamber. But how? The walls of the room close in faster than you can react. The gears grind louder, their metallic teeth gnashing like the jaws of a beast. You press your hands against the cold, unyielding walls, but it’s no use. The air grows thinner, and your vision begins to blur. Desperation turns to resignation as you realize there’s no way out.
+The last thing you see is the eerie glow of the luminescent tubes, their strange liquid bubbling as if mocking your struggle. The walls meet with a final, deafening crash, and everything goes dark.<br><br>
+When the secret society retrieves your body, they place it in a glass coffin, a warning to all who might dare to defy them. The coffin is displayed in the heart of the city, surrounded by their symbols and machinery. The people pass by, their eyes downcast, too afraid to speak your name.<br><br>
+But in the shadows, whispers begin to spread. Your defiance, though ultimately fatal, has planted a seed of rebellion. Others begin to question the society’s power, and your story becomes a rallying cry for those who dream of freedom. Though you are gone, your spirit lives on in the hearts of the oppressed, a reminder that even in the face of certain death, courage can spark a revolution.
+As the first rays of dawn break over the city, you look out over the skyline, knowing that the fight is far from over. But for the first time, you feel a sense of control. You are no longer the prey—you are the hunter, and the game has just begun.</p>
+                                                  <img src="./imgs/coffin (1).jpg" alt="coffin">
+                                           <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+ 
+ 
+ 
+                } else if (option === 'yes') {
         content = `<p>You take a deep breath, feeling the weight of the moment. With a steady hand, you dip the quill into the ink and sign your name in the ledger. 
             <br><br>The hooded figures murmur in approval, their voices a low, harmonious chant. The man smiles, a glint of satisfaction in his eyes.
 <br><br>"Welcome," he says, "to the Order of the Serpent. Your journey into the arcane begins now."<br><br>
