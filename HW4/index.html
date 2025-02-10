@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Chronosphere</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+   <audio controls autoplay>
+        <source src="In the House of the Inventor.ogg" type="audio/ogg">
+        <source src="In the House of the Inventor.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    
+    <!-- Intro Animation -->
+    <div id="intro-animation">
+        <img id="zoom-image" src="./imgs/chronosphere_opening.jpg" alt="Intro Image">
+    </div>
+
+    <h1>Chronosphere</h1>
+    
+    <div id="story"> 
+        <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
+        <button class="choice-btn" onclick="choose('book')">Read the Alchemical Tome</button>
+        <button class="choice-btn" onclick="choose('device')">Activate the Time Device</button>
+        <button class="choice-btn" onclick="choose('wait')">Wait, what is that?</button>
+    </div>
+ <!-- Link to the external JavaScript file -->
+ <script src="InteractiveStory.js"></script>
+   
+</body>
+</html>

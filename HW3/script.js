@@ -2,24 +2,32 @@
 let score = 0;
 
 
+
+
 document.addEventListener("DOMContentLoaded", () => {
 let introAnimation = document.getElementById("intro-animation");
 let zoomImage = document.getElementById("zoom-image");
 
+
 function hideIntro() {
 console.log("Animation ended, hiding intro screen...");
 
+
 // Fade out the intro animation
 introAnimation.style.opacity = "0";
+
 
 // Apply background and show content
 document.body.classList.add("background-active");
 document.querySelector("h1").style.display = "block";
 document.getElementById("story").style.display = "block";
 
+
 // Remove the intro animation from the DOM after the fade-out
 
+
 setTimeout(hideIntro, 6000); // Fallback after 6 seconds
+
 
 setTimeout(() => {
     console.log("Removing intro animation from the DOM...");
@@ -27,9 +35,11 @@ setTimeout(() => {
 }, 1000); // Wait for the fade-out to complete
 }
 
+
 if (zoomImage) {
 // Listen for the end of the animation
 zoomImage.addEventListener("animationend", hideIntro);
+
 
 // Fallback in case the animationend event doesn't fire
 setTimeout(hideIntro, 9000); // Fallback after 4 seconds
@@ -40,9 +50,11 @@ function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
 
+
     // Example of concatenation and addition
     let introText = "You chose: " + option + ". ";
     content += `<p>${introText}</p>`;
+
 
     if (option === 'book') {
         score += 10;
@@ -70,6 +82,7 @@ You stand at the threshold of a journey that promises to reveal the deepest secr
                    <button class="choice-btn" onclick="choose('join her')">You reach out your hand to join her</button>
                    <button class="choice-btn" onclick="choose('dreaming')">You close your eyes and shake your head</button>
                    <img src="./imgs/cleothealchemist.jpg" alt="Cleo">`;
+
 
     } else if (option === 'join her') {
         content = `<p>"This," Cleopatra explains, "is the Philosopher's Engine, a device capable of transmuting base materials into pure gold and unlocking the secrets of immortality. But it requires a catalyst, a spark of life to set it in motion."<br><br>
@@ -100,6 +113,7 @@ Cleopatra's smile fades, replaced by a look of cold determination. "There is no 
                    <button class="choice-btn" onclick="choose('death')">Continue</button>
                 <button class="choice-btn" onclick="choose('desperate')">A Desperate Plan Forms...</button>`;
 
+
                 } else if (option === 'desperate') {
         content = `<p>Your mind races, searching for a way out. The room feels smaller, the air thicker. Desperation claws at your thoughts. In a moment of sheer panic, you draw your dagger, the blade glinting ominously in the dim light.<br><br>
 Cleopatra's eyes widen in surprise, but she doesn't move. "You don't have the courage," she taunts, her voice steady.<br><br>
@@ -110,6 +124,8 @@ You sink to the floor, overwhelmed by a crushing sense of sorrow and guilt. The 
 </p>
                    <img src="./imgs/blood.jpg" alt="Death of Cleopatra">
                  <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
+
+
 
 
     } else if (option === 'death') {
@@ -155,23 +171,26 @@ You pick up the vial, the liquid inside swirling with an otherworldly light. Per
                    <button class="choice-btn" onclick="choose('accept')">Accept the mission</button>
                    <button class="choice-btn" onclick="choose('decline')">Decline and explore the city</button>`;
     } else if (option === 'accept') {
-        content = `<p>You nod, curiosity and excitement bubbling within you. 
-            The masked figure's eyes gleam with approval as he hands you a brass 
-            key, intricately designed with gears and cogs. "This key," 
-            he whispers, "unlocks the heart of the city. You must find 
-            the Clockwork Cathedral and retrieve the Chrono Crystal before 
+        content = `<p>You nod, curiosity and excitement bubbling within you.
+            The masked figure's eyes gleam with approval as he hands you a brass
+            key, intricately designed with gears and cogs. "This key,"
+            he whispers, "unlocks the heart of the city. You must find
+            the Clockwork Cathedral and retrieve the Chrono Crystal before
             the clock strikes midnight."<br><br>
 
+
 With a flourish of his cloak, he vanishes into the steam-filled night.
-You set off, navigating the bustling streets filled with steam-powered 
+You set off, navigating the bustling streets filled with steam-powered
 carriages and towering airships. Automatons tip their hats as you pass,
 their gears whirring in polite acknowledgment. The city pulses with life,
 a symphony of hissing steam and clanking metal.<br><br>
+
 
 Reaching the Clockwork Cathedral, you insert the key into a hidden lock. The massive doors creak open, revealing a labyrinth of gears and pistons. You race against time, dodging mechanical guardians and solving intricate puzzles. Finally, you reach the altar, where the Chrono Crystal glows with an ethereal light. As you grasp it, the city seems to hold its breath, waiting for the dawn of a new era.</p>
                    <img src="./imgs/clockworkcrystal.jpg" alt="clockwork crystal">
                    <button class="choice-btn" onclick="choose('dark')">The Crystal Glows Dark</button>
                    <button class="choice-btn" onclick="choose('golden')">The Crystal Glows Golden</button>`;
+
 
   } else if (option === 'dark') {
         content = `<p>As your fingers close around the Chrono Crystal, a deafening silence falls over the cathedral. The gears grind to a halt, and the air grows heavy with an unnatural stillness. The crystal pulses with a cold, eerie light, and you feel a sharp, searing pain in your palm. <br><br>
@@ -184,6 +203,7 @@ The walls of the cathedral begin to collapse, but instead of rubble, they dissol
                    <img src="./imgs/crystalcoffin.jpg" alt="dark crystal">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
 
+
                 } else if (option === 'golden') {
                     content = `<p>As your fingers close around the Chrono Crystal, a warm, golden light floods the cathedral. The gears around you hum with newfound energy, and the air fills with the sound of joyous chimes. The crystal pulses in your hand, and you feel a surge of power and clarity, as if the very essence of time is flowing through you. <br><br>
 The masked figure reappears, but this time, his mask is gone, revealing a kind, smiling face. "You have done it," he says, his voice filled with pride. "The Chrono Crystal has chosen you as its guardian. With its power, you can restore balance to the city and usher in a new era of prosperity." <br><br>
@@ -195,50 +215,53 @@ As the sun rises on a new day, you stand atop the Clockwork Cathedral, the Chron
                                <img src="./imgs/golden.jpg" alt="golden crystal">
                                <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
 
-              
-    
-    
-    
-    
-    
+
+             
+   
+   
+   
+   
+   
                 } else if (option === 'decline') {
         content = `<p>You shake your head, the weight of the unknown too great to bear. The masked figure's eyes narrow, but he nods in understanding. <br><br>"Very well," he says, his voice a blend of disappointment and respect. "But know this: the city will remember your choice."<br><br>
 
+
 As he disappears into the mist, you turn away, the bustling metropolis still alive with its mechanical wonders. You wander the streets, watching airships soar above and automatons go about their duties. The city is a marvel, but you can't shake the feeling that you've missed out on something extraordinary.<br><br>
+
 
 Suddenly, a small automaton scurries up to you, its eyes glowing with a soft blue light. It hands you a tiny, intricately crafted music box. As you wind it up, a haunting melody fills the air, and you realize that even in your refusal, the city has gifted you a piece of its magic. The music box's tune lingers in your mind, a reminder of the adventure that could have been.</p>
                    <img src="./imgs/notoadventure.jpg" alt="no to adventure">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
     } else if (option === 'predict') {
-        content = `<p>You predict the future, becoming wealthy beyond all your dreams. 
+        content = `<p>You predict the future, becoming wealthy beyond all your dreams.
             You are famous, loved, but always a feeling of fear surrounds you.</p>
                    <img src="./imgs/family.png" alt="Family">
                <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
     } else if (option === 'alter') {
         content = `<p>Your Great-Grandparents were immigrants to Quebec, and always talked about the glory of France. You decide to try and stop the French Revolution. <br><br>
-            But oh no...Without the revolution, King Louis XVI, Marie Antoinette, their descendants and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledgling United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated. 
+            But oh no...Without the revolution, King Louis XVI, Marie Antoinette, their descendants and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledgling United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated.
             <br><br>You see your hand fading in front of you.....as you cease to exist.</p>
                    <img src="./imgs/fadinghands.png" alt="hands in workshop">
                  <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
     } else if (option === 'build') {
-        content = `<p>You build the airship and sell it. 
-            <br><br>On the day of its maiden flight, you stand proudly on the deck of the ship, looking down at the city. 
-            <br><br>All of a sudden you hear an explosion. You look around. Part of the ship is missing and the part you are standing on is in flames. You are in shock, as more explosions rip through the air. 
+        content = `<p>You build the airship and sell it.
+            <br><br>On the day of its maiden flight, you stand proudly on the deck of the ship, looking down at the city.
+            <br><br>All of a sudden you hear an explosion. You look around. Part of the ship is missing and the part you are standing on is in flames. You are in shock, as more explosions rip through the air.
             <br><br>You make your peace.</p>
                    <img src="./imgs/airshipflames.jpg" alt="airship in flames">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
     } else if (option === 'sell') {
         content = `<p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen. <br><br>
-            You decide to sell them. As you reach for your pile of gold, you feel a pain in your back. 
+            You decide to sell them. As you reach for your pile of gold, you feel a pain in your back.
             <br><br>The buyer looks at you and says "It's not personal mate. But I'm not going to risk competition." He smiles. Everything begins to fade.</p>
                    <img src="./imgs/gold.jpg" alt="gold">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
     } else if (option === 'join') {
         content = `<p>The Invitation<br>
 London, 1887. <br><br>
-The air is thick with soot and secrecy, the gas lamps flickering in defiance of the smog. You tread carefully through the damp alleyways, your boots echoing against cobblestone streets slick with evening mist. The letter in your coat pocket is sealed with black wax, stamped with an insignia you do not recognize—a serpent entwined with a dagger. 
+The air is thick with soot and secrecy, the gas lamps flickering in defiance of the smog. You tread carefully through the damp alleyways, your boots echoing against cobblestone streets slick with evening mist. The letter in your coat pocket is sealed with black wax, stamped with an insignia you do not recognize—a serpent entwined with a dagger.
 It had arrived without explanation, slipped under your door as if by ghostly hands.<br><br>
-You reach the unmarked door as instructed. A single knock. A pause. 
+You reach the unmarked door as instructed. A single knock. A pause.
 <br><br>Then, it creaks open just enough to reveal the glint of watchful eyes. No words are spoken. You step inside.<br><br>
 The room beyond is dimly lit by candelabras dripping wax like blood. Hooded figures stand in a circle, their faces obscured, their eyes burning through the shadows. The scent of old books, ink, and something metallic—like rust or dried blood—lingers in the air.<br><br>
 A man steps forward. His voice is velvet over steel.<br><br>
@@ -266,7 +289,8 @@ Finally, you emerge into a forgotten alley, the night air biting at your skin. Y
                   <button class="choice-btn" onclick="choose('hunter')">Become the Hunter</button>
                    <button class="choice-btn" onclick="choose('ends')">It ends here</button>`;
  
-    
+   
+
 
             } else if (option === 'hunter') {
                     content = `<p>As you stand in the forgotten alley, catching your breath, you realize that survival is no longer enough. You need to fight back. The secret society may be powerful, but they’ve underestimated your resourcefulness and determination. You glance around, spotting a discarded steam-powered gadget on the ground. It’s damaged, but with a few quick adjustments, you manage to get it working.<br><br>
@@ -288,7 +312,7 @@ But in the shadows, whispers begin to spread. Your defiance, though ultimately f
  
  
                 } else if (option === 'yes') {
-        content = `<p>You take a deep breath, feeling the weight of the moment. With a steady hand, you dip the quill into the ink and sign your name in the ledger. 
+        content = `<p>You take a deep breath, feeling the weight of the moment. With a steady hand, you dip the quill into the ink and sign your name in the ledger.
             <br><br>The hooded figures murmur in approval, their voices a low, harmonious chant. The man smiles, a glint of satisfaction in his eyes.
 <br><br>"Welcome," he says, "to the Order of the Serpent. Your journey into the arcane begins now."<br><br>
 As the ink dries, you feel a strange warmth spread through your body, as if ancient knowledge is being etched into your very soul. The room seems to shift, the shadows deepening, and you realize that you have crossed a threshold into a world hidden from ordinary sight.</p>
@@ -297,21 +321,24 @@ As the ink dries, you feel a strange warmth spread through your body, as if anci
     } else if (option === 'no') {
         content = `<p>You step back, shaking your head. "I cannot," you say, your voice firm despite the tremor in your heart. The man's smile fades, replaced by a look of cold disappointment.<br><br>
 "Very well," he replies, his tone icy. "But know this: once you leave, you can never return."
-The hooded figures part, creating a path to the door. As you turn to leave, the air grows colder, and the shadows seem to reach out, as if reluctant to let you go. 
+The hooded figures part, creating a path to the door. As you turn to leave, the air grows colder, and the shadows seem to reach out, as if reluctant to let you go.
 <br><br>You step outside, the door closing behind you with a final, echoing thud. The alleyway feels darker, the mist thicker, and you can't shake the feeling that you have just walked away from a destiny that will forever remain a mystery.<br><br>Aghhhh! Your stomach cramps, your heart pounds, your vision begins to go black...</p>
                    <img src="./imgs/walkingaway.jpg" alt="walking away">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
     }
 
+
     // Update the DOM
     updateDOM(content);
 }
+
 
 // Function to update the DOM
 function updateDOM(content) {
     const storyDiv = document.getElementById('story');
     storyDiv.innerHTML = content;
 }
+
 
 // Restart Function
 function restart() {
@@ -323,3 +350,5 @@ function restart() {
         <button class="choice-btn" onclick="choose('wait')">Wait, what is that?</button>
     `;
 }
+
+

@@ -1,0 +1,114 @@
+/* Fullscreen intro animation */
+#intro-animation {
+    position: fixed;
+    inset: 0; /* Shorthand for top: 0; left: 0; right: 0; bottom: 0; */
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(12, 3, 52);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease-out;
+    z-index: 9999;
+}
+
+/* Image Centering */
+#intro-animation img {
+    width: 500px;
+    max-width: 80vw;
+    max-height: 80vh;
+    opacity: 1;
+    animation: zoomFade 22s ease-in-out forwards;
+    margin: auto; /* Ensures no left alignment issues */
+    display: block; /* Prevents inline spacing issues */
+}
+
+/* Zoom & fade animation */
+
+#zoom-image {
+    animation: zoomIn 6s ease-out; /* Increased from 3s to 6s */
+}
+
+@keyframes zoomFade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+/* Hide animation after it's done */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    display: none;
+}
+
+
+
+/* Body & Background */
+body {
+    font-family: 'Times New Roman', serif;
+    background-color: black; /* Prevents flickering before background loads */
+    color: white;
+    transition: background-image 1s ease-in;
+}
+
+/* Background Activation */
+.background-active {
+    background-image: url('./imgs/alchemistlab.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Header Styling */
+h1 {
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 4em;
+    color: #7cb3e7;
+    text-shadow: 5px 5px 7px rgba(0, 0, 0, 0.6);
+    margin-top: 50px;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    display: none;
+}
+
+/* Story Box */
+#story {
+    font-size: 1.2em;
+    margin: 20px auto;
+    width: 60%;
+    padding: 20px;
+    background-color: #3b3b3b;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    display: none;
+}
+
+/* Choice Buttons */
+.choice-btn {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #55a7ef;
+    border: none;
+    cursor: pointer;
+}
+
+.choice-btn:hover {
+    background-color: #b08e2d;
+}
+
+/* Image Styling */
+img {
+    width: 300px;
+    height: auto;
+    margin-top: 20px;
+}
