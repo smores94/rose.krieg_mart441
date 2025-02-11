@@ -58,7 +58,7 @@ function choose(option) {
 
     if (option === 'book') {
         score += 10;
-        content = `<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
+        content = `<p></p>
                    <button class="choice-btn" onclick="choose('brew')">Brew the Potion</button>
                    <button class="choice-btn" onclick="choose('explore')">Explore the Workshop</button>
                    <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">`;

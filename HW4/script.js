@@ -94,6 +94,28 @@ function choose(option) {
             <button onclick="handleInput()">Submit</button>
             <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
         `;
+
+    } else if (option === '1' && document.getElementById('story').innerHTML.includes("Brew the Potion")) {
+        content = `
+            <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
+            <p>1. Use your vision to predict events</p>
+            <p>2. Attempt to alter fate</p>
+            <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+            <button onclick="handleInput()">Submit</button>
+            <img src="./imgs/potion.png" alt="Magic potion">
+        `;
+
+    } else if (option === '1' && document.getElementById('story').innerHTML.includes("Brew the Potion")) {
+        content = `
+            <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
+            <p>1. Use your vision to predict events</p>
+            <p>2. Attempt to alter fate</p>
+            <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+            <button onclick="handleInput()">Submit</button>
+            <img src="./imgs/potion.png" alt="Magic potion">
+        `;
+
+
     } else if (option === 'device') {
         score += 20;
         content = `
@@ -113,15 +135,7 @@ function choose(option) {
             <button onclick="handleInput()">Submit</button>
             <img src="./imgs/cleothealchemist.jpg" alt="Cleo">
         `;
-    } else if (option === '1' && document.getElementById('story').innerHTML.includes("Brew the Potion")) {
-        content = `
-            <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
-            <p>1. Use your vision to predict events</p>
-            <p>2. Attempt to alter fate</p>
-            <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-            <button onclick="handleInput()">Submit</button>
-            <img src="./imgs/potion.png" alt="Magic potion">
-        `;
+   
     } else if (option === '2' && document.getElementById('story').innerHTML.includes("Explore the Workshop")) {
         content = `
             <p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
