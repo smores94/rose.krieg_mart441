@@ -19,13 +19,15 @@
     </div>
 
     <h1>Chronosphere</h1>
-    <div id="story"> 
+    <div id="story">
         <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
-        <button class="choice-btn" onclick="choose('book')">Read the Alchemical Tome</button>
-        <button class="choice-btn" onclick="choose('device')">Activate the Time Device</button>
-        <button class="choice-btn" onclick="choose('wait')">Wait, what is that?</button>
+        <p>What do you do?</p>
+        <p>1. Read the Alchemical Tome</p>
+        <p>2. Activate the Time Device</p>
+        <p>3. Wait, what is that?</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1, 2, or 3)">
+        <button onclick="handleInput()">Submit</button>
     </div>
-        
 
     <!-- Link to the external JavaScript file -->
     <script src="script.js"></script>
