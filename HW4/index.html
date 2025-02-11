@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,12 +19,13 @@
     </div>
 
     <h1>Chronosphere</h1>
-    
-        <!-- Game Content (initially hidden) -->
-        <div id="game-content" style="display: none;">
-            <h1>Chronosphere</h1>
-            <div id="story"></div>
-        </div>
+    <div id="story"> 
+        <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
+        <button class="choice-btn" onclick="choose('book')">Read the Alchemical Tome</button>
+        <button class="choice-btn" onclick="choose('device')">Activate the Time Device</button>
+        <button class="choice-btn" onclick="choose('wait')">Wait, what is that?</button>
+    </div>
+        
 
     <!-- Link to the external JavaScript file -->
     <script src="script.js"></script>
