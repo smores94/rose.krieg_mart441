@@ -1,51 +1,5 @@
-// Variables
-let score = 0;
 
-//Event listener for DOM content loaded
-document.addEventListener("DOMContentLoaded", () => {
-    let introAnimation = document.getElementById("intro-animation");
-    let zoomImage = document.getElementById("zoom-image");
-
-    function hideIntro() {
-        console.log("Animation ended, hiding intro screen...");
-
-        // Fade out the intro animation
-        introAnimation.style.opacity = "0";
-
-        // Add the .hidden class to hide the intro animation
-        introAnimation.classList.add("hidden");
-
-        // Show the game content after the fade-out
-        setTimeout(() => {
-            console.log("Showing game content...");
-            document.getElementById("game-content").style.display = "block";
-            document.body.classList.add("background-active"); // Activate background
-        }, 1000); // Wait for the fade-out to complete
-    }
-
-    if (zoomImage) {
-        // Listen for the end of the animation
-        zoomImage.addEventListener("animationend", hideIntro);
-
-        // Fallback in case the animationend event doesn't fire
-        setTimeout(hideIntro, 22000); // Match the animation duration (22 seconds)
-    }
-        // Fade out the intro animation
-        introAnimation.style.opacity = "0";
-
-        // Show the game content after the fade-out
-        setTimeout(() => {
-            console.log("Showing game content...");
-            document.getElementById("game-content").style.display = "block";
-            introAnimation.remove(); // Remove the intro animation from the DOM
-        }, 1000); // Wait for the fade-out to complete
-    
-
-    // Start the story
-    startStory();
-});
-
-    // Interactive Story Function
+// Interactive Story Function
 function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
@@ -177,8 +131,7 @@ The people of the city cheer as you raise the Chrono Crystal high, its light bat
 The masked figure, now revealed as the city's former guardian, guides you in your new role. Together, you build a future where technology and humanity coexist in perfect harmony, and the city becomes a beacon of progress and joy for the entire world.
 As the sun rises on a new day, you stand atop the Clockwork Cathedral, the Chrono Crystal glowing brightly in your hand. You know that your journey has only just begun, but for the first time in a long time, you feel truly alive—ready to embrace the endless possibilities of this extraordinary new era.</p>
            
-                      <button onclick="restart()">Restart</button>
-
+            <button onclick="handleInput()">Submit</button>
             <img src="./imgs/crystalcoffin.jpg" alt="crystal coffin">
         `;
     }
