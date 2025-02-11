@@ -1,3 +1,4 @@
+
 // Interactive Story Function
 function choose(option) {
     const storyDiv = document.getElementById('story');
@@ -63,10 +64,6 @@ function choose(option) {
             <br><br>You see your hand fading in front of you.....as you cease to exist.</p>
             <img src="./imgs/fadinghands.png" alt="hands in workshop">
         `;
-    
-
-
-
     } else if (option === 'device') {
         score += 20;
         content = `
@@ -86,7 +83,6 @@ function choose(option) {
             <button onclick="handleInput()">Submit</button>
             <img src="./imgs/cleothealchemist.jpg" alt="Cleo">
         `;
-   
     } else if (option === '2' && document.getElementById('story').innerHTML.includes("Explore the Workshop")) {
         content = `
             <p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
@@ -119,10 +115,6 @@ function choose(option) {
     }
     
     // Update the story content
-    storyDiv.innerHTML = content;
-}
-
-    // Update the DOM
     updateDOM(content);
 }
 
@@ -136,4 +128,23 @@ function updateDOM(content) {
 function restart() {
     score = 0; // Reset score
     startStory();
+}
+
+// Function to handle user input
+function handleInput() {
+    const userInput = document.getElementById('user-input').value;
+    choose(userInput);
+}
+
+// Function to start the story
+function startStory() {
+    const storyDiv = document.getElementById('story');
+    storyDiv.innerHTML = `
+        <p>Welcome to the interactive story! What do you do?</p>
+        <p>1. Open the ancient book</p>
+        <p>2. Activate the mysterious device</p>
+        <p>3. Wait and observe</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1, 2, or 3)">
+        <button onclick="handleInput()">Submit</button>
+    `;
 }
