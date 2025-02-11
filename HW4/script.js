@@ -30,12 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Start the story
     startStory();
-})
+});
 
-        // Fallback in case the animationend event doesn't fire
-        setTimeout(hideIntro, 5000); // Fallback after 5 seconds
-    }
-// Interactive Story Function
+    // Interactive Story Function
 function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
