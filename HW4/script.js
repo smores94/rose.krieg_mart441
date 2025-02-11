@@ -45,6 +45,9 @@ zoomImage.addEventListener("animationend", hideIntro);
 setTimeout(hideIntro, 9000); // Fallback after 4 seconds
 }
 });
+
+
+
 // Interactive Story Function
 function choose(option) {
     const storyDiv = document.getElementById('story');
