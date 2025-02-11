@@ -105,7 +105,7 @@ function choose(option) {
             <img src="./imgs/potion.png" alt="Magic potion">
         `;
 
-    } else if (option === '1' && document.getElementById('story').innerHTML.includes("into the future!")) {
+    } else if (option === '1' && document.getElementById('story').innerHTML.includes("Use your vision to predict events")) {
         content = `
             <p>You predict the future, becoming wealthy beyond all your dreams.
             You are famous, loved, but always a feeling of fear surrounds you.</p>
@@ -113,7 +113,7 @@ function choose(option) {
             <img src="./imgs/potion.png" alt="Magic potion">
         `;
 
-    } else if (option === '2' && document.getElementById('story').innerHTML.includes("into the future!")) {
+    } else if (option === '2' && document.getElementById('story').innerHTML.includes("Attempt to alter fate")) {
         content = `
             <p>Your Great-Grandparents were immigrants to Quebec, and always talked about the glory of France. You decide to try and stop the French Revolution. <br><br>
             But oh no...Without the revolution, King Louis XVI, Marie Antoinette, their descendants and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledgling United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated.
