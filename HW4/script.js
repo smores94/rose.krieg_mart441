@@ -105,15 +105,22 @@ function choose(option) {
             <img src="./imgs/potion.png" alt="Magic potion">
         `;
 
-    } else if (option === '1' && document.getElementById('story').innerHTML.includes("Brew the Potion")) {
+    } else if (option === '1' && document.getElementById('story').innerHTML.includes("into the future!")) {
         content = `
-            <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
-            <p>1. Use your vision to predict events</p>
-            <p>2. Attempt to alter fate</p>
-            <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-            <button onclick="handleInput()">Submit</button>
+            <p>You predict the future, becoming wealthy beyond all your dreams.
+            You are famous, loved, but always a feeling of fear surrounds you.</p>
+                   <img src="./imgs/family.png" alt="Family">
             <img src="./imgs/potion.png" alt="Magic potion">
         `;
+
+    } else if (option === '2' && document.getElementById('story').innerHTML.includes("into the future!")) {
+        content = `
+            <p>Your Great-Grandparents were immigrants to Quebec, and always talked about the glory of France. You decide to try and stop the French Revolution. <br><br>
+            But oh no...Without the revolution, King Louis XVI, Marie Antoinette, their descendants and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledgling United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated.
+            <br><br>You see your hand fading in front of you.....as you cease to exist.</p>
+                   <img src="./imgs/fadinghands.png" alt="hands in workshop">
+        `;
+
 
 
     } else if (option === 'device') {
