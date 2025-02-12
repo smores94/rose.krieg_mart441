@@ -1,32 +1,42 @@
 // Variables
 let score = 0;
-let currentState = 'intro'; // Keep track of the current state of the story
 
 document.addEventListener("DOMContentLoaded", () => {
-    let introAnimation = document.getElementById("intro-animation");
-    let zoomImage = document.getElementById("zoom-image");
+let introAnimation = document.getElementById("intro-animation");
+let zoomImage = document.getElementById("zoom-image");
 
-    function hideIntro() {
-        console.log("Animation ended, hiding intro screen...");
-        introAnimation.style.opacity = "0";
-        document.body.classList.add("background-active");
-        document.querySelector("h1").style.display = "block";
-        document.getElementById("story").style.display = "block";
+function hideIntro() {
+console.log("Animation ended, hiding intro screen...");
 
-        // Remove the intro animation after a short delay
-        setTimeout(() => {
-            console.log("Removing intro animation from the DOM...");
-            introAnimation.remove(); // Remove intro animation
-        }, 1000);
-    }
+// Fade out the intro animation
+introAnimation.style.opacity = "0";
 
-    // Fallback in case the animation doesn't trigger
-    if (zoomImage) {
-        zoomImage.addEventListener("animationend", hideIntro);
-    } else {
-        setTimeout(hideIntro, 6000); // Fallback after 6 seconds
-    }
+
+// Apply background and show content
+document.body.classList.add("background-active");
+document.querySelector("h1").style.display = "block";
+document.getElementById("story").style.display = "block";
+
+
+// Remove the intro animation from the DOM after the fade-out
+setTimeout(hideIntro, 6000); // Fallback after 6 seconds
+
+setTimeout(() => {
+    console.log("Removing intro animation from the DOM...");
+    introAnimation.remove(); // This removes the element entirely
+}, 1000); // Wait for the fade-out to complete
+}
+
+if (zoomImage) {
+// Listen for the end of the animation
+zoomImage.addEventListener("animationend", hideIntro);
+
+// Fallback in case the animationend event doesn't fire
+setTimeout(hideIntro, 9000); // Fallback after 4 seconds
+}
 });
+
+
 
 // Function to handle user input 
 function handleInput() {
