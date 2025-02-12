@@ -2,100 +2,159 @@
 let score = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
-let introAnimation = document.getElementById("intro-animation");
-let zoomImage = document.getElementById("zoom-image");
+  let introAnimation = document.getElementById("intro-animation");
+  let zoomImage = document.getElementById("zoom-image");
 
-function hideIntro() {
-console.log("Animation ended, hiding intro screen...");
+  function hideIntro() {
+    console.log("Animation ended, hiding intro screen...");
 
-// Fade out the intro animation
-introAnimation.style.opacity = "0";
+    // Fade out the intro animation
+    introAnimation.style.opacity = "0";
 
+    // Apply background and show content
+    document.body.classList.add("background-active");
+    document.querySelector("h1").style.display = "block";
+    document.getElementById("story").style.display = "block";
 
-// Apply background and show content
-document.body.classList.add("background-active");
-document.querySelector("h1").style.display = "block";
-document.getElementById("story").style.display = "block";
+    // Remove the intro animation from the DOM after the fade-out
+    setTimeout(() => {
+      console.log("Removing intro animation from the DOM...");
+      introAnimation.remove(); // This removes the element entirely
+    }, 1000); // Wait for the fade-out to complete
+  }
 
+  if (zoomImage) {
+    // Listen for the end of the animation
+    zoomImage.addEventListener("animationend", hideIntro);
 
-// Remove the intro animation from the DOM after the fade-out
-setTimeout(hideIntro, 6000); // Fallback after 6 seconds
-
-setTimeout(() => {
-    console.log("Removing intro animation from the DOM...");
-    introAnimation.remove(); // This removes the element entirely
-}, 1000); // Wait for the fade-out to complete
-}
-
-if (zoomImage) {
-// Listen for the end of the animation
-zoomImage.addEventListener("animationend", hideIntro);
-
-// Fallback in case the animationend event doesn't fire
-setTimeout(hideIntro, 9000); // Fallback after 4 seconds
-}
+    // Fallback in case the animationend event doesn't fire
+    setTimeout(hideIntro, 9000); // Fallback after 4 seconds
+  }
 });
 
+// Function to handle user input 
+function handleInput() {
+  const userInput = document.getElementById('user-input').value.trim().toLowerCase();
+  let option = userInput; // Use the raw input for nested choices
 
-
-  // Function to handle user input 
-  function handleInput() {
-    const userInput = document.getElementById('user-input').value.trim().toLowerCase();
-    let option = userInput; // Use the raw input for nested choices
-
-    // Map initial choices to options
-    if (document.getElementById('story').innerHTML.includes("What do you do?")) {
-        switch (userInput) {
-            case '1':
-                option = 'book';
-                break;
-            case '2':
-                option = 'device';
-                break;
-            case '3':
-                option = 'wait';
-                break;
-            default:
-                alert("Invalid choice. Please enter 1, 2, or 3.");
-                return;
-        }
+  // Map initial choices to options
+  if (document.getElementById('story').innerHTML.includes("What do you do?")) {
+    switch (userInput) {
+      case '1':
+        option = 'book';
+        break;
+      case '2':
+        option = 'device';
+        break;
+      case '3':
+        option = 'wait';
+        break;
+      default:
+        alert("Invalid choice. Please enter 1, 2, or 3.");
+        return;
     }
+  }
 
- // Call the choose function with the selected option
- choose(option);
+  // Call the choose function with the selected option
+  choose(option);
 }
 
 // Function to handle user choices
 function choose(option) {
-    const storyDiv = document.getElementById('story');
-    let content = "";
+  const storyDiv = document.getElementById('story');
+  let content = "";
 
-     // Check the current state of the story to determine the next step
-     if (storyDiv.innerHTML.includes("What do you do?")) {
-        // Initial choice
-        if (option === 'book') {
-            score += 10;
-            content = `
-                <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
-                <p>1. Brew the Potion</p>
-                <p>2. Explore the Workshop</p>
-                <p>3. what</p>
-                <input type="text" id="user-input" placeholder="Enter your choice (1, 2 or 3)">
-                <button onclick="handleInput()">Submit</button>
-                <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
-        `;
+  // Check the current state of the story to determine the next step
+  if (storyDiv.innerHTML.includes("What do you do?")) {
+    // Initial choice
+    if (option === 'book') {
+      score += 10;
+      content = `
+        <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
+        <p>1. Brew the Potion</p>
+        <p>2. Explore the Workshop</p>
+        <p>3. Wait</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1, 2 or 3)">
+        <button onclick="handleInput()">Submit</button>
+        <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
+      `;
+    } else if (option === 'device') {
+      score += 20;
+      content = `
+        <p>You activate the time device! A vortex opens, offering two choices: Victorian London or a futuristic steampunk city.</p>
+        <p>1. Travel to Victorian London</p>
+        <p>2. Enter the Steampunk Metropolis</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+        <button onclick="handleInput()">Submit</button>
+        <img src="./imgs/antikythera.png" alt="time device">
+      `;
+    } else if (option === 'wait') {
+      content = `
+        <p>In the dimly lit alchemical laboratory, the air is thick with the scent of ancient herbs and the faint hum of arcane machinery...</p>
+        <p>1. Reach out your hand to join her</p>
+        <p>2. Close your eyes and shake your head</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+        <button onclick="handleInput()">Submit</button>
+        <img src="./imgs/cleothealchemist.jpg" alt="Cleo">
+      `;
+    }
+  } else if (storyDiv.innerHTML.includes("Brew the Potion")) {
+    // Second-level choice after choosing 'book'
+    if (option === '1') {
+      content = `
+        <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
+        <p>1. Use your vision to predict events</p>
+        <p>2. Attempt to alter fate</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+        <button onclick="handleInput()">Submit</button>
+        <img src="./imgs/potion.png" alt="Magic potion">
+      `;
+    } else if (option === '2') {
+      content = `
+        <p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
+        <p>1. Build the airship</p>
+        <p>2. Sell the blueprints for gold</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+        <button onclick="handleInput()">Submit</button>
+        <img src="./imgs/airship.jpg" alt="Steampunk airship">
+      `;
+    }
+  } else if (storyDiv.innerHTML.includes("Use your vision to predict events")) {
+    content = `
+      <p>You predict the future, becoming wealthy beyond all your dreams. You are famous, loved, but always a feeling of fear surrounds you.</p>
+      <img src="./imgs/family.png" alt="Family">
+      <button onclick="restart()">Restart</button>
+    `;
+  } else if (storyDiv.innerHTML.includes("Attempt to alter fate")) {
+    content = `
+      <p>Your Great-Grandparents were immigrants to Quebec...</p>
+      <img src="./imgs/fadinghands.png" alt="hands in workshop">
+      <button onclick="restart()">Restart</button>
+    `;
+  } else if (storyDiv.innerHTML.includes("Travel to Victorian London")) {
+    if (option === '1') {
+      content = `
+        <p>You arrive in Victorian London, where secret societies seek alchemical knowledge...</p>
+        <p>1. Join the secret society</p>
+        <p>2. Oppose them and uncover their secrets</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+        <button onclick="handleInput()">Submit</button>
+        <img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">
+      `;
+    }
+  } else if (storyDiv.innerHTML.includes("Enter the Steampunk Metropolis")) {
+    if (option === '2') {
+      content = `
+        <p>The metropolis is alive with steam-powered automatons...</p>
+        <p>1. Accept the mission</p>
+        <p>2. Decline and explore the city</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+        <button onclick="handleInput()">Submit</button>
+        <img src="./imgs/maskedman.jpg" alt="Steampunk city">
+      `;
+    }
+  
 
-              } else if (storyDiv.innerHTML.includes("Brew the Potion")) {
-        // Second-level choice after choosing 'book'
-        if (option === '1') {
-            content = `
-                <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
-                <p>1. Use your vision to predict events</p>
-                <p>2. Attempt to alter fate</p>
-                <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-                <button onclick="handleInput()">Submit</button>
-                <img src="./imgs/potion.png" alt="Magic potion">
-            `;
         } else if (option === '2') {
             content = `
                 <p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
@@ -105,7 +164,9 @@ function choose(option) {
                 <button onclick="handleInput()">Submit</button>
                 <img src="./imgs/airship.jpg" alt="Steampunk airship">
             `;
-        }
+        
+    
+
     } else if (storyDiv.innerHTML.includes("Use your vision to predict events")) {
         // Final outcome for predicting events
         content = `
