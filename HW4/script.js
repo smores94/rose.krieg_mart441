@@ -42,6 +42,7 @@ setTimeout(hideIntro, 9000); // Fallback after 4 seconds
 function handleInput() {
     const userInput = document.getElementById('user-input').value.trim().toLowerCase();
     let option = userInput; // Use the raw input for nested choices
+    
  // Map initial choices to options
  if (document.getElementById('story').innerHTML.includes("What do you do?")) {
     switch (userInput) {
@@ -78,10 +79,11 @@ let content = "";
                 <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
                 <p>1. Brew the Potion</p>
                 <p>2. Explore the Workshop</p>
-                <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+                <p>3. what</p>
+                <input type="text" id="user-input" placeholder="Enter your choice (1, 2 or 3)">
                 <button onclick="handleInput()">Submit</button>
                 <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
-            `;
+        `;
 
               } else if (storyDiv.innerHTML.includes("Brew the Potion")) {
         // Second-level choice after choosing 'book'
