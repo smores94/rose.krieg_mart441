@@ -69,8 +69,8 @@ function choose(option) {
 const storyDiv = document.getElementById('story');
 let content = "";
 
-    // Check the current state of the story to determine the next step
-    if (storyDiv.innerHTML.includes("What do you do?")) {
+     // Check the current state of the story to determine the next step
+     if (storyDiv.innerHTML.includes("What do you do?")) {
         // Initial choice
         if (option === 'book') {
             score += 10;
