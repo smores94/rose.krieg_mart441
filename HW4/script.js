@@ -121,8 +121,7 @@ function choose(option) {
                 <button onclick="handleInput()">Submit</button>
                 <img src="./imgs/airship.jpg" alt="Steampunk airship">
             `;
-        }
-  
+        
         } else if (option === 'device') {
             score += 20;
             content = `
