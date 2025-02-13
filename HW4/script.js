@@ -36,8 +36,6 @@ setTimeout(hideIntro, 9000); // Fallback after 4 seconds
 }
 });
 
-javascript
-Copy
 // Function to start the story
 function startStory() {
     const storyDiv = document.getElementById('story');
