@@ -78,10 +78,10 @@ function handleInput() {
     // Call the choose function with the selected option
     choose(option);
 }
-
+{
 // Call the choose function with the selected option
 choose(option);
-
+}
 
 // Function to handle user choices
 function choose(option) {
@@ -90,19 +90,18 @@ let content = "";
 
      // Check the current state of the story to determine the next step
      if (storyDiv.innerHTML.includes("What do you do?")) {
-       // Function to start the story
-function startStory() {
-    const storyDiv = document.getElementById('story');
-    storyDiv.innerHTML = `
-        <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
-        <p>What do you do?</p>
-        <p>1. Read the Alchemical Tome</p>
-        <p>2. Activate the Time Device</p>
-        <p>3. Wait, what is that?</p>
-        <input type="text" id="user-input" placeholder="Enter your choice (1, 2, or 3)">
-        <button onclick="handleInput()">Submit</button>
-    `;
-}
+        // Initial choice
+        if (option === 'book') {
+            score += 10;
+            content = `
+                <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
+                <p>1. Brew the Potion</p>
+                <p>2. Explore the Workshop</p>
+                <p>3. what</p>
+                <input type="text" id="user-input" placeholder="Enter your choice (1, 2 or 3)">
+                <button onclick="handleInput()">Submit</button>
+       <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
+        `;
 
               } else if (storyDiv.innerHTML.includes("Brew the Potion")) {
         // Second-level choice after choosing 'book'
