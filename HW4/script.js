@@ -68,13 +68,9 @@ function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
 
-}
-     // Check the current state of the story to determine the next step
-     if (storyDiv.innerHTML.includes("What do you do?")) {
-        // Initial choice
-        if (option === 'book') {
-            score += 10;
-            content = `
+    // Handle initial and subsequent choices
+    if (option === 'book') {
+        content = `
                 <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
                 <p>1. Brew the Potion</p>
                 <p>2. Explore the Workshop</p>
