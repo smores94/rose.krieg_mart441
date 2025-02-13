@@ -43,36 +43,32 @@ function handleInput() {
     const userInput = document.getElementById('user-input').value.trim().toLowerCase();
     let option = userInput; // Use the raw input for nested choices
 
-    // Map initial choices to options
-    if (document.getElementById('story').innerHTML.includes("What do you do?")) {
-        switch (userInput) {
-            case '1':
-                option = 'book';
-                break;
-            case '2':
-                option = 'device';
-                break;
-            case '3':
-                option = 'wait';
-                break;
-            default:
-                alert("Invalid choice. Please enter 1, 2, or 3.");
-                return;
-        }
+
+     // Map initial choices to options
+     switch (userInput) {
+        case '1':
+            option = 'book';
+            break;
+        case '2':
+            option = 'device';
+            break;
+        case '3':
+            option = 'wait';
+            break;
+        default:
+            alert("Invalid choice. Please enter 1, 2, or 3.");
+            return;
     }
 
     // Call the choose function with the selected option
     choose(option);
 }
 
-// Call the choose function with the selected option
-choose(option);
-}
-
 // Function to handle user choices
 function choose(option) {
-const storyDiv = document.getElementById('story');
-let content = "";
+    const storyDiv = document.getElementById('story');
+    let content = "";
+
 
      // Check the current state of the story to determine the next step
      if (storyDiv.innerHTML.includes("What do you do?")) {
