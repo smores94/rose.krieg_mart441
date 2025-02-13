@@ -43,9 +43,8 @@ function handleInput() {
     const userInput = document.getElementById('user-input').value.trim().toLowerCase();
     let option = userInput; // Use the raw input for nested choices
 
-
-     // Map initial choices to options
-     switch (userInput) {
+    // Map initial choices to options
+    switch (userInput) {
         case '1':
             option = 'book';
             break;
