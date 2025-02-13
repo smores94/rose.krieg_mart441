@@ -36,42 +36,6 @@ setTimeout(hideIntro, 9000); // Fallback after 4 seconds
 }
 });
 
-/ Variables
-let score = 0;
-
-// Event listener for DOM content loaded
-document.addEventListener("DOMContentLoaded", () => {
-    let introAnimation = document.getElementById("intro-animation");
-    let zoomImage = document.getElementById("zoom-image");
-
-    function hideIntro() {
-        console.log("Animation ended, hiding intro screen...");
-
-        // Fade out the intro animation
-        introAnimation.style.opacity = "0";
-
-        // Show the game content after the fade-out
-        setTimeout(() => {
-            console.log("Showing game content...");
-            document.body.classList.add("background-active");
-            document.querySelector("h1").style.display = "block";
-            document.getElementById("story").style.display = "block";
-            introAnimation.remove(); // Remove the intro animation from the DOM
-
-            // Start the story
-            startStory();
-        }, 1000); // Wait for the fade-out to complete
-    }
-
-    if (zoomImage) {
-        // Listen for the end of the animation
-        zoomImage.addEventListener("animationend", hideIntro);
-
-        // Fallback in case the animationend event doesn't fire
-        setTimeout(hideIntro, 9000); // Fallback after 9 seconds
-    }
-});
-
 // Function to start the story
 function startStory() {
     const storyDiv = document.getElementById('story');
@@ -85,6 +49,8 @@ function startStory() {
         <button onclick="handleInput()">Submit</button>
     `;
 }
+
+
 
 // Function to handle user input
 function handleInput() {
@@ -112,7 +78,10 @@ function handleInput() {
     // Call the choose function with the selected option
     choose(option);
 }
-
+{
+// Call the choose function with the selected option
+choose(option);
+}
 
 // Function to handle user choices
 function choose(option) {
