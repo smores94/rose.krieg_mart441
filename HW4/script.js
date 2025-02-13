@@ -352,7 +352,22 @@ As the ink dries, you feel a strange warmth spread through your body, as if anci
 
     // Update the story content
     storyDiv.innerHTML = content;
+}// Function to start the story
+function startStory() {
+    const storyDiv = document.getElementById('story');
+    storyDiv.innerHTML = `
+        <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
+        <p>What do you do?</p>
+        <p>1. Read the Alchemical Tome</p>
+        <p>2. Activate the Time Device</p>
+        <p>3. Wait, what is that?</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1, 2, or 3)">
+        <button onclick="handleInput()">Submit</button>
+    `;
 }
+
+// Start the story when the page loads
+startStory();
 
 // Restart Function
 function restart() {
