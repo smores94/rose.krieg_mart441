@@ -68,29 +68,50 @@ function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
 
-    // Handle initial and subsequent choices
-    if (option === 'book') {
+   // Handle initial and subsequent choices
+   if (option === 'book') {
+    content = `
+        <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
+        <p>1. Brew the Potion</p>
+        <p>2. Explore the Workshop</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+        <button onclick="handleInput()">Submit</button>
+        <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
+    `;
+
+} else if (option === '1') {
+    content = `
+        <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
+        <p>1. Use your vision to predict events</p>
+        <p>2. Attempt to alter fate</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+        <button onclick="handleInput()">Submit</button>
+        <img src="./imgs/potion.png" alt="Magic potion">
+    `;
+
+} else if (storyDiv.innerHTML.includes("Use your vision to predict events")) {
+    // Final outcome for predicting events
+    content = `
+        <p>You predict the future, becoming wealthy beyond all your dreams.
+        You are famous, loved, but always a feeling of fear surrounds you.</p>
+        <img src="./imgs/family.png" alt="Family">
+        <button onclick="restart()">Restart</button>
+     `;
+
+
+    } else if (storyDiv.innerHTML.includes("Attempt to alter fate")) {
+        // Final outcome for altering fate
         content = `
-                <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
-                <p>1. Brew the Potion</p>
-                <p>2. Explore the Workshop</p>
-                <p>3. what</p>
-                <input type="text" id="user-input" placeholder="Enter your choice (1, 2 or 3)">
-                <button onclick="handleInput()">Submit</button>
-       <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
+            <p>Your Great-Grandparents were immigrants to Quebec, and always talked about the glory of France. You decide to try and stop the French Revolution. <br><br>
+            But oh no...Without the revolution, King Louis XVI, Marie Antoinette, their descendants and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledgling United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated.
+            <br><br>You see your hand fading in front of you.....as you cease to exist.</p>
+            <img src="./imgs/fadinghands.png" alt="hands in workshop">
+            <button onclick="restart()">Restart</button>
         `;
 
-              } else if (storyDiv.innerHTML.includes("Brew the Potion")) {
-        // Second-level choice after choosing 'book'
-        if (option === '1') {
-            content = `
-                <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
-                <p>1. Use your vision to predict events</p>
-                <p>2. Attempt to alter fate</p>
-                <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-                <button onclick="handleInput()">Submit</button>
-                <img src="./imgs/potion.png" alt="Magic potion">
-            `;
+
+
+
         } else if (option === '2') {
             content = `
                 <p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
@@ -101,23 +122,7 @@ function choose(option) {
                 <img src="./imgs/airship.jpg" alt="Steampunk airship">
             `;
         }
-    } else if (storyDiv.innerHTML.includes("Use your vision to predict events")) {
-        // Final outcome for predicting events
-        content = `
-            <p>You predict the future, becoming wealthy beyond all your dreams.
-            You are famous, loved, but always a feeling of fear surrounds you.</p>
-            <img src="./imgs/family.png" alt="Family">
-            <button onclick="restart()">Restart</button>
-         `;
-    } else if (storyDiv.innerHTML.includes("Attempt to alter fate")) {
-        // Final outcome for altering fate
-        content = `
-            <p>Your Great-Grandparents were immigrants to Quebec, and always talked about the glory of France. You decide to try and stop the French Revolution. <br><br>
-            But oh no...Without the revolution, King Louis XVI, Marie Antoinette, their descendants and the French Monarchy continue to the present day. The French Monarchy helped England instead of the fledgling United States. The Louisiana Purchase never happened. Your Great-grandparents never immigrated.
-            <br><br>You see your hand fading in front of you.....as you cease to exist.</p>
-            <img src="./imgs/fadinghands.png" alt="hands in workshop">
-            <button onclick="restart()">Restart</button>
-        `;
+  
         } else if (option === 'device') {
             score += 20;
             content = `
