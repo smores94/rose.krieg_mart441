@@ -45,7 +45,7 @@ function handleInput() {
 
 
      // Map initial choices to options
-    switch (userInput) {
+     switch (userInput) {
         case '1':
             option = 'book';
             break;
@@ -64,6 +64,12 @@ function handleInput() {
     choose(option);
 }
 
+// Function to handle user choices
+function choose(option) {
+    const storyDiv = document.getElementById('story');
+    let content = "";
+
+}
      // Check the current state of the story to determine the next step
      if (storyDiv.innerHTML.includes("What do you do?")) {
         // Initial choice
@@ -250,14 +256,6 @@ Aghhhh! Your stomach cramps, your heart pounds, your vision begins to go black..
     }
 
 
-
-
-
-
-
-
-
-
  // Final outcome for altering fate
 } else if (storyDiv.innerHTML.includes("Lift the Veil")) {
     if (option === '1') {
@@ -296,11 +294,11 @@ As the ink dries, you feel a strange warmth spread through your body, as if anci
 
 
 
-
-
-        } else if (option === 'wait') {
-            content = `
-                <p>In the dimly lit alchemical laboratory, the air is thick with the scent of ancient herbs and the faint hum of arcane machinery. Beakers and flasks bubble with mysterious concoctions, their contents glowing with an otherworldly light. The walls are lined with shelves, each crammed with ancient tomes and strange artifacts, their secrets long forgotten by the world outside.</p>
+// final-level choice after choosing 'device
+} else if (storyDiv.innerHTML.includes("wait")) {
+    if (option === '3') {
+        content = 
+`                <p>In the dimly lit alchemical laboratory, the air is thick with the scent of ancient herbs and the faint hum of arcane machinery. Beakers and flasks bubble with mysterious concoctions, their contents glowing with an otherworldly light. The walls are lined with shelves, each crammed with ancient tomes and strange artifacts, their secrets long forgotten by the world outside.</p>
                 <p>1. Reach out your hand to join her</p>
                 <p>2. Close your eyes and shake your head</p>
                 <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
