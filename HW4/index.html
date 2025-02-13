@@ -7,23 +7,24 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Audio -->
-    <audio controls autoplay>
+   <audio controls autoplay>
         <source src="In the House of the Inventor.ogg" type="audio/ogg">
         <source src="In the House of the Inventor.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
-
+    
     <!-- Intro Animation -->
     <div id="intro-animation">
         <img id="zoom-image" src="./imgs/chronosphere_opening.jpg" alt="Intro Image">
     </div>
 
-    <!-- Game Content (initially hidden) -->
-    <div id="game-content" style="display: none;">
-        <h1>Chronosphere</h1>
-        <div id="story"></div>
-    </div>
+    <div id="story">
+    <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
+        <p>What do you do?</p>
+        <p>1. Read the Alchemical Tome</p>
+        <p>2. Activate the Time Device</p>
+        <p>3. Wait, what is that?</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1, 2, or 3)"></div>
 
     <!-- Link to the external JavaScript file -->
     <script src="script.js"></script>
