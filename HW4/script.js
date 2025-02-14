@@ -6,20 +6,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function hideIntro() {
         console.log("Animation ended, hiding intro screen...");
-
-        // Fade out the intro animation
+    
+        let introAnimation = document.getElementById("intro-animation");
+        if (!introAnimation) return; // Ensure the element exists
+    
+        // Apply transition before setting opacity to 0
+        introAnimation.style.transition = "opacity 1s ease-out";
         introAnimation.style.opacity = "0";
-
+    
+        // After fade-out completes, remove the element
         setTimeout(() => {
-            let introAnimation = document.getElementById("intro-animation");
-            introAnimation.style.transition = "opacity 1s ease-out";
-            introAnimation.style.opacity = "0";
-        
-            setTimeout(() => {
-                introAnimation.remove(); // Completely removes the element
-            }, 1000); // Wait for fade-out to complete
-        }, 17000); // Matches animation duration
-        
+            if (introAnimation) {
+                introAnimation.remove();
+                console.log("Intro animation removed from DOM.");
+            }
+        }, 1000); // Matches the CSS transition time
+    }
+    
+    // Run `hideIntro` after 17 seconds (matching animation duration)
+    setTimeout(hideIntro, 17000);
+     
 
 
         // Apply background and show content

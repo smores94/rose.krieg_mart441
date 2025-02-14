@@ -31,18 +31,6 @@
     display: block; /* Prevents inline spacing issues */
 }
 
-/* Zoom & fade animation */
-@keyframes zoomFade {
-    0% {
-        transform: scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(2.5);
-        opacity: 0;
-    }
-}
-
 /* Hide animation after it's done */
 .hidden {
     opacity: 0;
