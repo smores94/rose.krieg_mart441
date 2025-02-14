@@ -3,84 +3,44 @@ let score = 0; // Optional: Track score if needed
 document.addEventListener("DOMContentLoaded", () => {
     let introAnimation = document.getElementById("intro-animation");
     let zoomImage = document.getElementById("zoom-image");
-
+    
+    
     function hideIntro() {
-        console.log("Animation ended, hiding intro screen...");
+    console.log("Animation ended, hiding intro screen...");
     
-        let introAnimation = document.getElementById("intro-animation");
-        if (!introAnimation) return; // Ensure the element exists
     
-        // Apply transition before setting opacity to 0
-        introAnimation.style.transition = "opacity 1s ease-out";
-        introAnimation.style.opacity = "0";
+    // Fade out the intro animation
+    introAnimation.style.opacity = "0";
     
-        // After fade-out completes, remove the element
-        setTimeout(() => {
-            if (introAnimation) {
-                introAnimation.remove();
-                console.log("Intro animation removed from DOM.");
-            }
-        }, 1000); // Matches the CSS transition time
+    
+    // Apply background and show content
+    document.body.classList.add("background-active");
+    document.querySelector("h1").style.display = "block";
+    document.getElementById("story").style.display = "block";
+    
+    
+    // Remove the intro animation from the DOM after the fade-out
+    
+    
+    setTimeout(hideIntro, 6000); // Fallback after 6 seconds
+    
+    
+    setTimeout(() => {
+        console.log("Removing intro animation from the DOM...");
+        introAnimation.remove(); // This removes the element entirely
+    }, 1000); // Wait for the fade-out to complete
     }
     
-    document.addEventListener("DOMContentLoaded", function () {
-        setTimeout(() => {
-            let introAnimation = document.getElementById("intro-animation");
     
-            if (introAnimation) {
-                console.log("Fading out intro animation...");
-    
-                // Apply fade-out effect
-                introAnimation.style.transition = "opacity 1s ease-out";
-                introAnimation.style.opacity = "0";
-    
-                // Wait for the fade-out to complete before fully removing it
-                setTimeout(() => {
-                    if (introAnimation) {
-                        introAnimation.remove(); // Fully remove from DOM
-                        console.log("Intro animation removed.");
-                    }
-                }, 1000); // Matches the CSS transition time
-            }
-        }, 17000); // Waits for the animation to complete before starting fade-out
-    });
-    
-    
-
-
-    // Run `hideIntro` after 17 seconds (matching animation duration)
-    setTimeout(hideIntro, 17000);
-     
-
-
-        // Apply background and show content
-        document.body.classList.add("background-active");
-        document.querySelector("h1").style.display = "block";
-        document.getElementById("story").style.display = "block";
-
-        // Remove the intro animation from the DOM after the fade-out
-        setTimeout(() => {
-            console.log("Removing intro animation from the DOM...");
-            introAnimation.remove(); // This removes the element entirely
-        }, 1000); // Wait for the fade-out to complete
-    }
-
     if (zoomImage) {
-        // Listen for the end of the animation
-        zoomImage.addEventListener("animationend", hideIntro);
-
-        // Fallback in case the animationend event doesn't fire
-        setTimeout(hideIntro, 4000); // Fallback after 4 seconds
-    } else {
-        // If zoomImage doesn't exist, call hideIntro immediately
-        hideIntro();
+    // Listen for the end of the animation
+    zoomImage.addEventListener("animationend", hideIntro);
+    
+    
+    // Fallback in case the animationend event doesn't fire
+    setTimeout(hideIntro, 9000); // Fallback after 4 seconds
     }
-});
-setTimeout(() => {
-    document.getElementById("intro-animation").classList.add("hidden");
-}, 17000); // Matches animation duration
-
-
+    });
 
 
 

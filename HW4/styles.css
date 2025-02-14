@@ -1,18 +1,7 @@
-@keyframes fadeOutContainer {
-    0% {
-        opacity: 1;
-        visibility: visible;
-    }
-    100% {
-        opacity: 0;
-        visibility: hidden;
-        display: none;
-    }
-}
-
+/* Fullscreen intro animation */
 #intro-animation {
     position: fixed;
-    inset: 0;
+    inset: 0; /* Shorthand for top: 0; left: 0; right: 0; bottom: 0; */
     width: 100vw;
     height: 100vh;
     background-color: rgb(12, 3, 52);
@@ -21,24 +10,7 @@
     align-items: center;
     transition: opacity 1s ease-out;
     z-index: 9999;
-    opacity: 1; /* Start fully visible */
-    animation: fadeOutContainer 18s ease-out forwards;
 }
-
-/* Ensures it is fully removed */
-.hidden {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    display: none !important;
-    pointer-events: none !important;
-}
-
-
-
-
-
-
-
 
 /* Image Centering */
 #intro-animation img {
@@ -46,9 +18,26 @@
     max-width: 80vw;
     max-height: 80vh;
     opacity: 1;
-    animation: zoomFade 17s ease-in-out forwards;
+    animation: zoomFade 22s ease-in-out forwards;
     margin: auto; /* Ensures no left alignment issues */
     display: block; /* Prevents inline spacing issues */
+}
+
+/* Zoom & fade animation */
+
+#zoom-image {
+    animation: zoomIn 6s ease-out; /* Increased from 3s to 6s */
+}
+
+@keyframes zoomFade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
 }
 
 /* Hide animation after it's done */
@@ -59,19 +48,24 @@
     display: none;
 }
 
-@keyframes fadeOutContainer {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        visibility: hidden;
-    }
+
+
+/* Body & Background */
+body {
+    font-family: 'Times New Roman', serif;
+    background-color: black; /* Prevents flickering before background loads */
+    color: white;
+    transition: background-image 1s ease-in;
 }
 
-#intro-animation {
-    animation: fadeOutContainer 18s ease-out forwards; /* Ensure it disappears after the image animation */
+/* Background Activation */
+.background-active {
+    background-image: url('./imgs/alchemistlab.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
+
 
 
 /* Body & Background */
