@@ -1,6 +1,5 @@
 // Variables
-let score = 0;
-
+let score = 0; // Optional: Track score if needed
 document.addEventListener("DOMContentLoaded", () => {
 let introAnimation = document.getElementById("intro-animation");
 let zoomImage = document.getElementById("zoom-image");
@@ -35,6 +34,8 @@ zoomImage.addEventListener("animationend", hideIntro);
 setTimeout(hideIntro, 9000); // Fallback after 4 seconds
 }
 });
+
+
 
 
 
