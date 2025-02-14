@@ -1,15 +1,5 @@
 /* Fullscreen intro animation */
-#intro-animation {
-    position: fixed;
-    inset: 0; /* Shorthand for top: 0; left: 0; right: 0; bottom: 0; */
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 1s ease-out;
-    z-index: 9999;
-}
+
 
 /* Image Centering */
 #intro-animation img {
