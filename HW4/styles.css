@@ -55,16 +55,6 @@
 
 
 
-
-
-/* Background Activation */
-.background-active {
-    background-image: url('./imgs/alchemistlab.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
 /* Header Styling */
 h1 {
     text-align: center;
