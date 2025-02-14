@@ -44,6 +44,21 @@
     display: none;
 }
 
+@keyframes fadeOutContainer {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+#intro-animation {
+    animation: fadeOutContainer 18s ease-out forwards; /* Ensure it disappears after the image animation */
+}
+
+
 /* Body & Background */
 body {
     font-family: 'Times New Roman', serif;
