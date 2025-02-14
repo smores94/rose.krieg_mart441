@@ -45,6 +45,8 @@ zoomImage.addEventListener("animationend", hideIntro);
 setTimeout(hideIntro, 9000); // Fallback after 4 seconds
 }
 });
+
+
 // Interactive Story Function
 function choose(option) {
     const storyDiv = document.getElementById('story');
@@ -430,4 +432,4 @@ You pick up the vial, the liquid inside swirling with an otherworldly light. Per
 function restart() {
     score = 0; // Reset score
     startStory();
-}
+}}
