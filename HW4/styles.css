@@ -39,6 +39,10 @@
         opacity: 0;
     }
 }
+#intro-animation {
+    transition: opacity 1s ease; /* Smooth fade-out */
+}
+
 
 /* Hide animation after it's done */
 .hidden {
