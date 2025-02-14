@@ -57,11 +57,6 @@ function choose(option) {
     let introText = "You chose: " + option + ". ";
     content += `<p>${introText}</p>`;
 
-// Function to handle user input
-function handleInput() {
-    const userInput = document.getElementById('user-input').value.trim().toLowerCase();
-    let option = userInput; // Use the raw input for nested choices
-
     // Map initial choices to options
     switch (userInput) {
         case '1':
@@ -82,10 +77,7 @@ function handleInput() {
     choose(option);
 }
 
-// Function to handle user choices
-function choose(option) {
-    const storyDiv = document.getElementById('story');
-    let content = "";
+
 }
    // Handle initial and subsequent choices
    if (option === 'book') {
