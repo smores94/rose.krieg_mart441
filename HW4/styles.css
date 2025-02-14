@@ -41,8 +41,9 @@
     display: none;
 }
 
-
-
+body {
+    background-image: none !important;
+}
 
 
 /* Background Activation */
@@ -52,6 +53,7 @@
     background-position: center;
     background-repeat: no-repeat;
 }
+
 
 
 

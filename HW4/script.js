@@ -50,6 +50,30 @@ document.addEventListener("DOMContentLoaded", () => {
         hideIntro();
     });
 
+
+    function hideIntro() {
+        console.log("Animation ended, hiding intro screen...");
+    
+        // Fade out the intro animation
+        introAnimation.style.transition = "opacity 1s ease";
+        introAnimation.style.opacity = "0";
+    
+        // Apply background and show content
+        document.body.classList.add("background-active");
+        console.log("Added .background-active class to body:", document.body.classList);
+    
+        // Show other content
+        document.querySelector("h1").style.display = "block";
+        document.getElementById("story").style.display = "block";
+    
+        // Remove the intro animation from the DOM after the fade-out
+        setTimeout(() => {
+            console.log("Removing intro animation from the DOM...");
+            introAnimation.remove();
+        }, 1000);
+    }
+
+
 // Function to handle user input
 function handleInput() {
     const userInput = document.getElementById('user-input').value.trim().toLowerCase();
