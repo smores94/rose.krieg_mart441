@@ -69,7 +69,7 @@ function choose(option) {
     let content = "";
 
    // Handle initial and subsequent choices
-   if (option === 'book') {
+   if (option === '1') {
     content = `
         <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
         <p>1. Brew the Potion</p>
@@ -122,7 +122,7 @@ function choose(option) {
                 <img src="./imgs/airship.jpg" alt="Steampunk airship">
             `;
         
-        } else if (option === 'device') {
+        } else if (option === '2') {
             score += 20;
             content = `
                 <p>You activate the time device! A vortex opens, offering two choices: Victorian London or a futuristic steampunk city.</p>
