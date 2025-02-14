@@ -23,6 +23,28 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 1000); // Matches the CSS transition time
     }
     
+    document.addEventListener("DOMContentLoaded", function () {
+        setTimeout(() => {
+            let introAnimation = document.getElementById("intro-animation");
+    
+            if (introAnimation) {
+                console.log("Fading out intro animation...");
+    
+                // Apply fade-out effect
+                introAnimation.style.transition = "opacity 1s ease-out";
+                introAnimation.style.opacity = "0";
+    
+                // Wait for the fade-out effect, then remove the element
+                setTimeout(() => {
+                    introAnimation.style.display = "none"; // Hides it completely
+                    console.log("Intro animation removed.");
+                }, 1000); // Matches CSS transition time
+            }
+        }, 17000); // Matches image animation duration
+    });
+    
+
+
     // Run `hideIntro` after 17 seconds (matching animation duration)
     setTimeout(hideIntro, 17000);
      
