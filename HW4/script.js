@@ -10,6 +10,18 @@ document.addEventListener("DOMContentLoaded", () => {
         // Fade out the intro animation
         introAnimation.style.opacity = "0";
 
+        setTimeout(() => {
+            let introAnimation = document.getElementById("intro-animation");
+            introAnimation.style.transition = "opacity 1s ease-out";
+            introAnimation.style.opacity = "0";
+        
+            setTimeout(() => {
+                introAnimation.remove(); // Completely removes the element
+            }, 1000); // Wait for fade-out to complete
+        }, 17000); // Matches animation duration
+        
+
+
         // Apply background and show content
         document.body.classList.add("background-active");
         document.querySelector("h1").style.display = "block";
