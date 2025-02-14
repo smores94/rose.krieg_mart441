@@ -33,6 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
         hideIntro();
     }
 });
+setTimeout(() => {
+    document.getElementById("intro-animation").classList.add("hidden");
+}, 17000); // Matches animation duration
 
 
 
