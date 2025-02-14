@@ -34,14 +34,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 introAnimation.style.transition = "opacity 1s ease-out";
                 introAnimation.style.opacity = "0";
     
-                // Wait for the fade-out effect, then remove the element
+                // Wait for the fade-out to complete before fully removing it
                 setTimeout(() => {
-                    introAnimation.style.display = "none"; // Hides it completely
-                    console.log("Intro animation removed.");
-                }, 1000); // Matches CSS transition time
+                    if (introAnimation) {
+                        introAnimation.remove(); // Fully remove from DOM
+                        console.log("Intro animation removed.");
+                    }
+                }, 1000); // Matches the CSS transition time
             }
-        }, 17000); // Matches image animation duration
+        }, 17000); // Waits for the animation to complete before starting fade-out
     });
+    
     
 
 
