@@ -63,9 +63,7 @@ function choose(option) {
 
 
 
-    const storyDiv = document.getElementById('story');
-
-    // First-Level Choices
+   // First-Level Choices
     if (storyDiv.innerHTML.includes("What do you do?")) {
         switch (userInput) {
             case '1':
