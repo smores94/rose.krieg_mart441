@@ -33,7 +33,7 @@ function choose(option) {
 }
 
 
-}
+
    // Handle initial and subsequent choices
    if (option === 'book') {
     content = `
@@ -379,4 +379,4 @@ You pick up the vial, the liquid inside swirling with an otherworldly light. Per
 function restart() {
     score = 0; // Reset score
     startStory();
-}}
+}
