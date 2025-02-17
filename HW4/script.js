@@ -45,17 +45,6 @@ zoomImage.addEventListener("animationend", hideIntro);
 setTimeout(hideIntro, 9000); // Fallback after 4 seconds
 }
 });
-// Interactive Story Function
-function choose(option) {
-    const storyDiv = document.getElementById('story');
-    let content = "";
-
-
-    // Example of concatenation and addition
-    let introText = "You chose: " + option + ". ";
-    content += `<p>${introText}</p>`;
-
-
 // Function to handle user input
 function handleInput() {
     const userInput = document.getElementById('user-input').value.trim().toLowerCase();
@@ -80,15 +69,29 @@ function handleInput() {
     // Call the choose function with the selected option
     choose(option);
 }
-    // Call the choose function with the selected option
-    choose(option);
-
 
 // Function to handle user choices
 function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
+
+    // Example of concatenation and addition
+    let introText = "You chose: " + option + ". ";
+    content += `<p>${introText}</p>`;
+
+    // Add additional text based on the option chosen
+    if (option === 'book') {
+        content += "<p>You open the Alchemical Tome and begin reading about ancient rituals.</p>";
+    } else if (option === 'device') {
+        content += "<p>You activate the Time Device, and the world around you starts to warp.</p>";
+    } else if (option === 'wait') {
+        content += "<p>You wait for a moment, listening to the soft hum of the workshop.</p>";
+    }
+
+    // Update the story content
+    storyDiv.innerHTML = content;
 }
+
    // Handle initial and subsequent choices
    if (option === 'book') {
     content = `
