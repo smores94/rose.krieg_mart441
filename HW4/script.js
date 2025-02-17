@@ -79,21 +79,17 @@ function handleInput() {
 
     // Call the choose function with the selected option
     choose(option);
-
-    // Clear input after submission
-    document.getElementById('user-input').value = '';
-}
+ }
 
 // Function to handle user choices
 function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
-
    
 }
 
     // Handle initial and subsequent choices
-    if (option === 'book') {
+    if (option === '1') {
         content = `
             <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
             <p>1. Brew the Potion</p>
