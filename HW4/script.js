@@ -76,7 +76,10 @@ function handleInput() {
             content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
             break;
         case '2':
-            content = "<p>You chose option 2: Activate the Time Device.</p>";
+            content = "<p>You chose option 2: Nevermind, let's xplore the Workshop</p>";
+            content = "<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>";
+            content += "1. Build the airship<p>2. 2. Sell the blueprints for gold</p>";
+            content += '<img src="./imgs/airship.jpg" alt="Steampunk airship"></img>'; // Add the image here
             break;
         case '3':
             content = "<p>You chose option 3: Wait, what is that?</p>";
@@ -85,6 +88,51 @@ function handleInput() {
             content = "<p>Invalid choice. Please enter 1, 2, or 3.</p>";
             break;
     }
+
+
+
+ // Next choice for tome
+ switch (userInput) {
+    case '1':
+        content = "<p>You chose option 1: Brew the Potion.</p>";
+        content = "<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>";
+        content += "<p>1. Use your vision to predict events</p><p>2.<p>2. Attempt to alter fate</p>";
+        content += '<img src="./imgs/potion.png" alt="Magic potion">'; // Add the image here
+        break;
+    case '2':
+        content = "<p>You chose option 2.<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>";
+        break;
+       default:
+        content = "<p>Invalid choice. Please enter 1, 2, or 3.</p>";
+        break;
+}
+
+
+
+
+
+} else if (option === 'Use your vision to predict events') {
+    content = `
+        <p>You predict the future, becoming wealthy beyond all your dreams. You are famous, loved, but always a feeling of fear surrounds you.</p>
+        <img src="./imgs/family.png" alt="Family">
+        <button onclick="restart()">Restart</button>
+    `;
+} else if (option === 'Attempt to alter fate') {
+    content = `
+        <p>You attempt to alter fate itself, but the timeline begins to unravel. A shadow looms over you as time collapses...</p>
+        <img src="./imgs/time-collapse.png" alt="Time Collapse">
+        <button onclick="restart()">Restart</button>
+    `;
+
+
+
+
+
+
+
+
+
+
 
     // Update the story content
     storyDiv.innerHTML = content;
@@ -99,38 +147,6 @@ function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
    }
-// Check the input and update the story based on the user's choice
-switch (userInput) {
-   case 1: // After reading the tome
-   if (userInput === '1') {
-       content = "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
-       content += "<p>1. Brew the Potion</p><p>2. Explore the Workshop</p>";
-       content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
-   }
-     else if (userInput === '2') {
-       content = "<p>You explore the workshop. You find a hidden door leading to a dark hallway. What will you do?</p>";
-       content += "<p>1. Enter the hallway</p><p>2. Investigate more of the workshop</p>";
-   } else {
-       content = "<p>Invalid choice. Please enter 1 or 2.</p>";
-   }
-   break;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -153,18 +169,7 @@ switch (userInput) {
             <button onclick="handleInput()">Submit</button>
             <img src="./imgs/potion.png" alt="Magic potion">
         `;
-    } else if (option === 'Use your vision to predict events') {
-        content = `
-            <p>You predict the future, becoming wealthy beyond all your dreams. You are famous, loved, but always a feeling of fear surrounds you.</p>
-            <img src="./imgs/family.png" alt="Family">
-            <button onclick="restart()">Restart</button>
-        `;
-    } else if (option === 'Attempt to alter fate') {
-        content = `
-            <p>You attempt to alter fate itself, but the timeline begins to unravel. A shadow looms over you as time collapses...</p>
-            <img src="./imgs/time-collapse.png" alt="Time Collapse">
-            <button onclick="restart()">Restart</button>
-        `;
+   
     } else if (option === 'Explore the Workshop') {
         content = `
             <p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>
