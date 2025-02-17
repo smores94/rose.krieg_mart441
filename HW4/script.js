@@ -43,6 +43,8 @@ zoomImage.addEventListener("animationend", hideIntro);
 setTimeout(hideIntro, 9000); // Fallback after 4 seconds
 }
 });
+
+
 // Function to handle user input
 function handleInput() {
     const userInput = document.getElementById('user-input').value.trim().toLowerCase();
@@ -435,4 +437,4 @@ You pick up the vial, the liquid inside swirling with an otherworldly light. Per
 function restart() {
     score = 0; // Reset score
     startStory();
-}}
+}

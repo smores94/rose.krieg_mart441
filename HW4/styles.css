@@ -84,6 +84,7 @@ h1 {
 }
 
 /* Story Box */
+/* Story Box */
 #story {
     font-size: 1.2em;
     margin: 20px auto;
@@ -92,8 +93,9 @@ h1 {
     background-color: #3b3b3b;
     border: 2px solid #d4af37;
     border-radius: 10px;
-    display: none;
+    display: none; /* Initially hidden */
 }
+
 
 
 /* Image Styling */
