@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         zoomImage.addEventListener("animationend", hideIntro);
 
         // Fallback in case the animationend event doesn't fire
-        setTimeout(hideIntro, 600); // Fallback after 4 seconds
+        setTimeout(hideIntro, 6000); // Fallback after 4 seconds
     }
 
     // Apply transition before setting opacity to 0
@@ -81,16 +81,12 @@ function choose(option) {
         }
     }
 
-    // Call the choose function with the selected option
-    choose(option);
- 
 
 // Function to handle user choices
 function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
-   
-}
+   }
 
     // Handle initial and subsequent choices
     if (option === 'book') {
