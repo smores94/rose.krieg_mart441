@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("story").style.display = "block";
 
     // Fallback in case the animationend event doesn't fire
-    setTimeout(hideIntro, 18000); // Slightly longer than the animation duration
+    setTimeout(hideIntro, 7000); // Slightly longer than the animation duration
 });
 
 // Function to handle user choices
