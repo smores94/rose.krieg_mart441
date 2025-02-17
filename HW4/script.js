@@ -1,103 +1,83 @@
 // Variables
 let score = 0;
 
-
 document.addEventListener("DOMContentLoaded", () => {
-let introAnimation = document.getElementById("intro-animation");
-let zoomImage = document.getElementById("zoom-image");
+    let introAnimation = document.getElementById("intro-animation");
+    let zoomImage = document.getElementById("zoom-image");
 
+    function hideIntro() {
+        console.log("Animation ended, hiding intro screen...");
 
-function hideIntro() {
-console.log("Animation ended, hiding intro screen...");
+        // Fade out the intro animation
+        introAnimation.style.opacity = "0";
 
+        // Apply background and show content
+        document.body.classList.add("background-active");
+        document.querySelector("h1").style.display = "block";
+        document.getElementById("story").style.display = "block";
 
-// Fade out the intro animation
-introAnimation.style.opacity = "0";
+        // Remove the intro animation from the DOM after the fade-out
+        setTimeout(() => {
+            console.log("Removing intro animation from the DOM...");
+            introAnimation.remove(); // This removes the element entirely
+        }, 7000); // Wait for the fade-out to complete
+    }
 
+    if (zoomImage) {
+        // Listen for the end of the animation
+        zoomImage.addEventListener("animationend", hideIntro);
 
-// Apply background and show content
-document.body.classList.add("background-active");
-document.querySelector("h1").style.display = "block";
-document.getElementById("story").style.display = "block";
+        // Fallback in case the animationend event doesn't fire
+        setTimeout(hideIntro, 600); // Fallback after 4 seconds
+    }
 
+    // Apply transition before setting opacity to 0
+    introAnimation.style.transition = "opacity 1s ease-out";
+    introAnimation.style.opacity = "0";
 
-// Remove the intro animation from the DOM after the fade-out
+    // After fade-out completes, remove the element
+    setTimeout(() => {
+        if (introAnimation) {
+            introAnimation.remove();
+            console.log("Intro animation removed from DOM.");
+        }
+    }, 1000); // Matches the CSS transition time
 
+    // Apply background and show content
+    document.body.classList.add("background-active");
+    document.querySelector("h1").style.display = "block";
+    document.getElementById("story").style.display = "block";
 
-setTimeout(hideIntro, 8000); // Fallback after 6 seconds
-
-
-setTimeout(() => {
-    console.log("Removing intro animation from the DOM...");
-    introAnimation.remove(); // This removes the element entirely
-}, 7000); // Wait for the fade-out to complete
-}
-
-
-if (zoomImage) {
-// Listen for the end of the animation
-zoomImage.addEventListener("animationend", hideIntro);
-
-
-// Fallback in case the animationend event doesn't fire
-setTimeout(hideIntro, 600); // Fallback after 4 seconds
-}
+    // Fallback in case the animationend event doesn't fire
+    setTimeout(hideIntro, 18000); // Slightly longer than the animation duration
 });
-  // Apply transition before setting opacity to 0
-  introAnimation.style.transition = "opacity 1s ease-out";
-  introAnimation.style.opacity = "0";
-
-  // After fade-out completes, remove the element
-  setTimeout(() => {
-      if (introAnimation) {
-          introAnimation.remove();
-          console.log("Intro animation removed from DOM.");
-      }
-  }, 1000); // Matches the CSS transition time
-
-
-
-// Apply background and show content
-document.body.classList.add("background-active");
-document.querySelector("h1").style.display = "block";
-document.getElementById("story").style.display = "block";
-
-// Fallback in case the animationend event doesn't fire
-setTimeout(hideIntro, 18000); // Slightly longer than the animation duration
-;
 
 // Function to handle user input
 function handleInput() {
     const userInput = document.getElementById('user-input').value.trim();
     let option = '';
 
-    function handleInput() {
-        const userInput = document.getElementById('user-input').value.trim();
-        let option = '';
-    
-        const storyDiv = document.getElementById('story');
-    
-        // First-Level Choices
-        if (storyDiv.innerHTML.includes("What do you do?")) {
-            switch (userInput) {
-                case '1':
-                    option = 'book';
-                    break;
-                case '2':
-                    option = 'device';
-                    break;
-                case '3':
-                    option = 'wait';
-                    break;
-                default:
-                    alert("Invalid choice. Please enter 1, 2, or 3.");
-                    return;
-            }
-        }
-// Variables
-let score = 0;
+    const storyDiv = document.getElementById('story');
 
-   // Call the choose function with the selected option
+    // First-Level Choices
+    if (storyDiv.innerHTML.includes("What do you do?")) {
+        switch (userInput) {
+            case '1':
+                option = 'book';
+                break;
+            case '2':
+                option = 'device';
+                break;
+            case '3':
+                option = 'wait';
+                break;
+            default:
+                alert("Invalid choice. Please enter 1, 2, or 3.");
+                return;
+        }
+    }
+
+    // Call the choose function with the selected option
     choose(option);
 
     // Clear input after submission
@@ -108,6 +88,9 @@ let score = 0;
 function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
+
+   
+}
 
     // Handle initial and subsequent choices
     if (option === 'book') {
@@ -348,14 +331,14 @@ You pick up the vial, the liquid inside swirling with an otherworldly light. Per
 </p>
                <img src="./imgs/vialtheend.jpg" alt="vial">
                  <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
-        }
+        
     } else {
         content = `<p>Invalid choice. Please try again.</p>`;
     }
 
     // Update the story content
     storyDiv.innerHTML = content;
-}
+
 function restart() {
     document.getElementById('story').innerHTML = `
         <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
@@ -366,4 +349,4 @@ function restart() {
         <input type="text" id="user-input" placeholder="Enter your choice (1, 2, or 3)">
         <button onclick="handleInput()">Submit</button>
     `;
-}}
+}
