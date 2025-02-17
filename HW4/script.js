@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(() => {
             console.log("Removing intro animation from the DOM...");
             introAnimation.remove(); // This removes the element entirely
-        }, 7000); // Wait for the fade-out to complete
+        }, 2000); // Wait for the fade-out to complete
     }
 
     if (zoomImage) {
