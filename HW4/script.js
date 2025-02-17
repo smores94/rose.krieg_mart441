@@ -102,17 +102,7 @@ let content = "";
 let introText = "You chose: " + option + ". ";
 content += `<p>${introText}</p>`;
 
-// Handle initial and subsequent choices
-if (option === 'book') {
-  content += `
-      <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
-      <p>1. Brew the Potion</p>
-      <p>2. Explore the Workshop</p>
-      <p>3. Wait, what is that?</p>
-      <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-      <button onclick="handleInput()">Submit</button>
-      <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
-  `;
+
 
 
     // Update the story content
