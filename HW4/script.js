@@ -54,7 +54,7 @@ setTimeout(hideIntro, 600); // Fallback after 4 seconds
           console.log("Intro animation removed from DOM.");
       }
   }, 1000); // Matches the CSS transition time
-}
+
 
 // Run `hideIntro` after 17 seconds (matching animation duration)
 setTimeout(hideIntro, 17000);
@@ -66,80 +66,112 @@ document.getElementById("story").style.display = "block";
 
 // Fallback in case the animationend event doesn't fire
 setTimeout(hideIntro, 18000); // Slightly longer than the animation duration
-});
+;
 
 // Function to handle user input
 function handleInput() {
-const userInput = document.getElementById('user-input').value.trim().toLowerCase();
-let option = userInput; // Use the raw input for nested choices
+    const userInput = document.getElementById('user-input').value.trim();
+    let option = '';
 
-// Map initial choices to options
-switch (userInput) {
-  case '1':
-      option = 'book';
-      break;
-  case '2':
-      option = 'device';
-      break;
-  case '3':
-      option = 'wait';
-      break;
-  default:
-      alert("Invalid choice. Please enter 1, 2, or 3.");
-      return;
-}
-
-// Call the choose function with the selected option
-choose(option);
-}
-
+    function handleInput() {
+        const userInput = document.getElementById('user-input').value.trim();
+        let option = '';
+    
+        const storyDiv = document.getElementById('story');
+    
+        // First-Level Choices
+        if (storyDiv.innerHTML.includes("What do you do?")) {
+            switch (userInput) {
+                case '1':
+                    option = 'book';
+                    break;
+                case '2':
+                    option = 'device';
+                    break;
+                case '3':
+                    option = 'wait';
+                    break;
+                default:
+                    alert("Invalid choice. Please enter 1, 2, or 3.");
+                    return;
+            }
+        }
+        // Second-Level Choices (Inside the Book Storyline)
+        else if (storyDiv.innerHTML.includes("A potion recipe catches your eye")) {
+            switch (userInput) {
+                case '1':
+                    option = 'Brew the Potion';
+                    break;
+                case '2':
+                    option = 'Explore the Workshop';
+                    break;
+                default:
+                    alert("Invalid choice. Please enter 1 or 2.");
+                    return;
+            }
+        }
+        // Final Choices (After Brewing Potion)
+        else if (storyDiv.innerHTML.includes("You brew a shimmering elixir")) {
+            switch (userInput) {
+                case '1':
+                    option = 'Predict Events';
+                    break;
+                case '2':
+                    option = 'Alter Fate';
+                    break;
+                default:
+                    alert("Invalid choice. Please enter 1 or 2.");
+                    return;
+            }
+        }
+    
+        // Call the choose function with the correct option
+        choose(option);
+    
+        // Clear input after submission
+        document.getElementById('user-input').value = '';
+    }
+    
 // Function to handle user choices
 function choose(option) {
-const storyDiv = document.getElementById('story');
-let content = "";
-
-// Example of concatenation and addition
-let introText = "You chose: " + option + ". ";
-content += `<p>${introText}</p>`;
-
-
-
-
-    // Update the story content
-    storyDiv.innerHTML = content;
+    const storyDiv = document.getElementById('story');
+    let content = '';
 }
-
-   // Handle initial and subsequent choices
-   if (option === 'book') {
-    content = `
-        <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
-        <p>1. Brew the Potion</p>
-        <p>2. Explore the Workshop</p>
-        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-        <button onclick="handleInput()">Submit</button>
-        <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
-    `;
-
-} else if (option === 'Brew the Potion') {
-    content = `
-        <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
-        <p>1. Use your vision to predict events</p>
-        <p>2. Attempt to alter fate</p>
-        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-        <button onclick="handleInput()">Submit</button>
-        <img src="./imgs/potion.png" alt="Magic potion">
-    `;
-
-} else if (storyDiv.innerHTML.includes("Use your vision to predict events")) {
-    // Final outcome for predicting events
-    content = `
-        <p>You predict the future, becoming wealthy beyond all your dreams.
-        You are famous, loved, but always a feeling of fear surrounds you.</p>
-        <img src="./imgs/family.png" alt="Family">
-        <button onclick="restart()">Restart</button>
-     `;
-
-
+    if (option === 'book') {
+        content = `
+            <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
+            <p>1. Brew the Potion</p>
+            <p>2. Explore the Workshop</p>
+            <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+            <button onclick="handleInput()">Submit</button>
+            <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
+        `;
+    } else if (option === 'device') {
+        content = `<p>You activate the Time Device, and the world around you starts to warp.</p>`;
+    } else if (option === 'wait') {
+        content = `<p>You wait, sensing an eerie presence in the room.</p>`;
+    } else if (option === 'Brew the Potion') {
+        content = `
+            <p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>
+            <p>1. Use your vision to predict events</p>
+            <p>2. Attempt to alter fate</p>
+            <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+            <button onclick="handleInput()">Submit</button>
+            <img src="./imgs/potion.png" alt="Magic potion">
+        `;
+    } else if (option === 'Predict Events') {
+        content = `
+            <p>You predict the future, becoming wealthy beyond all your dreams.
+            You are famous, loved, but always a feeling of fear surrounds you.</p>
+            <img src="./imgs/family.png" alt="Family">
+            <button onclick="restart()">Restart</button>
+        `;
+    } else if (option === 'Alter Fate') {
+        content = `
+            <p>You attempt to alter fate itself, but the timeline begins to unravel. A shadow looms over you as time collapses...</p>
+            <img src="./imgs/time-collapse.png" alt="Time Collapse">
+            <button onclick="restart()">Restart</button>
+        `;
     } else if (storyDiv.innerHTML.includes("Attempt to alter fate")) {
         // Final outcome for altering fate
         content = `
@@ -149,9 +181,6 @@ content += `<p>${introText}</p>`;
             <img src="./imgs/fadinghands.png" alt="hands in workshop">
             <button onclick="restart()">Restart</button>
         `;
-
-
-
 
         } else if (option === 'Explore the Workshop') {
             content = `
@@ -171,21 +200,19 @@ content += `<p>${introText}</p>`;
             <br><br>You make your peace.</p>
                    <img src="./imgs/airshipflames.jpg" alt="airship in flames">
                    <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
-  `;  
-
-} else if (option === 'Sell the blueprints for gold') {
-            score += 20;
-            content = <p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen. <br><br>
-            You decide to sell them. As you reach for your pile of gold, you feel a pain in your back.
-            <br><br>The buyer looks at you and says "It's not personal mate. But I'm not going to risk competition." He smiles. Everything begins to fade.</p>
-                   <img src="./imgs/gold.jpg" alt="gold">
-                   <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>`;
-                   <img src="./imgs/antikythera.png" alt="time device"></img>
-
+      
         
-
-
-
+}else if (option === 'Sell the blueprints for gold') {
+    score += 20;
+    content = `
+        <p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen.</p>
+        <br><br>
+        <p>You decide to sell them. As you reach for your pile of gold, you feel a pain in your back.</p>
+        <br><br>
+        <p>The buyer looks at you and says "It's not personal mate. But I'm not going to risk competition." He smiles. Everything begins to fade.</p>
+        <img src="./imgs/gold.jpg" alt="gold">
+        <button class="choice-btn restart-btn" onclick="restart()">Restart Adventure</button>
+    `;
 
 
         } else if (option === '2') {
@@ -449,9 +476,14 @@ You pick up the vial, the liquid inside swirling with an otherworldly light. Per
     // Update the story content
     storyDiv.innerHTML = content;
 }
-
-// Restart Function
 function restart() {
-    score = 0; // Reset score
-    startStory();
-}
+    document.getElementById('story').innerHTML = `
+        <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
+        <p>What do you do?</p>
+        <p>1. Read the Alchemical Tome</p>
+        <p>2. Activate the Time Device</p>
+        <p>3. Wait, what is that?</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1, 2, or 3)">
+        <button onclick="handleInput()">Submit</button>
+    `;
+}}
