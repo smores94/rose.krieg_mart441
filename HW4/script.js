@@ -67,63 +67,24 @@ function handleInput() {
     const storyDiv = document.getElementById('story'); // Get the story div
     let content = "";
 
-   // Function to handle user input
-function handleInput() {
-    const userInput = document.getElementById('user-input').value.trim().toLowerCase();
-    let content = "";
-
     // Check the input and update the story based on the user's choice
     switch (userInput) {
         case '1':
-            content = `
-                <p>You chose option 1: Read the Alchemical Tome.</p>
-                <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
-                <p>1. Brew the Potion</p>
-                <p>2. Nevermind, let's explore the Workshop</p>
-                <img src="./imgs/corpushermetic.jpg" alt="Alchemy book">
-                <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-                <button onclick="handleInput()">Submit</button>
-            `;
+            content = "<p>You chose option 1: Read the Alchemical Tome.</p>";
+            content = "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
+            content += "<p>1. Brew the Potion</p><p>2. Nevermind, let's xplore the Workshop</p>";
+            content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
             break;
         case '2':
-            content = `
-                <p>You chose option 2: Activate the Time Device.</p>
-                <p>The device hums to life, and a portal opens. Where will you go?</p>
-                <p>1. Travel to Victorian London</p>
-                <p>2. Enter the Steampunk Metropolis</p>
-                <img src="./imgs/antikythera.png" alt="Time Device">
-                <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-                <button onclick="handleInput()">Submit</button>
-            `;
+            content = "<p>You chose option 2: Activate the Time Device.</p>";
             break;
         case '3':
-            content = `
-                <p>You chose option 3: Wait and observe.</p>
-                <p>As you wait, a mysterious figure appears. What will you do?</p>
-                <p>1. Approach the figure</p>
-                <p>2. Stay hidden</p>
-                <img src="./imgs/cleothealchemist.jpg" alt="Mysterious Figure">
-                <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-                <button onclick="handleInput()">Submit</button>
-            `;
+            content = "<p>You chose option 3: Wait, what is that?</p>";
             break;
         default:
-            content = `<p>Invalid choice. Please enter 1, 2, or 3.</p>`;
+            content = "<p>Invalid choice. Please enter 1, 2, or 3.</p>";
             break;
     }
-
-    // Update the story content
-    const storyDiv = document.getElementById('story');
-    storyDiv.innerHTML = content;
-
-    // Clear input after submission
-    document.getElementById('user-input').value = '';
-}
-
-
-
-// Start the story
-startStory();
 
     // Update the story content
     storyDiv.innerHTML = content;
