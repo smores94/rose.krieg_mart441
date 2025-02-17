@@ -61,29 +61,37 @@ function choose(option) {
    let introText = "You chose: " + option + ". ";
    content += `<p>${introText}</p>`;
 
+// Function to handle user input and choices
+function handleInput() {
+    const userInput = document.getElementById('user-input').value.trim(); // Get the input value
+    const storyDiv = document.getElementById('story'); // Get the story div
+    let content = "";
 
-
-   // First-Level Choices
-    if (storyDiv.innerHTML.includes("What do you do?")) {
-        switch (userInput) {
-            case '1':
-                option = 'book';
-                break;
-            case '2':
-                option = 'device';
-                break;
-            case '3':
-                option = 'wait';
-                break;
-            default:
-                alert("Invalid choice. Please enter 1, 2, or 3.");
-                return;
-        }
+    // Check the input and update the story based on the user's choice
+    switch (userInput) {
+        case '1':
+            content = "<p>You chose option 1: Read the Alchemical Tome.</p>";
+            break;
+        case '2':
+            content = "<p>You chose option 2: Activate the Time Device.</p>";
+            break;
+        case '3':
+            content = "<p>You chose option 3: Wait, what is that?</p>";
+            break;
+        default:
+            content = "<p>Invalid choice. Please enter 1, 2, or 3.</p>";
+            break;
     }
-    // Call the choose function with the selected option
-    choose(option);
 
-// Function to handle user choices
+    // Update the story content
+    storyDiv.innerHTML = content;
+
+    // Clear the input after submission
+    document.getElementById('user-input').value = '';
+}
+
+
+   // Function to handle user choices
 function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
