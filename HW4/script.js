@@ -97,7 +97,7 @@ function handleInput() {
 // Variables
 let score = 0;
 
-// Function to handle user input
+// // Function to handle user input
 function handleInput() {
     const userInput = document.getElementById('user-input').value.trim().toLowerCase();
     let option = userInput; // Use the raw input for nested choices
@@ -118,7 +118,8 @@ function handleInput() {
             return;
     }
 
-    // Call the choose function with the selected option
+
+   // Call the choose function with the selected option
     choose(option);
 
     // Clear input after submission
