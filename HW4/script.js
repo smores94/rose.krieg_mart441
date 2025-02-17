@@ -68,9 +68,6 @@ function handleInput() {
             case '2':
                 option = 'device';
                 break;
-            case '3':
-                option = 'wait';
-                break;
             default:
                 alert("Invalid choice. Please enter 1, 2, or 3.");
                 return;
@@ -89,7 +86,7 @@ function choose(option) {
 }
 
     // Handle initial and subsequent choices
-    if (option === '1') {
+    if (option === 'book') {
         content = `
             <p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>
             <p>1. Brew the Potion</p>
