@@ -95,20 +95,6 @@ h1 {
     display: none;
 }
 
-/* Choice Buttons */
-.choice-btn {
-    display: block;
-    margin: 10px auto;
-    padding: 10px 20px;
-    font-size: 1.2em;
-    background-color: #55a7ef;
-    border: none;
-    cursor: pointer;
-}
-
-.choice-btn:hover {
-    background-color: #b08e2d;
-}
 
 /* Image Styling */
 img {
