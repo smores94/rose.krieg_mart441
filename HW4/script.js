@@ -80,7 +80,8 @@ function choose(option) {
                 return;
         }
     }
-
+    // Call the choose function with the selected option
+    choose(option);
 
 // Function to handle user choices
 function choose(option) {
