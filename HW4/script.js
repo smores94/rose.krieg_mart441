@@ -71,6 +71,9 @@ function handleInput() {
     switch (userInput) {
         case '1':
             content = "<p>You chose option 1: Read the Alchemical Tome.</p>";
+            content = "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
+            content += "<p>1. Brew the Potion</p><p>2. Explore the Workshop</p>";
+            content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
             break;
         case '2':
             content = "<p>You chose option 2: Activate the Time Device.</p>";
