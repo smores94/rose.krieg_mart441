@@ -3,7 +3,6 @@ let score = 0; // Optional: Track score if needed
 
 document.addEventListener("DOMContentLoaded", () => {
     let introAnimation = document.getElementById("intro-animation");
-    let zoomImage = document.getElementById("zoom-image");
 
     // Function to hide the intro animation
     function hideIntro() {
@@ -33,13 +32,14 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("story").style.display = "block";
 
     // Fallback in case the animationend event doesn't fire
-    setTimeout(hideIntro, 4000); // Fallback after 4 seconds
+    setTimeout(hideIntro, 18000); // Slightly longer than the animation duration
+});
 
     // If zoomImage doesn't exist, call hideIntro immediately
     if (!zoomImage) {
         hideIntro();
     }
-});
+;
     
     // Run `hideIntro` after 17 seconds (matching animation duration)
     setTimeout(hideIntro, 17000);
