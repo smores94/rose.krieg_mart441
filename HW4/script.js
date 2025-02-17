@@ -68,6 +68,9 @@ function handleInput() {
             case '2':
                 option = 'device';
                 break;
+            case '3':
+                option = 'wait';
+                break;
             default:
                 alert("Invalid choice. Please enter 1, 2, or 3.");
                 return;
