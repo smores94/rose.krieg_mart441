@@ -2,49 +2,6 @@
 let score = 0;
 
 
-
-
-document.addEventListener("DOMContentLoaded", () => {
-let introAnimation = document.getElementById("intro-animation");
-let zoomImage = document.getElementById("zoom-image");
-
-
-function hideIntro() {
-console.log("Animation ended, hiding intro screen...");
-
-
-// Fade out the intro animation
-introAnimation.style.opacity = "0";
-
-
-// Apply background and show content
-document.body.classList.add("background-active");
-document.querySelector("h1").style.display = "block";
-document.getElementById("story").style.display = "block";
-
-
-// Remove the intro animation from the DOM after the fade-out
-
-
-
-setTimeout(() => {
-    console.log("Removing intro animation from the DOM...");
-    introAnimation.remove(); // This removes the element entirely
-}, 1000); // Wait for the fade-out to complete
-}
-
-
-if (zoomImage) {
-// Listen for the end of the animation
-zoomImage.addEventListener("animationend", hideIntro);
-
-
-// Fallback in case the animationend event doesn't fire
-setTimeout(hideIntro, 9000); // Fallback after 4 seconds
-}
-});
-
-
 // Interactive Story Function
 function choose(option) {
     const storyDiv = document.getElementById('story');
