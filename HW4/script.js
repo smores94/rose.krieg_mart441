@@ -2,8 +2,6 @@
 let score = 0;
 
 
-
-
 document.addEventListener("DOMContentLoaded", () => {
 let introAnimation = document.getElementById("intro-animation");
 let zoomImage = document.getElementById("zoom-image");
