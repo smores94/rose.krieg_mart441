@@ -7,9 +7,13 @@
     transition: opacity 1s ease-out; /* Smooth fade */
 }
 
-.background-active {
-    background: url('your-background-image.jpg') no-repeat center center fixed;
-    background-size: cover;
+body {
+    background-image: url('./imgs/alchemistlab.jpg'); /* Replace with your image file */
+    background-size: cover; /* Ensures it covers the full screen */
+    background-position: center;
+    background-attachment: fixed; /* Keeps it stable while scrolling */
+    background-repeat: no-repeat;
+    transition: background 1s ease-in-out; /* Smooth transition when intro is removed */
 }
 
 
