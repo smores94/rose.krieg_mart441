@@ -52,10 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(hideIntro, 18000); // Slightly longer than the animation duration
 });
 
-// Function to handle user input
-function handleInput() {
-    const userInput = document.getElementById('user-input').value.trim();
-    let option = '';
+// Function to handle user choices
+function choose(option) {
+    const storyDiv = document.getElementById('story');
+    let content = "";}
+
+   // Example of concatenation and addition
+   let introText = "You chose: " + option + ". ";
+   content += `<p>${introText}</p>`;
+
+
 
     const storyDiv = document.getElementById('story');
 
@@ -79,7 +85,7 @@ function handleInput() {
 
     // Call the choose function with the selected option
     choose(option);
- }
+ 
 
 // Function to handle user choices
 function choose(option) {
