@@ -1,16 +1,56 @@
 // Variables
-let score = 0;
+let score = 0; // Optional: Track score if needed
+
+document.addEventListener("DOMContentLoaded", () => {
+    let introAnimation = document.getElementById("intro-animation");
+    let zoomImage = document.getElementById("zoom-image");
+
+    // Function to hide the intro animation
+    function hideIntro() {
+        console.log("Animation ended, hiding intro screen...");
+
+        if (!introAnimation) return; // Ensure the element exists
+
+        // Apply transition before setting opacity to 0
+        introAnimation.style.transition = "opacity 1s ease-out";
+        introAnimation.style.opacity = "0";
+
+        // After fade-out completes, remove the element
+        setTimeout(() => {
+            if (introAnimation) {
+                introAnimation.remove();
+                console.log("Intro animation removed from DOM.");
+            }
+        }, 1000); // Matches the CSS transition time
+    }
+
+    // Run `hideIntro` after 17 seconds (matching animation duration)
+    setTimeout(hideIntro, 17000);
+
+    // Apply background and show content
+    document.body.classList.add("background-active");
+    document.querySelector("h1").style.display = "block";
+    document.getElementById("story").style.display = "block";
+
+    // Fallback in case the animationend event doesn't fire
+    setTimeout(hideIntro, 4000); // Fallback after 4 seconds
+
+    // If zoomImage doesn't exist, call hideIntro immediately
+    if (!zoomImage) {
+        hideIntro();
+    }
+});
+    
+    // Run `hideIntro` after 17 seconds (matching animation duration)
+    setTimeout(hideIntro, 17000);
+     
+     
 
 
-// Interactive Story Function
-function choose(option) {
-    const storyDiv = document.getElementById('story');
-    let content = "";
-
-
-    // Example of concatenation and addition
-    let introText = "You chose: " + option + ". ";
-    content += `<p>${introText}</p>`;
+// Function to handle user input
+function handleInput() {
+    const userInput = document.getElementById('user-input').value.trim().toLowerCase();
+    let option = userInput; // Use the raw input for nested choices
 
     // Map initial choices to options
     switch (userInput) {
@@ -31,9 +71,15 @@ function choose(option) {
     // Call the choose function with the selected option
     choose(option);
 }
+    // Call the choose function with the selected option
+    choose(option);
 
 
-
+// Function to handle user choices
+function choose(option) {
+    const storyDiv = document.getElementById('story');
+    let content = "";
+}
    // Handle initial and subsequent choices
    if (option === 'book') {
     content = `

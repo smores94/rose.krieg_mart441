@@ -1,7 +1,56 @@
+/* Fullscreen intro animation */
+#intro-animation {
+    position: fixed;
+    inset: 0; /* Shorthand for top: 0; left: 0; right: 0; bottom: 0; */
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(12, 3, 52);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease-out;
+    z-index: 9999;
+    opacity: 1; /* Ensure the container is fully visible initially */
+}
 
+/* Image Centering */
+#intro-animation img {
+    width: 500px;
+    max-width: 80vw;
+    max-height: 80vh;
+    opacity: 1;
+    animation: zoomFade 17s ease-in-out forwards;
+    margin: auto; /* Ensures no left alignment issues */
+    display: block; /* Prevents inline spacing issues */
+}
 
+/* Zoom & fade animation */
+@keyframes zoomFade {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
 
+/* Hide animation after it's done */
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    display: none;
+}
 
+/* Body & Background */
+body {
+    font-family: 'Times New Roman', serif;
+    background-color: black; /* Prevents flickering before background loads */
+    color: white;
+    transition: background-image 1s ease-in;
+}
 
 /* Background Activation */
 .background-active {
@@ -57,3 +106,4 @@ img {
     height: auto;
     margin-top: 20px;
 }
+
