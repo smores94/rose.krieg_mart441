@@ -97,6 +97,39 @@ function choose(option) {
     let content = "";
    }
 
+   case 1: // After reading the tome
+   if (userInput === '1') {
+       content = "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
+       content += "<p>1. Brew the Potion</p><p>2. Explore the Workshop</p>";
+       content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
+   }
+     else if (userInput === '2') {
+       content = "<p>You explore the workshop. You find a hidden door leading to a dark hallway. What will you do?</p>";
+       content += "<p>1. Enter the hallway</p><p>2. Investigate more of the workshop</p>";
+   } else {
+       content = "<p>Invalid choice. Please enter 1 or 2.</p>";
+   }
+   break;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Handle initial and subsequent choices
     if (option === 'book') {
         content = `
