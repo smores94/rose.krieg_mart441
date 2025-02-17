@@ -72,21 +72,6 @@ function handleInput() {
     const userInput = document.getElementById('user-input').value.trim().toLowerCase();
     let content = "";
 
-// Initialize the story
-function startStory() {
-    const storyDiv = document.getElementById('story');
-    storyDiv.innerHTML = `
-        <p>Welcome to the adventure! You are an explorer searching for the lost treasure of Atlantis. Choose your path wisely.</p>
-        <p>1. Read the Alchemical Tome</p>
-        <p>2. Activate the Time Device</p>
-        <p>3. Wait - What's that?</p>
-        <input type="text" id="user-input" placeholder="Enter your choice (1, 2, or 3)">
-        <button onclick="handleInput()">Submit</button>
-    `;
-}
-
-
-
     // Check the input and update the story based on the user's choice
     switch (userInput) {
         case '1':
