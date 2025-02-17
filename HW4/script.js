@@ -96,7 +96,8 @@ function choose(option) {
     const storyDiv = document.getElementById('story');
     let content = "";
    }
-
+// Check the input and update the story based on the user's choice
+switch (userInput) {
    case 1: // After reading the tome
    if (userInput === '1') {
        content = "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
@@ -387,4 +388,4 @@ function restart() {
         <input type="text" id="user-input" placeholder="Enter your choice (1, 2, or 3)">
         <button onclick="handleInput()">Submit</button>
     `;
-}
+}}
