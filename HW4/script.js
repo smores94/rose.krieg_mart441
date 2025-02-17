@@ -24,13 +24,13 @@ document.getElementById("story").style.display = "block";
 // Remove the intro animation from the DOM after the fade-out
 
 
-setTimeout(hideIntro, 6000); // Fallback after 6 seconds
+setTimeout(hideIntro, 8000); // Fallback after 6 seconds
 
 
 setTimeout(() => {
     console.log("Removing intro animation from the DOM...");
     introAnimation.remove(); // This removes the element entirely
-}, 1000); // Wait for the fade-out to complete
+}, 7000); // Wait for the fade-out to complete
 }
 
 
@@ -56,8 +56,6 @@ setTimeout(hideIntro, 600); // Fallback after 4 seconds
   }, 1000); // Matches the CSS transition time
 
 
-// Run `hideIntro` after 17 seconds (matching animation duration)
-setTimeout(hideIntro, 17000);
 
 // Apply background and show content
 document.body.classList.add("background-active");
