@@ -10,7 +10,6 @@
     align-items: center;
     transition: opacity 1s ease-out;
     z-index: 9999;
-    opacity: 1; /* Ensure the container is fully visible initially */
 }
 
 /* Image Centering */
@@ -19,12 +18,17 @@
     max-width: 80vw;
     max-height: 80vh;
     opacity: 1;
-    animation: zoomFade 17s ease-in-out forwards;
+    animation: zoomFade 22s ease-in-out forwards;
     margin: auto; /* Ensures no left alignment issues */
     display: block; /* Prevents inline spacing issues */
 }
 
 /* Zoom & fade animation */
+
+#zoom-image {
+    animation: zoomIn 6s ease-out; /* Increased from 3s to 6s */
+}
+
 @keyframes zoomFade {
     0% {
         transform: scale(1);
@@ -41,8 +45,10 @@
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
-    /* Remove display: none */
+    display: none;
 }
+
+
 
 /* Body & Background */
 body {
@@ -106,4 +112,3 @@ img {
     height: auto;
     margin-top: 20px;
 }
-

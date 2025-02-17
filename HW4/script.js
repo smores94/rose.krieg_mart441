@@ -1,50 +1,59 @@
 // Variables
-let score = 0; // Optional: Track score if needed
+let score = 0;
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
-    let introAnimation = document.getElementById("intro-animation");
+let introAnimation = document.getElementById("intro-animation");
+let zoomImage = document.getElementById("zoom-image");
 
-    // Function to hide the intro animation
-    function hideIntro() {
-        console.log("Animation ended, hiding intro screen...");
 
-        if (!introAnimation) return; // Ensure the element exists
+function hideIntro() {
+console.log("Animation ended, hiding intro screen...");
 
-        // Apply transition before setting opacity to 0
-        introAnimation.style.transition = "opacity 1s ease-out";
-        introAnimation.style.opacity = "0";
 
-        // After fade-out completes, remove the element
-        setTimeout(() => {
-            if (introAnimation) {
-                introAnimation.remove();
-                console.log("Intro animation removed from DOM.");
-            }
-        }, 1000); // Matches the CSS transition time
-    }
+// Fade out the intro animation
+introAnimation.style.opacity = "0";
 
-    // Run `hideIntro` after 17 seconds (matching animation duration)
-    setTimeout(hideIntro, 17000);
 
-    // Apply background and show content
-    document.body.classList.add("background-active");
-    document.querySelector("h1").style.display = "block";
-    document.getElementById("story").style.display = "block";
+// Apply background and show content
+document.body.classList.add("background-active");
+document.querySelector("h1").style.display = "block";
+document.getElementById("story").style.display = "block";
 
-    // Fallback in case the animationend event doesn't fire
-    setTimeout(hideIntro, 18000); // Slightly longer than the animation duration
+
+// Remove the intro animation from the DOM after the fade-out
+
+
+setTimeout(hideIntro, 6000); // Fallback after 6 seconds
+
+
+setTimeout(() => {
+    console.log("Removing intro animation from the DOM...");
+    introAnimation.remove(); // This removes the element entirely
+}, 1000); // Wait for the fade-out to complete
+}
+
+
+if (zoomImage) {
+// Listen for the end of the animation
+zoomImage.addEventListener("animationend", hideIntro);
+
+
+// Fallback in case the animationend event doesn't fire
+setTimeout(hideIntro, 9000); // Fallback after 4 seconds
+}
 });
+// Interactive Story Function
+function choose(option) {
+    const storyDiv = document.getElementById('story');
+    let content = "";
 
-    // If zoomImage doesn't exist, call hideIntro immediately
-    if (!zoomImage) {
-        hideIntro();
-    }
-;
-    
-    // Run `hideIntro` after 17 seconds (matching animation duration)
-    setTimeout(hideIntro, 17000);
-     
-     
+
+    // Example of concatenation and addition
+    let introText = "You chose: " + option + ". ";
+    content += `<p>${introText}</p>`;
 
 
 // Function to handle user input
@@ -425,4 +434,4 @@ You pick up the vial, the liquid inside swirling with an otherworldly light. Per
 function restart() {
     score = 0; // Reset score
     startStory();
-}
+}}
