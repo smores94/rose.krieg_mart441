@@ -22,7 +22,7 @@ body {
     max-width: 80vw;
     max-height: 80vh;
     opacity: 1;
-    animation: zoomFade 22s ease-in-out forwards;
+    animation: zoomFade 10s ease-in-out forwards;
     margin: auto; /* Ensures no left alignment issues */
     display: block; /* Prevents inline spacing issues */
 }
