@@ -52,19 +52,19 @@ function handleInput() {
         case '2':
             content += "<p>You chose option 2: Activate the Time Device.</p>";
             content += "<p>You activate the Time Device, and the world around you starts to warp. A vortex opens, offering two choices:</p>";
-            content += "<p>1. Travel to Victorian London</p><p>2. Enter the Steampunk Metropolis</p>";
+            content += "<p>1d. Travel to Victorian London</p><p>2d. Enter the Steampunk Metropolis</p>";
             content += '<img src="./imgs/antikythera.png" alt="Time Device">'; // Add the image here
             break;
         case '1a': // Brew Potion (follow-up choice)
             content += "<p>You chose to brew the potion.</p>";
             content += "<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>";
-            content += "<p>1. Use your vision to predict events</p><p>2. Attempt to alter fate</p>";
+            content += "<p>1b. Use your vision to predict events</p><p>2b. Attempt to alter fate</p>";
             content += '<img src="./imgs/potion.png" alt="Magic potion">'; // Add the image here
             break;
         case '2a': // Explore Workshop (follow-up choice)
             content += "<p>You chose to explore the Workshop.</p>";
             content += "<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>";
-            content += "<p>1. Build the airship</p><p>2. Sell the blueprints for gold</p>";
+            content += "<p>1c. Build the airship</p><p>2c. Sell the blueprints for gold</p>";
             content += '<img src="./imgs/airship.jpg" alt="Steampunk airship">'; // Add the image here
             break;
         case '1b':
@@ -90,19 +90,19 @@ function handleInput() {
         case '1d':
             content = "<p>You chose to Travel to Victorian London</p>";
             content += "<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>";
-            content += "<p>1. Join the secret society</p><p>2. Oppose them and uncover their secrets</p>";
+            content += "<p>1e. Join the secret society</p><p>2e. Oppose them and uncover their secrets</p>";
             content += '<img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">';
             break;
         case '2d':
             content = "<p>You chose to Enter the Steampunk Metropolis</p>";
             content += "<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>";
-            content += "<p>1. Accept the mission</p><p>2. Decline and explore the city.</p>";
+            content += "<p>1h. Accept the mission</p><p>2h. Decline and explore the city.</p>";
             content += '<img src="./imgs/maskedman.jpg" alt="Steampunk city">';
             break;
         case '1e':
             content = "<p>You chose to Join the secret society</p>";
             content += "<p>The Invitation London, 1887...</p>";
-            content += "<p>1. Lift the veil</p><p>2. Change your mind</p>";
+            content += "<p>1f. Lift the veil</p><p>2f. Change your mind</p>";
             content += '<img src="./imgs/letter.jpg" alt="The Invitation">';
             break;
         case '2e':
@@ -123,13 +123,13 @@ function handleInput() {
         case '2g':
             content = "<p>You chose to Enter the Steampunk Metropolis</p>";
             content += "<p>The metropolis is alive with steam-powered automatons...</p>";
-            content += "<p>1. Accept the mission</p><p>2. Decline and explore the city.</p>";
+            content += "<p>1h. Accept the mission</p><p>2h. Decline and explore the city.</p>";
             content += '<img src="./imgs/maskedman.jpg" alt="Steampunk city">';
             break;
         case '1h':
             content = "<p>You chose option 1: Accept the mission</p>";
             content += "<p>You nod, curiosity and excitement bubbling within you...</p>";
-            content += "<p>1. The Crystal Glows Dark</p><p>2. The Crystal Glows Golden</p>";
+            content += "<p>1i. The Crystal Glows Dark</p><p>2i. The Crystal Glows Golden</p>";
             content += '<img src="./imgs/clockworkcrystal.jpg" alt="clockwork crystal">';
             break;
         case '2h':
