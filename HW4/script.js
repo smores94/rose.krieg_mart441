@@ -35,55 +35,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 1000); // Wait for the fade-out to complete
 });
 
-// Function to handle user choices
-function choose(option) {
-    const storyDiv = document.getElementById('story');
-    let content = "";
+        // Function to handle user input and choices
+        function handleInput() {
+            const userInput = document.getElementById('user-input').value.trim(); // Get the input value
+            const storyDiv = document.getElementById('story'); // Get the story div
+            let content = "";
 
-    // Example of concatenation and addition
-    let introText = "You chose: " + option + ". ";
-    content += `<p>${introText}</p>`;
-
-    // Update the story content
-    storyDiv.innerHTML = content;
-}
-
-// Function to handle user input and choices
-function handleInput() {
-    const userInput = document.getElementById('user-input').value.trim(); // Get the input value
-    const storyDiv = document.getElementById('story'); // Get the story div
-    let content = "";
-
-    // Check the input and update the story based on the user's choice
-    switch (userInput) {
-        case '1':
-            content += "<p>You chose option 1: Read the Alchemical Tome.</p>";
-            content += "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
-            content += "<p>1. Brew the Potion</p><p>2. Nevermind, let's explore the Workshop</p>";
-            content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
-            break;
-        case '2':
-            content += "<p>You chose option 2: Activate the Time Device.</p>";
-            content += "<p>You activate the Time Device, and the world around you starts to warp. A vortex opens, offering two choices:</p>";
-            content += "<p>1. Travel to Victorian London</p><p>2. Enter the Steampunk Metropolis</p>";
-            content += '<img src="./imgs/antikythera.png" alt="Time Device">'; // Add the image here
-            break;
-        case '1a': // Brew Potion (follow-up choice)
-            content += "<p>You chose to brew the potion.</p>";
-            content += "<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>";
-            content += "<p>1. Use your vision to predict events</p><p>2. Attempt to alter fate</p>";
-            content += '<img src="./imgs/potion.png" alt="Magic potion">'; // Add the image here
-            break;
-        case '2a': // Explore Workshop (follow-up choice)
-            content += "<p>You chose to explore the Workshop.</p>";
-            content += "<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>";
-            content += "<p>1. Build the airship</p><p>2. Sell the blueprints for gold</p>";
-            content += '<img src="./imgs/airship.jpg" alt="Steampunk airship">'; // Add the image here
-            break;
-        default:
-            content += "<p>Invalid choice. Please enter 1 or 2.</p>";
-            break;
-    }
+            // Check the input and update the story based on the user's choice
+            switch (userInput) {
+                case '1':
+                    content += "<p>You chose option 1: Read the Alchemical Tome.</p>";
+                    content += "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
+                    content += "<p>1. Brew the Potion</p><p>2. Nevermind, let's explore the Workshop</p>";
+                    content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
+                    break;
+                case '2':
+                    content += "<p>You chose option 2: Activate the Time Device.</p>";
+                    content += "<p>You activate the Time Device, and the world around you starts to warp. A vortex opens, offering two choices:</p>";
+                    content += "<p>1. Travel to Victorian London</p><p>2. Enter the Steampunk Metropolis</p>";
+                    content += '<img src="./imgs/antikythera.png" alt="Time Device">'; // Add the image here
+                    break;
+                case '1a': // Brew Potion (follow-up choice)
+                    content += "<p>You chose to brew the potion.</p>";
+                    content += "<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>";
+                    content += "<p>1. Use your vision to predict events</p><p>2. Attempt to alter fate</p>";
+                    content += '<img src="./imgs/potion.png" alt="Magic potion">'; // Add the image here
+                    break;
+                case '2a': // Explore Workshop (follow-up choice)
+                    content += "<p>You chose to explore the Workshop.</p>";
+                    content += "<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>";
+                    content += "<p>1. Build the airship</p><p>2. Sell the blueprints for gold</p>";
+                    content += '<img src="./imgs/airship.jpg" alt="Steampunk airship">'; // Add the image here
+                    break;
+                default:
+                    content += "<p>Invalid choice. Please enter 1 or 2.</p>";
+                    break;
+            }
 // Next choice for Predict the Future
 switch (userInput) {
     case '1b':
@@ -217,9 +204,16 @@ switch (userInput) {
     default:
         content = "<p>Invalid choice. Please enter 1 or 2.</p>";
 }
+// Update the story div with the new content
+storyDiv.innerHTML = content;
 
-// Update the story content
-document.getElementById('story').innerHTML = content;
+// Clear input after submission
+document.getElementById('user-input').value = '';
+}
+
+// Attach event listener to the submit button
+document.getElementById('submit-button').addEventListener('click', handleInput);
+
 
 // Clear the input after submission
 document.getElementById('user-input').value = '';
