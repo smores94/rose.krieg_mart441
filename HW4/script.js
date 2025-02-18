@@ -154,30 +154,23 @@ function handleInput() {
 
     // Display the content in the storyDiv
     storyDiv.innerHTML = content;
+
+    // Clear input after submission
+    document.getElementById('user-input').value = '';
 }
 
-// Attach event listener to the submit button
-document.getElementById('submit-button').addEventListener('click', handleInput);
-
-document.getElementById("story").innerHTML = content;
-
-
-// Update the story div with the new content
-storyDiv.innerHTML = content;
-
-// Clear input after submission
-document.getElementById('user-input').value = '';
-
-
-
-
+// Restart function
 function restart() {
-document.getElementById('story').innerHTML = `
-    <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
-    <p>What do you do?</p>
-    <p>1. Read the Alchemical Tome</p>
-    <p>2. Activate the Time Device</p>
-    <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
-    <button onclick="handleInput()">Submit</button>
-`;
+    const storyDiv = document.getElementById('story');
+    storyDiv.innerHTML = `
+        <p>You awaken in a dimly lit workshop, gears whirring around you. On the desk, an ancient alchemical tome and a brass time device hum with energy.</p>
+        <p>What do you do?</p>
+        <p>1. Read the Alchemical Tome</p>
+        <p>2. Activate the Time Device</p>
+        <input type="text" id="user-input" placeholder="Enter your choice (1 or 2)">
+        <button id="submit-button">Submit</button>
+    `;
+
+    // Reattach event listener to the new submit button
+    document.getElementById('submit-button').addEventListener('click', handleInput);
 }
