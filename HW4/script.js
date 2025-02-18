@@ -54,102 +54,100 @@ function handleInput() {
     const storyDiv = document.getElementById('story'); // Get the story div
     let content = "";
 
-  // Check the input and update the story based on the user's choice
-  switch (userInput) {
-    case '1':
-        content = "<p>You chose option 1: Read the Alchemical Tome.</p>";
-        content = "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
-        content += "<p>1. Brew the Potion</p> 2. Nevermind, let's explore the Workshop</p>";
-        content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
-        break;
+    // Check the input and update the story based on the user's choice
+    switch (userInput) {
+        case '1':
+            content += "<p>You chose option 1: Read the Alchemical Tome.</p>";
+            content += "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
+            content += "<p>1. Brew the Potion</p><p>2. Nevermind, let's explore the Workshop</p>";
+            content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
+            break;
         case '2':
-            content = "<p>You chose option 2: Activate the Time Device</p>";
-            content = "<p>You activate the Time Device, and the world around you starts to warp. A vortex opens, offering two choices:</p>";
-            content += "1. Travel to Victorian London 2. Enter the Steampunk Metropolis</p>";
-            content += '<img src="./imgs/antikythera.png" alt="Time Device"></img>'; // Add the image here
-            break;  
+            content += "<p>You chose option 2: Activate the Time Device.</p>";
+            content += "<p>You activate the Time Device, and the world around you starts to warp. A vortex opens, offering two choices:</p>";
+            content += "<p>1. Travel to Victorian London</p><p>2. Enter the Steampunk Metropolis</p>";
+            content += '<img src="./imgs/antikythera.png" alt="Time Device">'; // Add the image here
+            break;
+        case '1a': // Brew Potion (follow-up choice)
+            content += "<p>You chose to brew the potion.</p>";
+            content += "<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>";
+            content += "<p>1. Use your vision to predict events</p><p>2. Attempt to alter fate</p>";
+            content += '<img src="./imgs/potion.png" alt="Magic potion">'; // Add the image here
+            break;
+        case '2a': // Explore Workshop (follow-up choice)
+            content += "<p>You chose to explore the Workshop.</p>";
+            content += "<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>";
+            content += "<p>1. Build the airship</p><p>2. Sell the blueprints for gold</p>";
+            content += '<img src="./imgs/airship.jpg" alt="Steampunk airship">'; // Add the image here
+            break;
+        default:
+            content += "<p>Invalid choice. Please enter 1 or 2.</p>";
+            break;
+    }
+// Next choice for Predict the Future
+switch (userInput) {
+    case '1b':
+        content = "<p>You chose to Use your vision to predict events</p>";
+        content += "<p>You predict the future, becoming wealthy beyond all your dreams. You are famous, loved, but always a feeling of fear surrounds you.</p>";
+        content += '<img src="./imgs/family.png" alt="Family">';
+        break;
+    case '2b':
+        content = "<p>You chose option 2: Attempt to alter fate</p>";
+        content += "<p>You attempt to alter fate itself, but the timeline begins to unravel. A shadow looms over you as time collapses... you begin to disappear.</p>";
+        content += '<img src="./imgs/fadinghands.png" alt="Fading">';
+        break;
     default:
         content = "<p>Invalid choice. Please enter 1 or 2.</p>";
-        break;
 }
 
- // Next choice for brew or explore
- switch (userInput) {
-    case '1':
-        content = "<p>You chose option 1: Brew the Potion.</p>";
-        content = "<p>You brew a shimmering elixir. Drinking it, you gain the ability to see into the future! What will you do with this power?</p>";
-        content += "<p>1. Use your vision to predict events</p><p>2.<p>2. Attempt to alter fate</p>";
-        content += '<img src="./imgs/potion.png" alt="Magic potion">'; // Add the image here
-        break;
-        case '2':
-        content = "<p>You chose option 2: Nevermind, let's explore the Workshop</p>";
-        content = "<p>Exploring the workshop, you discover a hidden compartment with blueprints for an airship. Adventure awaits!</p>";
-        content += "1. Build the airship<p> 2. Sell the blueprints for gold</p>";
-        content += '<img src="./imgs/airship.jpg" alt="Steampunk airship"></img>'; // Add the image here
-        break;
-}
-
-// Next choice for Predict the future
-switch (userInput) {
-    case '1':
-        content = "<p>You chose option 1: Use your vision to predict events</p>";
-        content = "<p>You predict the future, becoming wealthy beyond all your dreams. You are famous, loved, but always a feeling of fear surrounds you.</p>
-        content = '<img src="./imgs/family.png" alt="Family">'; //add image
-        content = "<p>Invalid choice. Please enter 1 or 2.</p>";
-        break;
-     case '2':
-         content = "<p>You chose option 2: Attempt to alter fate</p>";
-            content = "<p>You attempt to alter fate itself, but the timeline begins to unravel. A shadow looms over you as time collapses...you begin to disappear</p>";
-            content += '<img src="./imgs/fadinghands.png" alt="fading"></img>'; // Add the image here
-            content = "<p>Invalid choice. Please enter 1 or 2.</p>";
-            break;    
-}
 // Next choice for airships
 switch (userInput) {
-    case '1':
-        content = "<p>You chose option 1:  Build the airship<p></p>";
-        content = "<p>You build the airship and sell it. On the day of its maiden flight, you stand proudly on the deck of the ship, looking down at the city. All of a sudden you hear an explosion. You look around. Part of the ship is missing and the part you are standing on is in flames. You are in shock, as more explosions rip through the air.You make your peace.</p>"   
-        content += '<img src="./imgs/airshipflames.jpg" alt="airship in flames"></img>'; // Add the image here
-        content = "<p>Invalid choice. Please enter 1 or 2.</p>";
+    case '1c':
+        content = "<p>You chose to Build the airship</p>";
+        content += "<p>You build the airship and sell it. On the day of its maiden flight, you stand proudly on the deck of the ship, looking down at the city. All of a sudden you hear an explosion. You look around. Part of the ship is missing and the part you are standing on is in flames. You are in shock, as more explosions rip through the air. You make your peace.</p>";
+        content += '<img src="./imgs/airshipflames.jpg" alt="Airship in flames">';
         break;
-        case '2':
-            content = "<p>You chose option 2: Sell the blueprints for gold</p>";
-            content = "<p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen.You decide to sell them. As you reach for your pile of gold, you feel a pain in your back.The buyer looks at you and says,"It's not personal mate. But I'm not going to risk competition." He smiles. Everything begins to fade.</p>"
-           content = '<img src="./imgs/gold.jpg" alt="gold">'; //add image
-            content = "<p>Invalid choice. Please enter 1 or 2.</p>";
-            break;        
+    case '2c':
+        content = "<p>You chose to Sell the blueprints for gold</p>";
+        content += "<p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen. You decide to sell them. As you reach for your pile of gold, you feel a pain in your back. The buyer looks at you and says, 'It's not personal, mate. But I'm not going to risk competition.' He smiles. Everything begins to fade.</p>";
+        content += '<img src="./imgs/gold.jpg" alt="Gold">';
+        break;
+    default:
+        content = "<p>Invalid choice. Please enter 1 or 2.</p>";
 }
 
-// Next choice for activate the time device
+// Next choice for activating the time device
 switch (userInput) {
-    case '1':
-        content = "<p>You chose option 1: Travel to Victorian London</p>";
-        content = "<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>"
-        content = "<p>1. Join the secret society</p>";
-        content = "<p>2. Oppose them and uncover their secrets</p>";
-        content += '<img src="./imgs/airshipflames.jpg" alt="airship in flames"></img>'; // Add the image here
-        content = "<p>Invalid choice. Please enter 1 or 2.</p>";
+    case '1d':
+        content = "<p>You chose to Travel to Victorian London</p>";
+        content += "<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>";
+        content += "<p>1. Join the secret society</p>";
+        content += "<p>2. Oppose them and uncover their secrets</p>";
+        content += '<img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">';
         break;
-        case '2':
-            content = "<p>You chose option 2: Enter the Steampunk Metropolis</p>";
-            content = "<p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen.You decide to sell them. As you reach for your pile of gold, you feel a pain in your back.The buyer looks at you and says,"It's not personal mate. But I'm not going to risk competition." He smiles. Everything begins to fade.</p>
-           content = '<img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">'; //add image
-            content = "<p>Invalid choice. Please enter 1 or 2.</p>";
-            break;        
+    case '2d':
+        content = "<p>You chose to Enter the Steampunk Metropolis</p>";
+        content += "<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>";
+        content += "<p>1. Accept the mission</p>";
+        content += "<p>2. Decline and explore the city.</p>";
+        content += '<img src="./imgs/maskedman.jpg" alt="Steampunk city">';
+        break;
+    default:
+        content = "<p>Invalid choice. Please enter 1 or 2.</p>";
 }
 
 // Next choice for victorian london
 switch (userInput) {
-    case '1':
-        content = "<p>You chose option 1: Join the secret society</p>";
+    case '1e':
+        content = "<p>You chose to Join the secret society</p>";
         content = "<p>The Invitation London, 1887.The air is thick with soot and secrecy, the gas lamps flickering in defiance of the smog. You tread carefully through the damp alleyways, your boots echoing against cobblestone streets slick with evening mist. The letter in your coat pocket is sealed with black wax, stamped with an insignia you do not recognize—a serpent entwined with a dagger. It had arrived without explanation, slipped under your door as if by ghostly hands.You reach the unmarked door as instructed. A single knock. A pause.        Then, it creaks open just enough to reveal the glint of watchful eyes. No words are spoken. You step inside.The room beyond is dimly lit by candelabras dripping wax like blood. Hooded figures stand in a circle, their faces obscured, their eyes burning through the shadows. The scent of old books, ink, and something metallic—like rust or dried blood—lingers in the air.A man steps forward. His voice is velvet over steel. You stand at the threshold of something far greater than yourself. The world outside is blind, shackled by ignorance. But we... we see beyond the veil. We unearth truths long buried. We shape the fate of nations from the darkness in which we dwell.He gestures to a table draped in crimson cloth. Upon it, a quill and a ledger, its pages aged and yellowed. Names fill its lines—some crossed out, others stained, perhaps with ink… or something else. One mark, and you are bound to us. No king, no parliament, no god shall own you. Only the pursuit of power, knowledge, and the unseen forces that weave the fabric of this world. But beware—once the ink dries, there is no turning back.The candlelight wavers. The air grows heavy. Behind you, the door has closed.</p>"
         content = "<p>1. Lift the veil</p>";
         content = "<p>2. You change your mind. You are a person of reason. This makes no sense you realize.</p>";
         content += '<img src="./imgs/letter.jpg" alt="The Invitation"></img>'; // Add the image here
         content = "<p>Invalid choice. Please enter 1 or 2.</p>";
         break;
-        case '2':
-            content = "<p>You chose option 2: Oppose them and uncover their secrets</p>";
+        case '2e':
+            content = "<p>You chose to Oppose them and uncover their secrets</p>";
             content = "<p>You step back, shaking your head. I cannot, you say, your voice firm despite the tremor in your heart. The man's smile fades, replaced by a look of cold disappointment.Very well, he replies, his tone icy. But know this: once you leave, you can never return. The hooded figures part, creating a path to the door. As you turn to leave, the air grows colder, and the shadows seem to reach out, as if reluctant to let you go.You step outside, the door closing behind you with a final, echoing thud. The alleyway feels darker, the mist thicker, and you can't shake the feeling that you have just walked away from a destiny that will forever remain a mystery.Aghhhh! Your stomach cramps, your heart pounds, your vision begins to go black...</p>"
            content = '<img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">'; //add image
             content = "<p>Invalid choice. Please enter 1 or 2.</p>";
@@ -158,14 +156,14 @@ switch (userInput) {
 
 // Next choice for join the secret society
 switch (userInput) {
-    case '1':
-        content = "<p>You chose option 1: Lift the veil</p>";
+    case '1f':
+        content = "<p>You chose to Lift the veil</p>";
         content = "<p>You take a deep breath, feeling the weight of the moment. With a steady hand, you dip the quill into the ink and sign your name in the ledger.The hooded figures murmur in approval, their voices a low, harmonious chant. The man smiles, a glint of satisfaction in his eyes.Welcome, he says, to the Order of the Serpent. Your journey into the arcane begins now.As the ink dries, you feel a strange warmth spread through your body, as if ancient knowledge is being etched into your very soul. The room seems to shift, the shadows deepening, and you realize that you have crossed a threshold into a world hidden from ordinary sight.</p>"
         content += '<img src="./imgs/cult.jpg" alt="The Society">'; // Add the image here
         content = "<p>Invalid choice. Please enter 1 or 2.</p>";
         break;
-        case '2':
-            content = "<p>You chose option 2: You change your mind. You are a person of reason. This makes no sense you realize.</p>";
+        case '2f':
+            content = "<p>You chose to You change your mind. You are a person of reason. This makes no sense you realize.</p>";
             content = "<p>You step back, shaking your head. I cannot, you say, your voice firm despite the tremor in your heart. The man's smile fades, replaced by a look of cold disappointment.Very well, he replies, his tone icy. But know this: once you leave, you can never return. The hooded figures part, creating a path to the door. As you turn to leave, the air grows colder, and the shadows seem to reach out, as if reluctant to let you go.You step outside, the door closing behind you with a final, echoing thud. The alleyway feels darker, the mist thicker, and you can't shake the feeling that you have just walked away from a destiny that will forever remain a mystery.Aghhhh! Your stomach cramps, your heart pounds, your vision begins to go black...</p>"
            content = '<img src="./imgs/walkingaway.jpg" alt="Walkaway">'; //add image
             content = "<p>Invalid choice. Please enter 1 or 2.</p>";
@@ -174,8 +172,8 @@ switch (userInput) {
 
 // Next choice for steampunk metropolis
 switch (userInput) {
-    case '2':
-        content = "<p>You chose option 2: Enter the Steampunk Metropolis</p>";
+    case '2g':
+        content = "<p>You chose to Enter the Steampunk Metropolis</p>";
         content = "<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>"
         content = "<p>1. Accept the mission</p>";
         content = "<p>2. Decline and explore the city.</p>";
@@ -186,7 +184,7 @@ switch (userInput) {
 
  // Next choice for steampunk metropolis mission 
 switch (userInput) {
-    case '1':
+    case '1h':
         content = "<p>You chose option 1: Accept the mission</p>";
         content = "<p>You nod, curiosity and excitement bubbling within you.The masked figure's eyes gleam with approval as he hands you a brass key, intricately designed with gears and cogs. This key,he whispers, unlocks the heart of the city. You must find the Clockwork Cathedral and retrieve the Chrono Crystal before the clock strikes midnight. With a flourish of his cloak, he vanishes into the steam-filled night. You set off, navigating the bustling streets filled with steam-powered carriages and towering airships. Automatons tip their hats as you pass, their gears whirring in polite acknowledgment. The city pulses with life, a symphony of hissing steam and clanking metal. Reaching the Clockwork Cathedral, you insert the key into a hidden lock. The massive doors creak open, revealing a labyrinth of gears and pistons. You race against time, dodging mechanical guardians and solving intricate puzzles. Finally, you reach the altar, where the Chrono Crystal glows with an ethereal light. As you grasp it, the city seems to hold its breath, waiting for the dawn of a new era.</p>"
         content = "<p>1. The Crystal Glows Dark</p>";
@@ -194,7 +192,7 @@ switch (userInput) {
         content += '<img src="./imgs/clockworkcrystal.jpg" alt="clockwork crystal">'; // Add the image here
         content = "<p>Invalid choice. Please enter 1 or 2.</p>";
         break;
-        case '2':
+        case '2h':
             content = "<p>You chose option 2: Decline and explore the city.</p>";
             content = "<p>You shake your head, the weight of the unknown too great to bear. The masked figure's eyes narrow, but he nods in understanding. <br><br>"Very well," he says, his voice a blend of disappointment and respect. But know this: the city will remember your choice. As he disappears into the mist, you turn away, the bustling metropolis still alive with its mechanical wonders. You wander the streets, watching airships soar above and automatons go about their duties. The city is a marvel, but you can't shake the feeling that you've missed out on something extraordinary. Suddenly, a small automaton scurries up to you, its eyes glowing with a soft blue light. It hands you a tiny, intricately crafted music box. As you wind it up, a haunting melody fills the air, and you realize that even in your refusal, the city has gifted you a piece of its magic. The music box's tune lingers in your mind, a reminder of the adventure that could have been.</p>"
            content = '<img src="./imgs/notoadventure.jpg" alt="no to adventure">'; //add image
