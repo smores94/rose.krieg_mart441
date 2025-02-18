@@ -181,7 +181,7 @@ switch (userInput) {
         break;
         case '2h':
             content = "<p>You chose option 2: Decline and explore the city.</p>";
-            content = "<p>You shake your head, the weight of the unknown too great to bear. The masked figure's eyes narrow, but he nods in understanding. <br><br>"Very well," he says, his voice a blend of disappointment and respect. But know this: the city will remember your choice. As he disappears into the mist, you turn away, the bustling metropolis still alive with its mechanical wonders. You wander the streets, watching airships soar above and automatons go about their duties. The city is a marvel, but you can't shake the feeling that you've missed out on something extraordinary. Suddenly, a small automaton scurries up to you, its eyes glowing with a soft blue light. It hands you a tiny, intricately crafted music box. As you wind it up, a haunting melody fills the air, and you realize that even in your refusal, the city has gifted you a piece of its magic. The music box's tune lingers in your mind, a reminder of the adventure that could have been.</p>"
+            content = "<p>You shake your head, the weight of the unknown too great to bear. The masked figure's eyes narrow, but he nods in understanding. Very well, he says, his voice a blend of disappointment and respect. But know this: the city will remember your choice. As he disappears into the mist, you turn away, the bustling metropolis still alive with its mechanical wonders. You wander the streets, watching airships soar above and automatons go about their duties. The city is a marvel, but you can't shake the feeling that you've missed out on something extraordinary. Suddenly, a small automaton scurries up to you, its eyes glowing with a soft blue light. It hands you a tiny, intricately crafted music box. As you wind it up, a haunting melody fills the air, and you realize that even in your refusal, the city has gifted you a piece of its magic. The music box's tune lingers in your mind, a reminder of the adventure that could have been.</p>"
            content = '<img src="./imgs/notoadventure.jpg" alt="no to adventure">'; //add image
             content = "<p>Invalid choice. Please enter 1 or 2.</p>";
             break;        
@@ -204,20 +204,22 @@ switch (userInput) {
     default:
         content = "<p>Invalid choice. Please enter 1 or 2.</p>";
 }
+
+
+// Attach event listener to the submit button
+document.getElementById('submit-button').addEventListener('click', handleInput);
+
+document.getElementById("story").innerHTML = content;
+}
+
 // Update the story div with the new content
 storyDiv.innerHTML = content;
 
 // Clear input after submission
 document.getElementById('user-input').value = '';
-}
-
-// Attach event listener to the submit button
-document.getElementById('submit-button').addEventListener('click', handleInput);
 
 
-// Clear the input after submission
-document.getElementById('user-input').value = '';
-}
+
 
 function restart() {
 document.getElementById('story').innerHTML = `
