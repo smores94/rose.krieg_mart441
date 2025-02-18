@@ -46,7 +46,7 @@ function handleInput() {
         case '1':
             content += "<p>You chose option 1: Read the Alchemical Tome.</p>";
             content += "<p>As you open the tome, glowing symbols appear. A potion recipe catches your eye. Will you brew it or seek a different path?</p>";
-            content += "<p>1. Brew the Potion</p><p>2. Nevermind, let's explore the Workshop</p>";
+            content += "<p>1a. Brew the Potion</p><p>2a. Nevermind, let's explore the Workshop</p>";
             content += '<img src="./imgs/corpushermetic.jpg" alt="Alchemy book">'; // Add the image here
             break;
         case '2':
