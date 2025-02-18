@@ -174,3 +174,5 @@ function restart() {
     // Reattach event listener to the new submit button
     document.getElementById('submit-button').addEventListener('click', handleInput);
 }
+// Attach the restart button event listener
+document.getElementById("restart-button").addEventListener("click", resetGame);
