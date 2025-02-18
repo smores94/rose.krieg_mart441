@@ -9,18 +9,14 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Animation ended, hiding intro screen...");
 
         // Fade out the intro animation
-        introAnimation.style.opacity = "0";
-
-        // Apply background and show content
-        document.body.classList.add("background-active");
-        document.querySelector("h1").style.display = "block";
-        document.getElementById("story").style.display = "block";
+        introAnimation.style.transition = "opacity 1s ease-out"; // Set transition
+        introAnimation.style.opacity = "0"; // Start fade-out
 
         // Remove the intro animation from the DOM after the fade-out
         setTimeout(() => {
             console.log("Removing intro animation from the DOM...");
             introAnimation.remove(); // This removes the element entirely
-        }, 2000); // Wait for the fade-out to complete
+        }, 1000); // Wait for the fade-out to complete (1 second)
     }
 
     if (zoomImage) {
@@ -28,38 +24,29 @@ document.addEventListener("DOMContentLoaded", () => {
         zoomImage.addEventListener("animationend", hideIntro);
 
         // Fallback in case the animationend event doesn't fire
-        setTimeout(hideIntro, 1000); // Fallback after 4 seconds
+        setTimeout(hideIntro, 5000); // Fallback after 5 seconds
     }
 
-    // Apply transition before setting opacity to 0
-    introAnimation.style.transition = "opacity 1s ease-out";
-    introAnimation.style.opacity = "0";
-
-    // After fade-out completes, remove the element
+    // Apply background and show content after the intro animation
     setTimeout(() => {
-        if (introAnimation) {
-            introAnimation.remove();
-            console.log("Intro animation removed from DOM.");
-        }
-    }, 1000); // Matches the CSS transition time
-
-    // Apply background and show content
-    document.body.classList.add("background-active");
-    document.querySelector("h1").style.display = "block";
-    document.getElementById("story").style.display = "block";
-
-    // Fallback in case the animationend event doesn't fire
-    setTimeout(hideIntro, 100); // Slightly longer than the animation duration
+        document.body.classList.add("background-active");
+        document.querySelector("h1").style.display = "block";
+        document.getElementById("story").style.display = "block";
+    }, 1000); // Wait for the fade-out to complete
 });
 
 // Function to handle user choices
 function choose(option) {
     const storyDiv = document.getElementById('story');
-    let content = "";}
+    let content = "";
 
-   // Example of concatenation and addition
-   let introText = "You chose: " + option + ". ";
-   content += `<p>${introText}</p>`;
+    // Example of concatenation and addition
+    let introText = "You chose: " + option + ". ";
+    content += `<p>${introText}</p>`;
+
+    // Update the story content
+    storyDiv.innerHTML = content;
+}
 
 // Function to handle user input and choices
 function handleInput() {
