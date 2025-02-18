@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         zoomImage.addEventListener("animationend", hideIntro);
 
         // Fallback in case the animationend event doesn't fire
-        setTimeout(hideIntro, 6000); // Fallback after 4 seconds
+        setTimeout(hideIntro, 1000); // Fallback after 4 seconds
     }
 
     // Apply transition before setting opacity to 0
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("story").style.display = "block";
 
     // Fallback in case the animationend event doesn't fire
-    setTimeout(hideIntro, 700); // Slightly longer than the animation duration
+    setTimeout(hideIntro, 100); // Slightly longer than the animation duration
 });
 
 // Function to handle user choices
