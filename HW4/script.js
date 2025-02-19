@@ -67,17 +67,17 @@ function handleInput() {
             content += "<p>1c. Build the airship</p><p>2c. Sell the blueprints for gold</p>";
             content += '<img src="./imgs/airship.jpg" alt="Steampunk airship">'; // Add the image here
             break;
-        case '1b':
+        case '1b':// use vision final (follow-up choice)
             content = "<p>You chose to Use your vision to predict events</p>";
             content += "<p>You predict the future, becoming wealthy beyond all your dreams. You are famous, loved, but always a feeling of fear surrounds you.</p>";
             content += '<img src="./imgs/family.png" alt="Family">';
             break;
-        case '2b':
+        case '2b':// alter fate final (follow-up choice)
             content = "<p>You chose option 2: Attempt to alter fate</p>";
             content += "<p>You attempt to alter fate itself, but the timeline begins to unravel. A shadow looms over you as time collapses... you begin to disappear.</p>";
             content += '<img src="./imgs/fadinghands.png" alt="Fading">';
             break;
-        case '1c':
+        case '1c': // air ship final choice (follow-up choice)
             content = "<p>You chose to Build the airship</p>";
             content += "<p>You build the airship and sell it. On the day of its maiden flight, you stand proudly on the deck of the ship, looking down at the city. All of a sudden you hear an explosion. You look around. Part of the ship is missing and the part you are standing on is in flames. You are in shock, as more explosions rip through the air. You make your peace.</p>";
             content += '<img src="./imgs/airshipflames.jpg" alt="Airship in flames">';
@@ -87,62 +87,62 @@ function handleInput() {
             content += "<p>You look at the blueprints. For as old as they are, you can see the ship that could be made will be more advanced than anything you have ever seen. You decide to sell them. As you reach for your pile of gold, you feel a pain in your back. The buyer looks at you and says, 'It's not personal, mate. But I'm not going to risk competition.' He smiles. Everything begins to fade.</p>";
             content += '<img src="./imgs/gold.jpg" alt="Gold">';
             break;
-        case '1d':
+        case '1d': // Travel to London (follow-up choice)
             content = "<p>You chose to Travel to Victorian London</p>";
             content += "<p>You arrive in Victorian London, where secret societies seek alchemical knowledge. Will you join them or oppose them?</p>";
             content += "<p>1e. Join the secret society</p><p>2e. Oppose them and uncover their secrets</p>";
             content += '<img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">';
             break;
-        case '2d':
+        case '2d':// sTeampunk Metropolis (follow-up choice)
             content = "<p>You chose to Enter the Steampunk Metropolis</p>";
             content += "<p>The metropolis is alive with steam-powered automatons and airships. A masked figure offers you a mission. Do you accept?</p>";
             content += "<p>1h. Accept the mission</p><p>2h. Decline and explore the city.</p>";
             content += '<img src="./imgs/maskedman.jpg" alt="Steampunk city">';
             break;
-        case '1e':
+        case '1e': // secret society (follow-up choice)
             content = "<p>You chose to Join the secret society</p>";
             content += "<p>The Invitation London, 1887...</p>";
             content += "<p>1f. Lift the veil</p><p>2f. Change your mind</p>";
             content += '<img src="./imgs/letter.jpg" alt="The Invitation">';
             break;
-        case '2e':
+        case '2e':  // secret society (follow-up choice)
             content = "<p>You chose to Oppose them and uncover their secrets</p>";
             content += "<p>You step back, shaking your head... Your stomach cramps, your heart pounds...</p>";
             content += '<img src="./imgs/victlondstmpnk.jpg" alt="Victorian London">';
             break;
-        case '1f':
+        case '1f':  // secret society (follow-up choice)
             content = "<p>You chose to Lift the veil</p>";
             content += "<p>You take a deep breath, feeling the weight of the moment...</p>";
             content += '<img src="./imgs/cult.jpg" alt="The Society">';
             break;
-        case '2f':
+        case '2f':  // secret society (follow-up choice)
             content = "<p>You chose to change your mind...</p>";
             content += "<p>Your stomach cramps, your heart pounds...</p>";
             content += '<img src="./imgs/walkingaway.jpg" alt="Walkaway">';
             break;
-        case '2g':
+        case '2g': // secret society (follow-up choice)
             content = "<p>You chose to Enter the Steampunk Metropolis</p>";
             content += "<p>The metropolis is alive with steam-powered automatons...</p>";
             content += "<p>1h. Accept the mission</p><p>2h. Decline and explore the city.</p>";
             content += '<img src="./imgs/maskedman.jpg" alt="Steampunk city">';
             break;
-        case '1h':
+        case '1h':// secret society accept mission (follow-up choice)
             content = "<p>You chose option 1: Accept the mission</p>";
             content += "<p>You nod, curiosity and excitement bubbling within you...</p>";
             content += "<p>1i. The Crystal Glows Dark</p><p>2i. The Crystal Glows Golden</p>";
             content += '<img src="./imgs/clockworkcrystal.jpg" alt="clockwork crystal">';
             break;
-        case '2h':
+        case '2h': // secret society decline mission(follow-up choice) 
             content = "<p>You chose option 2: Decline and explore the city.</p>";
             content += "<p>You shake your head, the weight of the unknown too great to bear...</p>";
             content += '<img src="./imgs/maskedman.jpg" alt="Steampunk city">';
             break;
-            case '1i':
+            case '1i': // crystal glows dark (follow-up choice)
                 content = "<p>1. The Crystal Glows Dark</p>";
                 content += "<p>As your fingers close around the Chrono Crystal, a deafening silence falls over the cathedral. The gears grind to a halt, and the air grows heavy with an unnatural stillness. The crystal pulses with a cold, eerie light, and you feel a sharp, searing pain in your palm. Looking down, you see the crystal embedding itself into your skin, its tendrils of light spreading like veins up your arm. The masked figure reappears, his laughter echoing through the cathedral. Foolish mortal, he sneers. The Chrono Crystal does not belong to you—it belongs to time itself. And now, you are its prisoner. The walls of the cathedral begin to collapse, but instead of rubble, they dissolve into a swirling void of darkness. You try to run, but your feet are rooted to the ground, the crystal's energy binding you in place. The masked figure's voice fades as the void consumes everything around you. When you open your eyes, you are no longer in the cathedral. You are trapped in a timeless void, surrounded by endless gears and ticking clocks. The Chrono Crystal has fused with your body, and you realize with horror that you have become the new guardian of time—doomed to watch the ages pass, unable to interact with the world, forever alone in the endless machinery of eternity.</p>"
                 content += '<img src="./imgs/crystalcoffin.jpg" alt="dark crystal">';
                 break;
-            case '2i':
+            case '2i': // crystal glows gold (follow-up choice)
                 content = "<p>2. The Crystal Glows Golden</p>";
                 content += "<p>As your fingers close around the Chrono Crystal, a warm, golden light floods the cathedral. The gears around you hum with newfound energy, and the air fills with the sound of joyous chimes. The crystal pulses in your hand, and you feel a surge of power and clarity, as if the very essence of time is flowing through you. The masked figure reappears, but this time, his mask is gone, revealing a kind, smiling face. You have done it, he says, his voice filled with pride. The Chrono Crystal has chosen you as its guardian. With its power, you can restore balance to the city and usher in a new era of prosperity. The cathedral doors swing open, and you step outside to find the city transformed. The streets are alive with celebration, as steam-powered carriages and airships glide effortlessly through the air. The automatons dance in the streets, their gears whirring in perfect harmony. The people of the city cheer as you raise the Chrono Crystal high, its light bathing everything in a warm, golden glow. In the days that follow, you use the crystal's power to heal the city, repairing its broken machinery and bringing hope to its people. The masked figure, now revealed as the city's former guardian, guides you in your new role. Together, you build a future where technology and humanity coexist in perfect harmony, and the city becomes a beacon of progress and joy for the entire world. As the sun rises on a new day, you stand atop the Clockwork Cathedral, the Chrono Crystal glowing brightly in your hand. You know that your journey has only just begun, but for the first time in a long time, you feel truly alive—ready to embrace the endless possibilities of this extraordinary new era.</p>";
                 content += '<img src="./imgs/golden.jpg" alt="golden crystal">';
