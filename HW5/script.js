@@ -1,9 +1,9 @@
 // Step 1: Create the arrays
 const blankImage = "./imgs/blank.jpg"; // Path to your blank image
 const actualImages = [
-    "./imgs/alien.jpg", "./imgs/fairy.jpg", ".", "./imgs/goddess.jpg",
+    "./imgs/alien.jpg", "./imgs/fairy.jpg", "../imgs/mouse.jpg", "./imgs/goddess.jpg",
     "./imgs/bar.jpg", "./imgs/cleo.jpg", "./imgs/dogs.jpg", "./imgs/elves.jpg",
-    "image9.jpg", "image10.jpg", "image11.jpg", "image12.jpg"
+    "./imgs/banana.png", "./imgs/mousewithwand.png", "./imgs/owl.png", "./imgs/unicorn.png"
 ];
 
 // Step 2: Randomize the actual images array
