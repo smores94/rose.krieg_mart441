@@ -68,14 +68,14 @@
     </div>
 
     <script>
-        // Step 1: Create the arrays
+        //  Create the arrays
         const blankImage = "./imgs/blank.jpg"; // Path to blank image
         const actualImages = [
             "./imgs/alien.jpg", "./imgs/fairy.jpg", "./imgs/mouse.jpg", "./imgs/goddess.jpg",
             "./imgs/bar.jpg", "./imgs/cleo.jpg" // 6 unique images
         ];
 
-        // Step 2: Randomize the actual images array
+        // Randomize the actual images array
         function shuffleArray(array) {
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -88,17 +88,17 @@
         let pairedImages = [...actualImages, ...actualImages];
         let randomizedImages = shuffleArray(pairedImages);
 
-        // Step 3: Variables to track game state
+        //  Variables to track game state
         let firstCard = null;
         let secondCard = null;
         let attempts = 0;
         let matchedPairs = 0;
         const totalPairs = actualImages.length;
 
-        // Step 4: Retrieve player data from localStorage
+        //  Retrieve player data from localStorage
         const playerData = JSON.parse(localStorage.getItem("playerData"));
 
-        // Step 5: Display the blank images on the screen
+        //  Display the blank images on the screen
         const gameBoard = document.getElementById("game-board");
 
         function displayBlankImages() {
@@ -112,7 +112,7 @@
             }
         }
 
-        // Step 6: Add click event listeners to reveal images
+        // Add click event listeners to reveal images
         function revealImage(event) {
             const clickedCard = event.currentTarget; // Get the card div, not the img
             const index = clickedCard.dataset.index;
@@ -136,7 +136,7 @@
             }
         }
 
-        // Step 7: Check if the two selected cards match
+        //  Check if the two selected cards match
         function checkForMatch() {
             const firstImg = firstCard.querySelector("img");
             const secondImg = secondCard.querySelector("img");
@@ -167,13 +167,13 @@
             }
         }
 
-        // Step 8: Reset the selection after each attempt
+        //  Reset the selection after each attempt
         function resetSelection() {
             firstCard = null;
             secondCard = null;
         }
 
-        // Step 9: Attach event listeners to the cards
+        // Attach event listeners to the cards
         function attachEventListeners() {
             const cards = document.querySelectorAll(".card");
             cards.forEach(card => {
@@ -181,7 +181,7 @@
             });
         }
 
-        // Step 10: Initialize the game
+        // Initialize the game
         displayBlankImages();
         attachEventListeners();
     </script>
