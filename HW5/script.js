@@ -16,8 +16,8 @@ function shuffleArray(array) {
 }
 
 // Duplicate the images to create pairs
-const pairedImages = [...actualImages, ...actualImages];
-const randomizedImages = shuffleArray(pairedImages);
+let pairedImages = [...actualImages, ...actualImages]; // Use `let` instead of `const`
+let randomizedImages = shuffleArray(pairedImages); // Use `let` instead of `const`
 
 // Step 3: Create an array of blank images
 const blankImagesArray = Array(12).fill(blankImage);
@@ -54,8 +54,8 @@ gameBoard.addEventListener("click", (event) => {
 // Step 6: Reset the game
 function resetGame() {
     // Reshuffle the images
-    pairedImages = [...actualImages, ...actualImages];
-    randomizedImages = shuffleArray(pairedImages);
+    pairedImages = [...actualImages, ...actualImages]; // Reassign `pairedImages`
+    randomizedImages = shuffleArray(pairedImages); // Reassign `randomizedImages`
 
     // Reset the board to display blank images
     displayBlankImages();
