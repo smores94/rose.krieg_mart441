@@ -14,7 +14,7 @@
         .card {
             width: 100px;
             height: 100px;
-            background-color: #b2e0f6;
+            background-color: #ccc;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -26,11 +26,18 @@
             height: 100%;
             object-fit: cover;
         }
+        #reset-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <h1>Memory Matching Game</h1>
     <div class="game-board" id="game-board"></div>
+    <button id="reset-button">Reset Game</button>
 
     <script src="script.js"></script>
 </body>

@@ -1,5 +1,5 @@
 // Step 1: Create the arrays
-const blankImage = "./imgs/blank.jpg"; // Path to your blank image
+const blankImage = "./imgs/blank.jpg"; // Path to blank image
 const actualImages = [
     "./imgs/alien.jpg", "./imgs/fairy.jpg", "../imgs/mouse.jpg", "./imgs/goddess.jpg",
     "./imgs/bar.jpg", "./imgs/cleo.jpg", "./imgs/dogs.jpg", "./imgs/elves.jpg",
@@ -16,8 +16,8 @@ function shuffleArray(array) {
 }
 
 // Duplicate the images to create pairs
-const pairedImages = [...actualImages, ...actualImages];
-const randomizedImages = shuffleArray(pairedImages);
+let pairedImages = [...actualImages, ...actualImages];
+let randomizedImages = shuffleArray(pairedImages);
 
 // Step 3: Create an array of blank images
 const blankImagesArray = Array(12).fill(blankImage);
@@ -51,5 +51,19 @@ gameBoard.addEventListener("click", (event) => {
     }
 });
 
-// Step 6: Initialize the game
+// Step 6: Reset the game
+function resetGame() {
+    // Reshuffle the images
+    pairedImages = [...actualImages, ...actualImages];
+    randomizedImages = shuffleArray(pairedImages);
+
+    // Reset the board to display blank images
+    displayBlankImages();
+}
+
+// Step 7: Attach event listener to the reset button
+const resetButton = document.getElementById("reset-button");
+resetButton.addEventListener("click", resetGame);
+
+// Step 8: Initialize the game
 displayBlankImages();
