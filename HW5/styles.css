@@ -1,0 +1,4 @@
+.game-board {
+    grid-template-columns: repeat(4, 100px); /* 4 columns */
+    grid-template-rows: repeat(3, 100px); /* 3 rows */
+}
