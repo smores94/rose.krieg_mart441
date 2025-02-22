@@ -1,11 +1,11 @@
-// Step 1: Create the arrays
+//Create the arrays
 const blankImage = "./imgs/blank.jpg"; // Path to blank image
 const actualImages = [
     "./imgs/alien.jpg", "./imgs/fairy.jpg", "./imgs/mouse.jpg", "./imgs/goddess.jpg",
-    "./imgs/bar.jpg" // Add 5 unique images
+    "./imgs/bar.jpg" 
 ];
 
-// Step 2: Randomize the actual images array
+// Randomize the actual images array
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -18,17 +18,17 @@ function shuffleArray(array) {
 let pairedImages = [...actualImages, ...actualImages]; // Use `let` instead of `const`
 let randomizedImages = shuffleArray(pairedImages); // Use `let` instead of `const`
 
-// Step 3: Create an array of blank images (10 blank images)
+// Create an array of blank images (10 blank images)
 const blankImagesArray = Array(10).fill(blankImage);
 
-// Step 4: Variables to track game state
+// Variables to track game state
 let firstCard = null; // Track the first card clicked
 let secondCard = null; // Track the second card clicked
 let attempts = 0; // Track the number of attempts
 let matchedPairs = 0; // Track the number of matched pairs
 const totalPairs = actualImages.length; // Total pairs to match
 
-// Step 5: Display the blank images on the screen
+// Display the blank images on the screen
 const gameBoard = document.getElementById("game-board");
 
 function displayBlankImages() {
@@ -41,7 +41,7 @@ function displayBlankImages() {
     });
 }
 
-// Step 6: Add click event listeners to reveal images
+//Add click event listeners to reveal images
 function revealImage(event) {
     const clickedCard = event.target;
     const index = clickedCard.dataset.index;
@@ -64,7 +64,7 @@ function revealImage(event) {
     }
 }
 
-// Step 7: Check if the two selected cards match
+// Check if the two selected cards match
 function checkForMatch() {
     if (firstCard.src === secondCard.src) {
         // Match found
@@ -87,20 +87,20 @@ function checkForMatch() {
     }
 }
 
-// Step 8: Reset the selection after each attempt
+//Reset the selection after each attempt
 function resetSelection() {
     firstCard = null;
     secondCard = null;
 }
 
-// Step 9: End the game and redirect to the summary page
+//  End the game and redirect to the summary page
 function endGame() {
     // Store the number of attempts in localStorage or a query string
     localStorage.setItem("attempts", attempts);
     window.location.href = "summary.html"; // Redirect to the summary page
 }
 
-// Step 10: Reset the game
+// Reset the game
 function resetGame() {
     // Reshuffle the images
     pairedImages = [...actualImages, ...actualImages];
@@ -116,7 +116,7 @@ function resetGame() {
     displayBlankImages();
 }
 
-// Step 11: Attach event listeners
+// Attach event listeners
 gameBoard.addEventListener("click", (event) => {
     if (event.target.tagName === "IMG") {
         revealImage(event);
@@ -126,5 +126,5 @@ gameBoard.addEventListener("click", (event) => {
 const resetButton = document.getElementById("reset-button");
 resetButton.addEventListener("click", resetGame);
 
-// Step 12: Initialize the game
+// Initialize the game
 displayBlankImages();
