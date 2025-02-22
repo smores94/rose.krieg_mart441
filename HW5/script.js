@@ -1,7 +1,7 @@
 // Step 1: Create the arrays
 const blankImage = "./imgs/blank.jpg"; // Path to blank image
 const actualImages = [
-    "./imgs/alien.jpg", "./imgs/fairy.jpg", "../imgs/mouse.jpg", "./imgs/goddess.jpg",
+    "./imgs/alien.jpg", "./imgs/fairy.jpg", "./imgs/mouse.jpg", "./imgs/goddess.jpg",
     "./imgs/bar.jpg", "./imgs/cleo.jpg", "./imgs/dogs.jpg", "./imgs/elves.jpg",
     "./imgs/banana.png", "./imgs/mousewithwand.png", "./imgs/owl.png", "./imgs/unicorn.png"
 ];
