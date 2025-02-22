@@ -5,13 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Matching Game</title>
     <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* Light gray background */
+        }
+
+        /* Container Styles */
+        .container {
+            background-color: #ffffff; /* White container */
+            padding: 30px;
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            width: fit-content;
+        }
+
+        h1 {
+            color: #333; /* Dark text for headings */
+            margin-bottom: 20px;
+        }
+
+        /* Game Board Styles */
         .game-board {
             display: grid;
             grid-template-columns: repeat(4, 100px); /* 4 columns */
             grid-gap: 10px;
-            margin: 20px;
-            justify-content: center;
+            margin: 20px auto; /* Center the game board */
         }
+
         .card {
             width: 100px;
             height: 100px;
@@ -21,17 +50,22 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
+            border-radius: 10px; /* Rounded corners for cards */
         }
+
         .card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 10px; /* Rounded corners for images */
         }
     </style>
 </head>
 <body>
-    <h1>Memory Matching Game</h1>
-    <div class="game-board" id="game-board"></div>
+    <div class="container">
+        <h1>Memory Matching Game</h1>
+        <div class="game-board" id="game-board"></div>
+    </div>
 
     <script>
         // Step 1: Create the arrays
