@@ -5,41 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Summary</title>
     <style>
+        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin-top: 50px;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0; /* Light gray background */
         }
+
+        /* Container Styles */
+        .container {
+            background-color: #ffffff; /* White container */
+            padding: 30px;
+            border-radius: 15px; /* Rounded corners */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            width: 350px;
+        }
+
         h1 {
-            color: #333;
+            color: #333; /* Dark text for headings */
+            margin-bottom: 20px;
         }
+
         p {
-            font-size: 24px;
-            color: #555;
+            font-size: 20px;
+            color: #555; /* Medium gray text */
+            margin: 10px 0;
         }
+
+        /* Button Styles */
         #reset-button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #333;
-            color: #fff;
+            background-color: #007bff; /* Blue button */
+            color: #ffffff;
             border: none;
             border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
+
         #reset-button:hover {
-            background-color: #555;
+            background-color: #0056b3; /* Darker blue on hover */
         }
     </style>
 </head>
 <body>
-    <h1>Game Summary</h1>
-    <p>Name: <span id="player-name"></span></p>
-    <p>Age: <span id="player-age"></span></p>
-    <p>Attempts: <span id="player-attempts"></span></p>
+    <div class="container">
+        <h1>Game Summary</h1>
+        <p>Name: <span id="player-name"></span></p>
+        <p>Age: <span id="player-age"></span></p>
+        <p>Attempts: <span id="player-attempts"></span></p>
 
-    <!-- Reset Game Button -->
-    <button id="reset-button">Play Again</button>
+        <!-- Reset Game Button -->
+        <button id="reset-button">Play Again</button>
+    </div>
 
     <script>
         // Retrieve player data from localStorage
