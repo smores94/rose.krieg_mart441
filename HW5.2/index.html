@@ -3,32 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Matching Game</title>
+    <title>Memory Matching Game - Introduction</title>
     <style>
-        .game-board {
-            display: grid;
-            grid-template-columns: repeat(4, 100px); /* 4 columns */
-            grid-template-rows: repeat(3, 100px); /* 3 rows */
-            grid-gap: 10px;
-            margin: 20px;
-            justify-content: center;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
         }
-        .card {
-            width: 100px;
-            height: 100px;
-            background-color: #ccc;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
+        form {
+            display: inline-block;
+            text-align: left;
         }
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        label {
+            display: block;
+            margin: 10px 0 5px;
         }
-        #reset-button {
+        input {
+            padding: 8px;
+            font-size: 16px;
+            width: 200px;
+        }
+        button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
@@ -37,10 +32,43 @@
     </style>
 </head>
 <body>
-    <h1>Memory Matching Game</h1>
-    <div class="game-board" id="game-board"></div>
-    <button id="reset-button">Reset Game</button>
+    <h1>Welcome to the Memory Matching Game!</h1>
+    <form id="player-form">
+        <label for="first-name">First Name:</label>
+        <input type="text" id="first-name" required>
 
-    <script src="script.js"></script>
+        <label for="last-name">Last Name:</label>
+        <input type="text" id="last-name" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" required>
+
+        <button type="submit">Start Game</button>
+    </form>
+
+    <script>
+        document.getElementById("player-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // Gather player information
+            const firstName = document.getElementById("first-name").value;
+            const lastName = document.getElementById("last-name").value;
+            const age = document.getElementById("age").value;
+
+            // Create JSON object
+            const playerData = {
+                firstName: firstName,
+                lastName: lastName,
+                age: age,
+                attempts: 0 // Initialize attempts to 0
+            };
+
+            // Store JSON object in localStorage
+            localStorage.setItem("playerData", JSON.stringify(playerData));
+
+            // Redirect to the memory matching game page
+            window.location.href = "game.html";
+        });
+    </script>
 </body>
 </html>

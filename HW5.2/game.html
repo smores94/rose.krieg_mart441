@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            font-size: 24px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Game Summary</h1>
+    <p>Name: <span id="player-name"></span></p>
+    <p>Age: <span id="player-age"></span></p>
+    <p>Attempts: <span id="player-attempts"></span></p>
+
+    <script>
+        // Retrieve player data from localStorage
+        const playerData = JSON.parse(localStorage.getItem("playerData"));
+
+        // Display player data
+        document.getElementById("player-name").textContent = `${playerData.firstName} ${playerData.lastName}`;
+        document.getElementById("player-age").textContent = playerData.age;
+        document.getElementById("player-attempts").textContent = playerData.attempts;
+    </script>
+</body>
+</html>
