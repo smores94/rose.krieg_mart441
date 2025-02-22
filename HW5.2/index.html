@@ -5,11 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Matching Game - Introduction</title>
     <style>
+        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin-top: 50px;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
+        /* Option 1: Modern and Clean */
+        /* Uncomment this block for Option 1 */
+        /*
+        body {
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+        */
+
+        /* Option 2: Dark and Sleek */
+        /* Uncomment this block for Option 2 */
+        /*
+        body {
+            background-color: #333333;
+        }
+        .container {
+            background-color: #f0f0f0;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+        }
+        */
+
+        /* Form Styles */
         form {
             display: inline-block;
             text-align: left;
@@ -17,34 +55,47 @@
         label {
             display: block;
             margin: 10px 0 5px;
+            color: #333333; /* Dark text for readability */
         }
         input {
             padding: 8px;
             font-size: 16px;
-            width: 200px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
         button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            background-color: #007bff; /* Blue button */
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3; /* Darker blue on hover */
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to the Memory Matching Game!</h1>
-    <form id="player-form">
-        <label for="first-name">First Name:</label>
-        <input type="text" id="first-name" required>
+    <div class="container">
+        <h1>Welcome to the Memory Matching Game!</h1>
+        <form id="player-form">
+            <label for="first-name">First Name:</label>
+            <input type="text" id="first-name" required>
 
-        <label for="last-name">Last Name:</label>
-        <input type="text" id="last-name" required>
+            <label for="last-name">Last Name:</label>
+            <input type="text" id="last-name" required>
 
-        <label for="age">Age:</label>
-        <input type="number" id="age" required>
+            <label for="age">Age:</label>
+            <input type="number" id="age" required>
 
-        <button type="submit">Start Game</button>
-    </form>
+            <button type="submit">Start Game</button>
+        </form>
+    </div>
 
     <script>
         document.getElementById("player-form").addEventListener("submit", function (event) {
