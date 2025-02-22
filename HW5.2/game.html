@@ -72,36 +72,49 @@
             for (let i = 0; i < 12; i++) {
                 const card = document.createElement("div");
                 card.classList.add("card");
-                card.innerHTML = `<img src="${blankImage}" alt="Blank" data-index="${i}">`;
+                card.dataset.index = i; // Store the index in the card
+                card.innerHTML = `<img src="${blankImage}" alt="Blank">`;
                 gameBoard.appendChild(card);
             }
         }
 
         // Step 6: Add click event listeners to reveal images
         function revealImage(event) {
-            const clickedCard = event.target;
+            const clickedCard = event.currentTarget; // Get the card div, not the img
             const index = clickedCard.dataset.index;
 
             // Ignore clicks on already matched cards or the same card
-            if (clickedCard.src.includes(blankImage)) {
-                clickedCard.src = randomizedImages[index];
+            if (clickedCard.classList.contains("matched") || clickedCard === firstCard) {
+                return;
+            }
 
-                if (!firstCard) {
-                    firstCard = clickedCard;
-                } else {
-                    secondCard = clickedCard;
-                    attempts++;
-                    checkForMatch();
-                }
+            // Replace the blank image with the actual image
+            const imgElement = clickedCard.querySelector("img");
+            imgElement.src = randomizedImages[index];
+
+            // Track the first and second card clicked
+            if (!firstCard) {
+                firstCard = clickedCard;
+            } else {
+                secondCard = clickedCard;
+                attempts++; // Increment attempts after the second card is clicked
+                checkForMatch();
             }
         }
 
         // Step 7: Check if the two selected cards match
         function checkForMatch() {
-            if (firstCard.src === secondCard.src) {
+            const firstImg = firstCard.querySelector("img");
+            const secondImg = secondCard.querySelector("img");
+
+            if (firstImg.src === secondImg.src) {
+                // Match found
                 matchedPairs++;
+                firstCard.classList.add("matched");
+                secondCard.classList.add("matched");
                 resetSelection();
 
+                // Check if all pairs are matched
                 if (matchedPairs === totalPairs) {
                     // Update player data with final attempts
                     playerData.attempts = attempts;
@@ -111,9 +124,10 @@
                     window.location.href = "final.html";
                 }
             } else {
+                // No match, hide the images after a delay
                 setTimeout(() => {
-                    firstCard.src = blankImage;
-                    secondCard.src = blankImage;
+                    firstImg.src = blankImage;
+                    secondImg.src = blankImage;
                     resetSelection();
                 }, 1000); // 1-second delay
             }
@@ -125,15 +139,17 @@
             secondCard = null;
         }
 
-        // Step 9: Attach event listeners
-        gameBoard.addEventListener("click", (event) => {
-            if (event.target.tagName === "IMG") {
-                revealImage(event);
-            }
-        });
+        // Step 9: Attach event listeners to the cards
+        function attachEventListeners() {
+            const cards = document.querySelectorAll(".card");
+            cards.forEach(card => {
+                card.addEventListener("click", revealImage);
+            });
+        }
 
         // Step 10: Initialize the game
         displayBlankImages();
+        attachEventListeners();
     </script>
 </body>
 </html>
