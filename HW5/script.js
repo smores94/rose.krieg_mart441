@@ -16,8 +16,8 @@ function shuffleArray(array) {
 }
 
 // Duplicate the images to create pairs
-let pairedImages = [...actualImages, ...actualImages];
-let randomizedImages = shuffleArray(pairedImages);
+const pairedImages = [...actualImages, ...actualImages];
+const randomizedImages = shuffleArray(pairedImages);
 
 // Step 3: Create an array of blank images
 const blankImagesArray = Array(12).fill(blankImage);
