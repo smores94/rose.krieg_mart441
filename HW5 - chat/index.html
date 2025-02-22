@@ -3,13 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memory Matching Game</title>
+    <title>Color Matching Game</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            margin-top: 20px;
+            color: #333;
+        }
         .game-board {
             display: grid;
             grid-template-columns: repeat(5, 100px); /* 5 columns */
             grid-gap: 10px;
-            margin: 20px;
+            justify-content: center;
+            margin: 20px auto;
         }
         .card {
             width: 100px;
@@ -20,22 +32,29 @@
             align-items: center;
             justify-content: center;
             font-size: 24px;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
         }
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .card.revealed {
+            cursor: default;
         }
         #reset-button {
             margin-top: 20px;
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        #reset-button:hover {
+            background-color: #555;
         }
     </style>
 </head>
 <body>
-    <h1>Memory Matching Game</h1>
+    <h1>Color Matching Game</h1>
     <div class="game-board" id="game-board"></div>
     <button id="reset-button">Reset Game</button>
 
