@@ -24,7 +24,7 @@ body {
     transform: translateX(-50%);
     width: 300px;
     height: 200px;
-    background: url('./Imgs/viewfinder.svg') no-repeat center center/contain;
+    background: url('./Imgs/viewfinder.png') no-repeat center center/contain;
 }
 
 
