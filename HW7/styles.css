@@ -39,7 +39,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     background: url('./Imgs/arm.png') no-repeat center center/contain;
-    animation: grab 3s ease-out forwards; /* Slower animation */
+    animation: grab 8s ease-out forwards; /* Slower animation */
 }
 @keyframes grab {
     0% { bottom: -250px; }
