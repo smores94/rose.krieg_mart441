@@ -18,16 +18,27 @@ body {
     width: 300px;
     height: 200px;
     background: url('./Imgs/viewmaster_front.png') no-repeat center center/contain;
-    transition: opacity 8s ease-out;
+    transition: opacity 2s ease-out;
+}
+.new-viewfinder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 200px;
+    background: url('./Imgs/viewmaster_eyes.png') no-repeat center center/contain;
+    opacity: 0;
+    transition: opacity 2s ease-in;
 }
 .hand {
     position: absolute;
-    width: 350px; /* Increased size */
+    width: 3500px; /* Increased size */
     height: 300px; /* Increased size */
     bottom: -250px; /* Adjusted for larger size */
     left: 50%;
     transform: translateX(-50%);
-    background: url('./Imgs/arm.png') no-repeat center center/contain;
+    background: url('hand.png') no-repeat center center/contain;
     animation: grab 6s ease-out forwards; /* Slower animation */
 }
 @keyframes grab {
@@ -66,7 +77,7 @@ body {
     color: white;
     border: none;
     cursor: pointer;
-    display: none;
+    display: block;
 }
 .activate-button:hover {
     background-color: #0056b3;
