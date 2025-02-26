@@ -45,3 +45,4 @@ function startAnimation() {
 function showRandomImage() {
     let randomIndex = Math.floor(Math.random() * images.length);
     document.getElementById("viewerImage").src = images[randomIndex];
+}
