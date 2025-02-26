@@ -22,7 +22,7 @@ body {
     transform: translate(-50%, -50%);
     width: 300px;
     height: 200px;
-    background: url(./Imgs/viewmaster_front.png') no-repeat center center/contain;
+    background: url(./Imgs/viewfinder.svg') no-repeat center center/contain;
 }
 .hand {
     position: absolute;
