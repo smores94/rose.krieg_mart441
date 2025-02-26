@@ -1,0 +1,59 @@
+/* styles.css */
+body {
+    margin: 0;
+    overflow: hidden;
+    background: url('./Imgs/office.jpg') no-repeat center center/cover;
+}
+/* styles.css */
+body {
+    margin: 0;
+    overflow: hidden;
+    background: url('background.jpg') no-repeat center center/cover;
+}
+.container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+.viewfinder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 200px;
+    background: url(./Imgs/viewmaster_front.png') no-repeat center center/contain;
+}
+.hand {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    bottom: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: url('./Imgs/arm.png') no-repeat center center/contain;
+    animation: grab 2s ease-out forwards;
+}
+@keyframes grab {
+    0% { bottom: -200px; }
+    50% { bottom: 30px; }
+    100% { bottom: 30px; opacity: 0; }
+}
+.fade {
+    animation: melt 2s ease-out forwards;
+}
+@keyframes melt {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+.viewer-container {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.viewer-image {
+    width: 300px;
+    height: 200px;
+}
