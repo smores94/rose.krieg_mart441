@@ -37,7 +37,7 @@ body {
     height: 350px; /* Increased size */
     bottom: -200px; /* Adjusted for larger size */
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-30%);
     background: url('./Imgs/arm.png') no-repeat center center/contain;
     animation: grab 8s ease-out forwards; /* Slower animation */
 }
@@ -47,7 +47,7 @@ body {
     100% { bottom: 30px; opacity: 0; }
 }
 .fade {
-    animation: melt 2s ease-out forwards;
+    animation: melt 5s ease-out forwards;
 }
 @keyframes melt {
     from { opacity: 1; }
