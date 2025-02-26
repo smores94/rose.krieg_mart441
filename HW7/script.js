@@ -1,17 +1,26 @@
-/* script.js */
 setTimeout(() => {
     document.getElementById('scene').classList.add('fade');
+
     setTimeout(() => {
         document.getElementById('scene').style.display = 'none';
-        document.body.style.background = 'none';
+        document.body.style.background = 'black'; // Prevents white screen
+
         document.getElementById('viewer').style.display = 'block';
-        nextImage(); // Show first random image after scene transition
+        document.querySelector(".new-viewfinder").style.opacity = "1"; // Ensures new viewfinder appears
+
+        showRandomImage(); // Show first random image after scene transition
     }, 2000);
 }, 2500);
 
-
 // Array of images for the viewfinder
-const images = ['./Imgs/fist.png', './Imgs/handheart.jpeg', './Imgs/fist.webp', './Imgs/makeasrt.jpeg', './Imgs/redimage.jpeg','./Imgs/rose.jpeg'];
+const images = [
+    './Imgs/fist.png', 
+    './Imgs/handheart.jpeg', 
+    './Imgs/fist.webp', 
+    './Imgs/makeasrt.jpeg', 
+    './Imgs/redimage.jpeg',
+    './Imgs/rose.jpeg'
+];
 
 function startAnimation() {
     // Hide text and button
@@ -36,5 +45,3 @@ function startAnimation() {
 function showRandomImage() {
     let randomIndex = Math.floor(Math.random() * images.length);
     document.getElementById("viewerImage").src = images[randomIndex];
-    document.querySelector(".viewer-container").style.opacity = "1";
-}
