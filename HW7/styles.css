@@ -24,22 +24,22 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.5);
     width: 300px;
     height: 200px;
     background: url('./Imgs/viewmaster_eyes.png') no-repeat center center/contain;
     opacity: 0;
-    transition: opacity 2s ease-in;
+    transition: opacity 2s ease-in, transform 6s ease-in;
 }
 .hand {
     position: absolute;
-    width: 3500px; /* Increased size */
-    height: 300px; /* Increased size */
-    bottom: -250px; /* Adjusted for larger size */
+    width: 450px; /* Increased size */
+    height: 350px; /* Increased size */
+    bottom: -200px; /* Adjusted for larger size */
     left: 50%;
     transform: translateX(-50%);
     background: url('./Imgs/arm.png') no-repeat center center/contain;
-    animation: grab 6s ease-out forwards; /* Slower animation */
+    animation: grab 3s ease-out forwards; /* Slower animation */
 }
 @keyframes grab {
     0% { bottom: -250px; }
@@ -77,8 +77,39 @@ body {
     color: white;
     border: none;
     cursor: pointer;
-    display: block;
+    display: none; /* Initially hidden */
 }
 .activate-button:hover {
     background-color: #0056b3;
+}
+
+/* New Elements */
+.text-box {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 15px;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 8px;
+    display: block; /* Now visible at start */
+}
+.text-button {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: block;
+}
+.text-button:hover {
+    background-color: #218838;
 }
