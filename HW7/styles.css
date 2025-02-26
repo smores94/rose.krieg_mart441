@@ -18,7 +18,7 @@ body {
     width: 300px;
     height: 200px;
     background: url('./Imgs/viewmaster_front.png') no-repeat center center/contain;
-    transition: opacity 2s ease-out;
+    transition: opacity 8s ease-out;
 }
 .new-viewfinder {
     position: absolute;

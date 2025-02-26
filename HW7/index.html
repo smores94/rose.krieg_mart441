@@ -16,6 +16,23 @@
         <img src="./Imgs/viewmaster_eyes.png" class="viewer-image" id="viewerImage">
         <button onclick="nextImage()">Next</button>
     </div>
+    <div class="container">
+        <div class="viewfinder"></div>
+        <div class="new-viewfinder"></div>
+        <div class="hand"></div>
+    
+        <!-- Text Box with Button -->
+        <div class="text-box">You see a viewfinder, a relic of your childhood. You can't resist checking it out.</div>
+        <button class="text-button" onclick="startAnimation()">Take a Closer Look</button>
+    
+        <!-- Viewer container (hidden initially) -->
+        <div class="viewer-container">
+            <img class="viewer-image" id="viewerImage" src="" alt="Viewfinder Image">
+            <button class="activate-button" onclick="showRandomImage()">Next Image</button>
+        </div>
+    </div>
+    
+
     <script src="script.js"></script>
 </body>
 </html>
