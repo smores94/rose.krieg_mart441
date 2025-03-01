@@ -2,7 +2,7 @@
 body {
     margin: 0;
     overflow: hidden; /* Keep this if you want to prevent scrolling */
-    background: url('./Imgs/office.jpg') no-repeat center center/cover; /* Adjusted background size */
+    background: url('./Imgs/office.jpg') cover; /* Adjusted background size */
     transition: background 1s ease-out;
 }
 
