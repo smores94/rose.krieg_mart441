@@ -22,27 +22,43 @@ const images = [
     './Imgs/rose.jpeg'
 ];
 
+// script.js
+
+// Function to start the animation
 function startAnimation() {
-    // Hide text and button
+    const viewfinder = document.getElementById("viewfinder");
+    const hand = document.getElementById("hand");
+    const viewer = document.getElementById("viewer");
+
+    // Hide the text box and button
     document.querySelector(".text-box").style.display = "none";
     document.querySelector(".text-button").style.display = "none";
 
-    // Start fading out the background
-    document.body.style.background = "black";
+    // Trigger animations
+    viewfinder.style.animation = "fadeOut 12s ease-out forwards";
+    hand.style.animation = "grab 12s ease-out forwards";
 
-    // Fade out hand and old viewfinder
-    document.querySelector(".hand").classList.add("fade");
-    document.querySelector(".viewfinder").classList.add("fade");
-
-    // After animation, fade in new viewfinder
+    // Show the viewer container after the animation
     setTimeout(() => {
-        document.querySelector(".new-viewfinder").style.opacity = "1";
-        document.querySelector(".viewer-container").style.display = "block";
-        document.querySelector(".activate-button").style.display = "block";
-    }, 2000);
+        viewer.style.display = "block";
+        viewer.style.opacity = "1";
+    }, 12000); // 12 seconds
 }
 
+// Function to show a random image in the viewer
 function showRandomImage() {
-    let randomIndex = Math.floor(Math.random() * images.length);
-    document.getElementById("viewerImage").src = images[randomIndex];
+    const images = [
+        "./Imgs/image1.jpg",
+        "./Imgs/image2.jpg",
+        "./Imgs/image3.jpg",
+        // Add more image paths here
+    ];
+
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    document.getElementById("viewerImage").src = randomImage;
+}
+
+// Function to show the next image (if needed)
+function nextImage() {
+    showRandomImage();
 }

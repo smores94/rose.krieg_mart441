@@ -132,3 +132,12 @@ body {
 .text-button:hover {
     background-color: #218838;
 }
+.viewer-container {
+    display: none; /* Hidden initially */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity 1s ease-in;
+}
