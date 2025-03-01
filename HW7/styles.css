@@ -1,15 +1,17 @@
 /* styles.css */
 body {
     margin: 0;
-    overflow: hidden;
-    background: url('./Imgs/office.jpg') no-repeat center center/cover;
+    overflow: hidden; /* Keep this if you want to prevent scrolling */
+    background: url('./Imgs/office.jpg') no-repeat center center/cover; /* Adjusted background size */
     transition: background 1s ease-out;
 }
+
 .container {
     position: relative;
     width: 100vw;
     height: 100vh;
 }
+
 .viewfinder {
     position: absolute;
     top: 75%;
@@ -20,6 +22,7 @@ body {
     background: url('./Imgs/viewmaster_front.png') no-repeat center center/contain;
     transition: opacity 8s ease-out;
 }
+
 .new-viewfinder {
     position: absolute;
     top: 50%;
@@ -31,6 +34,7 @@ body {
     opacity: 0;
     transition: opacity 2s ease-in, transform 2s ease-in;
 }
+
 .hand {
     position: absolute;
     width: 350px;
@@ -41,18 +45,22 @@ body {
     background: url('./Imgs/arm.png') no-repeat center center/contain;
     animation: grab 8s ease-out forwards;
 }
+
 @keyframes grab {
     0% { bottom: -300px; opacity: 1; }
     50% { bottom: 20px; opacity: 1; }
     100% { bottom: 20px; opacity: 0; }
 }
+
 .fade {
     animation: melt 2s ease-out forwards;
 }
+
 @keyframes melt {
     from { opacity: 1; }
     to { opacity: 0; }
 }
+
 .viewer-container {
     display: none;
     position: absolute;
@@ -62,10 +70,12 @@ body {
     opacity: 0;
     transition: opacity 2s ease-in;
 }
+
 .viewer-image {
     width: 300px;
     height: 200px;
 }
+
 .activate-button {
     position: absolute;
     top: 65%;
@@ -79,9 +89,11 @@ body {
     cursor: pointer;
     display: none;
 }
+
 .activate-button:hover {
     background-color: #0056b3;
 }
+
 /* New Elements */
 .text-box {
     position: absolute;
@@ -96,6 +108,7 @@ body {
     border-radius: 8px;
     display: block;
 }
+
 .text-button {
     position: absolute;
     top: 80%;
@@ -109,6 +122,7 @@ body {
     cursor: pointer;
     display: block;
 }
+
 .text-button:hover {
     background-color: #218838;
 }
