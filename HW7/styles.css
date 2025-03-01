@@ -33,11 +33,11 @@ body {
     position: absolute;
     width: 350px;
     height: 250px;
-    bottom: -200px;
+    bottom: -300px;
     left: 40%;
     transform: translateX(-50%);
     background: url('./Imgs/arm.png') no-repeat center center/contain;
-    animation: grab 5s ease-out forwards; /* Reduced animation time */
+    animation: grab 8s ease-out forwards; /* Reduced animation time */
 }
 
 @keyframes grab {
