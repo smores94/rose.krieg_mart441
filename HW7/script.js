@@ -1,17 +1,3 @@
-setTimeout(() => {
-    document.getElementById('scene').classList.add('fade');
-
-    setTimeout(() => {
-        document.getElementById('scene').style.display = 'none';
-        document.body.style.background = 'black'; // Prevents white screen
-
-        document.getElementById('viewer').style.display = 'block';
-        document.querySelector(".new-viewfinder").style.opacity = "1"; // Ensures new viewfinder appears
-
-        showRandomImage(); // Show first random image after scene transition
-    }, 2000);
-}, 2500);
-
 // Array of images for the viewfinder
 const images = [
     './Imgs/fist.png', 
@@ -22,17 +8,17 @@ const images = [
     './Imgs/rose.jpeg'
 ];
 
-// script.js
-
 // Function to start the animation
 function startAnimation() {
     const viewfinder = document.getElementById("viewfinder");
     const hand = document.getElementById("hand");
     const viewer = document.getElementById("viewer");
+    const activateButton = document.querySelector(".activate-button");
 
-    // Hide the text box and button
-    document.querySelector(".text-box").style.display = "none";
-    document.querySelector(".text-button").style.display = "none";
+    // Hide the text box after a delay
+    setTimeout(() => {
+        document.querySelector(".text-box").style.display = "none";
+    }, 5000); // Hide text box after 5 seconds
 
     // Trigger animations
     viewfinder.style.animation = "fadeOut 12s ease-out forwards";
@@ -40,25 +26,27 @@ function startAnimation() {
 
     // Show the viewer container after the animation
     setTimeout(() => {
-        viewer.style.display = "block";
-        viewer.style.opacity = "1";
-    }, 12000); // 12 seconds
+        document.getElementById('scene').classList.add('fade');
+
+        setTimeout(() => {
+            document.getElementById('scene').style.display = 'none';
+            document.body.style.background = 'black'; // Prevents white screen
+
+            // Show the viewer container, image, and button
+            document.getElementById('viewer').style.display = 'block';
+            document.getElementById('viewer').style.opacity = '1';
+            activateButton.style.display = 'block'; // Show the button
+
+            showRandomImage(); // Show first random image
+        }, 2000); // Wait 2 seconds after fade
+    }, 12000); // Wait 12 seconds for animations to complete
 }
 
 // Function to show a random image in the viewer
 function showRandomImage() {
-    const images = [
-        "./Imgs/image1.jpg",
-        "./Imgs/image2.jpg",
-        "./Imgs/image3.jpg",
-        // Add more image paths here
-    ];
-
     const randomImage = images[Math.floor(Math.random() * images.length)];
     document.getElementById("viewerImage").src = randomImage;
 }
 
-// Function to show the next image (if needed)
-function nextImage() {
-    showRandomImage();
-}
+// Start the animation when the page loads
+startAnimation();
