@@ -24,6 +24,9 @@ function startAnimation() {
     viewfinder.style.animation = "fadeOut 5s ease-out forwards"; // Reduced fade-out time
     hand.style.animation = "grab 5s ease-out forwards"; // Reduced animation time
 
+    // Fade out the background
+    document.body.classList.add("fade-background");
+
     // Show the viewer container after the animation
     setTimeout(() => {
         document.getElementById('scene').classList.add('fade');
