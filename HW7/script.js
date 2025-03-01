@@ -29,9 +29,6 @@ function startAnimation() {
         document.getElementById('scene').classList.add('fade');
 
         setTimeout(() => {
-            document.getElementById('scene').style.display = 'none';
-            document.body.style.background = 'black'; // Prevents white screen
-
             // Show the viewer container, image, and button
             document.getElementById('viewer').style.display = 'block';
             document.getElementById('viewer').style.opacity = '1';

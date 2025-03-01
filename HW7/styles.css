@@ -61,7 +61,7 @@ body {
 }
 
 .viewer-container {
-    display: none;
+    display: none; /* Hidden initially */
     position: absolute;
     top: 50%;
     left: 50%;
