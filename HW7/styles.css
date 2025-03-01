@@ -20,7 +20,13 @@ body {
     width: 300px;
     height: 200px;
     background: url('./Imgs/viewmaster_front.png') no-repeat center center/contain;
-    transition: opacity 12s ease-out;
+    opacity: 1; /* Initial opacity */
+    animation: fadeOut 12s ease-out forwards; /* Fade out animation */
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; } /* Start fully visible */
+    100% { opacity: 0; } /* End fully hidden */
 }
 
 .new-viewfinder {
