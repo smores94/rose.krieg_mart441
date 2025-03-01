@@ -20,7 +20,7 @@ body {
     width: 300px;
     height: 200px;
     background: url('./Imgs/viewmaster_front.png') no-repeat center center/contain;
-    transition: opacity 8s ease-out;
+    transition: opacity 10s ease-out;
 }
 
 .new-viewfinder {
@@ -43,7 +43,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     background: url('./Imgs/arm.png') no-repeat center center/contain;
-    animation: grab 8s ease-out forwards;
+    animation: grab 10s ease-out forwards;
 }
 
 @keyframes grab {
