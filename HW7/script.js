@@ -18,11 +18,11 @@ function startAnimation() {
     // Hide the text box after a delay
     setTimeout(() => {
         document.querySelector(".text-box").style.display = "none";
-    }, 5000); // Hide text box after 5 seconds
+    }, 3000); // Hide text box after 3 seconds
 
     // Trigger animations
-    viewfinder.style.animation = "fadeOut 12s ease-out forwards";
-    hand.style.animation = "grab 12s ease-out forwards";
+    viewfinder.style.animation = "fadeOut 5s ease-out forwards"; // Reduced fade-out time
+    hand.style.animation = "grab 5s ease-out forwards"; // Reduced animation time
 
     // Show the viewer container after the animation
     setTimeout(() => {
@@ -38,8 +38,8 @@ function startAnimation() {
             activateButton.style.display = 'block'; // Show the button
 
             showRandomImage(); // Show first random image
-        }, 2000); // Wait 2 seconds after fade
-    }, 12000); // Wait 12 seconds for animations to complete
+        }, 1000); // Wait 1 second after fade
+    }, 5000); // Wait 5 seconds for animations to complete
 }
 
 // Function to show a random image in the viewer
