@@ -67,49 +67,5 @@ body {
     100% { opacity: 0; }
 }
 
-.viewmaster-eyes {
-    position: absolute;
-    top: 43%;
-    left: 40%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    height: 200px;
-    background: url('./Imgs/viewmaster_eyes.png') no-repeat center center/contain;
-    opacity: 0;
-    transition: opacity 2s ease-in;
-}
 
-.viewer-image {
-    width: 300px;
-    height: 200px;
-}
 
-.activate-button {
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    display: none;
-    transition: background-color 0.3s ease;
-}
-
-.activate-button:hover {
-    background-color: #0056b3;
-}
-
-@keyframes fadeBackground {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
-}
-
-.fade-background {
-    animation: fadeBackground 5s ease-out forwards;
-}
