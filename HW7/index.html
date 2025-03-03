@@ -20,14 +20,11 @@
             You see a viewfinder, a relic of your childhood. You can't resist checking it out.
         </div>
 
-        <!-- Viewer Container (hidden initially) -->
+        <!-- Viewer Image -->
+        <img id="viewerImage" class="viewer-image" src="" alt="Viewer Image">
 
-<img id="viewmasterEyes" src="./Imgs/viewmaster_eyes.png" alt="Viewmaster Eyes" style="opacity: 0; display: none;">
-<button id="imageArrayButton" class="activate-button" style="display: none;">Click Me</button>
-
-<img id="viewerImage" class="viewer-image" src="" alt="Random Image">
-
-
+        <!-- Button to cycle through images -->
+        <button id="imageArrayButton" class="activate-button" style="display: none;" onclick="showNextImage()">Next Image</button>
     </div>
 
     <script src="script.js"></script>

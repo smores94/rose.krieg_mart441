@@ -8,12 +8,14 @@ const images = [
     'Imgs/rose.jpeg'
 ];
 
-function showRandomImage() {
+let currentIndex = 0; // Track current image index
+
+function showNextImage() {
     const viewerImage = document.getElementById("viewerImage");
 
     if (viewerImage) { 
-        const randomImage = images[Math.floor(Math.random() * images.length)];
-        viewerImage.src = randomImage;
+        currentIndex = (currentIndex + 1) % images.length; // Loop through images
+        viewerImage.src = images[currentIndex];
     } else {
         console.error("Error: viewerImage element not found!");
     }
@@ -24,10 +26,10 @@ function startAnimation() {
     const hand = document.getElementById("hand");
     const textBox = document.querySelector(".text-box");
     const activateButton = document.getElementById("imageArrayButton");
-    const viewmasterEyes = document.getElementById("viewmasterEyes");
+    const background = document.body; // Target entire background
 
     // Ensure elements exist before proceeding
-    if (!viewfinder || !hand || !textBox || !activateButton || !viewmasterEyes) {
+    if (!viewfinder || !hand || !textBox || !activateButton) {
         console.error("Error: One or more elements not found!");
         return;
     }
@@ -41,20 +43,7 @@ function startAnimation() {
     viewfinder.style.animation = "fadeOut 14s ease-out forwards";
     hand.style.animation = "grab 15s ease-out forwards";
 
-    // Fade out background
-    document.body.classList.add("fade-background");
-
-    // Show 'viewmaster_eyes' and the button after previous elements fade out
+    // Remove background after animations
     setTimeout(() => {
-        console.log("Displaying viewmaster_eyes and button."); // Debugging
-        viewmasterEyes.style.display = "block"; // Ensure it's visible
-        viewmasterEyes.style.opacity = "1"; // Make it fade in
-        activateButton.style.display = "block"; // Ensure button appears
-    }, 17000);
+        bac
 
-    // Attach event listener to button
-    activateButton.addEventListener("click", showRandomImage);
-}
-
-// Run script after page is fully loaded
-document.addEventListener("DOMContentLoaded", startAnimation);
