@@ -20,10 +20,7 @@ function startAnimation() {
         document.querySelector(".text-box").style.display = "none";
     }, 10000); // Hide text box after 3 seconds
 
-    // Trigger animations
-    viewfinder.style.animation = "fadeOut 20s ease-out forwards"; // Reduced fade-out time
-    hand.style.animation = "grab 20s ease-out forwards"; // Reduced animation time
-
+    
     // Fade out the background
     document.body.classList.add("fade-background");
 
