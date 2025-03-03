@@ -29,12 +29,7 @@ function startAnimation() {
         textBox.style.display = "none";
     }, 16000); // Matches text fade-out duration
 
-    // Start animations
-    viewfinder.style.animation = "fadeOut 14s ease-out forwards";
-    hand.style.animation = "grab 15s ease-out forwards";
-
-    // Fade out background
-    document.body.classList.add("fade-background");
+    
 
     // Show 'viewmaster_eyes' and button after the previous elements disappear
     setTimeout(() => {
