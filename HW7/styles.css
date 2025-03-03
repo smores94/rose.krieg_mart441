@@ -21,7 +21,7 @@ body {
     height: 200px;
     background: url('./Imgs/viewmaster_front.png') no-repeat center center/contain;
     opacity: 1;
-    animation: fadeOut 15s ease-out forwards; /* Slower fade-out (15 seconds) */
+    animation: fadeOut 19s ease-out forwards; /* Slower fade-out (15 seconds) */
 }
 
 @keyframes fadeOut {
@@ -37,7 +37,7 @@ body {
     left: 40%;
     transform: translateX(-50%);
     background: url('./Imgs/arm.png') no-repeat center center/contain;
-    animation: grab 12s ease-out forwards; /* Slower animation (12 seconds) */
+    animation: grab 17s ease-out forwards; /* Slower animation (12 seconds) */
 }
 
 @keyframes grab {
