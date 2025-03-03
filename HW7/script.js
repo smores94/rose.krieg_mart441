@@ -89,6 +89,19 @@ function startAnimation() {
         textBox.style.display = "none";
     }, 16000); // Matches text fade-out duration
 
+    // Show 'viewmaster_eyes' and button after the previous elements disappear
+    setTimeout(() => {
+        viewmasterEyes.style.opacity = "1";  // Make viewmaster_eyes visible
+        viewmasterEyes.style.display = "block"; // Ensure it's visible
+        activateButton.style.display = "block";  // Show the button
+    }, 1000); // Show after the animations are done
+}
+
+    // Hide the text box after a delay
+    setTimeout(() => {
+        textBox.style.display = "none";
+    }, 16000); // Matches text fade-out duration
+
     
 
     // Show 'viewmaster_eyes' and button after the previous elements disappear
