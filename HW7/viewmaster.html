@@ -3,22 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Viewmaster Interaction</title>
-    <link rel="stylesheet" href="styles1.css">
+    <title>Interactive Viewfinder</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Viewmaster Eyes Image (Initially hidden) -->
-        <img id="viewmasterEyes" src="./Imgs/viewmaster_eyes.png" alt="Viewmaster Eyes" class="viewmaster-eyes" style="opacity: 0; display: none;">
+    <!-- Main Container -->
+    <div class="container" id="scene">
+        <!-- Viewfinder -->
+        <div class="viewfinder" id="viewfinder"></div>
 
-        <!-- Button to Show Random Image -->
+        <!-- Hand Animation -->
+        <div class="hand" id="hand"></div>
+
+        <!-- Text Box -->
+        <div class="text-box">
+            You see a viewfinder, a relic of your childhood. You can't resist checking it out.
+        </div>
+
+        <!-- Hidden Image and Button -->
+        <img id="viewerImage" class="viewer-image" src="" alt="Random Image" style="display:none;">
+        <img id="viewmasterEyes" src="./Imgs/viewmaster_eyes.png" alt="Viewmaster Eyes" style="opacity: 0; display: none;">
         <button id="imageArrayButton" class="activate-button" style="display: none;">Click Me</button>
-
-        <!-- Viewer Image -->
-        <img id="viewerImage" class="viewer-image" src="" alt="Random Image" style="display: none;">
-
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        const images = [
+            './Imgs/fist.png', 
+            './Imgs/handheart.jpeg', 
+            './Imgs/fist.webp', 
+            './Imgs/makeasrt.jpeg', 
+            './Imgs/redimage.jpeg',
+            './Imgs/rose.jpeg'
+        ];
+
+        function showRandomImage() {
+            const viewerImage = document.getElementById("viewerImage");
+            if (viewerImage) {
+                const randomImage = images[Math.floor(Math.random() * images.length)];
+                viewerImage.src = randomImage;
+                viewerImage.style.display = "block";  // Make the image visible after setting the src
+            } else {
+                console.error("Error: viewerImage element not found!");
+            }
+        }
+
+        function startAnimation() {
+            const viewfinder = document.getElementById("viewfinder");
+            const hand = document.getElementById("hand");
+            const textBox = document.querySelector(".text-box");
+            const activateButton = document.getElementById("imageArrayButton");
+            const viewmasterEyes = document.getElementById("viewmasterEyes");
+
+            // Hide the text box after a delay
+            setTimeout(() => {
+                textBox.style.display = "none";
+            }, 16000);
+
+            // Show 'viewmaster_eyes' and button after the previous elements disappear
+            setTimeout(() => {
+                viewmasterEyes.style.opacity = "1";  // Make viewmaster_eyes visible
+                viewmasterEyes.style.display = "block"; // Ensure it's visible
+                activateButton.style.display = "block";  // Show the button
+            }, 17000);
+
+            // When button is clicked, show a random image from the array
+            activateButton.addEventListener("click", showRandomImage);
+        }
+
+        // Start animation when page loads
+        startAnimation();
+    </script>
 </body>
 </html>
+
