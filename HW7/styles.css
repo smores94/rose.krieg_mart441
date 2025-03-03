@@ -21,7 +21,7 @@ body {
     height: 200px;
     background: url('./Imgs/viewmaster_front.png') no-repeat center center/contain;
     opacity: 1;
-    animation: fadeOut 1s ease-out forwards; /* Slower fade-out (15 seconds) */
+    animation: fadeOut 15s ease-out forwards; /* Slower fade-out (15 seconds) */
 }
 
 @keyframes fadeOut {

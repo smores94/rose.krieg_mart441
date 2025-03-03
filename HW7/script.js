@@ -18,11 +18,11 @@ function startAnimation() {
     // Hide the text box after a delay
     setTimeout(() => {
         document.querySelector(".text-box").style.display = "none";
-    }, 3000); // Hide text box after 3 seconds
+    }, 10000); // Hide text box after 3 seconds
 
     // Trigger animations
-    viewfinder.style.animation = "fadeOut 5s ease-out forwards"; // Reduced fade-out time
-    hand.style.animation = "grab 5s ease-out forwards"; // Reduced animation time
+    viewfinder.style.animation = "fadeOut 15s ease-out forwards"; // Reduced fade-out time
+    hand.style.animation = "grab 15s ease-out forwards"; // Reduced animation time
 
     // Fade out the background
     document.body.classList.add("fade-background");
