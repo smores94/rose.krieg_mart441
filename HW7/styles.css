@@ -21,7 +21,7 @@ body {
     height: 200px;
     background: url('./Imgs/viewmaster_front.png') no-repeat center center/contain;
     opacity: 1;
-    animation: fadeOut 10s ease-out forwards; /* Reduced fade-out time */
+    animation: fadeOut 15s ease-out forwards; /* Slower fade-out (15 seconds) */
 }
 
 @keyframes fadeOut {
@@ -37,7 +37,7 @@ body {
     left: 40%;
     transform: translateX(-50%);
     background: url('./Imgs/arm.png') no-repeat center center/contain;
-    animation: grab 8s ease-out forwards; /* Reduced animation time */
+    animation: grab 12s ease-out forwards; /* Slower animation (12 seconds) */
 }
 
 @keyframes grab {
@@ -58,6 +58,13 @@ body {
     text-align: center;
     border-radius: 8px;
     display: block;
+    opacity: 1; /* Visible immediately */
+    animation: fadeOutText 10s ease-out forwards; /* Slower fade-out (10 seconds) */
+}
+
+@keyframes fadeOutText {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 .viewer-container {
