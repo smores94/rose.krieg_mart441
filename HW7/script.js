@@ -7,10 +7,11 @@ const images = [
     './Imgs/redimage.jpeg',
     './Imgs/rose.jpeg'
 ];
+
 function showRandomImage() {
     const viewerImage = document.getElementById("viewerImage");
 
-    if (viewerImage) { // Check if viewerImage exists before setting src
+    if (viewerImage) { 
         const randomImage = images[Math.floor(Math.random() * images.length)];
         viewerImage.src = randomImage;
     } else {
@@ -22,14 +23,18 @@ function startAnimation() {
     const viewfinder = document.getElementById("viewfinder");
     const hand = document.getElementById("hand");
     const textBox = document.querySelector(".text-box");
-    const viewer = document.getElementById("viewer");
     const activateButton = document.getElementById("imageArrayButton");
     const viewmasterEyes = document.getElementById("viewmasterEyes");
+
+    if (!viewfinder || !hand || !textBox || !activateButton || !viewmasterEyes) {
+        console.error("Error: One or more elements not found!");
+        return;
+    }
 
     // Hide the text box after a delay
     setTimeout(() => {
         textBox.style.display = "none";
-    }, 16000); // Matches text fade-out duration
+    }, 16000);
 
     // Start animations
     viewfinder.style.animation = "fadeOut 14s ease-out forwards";
@@ -38,20 +43,17 @@ function startAnimation() {
     // Fade out background
     document.body.classList.add("fade-background");
 
-    // Show 'viewmaster_eyes' after the other elements fade out
+    // Show 'viewmaster_eyes' and the button after previous elements fade out
     setTimeout(() => {
-        viewmasterEyes.style.opacity = "1";
-        activateButton.style.display = "block"; // Show the button
-    }, 17000); // Slight delay after previous elements fade out
+        console.log("Displaying viewmaster_eyes and button.");
+        viewmasterEyes.style.opacity = "1"; 
+        viewmasterEyes.style.display = "block"; 
+        activateButton.style.display = "block"; 
+    }, 17000);
 
-    // When button is clicked, show a random image from the array
+    // Attach event listener to button
     activateButton.addEventListener("click", showRandomImage);
 }
 
-function showRandomImage() {
-    const randomImage = images[Math.floor(Math.random() * images.length)];
-    document.getElementById("viewerImage").src = randomImage;
-}
-
 // Start animation when page loads
-startAnimation();
+window.onload = startAnimation;
