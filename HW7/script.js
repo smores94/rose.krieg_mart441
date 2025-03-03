@@ -1,4 +1,4 @@
-// Array of images for the viewfinder
+// Array of images for the viewer
 const images = [
     './Imgs/fist.png', 
     './Imgs/handheart.jpeg', 
@@ -8,34 +8,40 @@ const images = [
     './Imgs/rose.jpeg'
 ];
 
+function startAnimation() {
+    const viewfinder = document.getElementById("viewfinder");
+    const hand = document.getElementById("hand");
+    const textBox = document.querySelector(".text-box");
+    const viewer = document.getElementById("viewer");
+    const activateButton = document.getElementById("imageArrayButton");
+    const viewmasterEyes = document.getElementById("viewmasterEyes");
 
+    // Hide the text box after a delay
+    setTimeout(() => {
+        textBox.style.display = "none";
+    }, 16000); // Matches text fade-out duration
 
-    
+    // Start animations
+    viewfinder.style.animation = "fadeOut 14s ease-out forwards";
+    hand.style.animation = "grab 15s ease-out forwards";
 
-    
-    // Fade out the background
+    // Fade out background
     document.body.classList.add("fade-background");
 
-    // Show the viewer container after the animation
+    // Show 'viewmaster_eyes' after the other elements fade out
     setTimeout(() => {
-        document.getElementById('scene').classList.add('fade');
+        viewmasterEyes.style.opacity = "1";
+        activateButton.style.display = "block"; // Show the button
+    }, 17000); // Slight delay after previous elements fade out
 
-        setTimeout(() => {
-            // Show the viewer container, image, and button
-            document.getElementById('viewer').style.display = 'block';
-            document.getElementById('viewer').style.opacity = '1';
-            activateButton.style.display = 'block'; // Show the button
-
-            showRandomImage(); // Show first random image
-        }, 1000); // Wait 1 second after fade
-    }, 5000); // Wait 5 seconds for animations to complete
+    // When button is clicked, show a random image from the array
+    activateButton.addEventListener("click", showRandomImage);
 }
 
-// Function to show a random image in the viewer
 function showRandomImage() {
     const randomImage = images[Math.floor(Math.random() * images.length)];
     document.getElementById("viewerImage").src = randomImage;
 }
 
-// Start the animation when the page loads
+// Start animation when page loads
 startAnimation();
