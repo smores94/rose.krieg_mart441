@@ -38,7 +38,7 @@ function startAnimation() {
         viewmasterEyes.style.display = "block"; // Ensure it's visible
         activateButton.style.display = "block";  // Show the button
         console.log("Button and viewmaster eyes are now visible.");
-    }, 17000); // Show after the animations are done
+    }, 1000); // Show after the animations are done
 
     // When button is clicked, show a random image from the array
     activateButton.addEventListener("click", showRandomImage);
