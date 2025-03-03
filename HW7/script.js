@@ -1,11 +1,11 @@
 // Array of images for the viewer
 const images = [
-    './Imgs/fist.png', 
-    './Imgs/handheart.jpeg', 
-    './Imgs/fist.webp', 
-    './Imgs/makeasrt.jpeg', 
-    './Imgs/redimage.jpeg',
-    './Imgs/rose.jpeg'
+    'Imgs/fist.png', 
+    'Imgs/handheart.jpeg', 
+    'Imgs/fist.webp', 
+    'Imgs/makeasrt.jpeg', 
+    'Imgs/redimage.jpeg',
+    'Imgs/rose.jpeg'
 ];
 
 function showRandomImage() {
@@ -26,6 +26,7 @@ function startAnimation() {
     const activateButton = document.getElementById("imageArrayButton");
     const viewmasterEyes = document.getElementById("viewmasterEyes");
 
+    // Ensure elements exist before proceeding
     if (!viewfinder || !hand || !textBox || !activateButton || !viewmasterEyes) {
         console.error("Error: One or more elements not found!");
         return;
@@ -45,15 +46,15 @@ function startAnimation() {
 
     // Show 'viewmaster_eyes' and the button after previous elements fade out
     setTimeout(() => {
-        console.log("Displaying viewmaster_eyes and button.");
-        viewmasterEyes.style.opacity = "1"; 
-        viewmasterEyes.style.display = "block"; 
-        activateButton.style.display = "block"; 
+        console.log("Displaying viewmaster_eyes and button."); // Debugging
+        viewmasterEyes.style.display = "block"; // Ensure it's visible
+        viewmasterEyes.style.opacity = "1"; // Make it fade in
+        activateButton.style.display = "block"; // Ensure button appears
     }, 17000);
 
     // Attach event listener to button
     activateButton.addEventListener("click", showRandomImage);
 }
 
-// Start animation when page loads
-window.onload = startAnimation;
+// Run script after page is fully loaded
+document.addEventListener("DOMContentLoaded", startAnimation);
