@@ -12,10 +12,12 @@ function showRandomImage() {
     if (viewerImage) {
         const randomImage = images[Math.floor(Math.random() * images.length)];
         viewerImage.src = randomImage;
+        viewerImage.style.display = "block";  // Ensure the image is visible
     } else {
         console.error("Error: viewerImage element not found!");
     }
 }
+
 
 function startAnimation() {
     const viewfinder = document.getElementById("viewfinder");
