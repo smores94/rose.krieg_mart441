@@ -8,14 +8,9 @@ const images = [
     './Imgs/rose.jpeg'
 ];
 
-// Function to start the animation
-function startAnimation() {
-    const viewfinder = document.getElementById("viewfinder");
-    const hand = document.getElementById("hand");
-    const viewer = document.getElementById("viewer");
-    const activateButton = document.querySelector(".activate-button");
 
 
+    
 
     
     // Fade out the background
