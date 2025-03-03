@@ -13,17 +13,20 @@
 
       
  <!-- Button to trigger image display -->
- <button id="imageArrayButton">Clich Here!</button>
+ <button id="imageArrayButton">Click Here!</button>
 
- <!-- Container for displaying the image and its info -->
- <div id="viewer-container" style="display: none;">
-     <img id="viewerImage" class="viewer-image" src="" alt="Random Image">
-     <div id="imageDetails">
-         <h2 id="imageTitle"></h2>
-         <p id="imageDescription"></p>
-         <p><strong>Author:</strong> <span id="imageAuthor"></span></p>
-         <p><strong>Year:</strong> <span id="imageYear"></span></p>
-     </div>
+ <div class="container">
+    <div class="viewmaster-eyes" id="viewmasterEyes"></div>
+    <button class="activate-button" id="imageArrayButton">Show Image</button>
+    <div id="viewer-container" style="display: none;">
+        <img id="viewerImage" class="viewer-image" alt="Random Image" />
+        <h2 id="imageTitle"></h2>
+        <p id="imageDescription"></p>
+        <p id="imageAuthor"></p>
+        <p id="imageYear"></p>
+    </div>
+</div>
+
     </div>
 
     <script src="script.js"></script>
