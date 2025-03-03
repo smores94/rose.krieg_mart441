@@ -1,21 +1,17 @@
-// Array of images for the viewer
 const images = [
-    'Imgs/fist.png', 
-    'Imgs/handheart.jpeg', 
-    'Imgs/fist.webp', 
-    'Imgs/makeasrt.jpeg', 
-    'Imgs/redimage.jpeg',
-    'Imgs/rose.jpeg'
+    './Imgs/fist.png', 
+    './Imgs/handheart.jpeg', 
+    './Imgs/fist.webp', 
+    './Imgs/makeasrt.jpeg', 
+    './Imgs/redimage.jpeg',
+    './Imgs/rose.jpeg'
 ];
 
-let currentIndex = 0; // Track current image index
-
-function showNextImage() {
+function showRandomImage() {
     const viewerImage = document.getElementById("viewerImage");
-
-    if (viewerImage) { 
-        currentIndex = (currentIndex + 1) % images.length; // Loop through images
-        viewerImage.src = images[currentIndex];
+    if (viewerImage) {
+        const randomImage = images[Math.floor(Math.random() * images.length)];
+        viewerImage.src = randomImage;
     } else {
         console.error("Error: viewerImage element not found!");
     }
@@ -26,24 +22,32 @@ function startAnimation() {
     const hand = document.getElementById("hand");
     const textBox = document.querySelector(".text-box");
     const activateButton = document.getElementById("imageArrayButton");
-    const background = document.body; // Target entire background
-
-    // Ensure elements exist before proceeding
-    if (!viewfinder || !hand || !textBox || !activateButton) {
-        console.error("Error: One or more elements not found!");
-        return;
-    }
+    const viewmasterEyes = document.getElementById("viewmasterEyes");
 
     // Hide the text box after a delay
     setTimeout(() => {
         textBox.style.display = "none";
-    }, 16000);
+    }, 16000); // Matches text fade-out duration
 
     // Start animations
     viewfinder.style.animation = "fadeOut 14s ease-out forwards";
     hand.style.animation = "grab 15s ease-out forwards";
 
-    // Remove background after animations
-    setTimeout(() => {
-        bac
+    // Fade out background
+    document.body.classList.add("fade-background");
 
+    // Show 'viewmaster_eyes' and button after the previous elements disappear
+    setTimeout(() => {
+        console.log("Displaying viewmaster_eyes and button."); // Debugging
+        viewmasterEyes.style.opacity = "1";  // Make viewmaster_eyes visible
+        viewmasterEyes.style.display = "block"; // Ensure it's visible
+        activateButton.style.display = "block";  // Show the button
+        console.log("Button and viewmaster eyes are now visible.");
+    }, 17000); // Show after the animations are done
+
+    // When button is clicked, show a random image from the array
+    activateButton.addEventListener("click", showRandomImage);
+}
+
+// Start animation when page loads
+startAnimation();
