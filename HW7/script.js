@@ -7,6 +7,16 @@ const images = [
     './Imgs/redimage.jpeg',
     './Imgs/rose.jpeg'
 ];
+function showRandomImage() {
+    const viewerImage = document.getElementById("viewerImage");
+
+    if (viewerImage) { // Check if viewerImage exists before setting src
+        const randomImage = images[Math.floor(Math.random() * images.length)];
+        viewerImage.src = randomImage;
+    } else {
+        console.error("Error: viewerImage element not found!");
+    }
+}
 
 function startAnimation() {
     const viewfinder = document.getElementById("viewfinder");
