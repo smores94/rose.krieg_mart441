@@ -15,10 +15,7 @@ function startAnimation() {
     const viewer = document.getElementById("viewer");
     const activateButton = document.querySelector(".activate-button");
 
-    // Hide the text box after a delay
-    setTimeout(() => {
-        document.querySelector(".text-box").style.display = "none";
-    }, 10000); // Hide text box after 3 seconds
+
 
     
     // Fade out the background
