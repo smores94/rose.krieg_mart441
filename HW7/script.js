@@ -9,14 +9,31 @@ const images = [
 
 function showRandomImage() {
     const viewerImage = document.getElementById("viewerImage");
+    const viewmasterEyes = document.getElementById("viewmasterEyes");
+    const activateButton = document.getElementById("imageArrayButton");
+
     if (viewerImage) {
         const randomImage = images[Math.floor(Math.random() * images.length)];
         viewerImage.src = randomImage;
-        viewerImage.style.display = "block";  // Ensure the image is visible
+        viewerImage.style.display = "block";  // Make the image visible
+
+        // Determine where to position the image (above or below the button)
+        const isAbove = Math.random() > 0.5; // Randomly decide to place it above or below
+        
+        if (isAbove) {
+            // Move image above viewmaster_eyes
+            viewerImage.style.position = "absolute";
+            viewerImage.style.top = `${viewmasterEyes.offsetTop - viewerImage.offsetHeight - 10}px`; // Adjusting position above
+        } else {
+            // Move image below the button
+            viewerImage.style.position = "absolute";
+            viewerImage.style.top = `${activateButton.offsetTop + activateButton.offsetHeight + 10}px`; // Adjusting position below
+        }
     } else {
         console.error("Error: viewerImage element not found!");
     }
 }
+
 
 
 function startAnimation() {
