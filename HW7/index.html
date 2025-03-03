@@ -20,12 +20,12 @@
             You see a viewfinder, a relic of your childhood. You can't resist checking it out.
         </div>
 
-        <!-- Viewer Image -->
-        <img id="viewerImage" class="viewer-image" src="" alt="Viewer Image">
-
-        <!-- Button to cycle through images -->
-        <button id="imageArrayButton" class="activate-button" style="display: none;" onclick="showNextImage()">Next Image</button>
-    </div>
+        <script>
+            // JavaScript to navigate to the second page on button click
+            document.getElementById("goToViewmaster").addEventListener("click", function() {
+                window.location.href = "viewmaster.html";  // Navigate to the second page
+            });
+        </script>
 
     <script src="script.js"></script>
 </body>
