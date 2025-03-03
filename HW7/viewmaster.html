@@ -3,56 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Viewfinder - Viewmaster</title>
+    <title>Viewmaster Interaction</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Main Container for the Viewmaster -->
-    <div class="container" id="viewmasterScene">
-        <!-- Viewmaster Eyes Image -->
-        <img id="viewmasterEyes" src="./Imgs/viewmaster_eyes.png" alt="Viewmaster Eyes" style="display: none;" />
-        
-        <!-- Button to Click -->
+    <div class="container">
+        <!-- Viewmaster Eyes Image (Initially hidden) -->
+        <img id="viewmasterEyes" src="./Imgs/viewmaster_eyes.png" alt="Viewmaster Eyes" class="viewmaster-eyes" style="opacity: 0; display: none;">
+
+        <!-- Button to Show Random Image -->
         <button id="imageArrayButton" class="activate-button" style="display: none;">Click Me</button>
-        
-        <!-- Image Viewer (will display random images) -->
-        <img id="viewerImage" class="viewer-image" src="" alt="Random Image" style="display: none;" />
+
+        <!-- Viewer Image -->
+        <img id="viewerImage" class="viewer-image" src="" alt="Random Image" style="display: none;">
 
     </div>
 
-    <script>
-        // Array of images for the viewer
-        const images = [
-            './Imgs/fist.png',
-            './Imgs/handheart.jpeg',
-            './Imgs/fist.webp',
-            './Imgs/makeasrt.jpeg',
-            './Imgs/redimage.jpeg',
-            './Imgs/rose.jpeg'
-        ];
-
-        // Function to show random image
-        function showRandomImage() {
-            const randomImage = images[Math.floor(Math.random() * images.length)];
-            document.getElementById("viewerImage").src = randomImage;
-            document.getElementById("viewerImage").style.display = "block"; // Show the image
-        }
-
-        // Show Viewmaster Eyes and Button after page load
-        window.onload = function() {
-            const viewmasterEyes = document.getElementById("viewmasterEyes");
-            const activateButton = document.getElementById("imageArrayButton");
-
-            // Display Viewmaster Eyes and Button
-            setTimeout(() => {
-                viewmasterEyes.style.display = "block"; // Show the Viewmaster eyes image
-                activateButton.style.display = "block"; // Show the button
-            }, 1000); // Delay to simulate some animation or loading time
-
-            // Button click event to show random image
-            activateButton.addEventListener("click", showRandomImage);
-        };
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
-
