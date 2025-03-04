@@ -22,7 +22,7 @@ const images = [
     ),
     new ImageItem(
         "World Social Justice Day: If Only…", 
-        './imgs/hartmann.jpg', 
+        'imgs/hartmann.jpg', 
         "Kathleen and Al Hartmann in the field with a woman they treat.",
         "Kathleen Hartmann", 
         2019
