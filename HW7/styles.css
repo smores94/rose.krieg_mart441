@@ -19,7 +19,7 @@ body {
     transform: translate(-50%, -50%);
     width: 300px;
     height: 200px;
-    background: url('./imgs/') no-repeat center center/contain;
+    background: url('../imgs/') no-repeat center center/contain;
     opacity: 1;
     animation: fadeOut 14s ease-out forwards;
 }
@@ -36,7 +36,7 @@ body {
     bottom: -300px;
     left: 40%;
     transform: translateX(-50%);
-    background: url('./imgs/arm.png') no-repeat center center/contain;
+    background: url('../imgs/arm.png') no-repeat center center/contain;
     animation: grab 15s ease-out forwards;
 }
 
@@ -71,7 +71,7 @@ body {
 body {
     margin: 0;
     overflow: hidden;
-    background: url('./imgs/office.jpg') no-repeat center center/cover;
+    background: url('../imgs/office.jpg') no-repeat center center/cover;
     transition: background 1s ease-out;
 }
 
@@ -88,7 +88,7 @@ body {
     transform: translate(-50%, -50%);
     width: 300px;
     height: 200px;
-    background: url('./imgs/viewmaster_front.png') no-repeat center center/contain;
+    background: url('../imgs/viewmaster_front.png') no-repeat center center/contain;
     opacity: 1;
     animation: fadeOut 15s ease-out forwards; /* Slower fade-out (15 seconds) */
 }
@@ -105,7 +105,7 @@ body {
     bottom: -300px;
     left: 40%;
     transform: translateX(-50%);
-    background: url('./imgs/arm.png') no-repeat center center/contain;
+    background: url('../imgs/arm.png') no-repeat center center/contain;
     animation: grab 12s ease-out forwards; /* Slower animation (12 seconds) */
 }
 
