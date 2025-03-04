@@ -1,8 +1,3 @@
-if (viewmasterEyes) {
-    viewmasterEyes.style.opacity = "1";
-} else {
-    console.error("Element #viewmasterEyes not found!");
-}
 
 
 // Step 1: Define the class
