@@ -43,7 +43,7 @@ const images = [
     ),
     new ImageItem(
         "Protestors", 
-        './imgs/wish.jpeg', 
+        './imgs/wish.jpg', 
         "Protesters",
         "Kayla Velasquez/Unsplash", 
         2017
