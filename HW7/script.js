@@ -14,15 +14,15 @@ class ImageItem {
 // Step 2: Create objects from the class
 const images = [
     new ImageItem(
-        "World Day of Social Justice", 
-        './imgs/redimage.jpeg', 
-        "Vector design world day of social justice.",
-        "Slowarea", 
-        2025
+        "Exploring Social Justice", 
+        './imgs/exploringsocialjustice.jpg', 
+        "exploring social justice through pbl",
+        "Michelle Chanda Singh", 
+        2021
     ),
     new ImageItem(
         "World Social Justice Day: If Only…", 
-        './imgs/hartmann.jpeg', 
+        './imgs/hartmann.jpg', 
         "Kathleen and Al Hartmann in the field with a woman they treat.",
         "Kathleen Hartmann", 
         2019
@@ -36,7 +36,7 @@ const images = [
     ),
     new ImageItem(
         "Social justice is historically villainized by newsrooms", 
-        './imgs/justice.jpeg', 
+        './imgs/justice.jpg', 
         "Throughout history, newspapers have villainized social justice movements. There was a time where papers were run by wealthy white men, thus it made sense that the stories in the paper would be against movements supporting women’s suffrage, immigration rights and labor unions. Even today there is a clear bias — both intentional and unintentional — towards social justice.",
         "MYRIAM ALCALA", 
         2021
