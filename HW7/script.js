@@ -19,35 +19,35 @@ class ImageItem {
 const images = [
     new ImageItem(
         "Exploring Social Justice", 
-        'imgs/exploringsocialjustice.jpg',  // No './'
+        './imgs/exploringsocialjustice.jpg',  // No './'
         "exploring social justice through pbl",
         "Michelle Chanda Singh", 
         2021
     ),
     new ImageItem(
         "World Social Justice Day: If Only…", 
-        'imgs/hartmann.jpg', 
+        './imgs/hartmann.jpg', 
         "Kathleen and Al Hartmann in the field with a woman they treat.",
         "Kathleen Hartmann", 
         2019
     ),
     new ImageItem(
         "The changing climate is a social justice issue", 
-        'imgs/scienc.png', 
+        './imgs/scienc.png', 
         "Equity is at the heart of reversing climate change. Our collective challenge is to fundamentally change our behaviors, our habits, and our lifestyle to reduce carbon emissions, end the age of fossil fuels, and sustain a liveable planet for all.",
         "Science Museum of Minnesota", 
         2020
     ),
     new ImageItem(
         "Social justice is historically villainized by newsrooms", 
-        'imgs/justice.jpg', 
+        './imgs/justice.jpg', 
         "Throughout history, newspapers have villainized social justice movements. There was a time where papers were run by wealthy white men, thus it made sense that the stories in the paper would be against movements supporting women’s suffrage, immigration rights and labor unions. Even today there is a clear bias — both intentional and unintentional — towards social justice.",
         "MYRIAM ALCALA", 
         2021
     ),
     new ImageItem(
         "Protestors", 
-        'imgs/wish.jpg', 
+        './imgs/wish.jpg', 
         "Protesters",
         "Kayla Velasquez/Unsplash", 
         2017
