@@ -19,14 +19,14 @@ class ImageItem {
 const images = [
     new ImageItem(
         "Exploring Social Justice", 
-        './imgs/exploringsocialjustice.jpg', 
+        'imgs/exploringsocialjustice.jpg',  // No './'
         "exploring social justice through pbl",
         "Michelle Chanda Singh", 
         2021
     ),
     new ImageItem(
         "World Social Justice Day: If Only…", 
-        './imgs/hartmann.jpg', 
+        'imgs/hartmann.jpg', 
         "Kathleen and Al Hartmann in the field with a woman they treat.",
         "Kathleen Hartmann", 
         2019
