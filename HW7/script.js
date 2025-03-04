@@ -19,7 +19,7 @@ class ImageItem {
 const images = [
     new ImageItem(
         "Exploring Social Justice", 
-        './imgs/exploringsocialjustice.jpg', 
+        'https://github.com/smores94/rose.krieg_mart441/blob/1cac70fb8e34a60e1e92609b056ada401a94e0e2/HW7/imgs/exploringsocialjustice.jpg',
         "exploring social justice through pbl",
         "Michelle Chanda Singh", 
         2021
