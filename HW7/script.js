@@ -19,7 +19,7 @@ class ImageItem {
 const images = [
     new ImageItem(
         "Exploring Social Justice", 
-        'https://github.com/smores94/rose.krieg_mart441/blob/1cac70fb8e34a60e1e92609b056ada401a94e0e2/HW7/imgs/exploringsocialjustice.jpg',
+        './imgs/exploringsocialjustice.jpg', 
         "exploring social justice through pbl",
         "Michelle Chanda Singh", 
         2021
@@ -33,7 +33,7 @@ const images = [
     ),
     new ImageItem(
         "The changing climate is a social justice issue", 
-        './imgs/scienc.png', 
+        'HW7/imgs/scienc.png', 
         "Equity is at the heart of reversing climate change. Our collective challenge is to fundamentally change our behaviors, our habits, and our lifestyle to reduce carbon emissions, end the age of fossil fuels, and sustain a liveable planet for all.",
         "Science Museum of Minnesota", 
         2020
