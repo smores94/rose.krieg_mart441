@@ -2,7 +2,7 @@
 body {
     margin: 0;
     overflow: hidden;
-    background: url('.../imgs/office.jpg') no-repeat center center/cover;
+    background: url('./imgs/office.jpg') no-repeat center center/cover;
     transition: background 1s ease-out;
 }
 
@@ -22,7 +22,7 @@ body {
     transform: translate(-50%, -50%);
     width: 300px;
     height: 200px;
-    background: url('./imgs/') no-repeat center center/contain;
+    background: url('./imgs/office.jpg') no-repeat center center/contain;
     opacity: 1;
     animation: fadeOut 14s ease-out forwards;
 }
