@@ -33,7 +33,7 @@ const images = [
     ),
     new ImageItem(
         "The changing climate is a social justice issue", 
-        'HW7/imgs/scienc.png', 
+        './HW7/imgs/scienc.png', 
         "Equity is at the heart of reversing climate change. Our collective challenge is to fundamentally change our behaviors, our habits, and our lifestyle to reduce carbon emissions, end the age of fossil fuels, and sustain a liveable planet for all.",
         "Science Museum of Minnesota", 
         2020
