@@ -15,7 +15,7 @@ class ImageItem {
 const images = [
     new ImageItem(
         "Exploring Social Justice", 
-        'https://via.placeholder.com/150', 
+        './HW7/imgs/exploringsocialjustice.jpg', 
         "exploring social justice through pbl",
         "Michelle Chanda Singh", 
         2021
