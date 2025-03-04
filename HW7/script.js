@@ -86,11 +86,7 @@ function startAnimation() {
     const activateButton = document.getElementById("imageArrayButton");
     const viewmasterEyes = document.getElementById("viewmasterEyes");
 
-    // Hide the text box after a delay
-    setTimeout(() => {
-        textBox.style.display = "none";
-    }, 16000); // Matches text fade-out duration
-
+    
     
 
     // Show 'viewmaster_eyes' and button after the previous elements disappear
