@@ -13,14 +13,14 @@ class ImageItem {
 const images = [
     new ImageItem(
         "World Day of Social Justice", 
-        './imgs/redimage.jpg', 
+        './imgs/redimage.jpeg', 
         "Vector design world day of social justice.",
         "Slowarea", 
         2025
     ),
     new ImageItem(
         "World Social Justice Day: If Only…", 
-        './imgs/hartmann.jpg', 
+        './imgs/hartmann.jpeg', 
         "Kathleen and Al Hartmann in the field with a woman they treat.",
         "Kathleen Hartmann", 
         2019
@@ -34,14 +34,14 @@ const images = [
     ),
     new ImageItem(
         "Social justice is historically villainized by newsrooms", 
-        './imgs/justice.jpg', 
+        './imgs/justice.jpeg', 
         "Throughout history, newspapers have villainized social justice movements. There was a time where papers were run by wealthy white men, thus it made sense that the stories in the paper would be against movements supporting women’s suffrage, immigration rights and labor unions. Even today there is a clear bias — both intentional and unintentional — towards social justice.",
         "MYRIAM ALCALA", 
         2021
     ),
     new ImageItem(
         "Protestors", 
-        './imgs/wish.jpg', 
+        './imgs/wish.jpeg', 
         "Protesters",
         "Kayla Velasquez/Unsplash", 
         2017
