@@ -2,12 +2,16 @@
 
 // Step 1: Define the class
 class ImageItem {
-    constructor(title, image, description, author, year) {
+    constructor(title, imagePath, description, author, year) {
         this.title = title;
-        this.image = image;
+        this.imagePath = imagePath;
         this.description = description;
         this.author = author;
         this.year = year;
+    }
+
+    displayInfo() {
+        return `${this.title} (${this.year}) by ${this.author}: ${this.description}`;
     }
 }
 
@@ -15,14 +19,14 @@ class ImageItem {
 const images = [
     new ImageItem(
         "Exploring Social Justice", 
-        './HW7/imgs/exploringsocialjustice.jpg', 
+        './imgs/exploringsocialjustice.jpg', 
         "exploring social justice through pbl",
         "Michelle Chanda Singh", 
         2021
     ),
     new ImageItem(
         "World Social Justice Day: If Only…", 
-        'imgs/hartmann.jpg', 
+        './imgs/hartmann.jpg', 
         "Kathleen and Al Hartmann in the field with a woman they treat.",
         "Kathleen Hartmann", 
         2019
