@@ -14,7 +14,9 @@ $(document).ready(function () {
       "Let them eat cake",
       "Just need to suffer a little.",
       "Let them eat cake",
+      "Some of the things that I say will be incorrect",
       "Make America Great Again.",
+      "I believe you have to be willing to be misunderstood if you’re going to innovate.",
       "Is it better to live in a world where everyone is happy all the time, even if that happiness is artificial? Do you wish for world peace and happiness all the time? Are you sure?"
     ];
     const shapes = ["circle", "square", "triangle"];
