@@ -13,13 +13,11 @@ body {
     height: 100vh;
   }
   
-  /* Image Container */
-  #image-container {
-    position: absolute;
-    top: 0;
-    left: 0;
+  #image-container img {
     width: 100%;
     height: 100%;
+    object-fit: contain; /* Show the entire image */
+    object-position: center; /* Center the image */
   }
   
   /* Text Container */
