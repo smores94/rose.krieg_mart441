@@ -38,7 +38,7 @@ body, html {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 2em;
-    color: #fff; /* Light text color */
+    color: #f71c1c; /* Light text color */
     text-align: center;
     text-shadow: 
       -1px -1px 0 #000,  
