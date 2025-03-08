@@ -6,7 +6,9 @@ $(document).ready(function () {
       "./img/image3.jpg",
       "./img/image4.jpg",
       "./img/image5.jpg",
-       "./img/image6.jpg"
+      "./img/image6.jpg",
+      "./img/image7.jpg",
+       "./img/image8.jpg"
     ];
     const texts = [
       "Let them eat cake",
