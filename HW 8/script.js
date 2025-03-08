@@ -8,7 +8,7 @@ $(document).ready(function () {
       "./img/image5.jpg",
       "./img/image6.jpg",
       "./img/image7.jpg",
-       "./img/image8.jpg"
+      "./img/image8.jpg"
     ];
     const texts = [
       "Let them eat cake",
@@ -27,7 +27,7 @@ $(document).ready(function () {
     function fadeImages() {
       $("#image-container").fadeOut(15000, function () {
         currentImageIndex = (currentImageIndex + 1) % images.length;
-        $(this).html(`<img src="${images[currentImageIndex]}" alt="Image">`).fadeIn(15000);
+        $(this).html(`<img src="${images[currentImageIndex]}" alt="Image">`).fadeIn(8000);
       });
     }
   
