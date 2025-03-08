@@ -5,7 +5,8 @@ $(document).ready(function () {
       "./img/image2.jpg",
       "./img/image3.jpg",
       "./img/image4.jpg",
-      "./img/image5.jpg"
+      "./img/image5.jpg",
+       "./img/image6.jpg"
     ];
     const texts = [
       "Let them eat cake",
@@ -30,11 +31,17 @@ $(document).ready(function () {
   
     // Function to change text
     function changeText() {
-      $("#text-container").fadeOut(500, function () {
-        currentTextIndex = (currentTextIndex + 1) % texts.length;
-        $(this).text(texts[currentTextIndex]).fadeIn(500);
-      });
-    }
+        $("#text-container").fadeOut(1000, function () { // Fade out over 1 second
+          currentTextIndex = (currentTextIndex + 1) % texts.length;
+          $(this).text(texts[currentTextIndex]).fadeIn(1000, function () {
+            // Wait 3 seconds before starting the next fade-out
+            setTimeout(changeText, 3000);
+          });
+        });
+      }
+      
+      // Start the text cycle
+      changeText();
   
     // Function to move shapes
     function moveShapes() {
