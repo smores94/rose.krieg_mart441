@@ -70,7 +70,7 @@ $(document).ready(function () {
     }
   
     // Initialize animations
-    setInterval(fadeImages, 3000); // Change images every 3 seconds
-    setInterval(changeText, 2000); // Change text every 2 seconds
+    setInterval(fadeImages, 5000); // Change images every 5 seconds
+    setInterval(changeText, 10000); // Change text every 10 seconds
     moveShapes(); // Start moving shapes
   });
