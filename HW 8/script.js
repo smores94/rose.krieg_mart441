@@ -1,14 +1,18 @@
 $(document).ready(function () {
     // Arrays for images, text, and shapes
     const images = [
-      "image1.jpg",
-      "image2.jpg",
-      "image3.jpg"
+      "./img/image1.jpg",
+      "./img/image2.jpg",
+      "./img/image3.jpg",
+      "./img/image4.jpg",
+      "./img/image5.jpg"
     ];
     const texts = [
-      "Stay curious.",
-      "Dream big.",
-      "Keep learning."
+      "Let them eat cake",
+      "Just need to suffer a little.",
+      "Let them eat cake",
+      "Make America Great Again.",
+      "Is it better to live in a world where everyone is happy all the time, even if that happiness is artificial? Do you wish for world peace and happiness all the time? Are you sure?"
     ];
     const shapes = ["circle", "square", "triangle"];
   
