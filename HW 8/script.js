@@ -25,9 +25,9 @@ $(document).ready(function () {
   
     // Function to fade in and out images
     function fadeImages() {
-      $("#image-container").fadeOut(1000, function () {
+      $("#image-container").fadeOut(15000, function () {
         currentImageIndex = (currentImageIndex + 1) % images.length;
-        $(this).html(`<img src="${images[currentImageIndex]}" alt="Image">`).fadeIn(10000);
+        $(this).html(`<img src="${images[currentImageIndex]}" alt="Image">`).fadeIn(15000);
       });
     }
   
