@@ -33,7 +33,7 @@ $(document).ready(function () {
     function changeText() {
         $("#text-container").fadeOut(1000, function () { // Fade out over 1 second
           currentTextIndex = (currentTextIndex + 1) % texts.length;
-          $(this).text(texts[currentTextIndex]).fadeIn(1000, function () {
+          $(this).text(texts[currentTextIndex]).fadeIn(10000, function () {
             // Wait 10 seconds before starting the next fade-out
             setTimeout(changeText, 10000);
           });
