@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     overflow: hidden; /* Prevent scrolling */
-    background-color: #f0f0f0;
+    background-color: #827878;
     font-family: Arial, sans-serif;
   }
   
@@ -29,7 +29,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 2em;
-    color: #333;
+    color: #ed1b1b;
     text-align: center;
   }
   
