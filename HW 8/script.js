@@ -34,8 +34,8 @@ $(document).ready(function () {
         $("#text-container").fadeOut(1000, function () { // Fade out over 1 second
           currentTextIndex = (currentTextIndex + 1) % texts.length;
           $(this).text(texts[currentTextIndex]).fadeIn(1000, function () {
-            // Wait 3 seconds before starting the next fade-out
-            setTimeout(changeText, 3000);
+            // Wait 10 seconds before starting the next fade-out
+            setTimeout(changeText, 10000);
           });
         });
       }
