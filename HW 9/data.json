@@ -108,7 +108,7 @@
         "http://dbpedia.org/resource/King_Wuling_of_Zhao",
         "http://dbpedia.org/resource/Zhao_%28state%29"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/d/d2/Blank.png",
+      "illustration": "./img/kingzhao.png",
       "year": "-0299"
     },
     {
@@ -121,7 +121,7 @@
         "http://dbpedia.org/resource/Battle_of_Camerinum",
         "http://dbpedia.org/resource/third_Samnite_War"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Athenian_empire_atheight_450_shepherd1923.png/150px-Athenian_empire_atheight_450_shepherd1923.png",
+      "illustration": "./img/samnites.jpg",
       "year": "-0298"
     },
     {
@@ -130,7 +130,7 @@
       "involvedAgents": [
         "http://dbpedia.org/resource/Aufidena"
       ],
-      "illustration": "",
+      "illustration": "./img/Samnite_soldiers.jpg",
       "year": "-0298"
     },
     {
@@ -141,7 +141,7 @@
         "http://dbpedia.org/resource/Syracuse%2C_Sicily",
         "http://dbpedia.org/resource/Bruttians"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/9/99/WPanthroponymy.svg/150px-WPanthroponymy.svg.png",
+      "illustration": "./img/agathocles.jpg",
       "year": "-0298"
     },
     {
@@ -151,7 +151,7 @@
         "http://dbpedia.org/resource/Ptolemy_I_Soter",
         "http://dbpedia.org/resource/Sicily"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Diadochen1.png/150px-Diadochen1.png",
+      "illustration": "./img/SyracuseAgathocle.jpg",
       "year": "-0298"
     }
   ]
