@@ -57,12 +57,25 @@ h1 {
 
 .event-details h2 {
   margin: 0 0 10px;
-  font-size: .7em;
+  font-size: 1.2em;
   color: #007bff;
+  text-align: center;
 }
 
-.event-details p {
-  margin: 0;
-  font-size: .4em;
+.details-container {
+  width: 100%;
+}
+
+.event-details .year {
+  text-align: left;
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #555;
+}
+
+.event-details .related {
+  text-align: left;
+  margin: 5px 0;
+  font-size: 0.9em;
   color: #555;
 }
