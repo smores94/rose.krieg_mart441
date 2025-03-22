@@ -10,7 +10,7 @@ $(document).ready(function () {
       output += `<div class="event-details">`;
       output += `<h2>${event.description}</h2>`;
       output += `<p><strong>Year:</strong> ${event.year}</p>`;
-      output += `<p><strong>Involved Agents:</strong> ${event.involvedAgents.join(", ")}</p>`;
+      output += `<p><strong>Involved Agents:</strong> ${event.RelatedPeopleorEvents.join(", ")}</p>`;
       output += `</div>`;
       output += `</a>`;
     });
