@@ -44,7 +44,7 @@
         "http://dbpedia.org/resource/Antioch",
         "http://dbpedia.org/resource/Orontes_River"
       ],
-      "illustration": "./img/selleucus",
+      "illustration": "./img/selleucus.png",
       "year": "-0300"
     },
     {
@@ -64,7 +64,7 @@
       "involvedAgents": [
         "http://dbpedia.org/resource/Jainism"
       ],
-      "illustration": "./img.jainism.jpg",
+      "illustration": "./img/jainism.jpg",
       "year": "-0300"
     },
     {
