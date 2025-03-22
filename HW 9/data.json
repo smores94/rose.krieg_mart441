@@ -1,14 +1,29 @@
 [
     {
-      "name": "Item 1",
-      "description": "This is the first item in the dataset."
+      "id": "HEc969051df903644018edde46f4fa24ef",
+      "description": "Pilgrims travel to the healing temples of Asclepieion to be cured of their ills. After a ritual purification the followers bring offerings or sacrifices.",
+      "involvedAgents": [
+        "http://dbpedia.org/resource/Pilgrim",
+        "http://dbpedia.org/resource/Asclepeion",
+        "http://dbpedia.org/resource/ritual_purification",
+        "http://dbpedia.org/resource/sacrifices"
+      ],
+      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/An_Indian_pilgrim.jpg/150px-An_Indian_pilgrim.jpg",
+      "year": "-0300"
     },
     {
-      "name": "Item 2",
-      "description": "This is the second item in the dataset."
-    },
-    {
-      "name": "Item 3",
-      "description": "This is the third item in the dataset."
+      "id": "HEf130afa0d33b1955c58b6fcc8a456019",
+      "description": "Pyrrhus, the King of Epirus, is taken as a hostage to Egypt after the Battle of Ipsus and makes a diplomatic marriage with the princess Antigone, daughter of Ptolemy and Berenice.",
+      "involvedAgents": [
+        "http://dbpedia.org/resource/Pyrrhus_of_Epirus",
+        "http://dbpedia.org/resource/Epirus_%28ancient_state%29",
+        "http://dbpedia.org/resource/Ancient_Egypt",
+        "http://dbpedia.org/resource/Battle_of_Ipsus",
+        "http://dbpedia.org/resource/Ptolemy_I_Soter",
+        "http://dbpedia.org/resource/Berenice_I_of_Egypt"
+      ],
+      "illustration": "http://upload.wikimedia.org/wikipedia/en/thumb/b/b0/Epirus_coins.jpg/150px-Epirus_coins.jpg",
+      "year": "-0300"
     }
+    // Add more events here...
   ]
