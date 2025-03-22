@@ -57,9 +57,9 @@ h1 {
 
 .event-details h2 {
   margin: 0 0 10px;
-  font-size: .9em;
+  font-size: .8em;
   color: #007bff;
-  text-align: center;
+  text-align: left;
 }
 
 .details-container {
