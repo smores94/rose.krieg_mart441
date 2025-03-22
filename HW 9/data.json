@@ -8,7 +8,7 @@
         "http://dbpedia.org/resource/ritual_purification",
         "http://dbpedia.org/resource/sacrifices"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/An_Indian_pilgrim.jpg/150px-An_Indian_pilgrim.jpg",
+      "illustration": "./img/temple.jpg",
       "year": "-0300"
     },
     {
@@ -22,7 +22,7 @@
         "http://dbpedia.org/resource/Ptolemy_I_Soter",
         "http://dbpedia.org/resource/Berenice_I_of_Egypt"
       ],
-      "illustration": "img/pyrrhus.jpg",
+      "illustration": "./img/pyrrhus.jpg",
       "year": "-0300"
     },
     {
