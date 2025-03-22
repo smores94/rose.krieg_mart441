@@ -57,7 +57,7 @@ h1 {
 
 .event-details h2 {
   margin: 0 0 10px;
-  font-size: 1.0em;
+  font-size: .9em;
   color: #007bff;
   text-align: center;
 }
@@ -69,13 +69,13 @@ h1 {
 .event-details .year {
   text-align: left;
   margin: 5px 0;
-  font-size: 0.9em;
+  font-size: 0.7em;
   color: #555;
 }
 
 .event-details .related {
   text-align: left;
   margin: 5px 0;
-  font-size: 0.9em;
+  font-size: 0.7em;
   color: #555;
 }
