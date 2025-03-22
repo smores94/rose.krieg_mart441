@@ -4,18 +4,22 @@ $(document).ready(function () {
     let output = "";
 
     // Iterate over the data and create HTML
-    $.each(data, function (key, value) {
-      output += `<div class="data-item">`;
-      output += `<h2>${value.name || value.title || "Untitled"}</h2>`; // Adjust based on your dataset
-      output += `<p>${value.description || "No description available."}</p>`; // Adjust based on your dataset
+    $.each(data, function (index, event) {
+      output += `<div class="event-item">`;
+      output += `<h2>${event.description}</h2>`; // Use the description field
+      output += `<p><strong>Year:</strong> ${event.year}</p>`; // Display the year
+      output += `<p><strong>Involved Agents:</strong> ${event.involvedAgents.join(", ")}</p>`; // Display involved agents
+      if (event.illustration) {
+        output += `<img src="${event.illustration}" alt="Event Illustration">`; // Display the illustration if available
+      }
       output += `</div>`;
     });
 
     // Insert the generated HTML into the container
     $("#data-container").html(output);
 
-    // Apply your jQuery plugin to the data
-    $("#data-container .data-item").myPlugin();
+    // Apply your jQuery plugin to the event items
+    $("#data-container .event-item").myPlugin();
   }).fail(function () {
     console.error("Error loading JSON data.");
   });
