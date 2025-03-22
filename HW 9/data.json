@@ -2,7 +2,7 @@
     {
       "id": "HEc969051df903644018edde46f4fa24ef",
       "description": "Pilgrims travel to the healing temples of Asclepieion to be cured of their ills. After a ritual purification the followers bring offerings or sacrifices.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Pilgrim",
         "http://dbpedia.org/resource/Asclepeion",
         "http://dbpedia.org/resource/ritual_purification",
@@ -14,7 +14,7 @@
     {
       "id": "HEf130afa0d33b1955c58b6fcc8a456019",
       "description": "Pyrrhus, the King of Epirus, is taken as a hostage to Egypt after the Battle of Ipsus and makes a diplomatic marriage with the princess Antigone, daughter of Ptolemy and Berenice.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Pyrrhus_of_Epirus",
         "http://dbpedia.org/resource/Epirus_%28ancient_state%29",
         "http://dbpedia.org/resource/Ancient_Egypt",
@@ -28,7 +28,7 @@
     {
       "id": "HEc757b459525df20624165ac4c3b7bb61",
       "description": "Ptolemy concludes an alliance with King Lysimachus of Thrace and gives him his daughter Arsinoe II in marriage.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Lysimachus",
         "http://dbpedia.org/resource/Thrace",
         "http://dbpedia.org/resource/Arsinoe_II_of_Egypt"
@@ -39,7 +39,7 @@
     {
       "id": "HE2ab4b2b648b28781188b072671212bde",
       "description": "Seleucus founds the city of Antioch, some 20 miles up the Orontes River, naming it after his father.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Seleucus_I_Nicator",
         "http://dbpedia.org/resource/Antioch",
         "http://dbpedia.org/resource/Orontes_River"
@@ -50,7 +50,7 @@
     {
       "id": "HEca98c1bf264bd9ff7cffb2dd709d2500",
       "description": "After the death of his wife Apama, Seleucus marries Stratonice, daughter of Demetrius Poliorcetes.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Apama",
         "http://dbpedia.org/resource/Stratonice_of_Syria",
         "http://dbpedia.org/resource/Demetrius_Poliorcetes"
@@ -61,7 +61,7 @@
     {
       "id": "HE01a4a97d5497dbfab4c1f5fe93b7b36f",
       "description": "The central texts of Jainism, the Jain scriptures, are recorded (approximate date).",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Jainism"
       ],
       "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Adinath_Bhagwan%2CBibrod.jpg/150px-Adinath_Bhagwan%2CBibrod.jpg",
@@ -70,7 +70,7 @@
     {
       "id": "HE91a4e6a1de9112aaa2969d980ca1a9e3",
       "description": "In Pella (in Macedonia), the artist Gnosis makes a mosaic floor decoration called 'Stag Hunt' and even signs it with 'Gnosis made it'. It is today preserved at the Archaeological museum in Pella.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Pella",
         "http://dbpedia.org/resource/Macedon"
       ],
@@ -80,7 +80,7 @@
     {
       "id": "HE18fcd540dc7d7ec302efd578f5c90269",
       "description": "The Samnites, seizing their chance when Rome is engaged on the Lombard plain, start the third Samnite War with a collection of mercenaries from Gaul, Sabine, and Etruscan allies to help them.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Samnites",
         "http://dbpedia.org/resource/third_Samnite_War",
         "http://dbpedia.org/resource/Gaul",
@@ -93,7 +93,7 @@
     {
       "id": "HE260ea497a6b1483e14ed3116cc6d92d8",
       "description": "The state of Qin attacks eight cities of the state of Chu. Chu then sends an envoy to ask the King of Huai to go to Qin to negotiate peace. Qu Yuan risks his life to go up to the court to persuade the King of Huai not to go to the negotiation.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Qin_%28state%29",
         "http://dbpedia.org/resource/Chu_%28state%29",
         "http://dbpedia.org/resource/Qu_Yuan"
@@ -104,7 +104,7 @@
     {
       "id": "HE8353f540e38e5799f227d9f42e4225c8",
       "description": "King Wuling of Zhao abdicates the throne of Zhao to his son.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/King_Wuling_of_Zhao",
         "http://dbpedia.org/resource/Zhao_%28state%29"
       ],
@@ -114,7 +114,7 @@
     {
       "id": "HE74c127d31733b057a5a3cbdb550125be",
       "description": "The Samnites defeat the Romans under Lucius Cornelius Scipio Barbatus in the Battle of Camerinum, first battle of the Third Samnite War.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Samnites",
         "http://dbpedia.org/resource/Roman_Republic",
         "http://dbpedia.org/resource/Lucius_Cornelius_Scipio_Barbatus",
@@ -127,7 +127,7 @@
     {
       "id": "HE51266c396debf3d02ef823c66b02bc48",
       "description": "The Roman armies penetrate into the heart of the Samnite territory and then capture the Samnite cities of Taurasia, Bovianum Vetus and Aufidena.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Aufidena"
       ],
       "illustration": "",
@@ -136,7 +136,7 @@
     {
       "id": "HE21fc9fa9525eaa1bdd2d4d7cb54099bf",
       "description": "Agathocles, king of Syracuse, assists the Italian Greeks against the Bruttians and supported the Greeks against the Romans.",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Agathocles",
         "http://dbpedia.org/resource/Syracuse%2C_Sicily",
         "http://dbpedia.org/resource/Bruttians"
@@ -147,7 +147,7 @@
     {
       "id": "HE6665c015c7f3563710036037b07e356a",
       "description": "Ptolemy gives his stepdaughter Theoxena in marriage to Agathocles, the tyrant of Syracuse (in south-eastern Sicily).",
-      "Related People or Events": [
+      "RelatedPeopleorEvents": [
         "http://dbpedia.org/resource/Ptolemy_I_Soter",
         "http://dbpedia.org/resource/Sicily"
       ],
