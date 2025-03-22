@@ -18,8 +18,8 @@ h1 {
 
 .gallery a {
   display: block;
-  width: 200px;
-  height: 200px;
+  width: 300px; /* Increased from 200px to 300px (1/3 larger) */
+  height: 300px; /* Increased from 200px to 300px (1/3 larger) */
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
@@ -41,7 +41,7 @@ h1 {
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 0.9);
-  padding: 15px;
+  padding: 20px; /* Increased padding for better spacing */
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -56,10 +56,10 @@ h1 {
 }
 
 .event-details h2 {
-  margin: 0 0 10px;
-  font-size: .8em;
+  margin: 0 0 15px; /* Increased margin for better spacing */
+  font-size: 1.4em; /* Increased font size for better readability */
   color: #007bff;
-  text-align: left;
+  text-align: center;
 }
 
 .details-container {
@@ -68,14 +68,14 @@ h1 {
 
 .event-details .year {
   text-align: left;
-  margin: 5px 0;
-  font-size: 0.7em;
+  margin: 10px 0; /* Increased margin for better spacing */
+  font-size: 1em; /* Increased font size for better readability */
   color: #555;
 }
 
 .event-details .related {
   text-align: left;
-  margin: 5px 0;
-  font-size: 0.7em;
+  margin: 10px 0; /* Increased margin for better spacing */
+  font-size: 1em; /* Increased font size for better readability */
   color: #555;
 }
