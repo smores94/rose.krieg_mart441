@@ -33,7 +33,7 @@
         "http://dbpedia.org/resource/Thrace",
         "http://dbpedia.org/resource/Arsinoe_II_of_Egypt"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Diadochen1.png/150px-Diadochen1.png",
+      "illustration": "./img/ptolemyii.png",
       "year": "-0300"
     },
     {
@@ -44,7 +44,7 @@
         "http://dbpedia.org/resource/Antioch",
         "http://dbpedia.org/resource/Orontes_River"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/1/12/Antigone_le_Borgne_%28pi%C3%A8ce%29.jpg/150px-Antigone_le_Borgne_%28pi%C3%A8ce%29.jpg",
+      "illustration": "./img/selleucus",
       "year": "-0300"
     },
     {
@@ -55,7 +55,7 @@
         "http://dbpedia.org/resource/Stratonice_of_Syria",
         "http://dbpedia.org/resource/Demetrius_Poliorcetes"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Flag_of_Iran.svg/150px-Flag_of_Iran.svg.png",
+      "illustration": "./img/antiochus.png",
       "year": "-0300"
     },
     {
@@ -64,7 +64,7 @@
       "involvedAgents": [
         "http://dbpedia.org/resource/Jainism"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/4/45/Adinath_Bhagwan%2CBibrod.jpg/150px-Adinath_Bhagwan%2CBibrod.jpg",
+      "illustration": "./img.jainism.png",
       "year": "-0300"
     },
     {
@@ -74,7 +74,7 @@
         "http://dbpedia.org/resource/Pella",
         "http://dbpedia.org/resource/Macedon"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Pella_House_atrium.jpg/150px-Pella_House_atrium.jpg",
+      "illustration": "./img/staghunt.jpg",
       "year": "-0300"
     },
     {
@@ -87,7 +87,7 @@
         "http://dbpedia.org/resource/Sabine",
         "http://dbpedia.org/resource/Etruscan_civilization"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Celtic_round_dogs.svg/150px-Celtic_round_dogs.svg.png",
+      "illustration": "./img/samnites.jpg",
       "year": "-0299"
     },
     {
@@ -98,7 +98,7 @@
         "http://dbpedia.org/resource/Chu_%28state%29",
         "http://dbpedia.org/resource/Qu_Yuan"
       ],
-      "illustration": "http://upload.wikimedia.org/wikipedia/commons/d/d2/Blank.png",
+      "illustration": "./img/qinhorse.jpg",
       "year": "-0299"
     },
     {
