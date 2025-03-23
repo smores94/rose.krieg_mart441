@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-image: url('./img/parchment.jpg'); /* Path to your parchment image */
+  background-image: url('./img/parchment.jpg'); 
   background-size: cover; /* Ensures the image covers the entire background */
   background-position: center; /* Centers the image */
   background-repeat: no-repeat; /* Prevents the image from repeating */
@@ -11,8 +11,14 @@ body {
 }
 
 h1 {
+  font-family: 'Cinzel', serif; /* Use the Cinzel font */
+  font-size: 3em; /* Increase the font size */
+  font-weight: 700; /* Use the bold weight */
   text-align: center;
-  color: #4a2c2a; /* Dark brown for better contrast */
+  color: #4a2c2a; /* Dark brown for contrast */
+  text-transform: uppercase; /* Optional: Make the title uppercase */
+  letter-spacing: 4px; /* Add spacing between letters for a classic look */
+  margin-bottom: 20px; /* Add some space below the title */
 }
 
 .gallery {
