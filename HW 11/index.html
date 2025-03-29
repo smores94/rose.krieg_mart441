@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canvas Collision Game</title>
+    <title>Shrinky Dinks!</title>
     <style>
         body {
             display: flex;
@@ -35,19 +35,34 @@
             color: #666;
             margin-top: 10px;
         }
+        
+        button {
+            padding: 8px 16px;
+            margin: 10px;
+            background-color: #4a6fa5;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #3a5a8f;
+        }
     </style>
 </head>
 <body>
     <div id="game-container">
-        <h1>Canvas Collision Game</h1>
+        <h1>Shrinking Objects Game</h1>
         <canvas id="gameCanvas" width="600" height="400"></canvas>
-        <p>Use arrow keys to move the player. Try to catch the autonomous object!</p>
+        <p>Use arrow keys to move. Catch the green object before you shrink too much!</p>
         <audio id="bgMusic" loop>
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
         </audio>
         <div>
             <button id="musicToggle">Toggle Music</button>
+            <button id="resetGame">Reset Game</button>
         </div>
     </div>
 
@@ -57,12 +72,15 @@
         const ctx = canvas.getContext('2d');
         const music = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
+        const resetButton = document.getElementById('resetGame');
         
         // Game state
         let background = '#87CEEB';
         let collisionOccurred = false;
+        let shrinkFactor = 0.9;
+        let minSize = 10;
         
-        // Game object class
+        // Enhanced Game object class
         class GameObject {
             constructor(x, y, width, height, color, dx = 0, dy = 0) {
                 this.x = x;
@@ -72,42 +90,68 @@
                 this.color = color;
                 this.dx = dx;
                 this.dy = dy;
-                this.originalWidth = width;
-                this.originalHeight = height;
+                this.initialWidth = width;
+                this.initialHeight = height;
+                this.isShrinking = false;
             }
             
             draw() {
-                ctx.fillStyle = this.color;
+                const gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
+                gradient.addColorStop(0, this.color);
+                gradient.addColorStop(1, this.darkenColor(this.color, 20));
+                
+                ctx.fillStyle = gradient;
                 ctx.fillRect(this.x, this.y, this.width, this.height);
                 
-                // Add some styling to the objects
                 ctx.strokeStyle = '#000';
                 ctx.lineWidth = 2;
                 ctx.strokeRect(this.x, this.y, this.width, this.height);
+                
+                if (this.width < 30) {
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(this.x + this.width/4, this.y + this.height/4, this.width/8, this.height/8);
+                    ctx.fillRect(this.x + this.width*3/4 - this.width/8, this.y + this.height/4, this.width/8, this.height/8);
+                    ctx.fillRect(this.x + this.width/4, this.y + this.height*3/4, this.width/2, this.height/8);
+                }
+            }
+            
+            darkenColor(color, percent) {
+                const num = parseInt(color.replace("#", ""), 16);
+                const amt = Math.round(2.55 * percent);
+                const R = (num >> 16) - amt;
+                const G = (num >> 8 & 0x00FF) - amt;
+                const B = (num & 0x0000FF) - amt;
+                return `#${(
+                    0x1000000 + 
+                    (R < 0 ? 0 : R) * 0x10000 + 
+                    (G < 0 ? 0 : G) * 0x100 + 
+                    (B < 0 ? 0 : B)
+                ).toString(16).slice(1)}`;
             }
             
             update() {
-                // Boundary checking
                 if (this.x <= 0) {
                     this.x = 0;
-                    this.dx = -this.dx;
+                    this.dx = -this.dx * 0.9;
                 }
                 if (this.x + this.width >= canvas.width) {
                     this.x = canvas.width - this.width;
-                    this.dx = -this.dx;
+                    this.dx = -this.dx * 0.9;
                 }
                 if (this.y <= 0) {
                     this.y = 0;
-                    this.dy = -this.dy;
+                    this.dy = -this.dy * 0.9;
                 }
                 if (this.y + this.height >= canvas.height) {
                     this.y = canvas.height - this.height;
-                    this.dy = -this.dy;
+                    this.dy = -this.dy * 0.9;
                 }
                 
-                // Update position
                 this.x += this.dx;
                 this.y += this.dy;
+                
+                this.dx *= 0.99;
+                this.dy *= 0.99;
             }
             
             checkCollision(other) {
@@ -117,21 +161,43 @@
                        this.y + this.height > other.y;
             }
             
-            resize(scale) {
-                const centerX = this.x + this.width / 2;
-                const centerY = this.y + this.height / 2;
-                
-                this.width = this.originalWidth * scale;
-                this.height = this.originalHeight * scale;
-                
-                this.x = centerX - this.width / 2;
-                this.y = centerY - this.height / 2;
+            shrink() {
+                if (this.width > minSize && this.height > minSize) {
+                    const centerX = this.x + this.width / 2;
+                    const centerY = this.y + this.height / 2;
+                    
+                    this.width *= shrinkFactor;
+                    this.height *= shrinkFactor;
+                    
+                    this.x = centerX - this.width / 2;
+                    this.y = centerY - this.height / 2;
+                    
+                    this.dx *= 1.05;
+                    this.dy *= 1.05;
+                    
+                    return true;
+                }
+                return false;
+            }
+            
+            reset() {
+                this.width = this.initialWidth;
+                this.height = this.initialHeight;
+                this.x = canvas.width/2 - this.width/2;
+                this.y = canvas.height/2 - this.height/2;
+                this.dx = 0;
+                this.dy = 0;
             }
         }
         
         // Create game objects
-        const player = new GameObject(100, 150, 50, 50, '#e74c3c');
-        const autonomousObj = new GameObject(400, 200, 40, 40, '#2ecc71', 2, 1.5);
+        const player = new GameObject(100, 150, 60, 60, '#e74c3c');
+        const autonomousObj = new GameObject(400, 200, 50, 50, '#2ecc71', 2, 1.5);
+        
+        // Enhanced autonomous movement variables
+        let directionChangeTimer = 0;
+        const directionChangeInterval = 60; // frames between direction changes
+        const maxSpeed = 8;
         
         // Keyboard controls
         const keys = {
@@ -164,8 +230,21 @@
             }
         });
         
-        // Start music (many browsers require user interaction first)
+        // Reset game
+        resetButton.addEventListener('click', () => {
+            player.reset();
+            autonomousObj.reset();
+            autonomousObj.dx = 2 + Math.random() * 2;
+            autonomousObj.dy = 1.5 + Math.random() * 2;
+            background = '#87CEEB';
+        });
+        
+        // Start music
         music.volume = 0.3;
+        
+        // Collision effect variables
+        let flashFrames = 0;
+        const maxFlashFrames = 10;
         
         // Game loop
         function gameLoop() {
@@ -174,38 +253,100 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
             // Handle player movement
-            player.dx = 0;
-            player.dy = 0;
+            const acceleration = 0.2;
             
-            if (keys.ArrowUp) player.dy = -3;
-            if (keys.ArrowDown) player.dy = 3;
-            if (keys.ArrowLeft) player.dx = -3;
-            if (keys.ArrowRight) player.dx = 3;
+            if (keys.ArrowUp) player.dy = Math.max(player.dy - acceleration, -maxSpeed);
+            if (keys.ArrowDown) player.dy = Math.min(player.dy + acceleration, maxSpeed);
+            if (keys.ArrowLeft) player.dx = Math.max(player.dx - acceleration, -maxSpeed);
+            if (keys.ArrowRight) player.dx = Math.min(player.dx + acceleration, maxSpeed);
             
-            // Update objects
+            // Update player
             player.update();
+            
+            // Enhanced autonomous movement
+            directionChangeTimer++;
+            if (directionChangeTimer >= directionChangeInterval) {
+                directionChangeTimer = 0;
+                
+                // Random direction change with some player tracking
+                const trackPlayer = Math.random() > 0.7; // 30% chance to track player
+                
+                if (trackPlayer) {
+                    // Move toward or away from player randomly
+                    const seekOrFlee = Math.random() > 0.5 ? 1 : -1;
+                    autonomousObj.dx = (player.x - autonomousObj.x) * 0.02 * seekOrFlee;
+                    autonomousObj.dy = (player.y - autonomousObj.y) * 0.02 * seekOrFlee;
+                    
+                    // Limit speed
+                    const speed = Math.sqrt(autonomousObj.dx * autonomousObj.dx + autonomousObj.dy * autonomousObj.dy);
+                    if (speed > maxSpeed) {
+                        autonomousObj.dx = (autonomousObj.dx / speed) * maxSpeed;
+                        autonomousObj.dy = (autonomousObj.dy / speed) * maxSpeed;
+                    }
+                } else {
+                    // Random direction change
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = 2 + Math.random() * 3;
+                    autonomousObj.dx = Math.cos(angle) * speed;
+                    autonomousObj.dy = Math.sin(angle) * speed;
+                }
+            }
+            
+            // Update autonomous object
             autonomousObj.update();
             
             // Check for collision
             if (player.checkCollision(autonomousObj)) {
                 if (!collisionOccurred) {
-                    background = '#FFA07A'; // Light salmon background
-                    player.resize(1.2);
-                    autonomousObj.resize(0.8);
+                    flashFrames = maxFlashFrames;
+                    
+                    const playerShrunk = player.shrink();
+                    const autoShrunk = autonomousObj.shrink();
+                    
+                    if (playerShrunk || autoShrunk) {
+                        background = '#FFA07A';
+                    }
+                    
+                    // Enhanced bounce effect
+                    const tempDx = player.dx;
+                    const tempDy = player.dy;
+                    player.dx = autonomousObj.dx * 1.5;
+                    player.dy = autonomousObj.dy * 1.5;
+                    autonomousObj.dx = tempDx * 1.5;
+                    autonomousObj.dy = tempDy * 1.5;
+                    
                     collisionOccurred = true;
                 }
             } else {
                 if (collisionOccurred) {
-                    background = '#87CEEB'; // Sky blue background
-                    player.resize(1);
-                    autonomousObj.resize(1);
                     collisionOccurred = false;
+                }
+            }
+            
+            // Flash effect
+            if (flashFrames > 0) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                flashFrames--;
+                
+                if (flashFrames === 0) {
+                    background = '#87CEEB';
                 }
             }
             
             // Draw objects
             player.draw();
             autonomousObj.draw();
+            
+            // Draw size indicators
+            ctx.fillStyle = '#000';
+            ctx.font = '16px Arial';
+            ctx.fillText(`Player: ${Math.round(player.width)}px`, 20, 30);
+            ctx.fillText(`Target: ${Math.round(autonomousObj.width)}px`, 20, 60);
+            
+            // Draw difficulty indicator
+            const difficulty = Math.round((50 - autonomousObj.width) / 50 * 100);
+            ctx.fillText(`Difficulty: ${difficulty}%`, 20, 90);
             
             requestAnimationFrame(gameLoop);
         }
