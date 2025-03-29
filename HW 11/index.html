@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Collision Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        
+        #game-container {
+            text-align: center;
+        }
+        
+        #gameCanvas {
+            border: 8px solid #4a6fa5;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            background-color: #87CEEB;
+        }
+        
+        h1 {
+            color: #4a6fa5;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Canvas Collision Game</h1>
+        <canvas id="gameCanvas" width="600" height="400"></canvas>
+        <p>Use arrow keys to move the player. Try to catch the autonomous object!</p>
+        <audio id="bgMusic" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        <div>
+            <button id="musicToggle">Toggle Music</button>
+        </div>
+    </div>
+
+    <script>
+        // Canvas setup
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const music = document.getElementById('bgMusic');
+        const musicToggle = document.getElementById('musicToggle');
+        
+        // Game state
+        let background = '#87CEEB';
+        let collisionOccurred = false;
+        
+        // Game object class
+        class GameObject {
+            constructor(x, y, width, height, color, dx = 0, dy = 0) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.color = color;
+                this.dx = dx;
+                this.dy = dy;
+                this.originalWidth = width;
+                this.originalHeight = height;
+            }
+            
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+                
+                // Add some styling to the objects
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(this.x, this.y, this.width, this.height);
+            }
+            
+            update() {
+                // Boundary checking
+                if (this.x <= 0) {
+                    this.x = 0;
+                    this.dx = -this.dx;
+                }
+                if (this.x + this.width >= canvas.width) {
+                    this.x = canvas.width - this.width;
+                    this.dx = -this.dx;
+                }
+                if (this.y <= 0) {
+                    this.y = 0;
+                    this.dy = -this.dy;
+                }
+                if (this.y + this.height >= canvas.height) {
+                    this.y = canvas.height - this.height;
+                    this.dy = -this.dy;
+                }
+                
+                // Update position
+                this.x += this.dx;
+                this.y += this.dy;
+            }
+            
+            checkCollision(other) {
+                return this.x < other.x + other.width &&
+                       this.x + this.width > other.x &&
+                       this.y < other.y + other.height &&
+                       this.y + this.height > other.y;
+            }
+            
+            resize(scale) {
+                const centerX = this.x + this.width / 2;
+                const centerY = this.y + this.height / 2;
+                
+                this.width = this.originalWidth * scale;
+                this.height = this.originalHeight * scale;
+                
+                this.x = centerX - this.width / 2;
+                this.y = centerY - this.height / 2;
+            }
+        }
+        
+        // Create game objects
+        const player = new GameObject(100, 150, 50, 50, '#e74c3c');
+        const autonomousObj = new GameObject(400, 200, 40, 40, '#2ecc71', 2, 1.5);
+        
+        // Keyboard controls
+        const keys = {
+            ArrowUp: false,
+            ArrowDown: false,
+            ArrowLeft: false,
+            ArrowRight: false
+        };
+        
+        window.addEventListener('keydown', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = true;
+            }
+        });
+        
+        window.addEventListener('keyup', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = false;
+            }
+        });
+        
+        // Music toggle
+        musicToggle.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                musicToggle.textContent = 'Pause Music';
+            } else {
+                music.pause();
+                musicToggle.textContent = 'Play Music';
+            }
+        });
+        
+        // Start music (many browsers require user interaction first)
+        music.volume = 0.3;
+        
+        // Game loop
+        function gameLoop() {
+            // Clear canvas
+            ctx.fillStyle = background;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Handle player movement
+            player.dx = 0;
+            player.dy = 0;
+            
+            if (keys.ArrowUp) player.dy = -3;
+            if (keys.ArrowDown) player.dy = 3;
+            if (keys.ArrowLeft) player.dx = -3;
+            if (keys.ArrowRight) player.dx = 3;
+            
+            // Update objects
+            player.update();
+            autonomousObj.update();
+            
+            // Check for collision
+            if (player.checkCollision(autonomousObj)) {
+                if (!collisionOccurred) {
+                    background = '#FFA07A'; // Light salmon background
+                    player.resize(1.2);
+                    autonomousObj.resize(0.8);
+                    collisionOccurred = true;
+                }
+            } else {
+                if (collisionOccurred) {
+                    background = '#87CEEB'; // Sky blue background
+                    player.resize(1);
+                    autonomousObj.resize(1);
+                    collisionOccurred = false;
+                }
+            }
+            
+            // Draw objects
+            player.draw();
+            autonomousObj.draw();
+            
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Start the game
+        gameLoop();
+    </script>
+</body>
+</html>
