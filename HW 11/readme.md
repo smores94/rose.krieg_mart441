@@ -1,3 +1,3 @@
 # rose.krieg_mart441
 
-Overall I liked how this assignment went. I wanted to try using the lettering, but the link in git seemed broken and despite whatever search terms I used (which obviously weren't the right ones) I couldn't seem to find a substitute. This assignment gave me a lot of ideas for a future website, so at least I have the flip thing in my pocket to try out! 
+This was fun - I've also always been a fan of shoving everything on one page!  I have gotten a lot better about being neater with my code, which was obviously through some hard lessons!  I started wanting to make this more elaborate with a fancier background, and I had to dial it back. A few things just weren't working, and after restarting a few times, I decided it was just easier to go for the more simple look.  

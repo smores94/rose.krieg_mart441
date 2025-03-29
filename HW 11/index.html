@@ -260,27 +260,49 @@
             }
         });
         
-        // Reset game
-        function resetGame() {
-            player.reset();
-            autonomousObj.reset();
-            autonomousObj.dx = 2 + Math.random() * 2;
-            autonomousObj.dy = 1.5 + Math.random() * 2;
-            background = '#87CEEB';
-            gameActive = true;
-            gameOverMessage.style.display = 'none';
-            clearInterval(flashInterval);
-        }
-        
-        resetButton.addEventListener('click', resetGame);
-        playAgainButton.addEventListener('click', resetGame);
+       // Replace the resetGame function and event listener with this:
+function resetGame() {
+    // Reset player
+    player.width = player.initialWidth;
+    player.height = player.initialHeight;
+    player.x = 100;
+    player.y = 150;
+    player.dx = 0;
+    player.dy = 0;
+    
+    // Reset autonomous object
+    autonomousObj.width = autonomousObj.initialWidth;
+    autonomousObj.height = autonomousObj.initialHeight;
+    autonomousObj.x = 400;
+    autonomousObj.y = 200;
+    autonomousObj.dx = 2 + Math.random() * 2;
+    autonomousObj.dy = 1.5 + Math.random() * 2;
+    
+    // Reset game state
+    background = '#87CEEB';
+    gameActive = true;
+    directionChangeTimer = 0;
+    collisionOccurred = false;
+    gameOverMessage.style.display = 'none';
+    clearInterval(flashInterval);
+    
+    // Clear any active key presses
+    keys.ArrowUp = false;
+    keys.ArrowDown = false;
+    keys.ArrowLeft = false;
+    keys.ArrowRight = false;
+}
+
+// Make sure BOTH event listeners like this:
+resetButton.addEventListener('click', resetGame);
+playAgainButton.addEventListener('click', resetGame);
         
         // Start music
         music.volume = 0.3;
         
         // Collision effect variables
         let flashFrames = 0;
-        const maxFlashFrames = 10;
+        const maxFlashFrames = 20;
         
         // Flash background for game over
         function flashBackground() {
@@ -355,7 +377,8 @@
                     const autoShrunk = autonomousObj.shrink();
                     
                     if (playerShrunk || autoShrunk) {
-                        background = '#FFA07A';
+                        background = '#F7EF72';
+                        
                     }
                     
                     const tempDx = player.dx;
@@ -380,7 +403,7 @@
                 flashFrames--;
                 
                 if (flashFrames === 0) {
-                    background = '#87CEEB';
+                    background = '#F7EF72';
                 }
             }
             
