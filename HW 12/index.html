@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Collectible Game with Sprites</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+        canvas {
+            display: block;
+            background-color: #87CEEB;
+        }
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div id="score">Score: 0</div>
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        // Canvas setup
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = 800;
+        canvas.height = 600;
+
+        // Game variables
+        let score = 0;
+        const scoreElement = document.getElementById('score');
+
+        // Sprite sheet setup
+        const spriteSheet = new Image();
+        spriteSheet.src = 'https://opengameart.org/sites/default/files/spritesheet_0.png'; // Example sprite sheet URL
+
+        // Background setup
+        const background = new Image();
+        background.src = 'https://opengameart.org/sites/default/files/grass_template_0.png'; // Example background URL
+
+        // Classes
+        class GameObject {
+            constructor(x, y, width, height, type) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.type = type;
+            }
+
+            draw() {
+                // Default rectangle drawing - can be overridden by child classes
+                ctx.fillStyle = 'gray';
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+
+            collidesWith(other) {
+                return this.x < other.x + other.width &&
+                       this.x + this.width > other.x &&
+                       this.y < other.y + other.height &&
+                       this.y + this.height > other.y;
+            }
+        }
+
+        class Obstacle extends GameObject {
+            constructor(x, y, width, height, type) {
+                super(x, y, width, height, type);
+            }
+
+            draw() {
+                // Different colors for different obstacle types
+                switch(this.type) {
+                    case 'tree':
+                        ctx.fillStyle = '#2E8B57';
+                        break;
+                    case 'rock':
+                        ctx.fillStyle = '#696969';
+                        break;
+                    case 'pond':
+                        ctx.fillStyle = '#1E90FF';
+                        break;
+                    case 'fence':
+                        ctx.fillStyle = '#8B4513';
+                        break;
+                    case 'house':
+                        ctx.fillStyle = '#CD5C5C';
+                        break;
+                    default:
+                        ctx.fillStyle = '#A9A9A9';
+                }
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+        }
+
+        class Collectible extends GameObject {
+            constructor(x, y, width, height, type, value) {
+                super(x, y, width, height, type);
+                this.value = value;
+                this.collected = false;
+            }
+
+            draw() {
+                if (this.collected) return;
+                
+                // Different colors for different collectible types
+                switch(this.type) {
+                    case 'coin':
+                        ctx.fillStyle = '#FFD700';
+                        break;
+                    case 'gem':
+                        ctx.fillStyle = '#FF1493';
+                        break;
+                    case 'star':
+                        ctx.fillStyle = '#00BFFF';
+                        break;
+                    default:
+                        ctx.fillStyle = '#FFFF00';
+                }
+                ctx.beginPath();
+                ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        class Player extends GameObject {
+            constructor(x, y, width, height) {
+                super(x, y, width, height, 'player');
+                this.speed = 5;
+                this.direction = 'right';
+                this.spriteFrame = 0;
+                this.frameCount = 0;
+            }
+
+            draw() {
+                if (!spriteSheet.complete) {
+                    // Fallback if sprite sheet isn't loaded
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(this.x, this.y, this.width, this.height);
+                    return;
+                }
+
+                // Sprite sheet animation logic
+                const spriteCols = 4; // Assuming 4 columns in sprite sheet
+                const spriteRows = 4; // Assuming 4 rows in sprite sheet
+                const spriteWidth = spriteSheet.width / spriteCols;
+                const spriteHeight = spriteSheet.height / spriteRows;
+                
+                let row = 0;
+                switch(this.direction) {
+                    case 'up': row = 3; break;
+                    case 'down': row = 0; break;
+                    case 'left': row = 1; break;
+                    case 'right': row = 2; break;
+                }
+                
+                // Animate only when moving
+                if (this.moving) {
+                    this.frameCount++;
+                    if (this.frameCount >= 10) {
+                        this.spriteFrame = (this.spriteFrame + 1) % spriteCols;
+                        this.frameCount = 0;
+                    }
+                } else {
+                    this.spriteFrame = 1; // Default standing frame
+                }
+                
+                ctx.drawImage(
+                    spriteSheet,
+                    this.spriteFrame * spriteWidth,
+                    row * spriteHeight,
+                    spriteWidth,
+                    spriteHeight,
+                    this.x,
+                    this.y,
+                    this.width,
+                    this.height
+                );
+            }
+
+            move(dx, dy, obstacles) {
+                this.moving = dx !== 0 || dy !== 0;
+                
+                // Update direction for sprite animation
+                if (dx > 0) this.direction = 'right';
+                if (dx < 0) this.direction = 'left';
+                if (dy > 0) this.direction = 'down';
+                if (dy < 0) this.direction = 'up';
+                
+                // Calculate new position
+                const newX = this.x + dx;
+                const newY = this.y + dy;
+                
+                // Check boundaries
+                if (newX < 0 || newX + this.width > canvas.width ||
+                    newY < 0 || newY + this.height > canvas.height) {
+                    return;
+                }
+                
+                // Create a temporary object to check collisions
+                const tempPlayer = new Player(newX, newY, this.width, this.height);
+                
+                // Check collisions with obstacles
+                const willCollide = obstacles.some(obstacle => tempPlayer.collidesWith(obstacle));
+                
+                if (!willCollide) {
+                    this.x = newX;
+                    this.y = newY;
+                }
+            }
+        }
+
+        // Game objects
+        let obstacles = [];
+        let collectibles = [];
+        const player = new Player(50, 50, 40, 60);
+
+        // Load JSON data
+        async function loadGameData() {
+            try {
+                // Load obstacles
+                const obstaclesResponse = await fetch('obstacles.json');
+                const obstaclesData = await obstaclesResponse.json();
+                obstacles = obstaclesData.map(item => new Obstacle(
+                    item.x, item.y, item.width, item.height, item.type
+                ));
+                
+                // Load collectibles
+                const collectiblesResponse = await fetch('collectibles.json');
+                const collectiblesData = await collectiblesResponse.json();
+                collectibles = collectiblesData.map(item => new Collectible(
+                    item.x, item.y, item.width, item.height, item.type, item.value
+                ));
+                
+                // Start game loop
+                gameLoop();
+            } catch (error) {
+                console.error('Error loading game data:', error);
+            }
+        }
+
+        // Handle keyboard input
+        const keys = {
+            ArrowUp: false,
+            ArrowDown: false,
+            ArrowLeft: false,
+            ArrowRight: false
+        };
+
+        window.addEventListener('keydown', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = true;
+            }
+        });
+
+        window.addEventListener('keyup', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = false;
+            }
+        });
+
+        // Game loop
+        function gameLoop() {
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw background
+            if (background.complete) {
+                // Create pattern if background is small
+                const pattern = ctx.createPattern(background, 'repeat');
+                ctx.fillStyle = pattern;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            // Handle player movement
+            let dx = 0;
+            let dy = 0;
+            const speed = player.speed;
+            
+            if (keys.ArrowUp) dy -= speed;
+            if (keys.ArrowDown) dy += speed;
+            if (keys.ArrowLeft) dx -= speed;
+            if (keys.ArrowRight) dx += speed;
+            
+            // Normalize diagonal movement
+            if (dx !== 0 && dy !== 0) {
+                dx *= 0.7071; // 1/sqrt(2)
+                dy *= 0.7071;
+            }
+            
+            player.move(dx, dy, obstacles);
+            
+            // Check for collected items
+            collectibles.forEach(collectible => {
+                if (!collectible.collected && player.collidesWith(collectible)) {
+                    collectible.collected = true;
+                    score += collectible.value;
+                    scoreElement.textContent = `Score: ${score}`;
+                }
+            });
+            
+            // Draw all game objects
+            obstacles.forEach(obstacle => obstacle.draw());
+            collectibles.forEach(collectible => collectible.draw());
+            player.draw();
+            
+            // Continue the game loop
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Start the game
+        loadGameData();
+    </script>
+</body>
+</html>
