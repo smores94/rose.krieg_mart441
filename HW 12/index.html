@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Collectible Game with Sprites</title>
+    <title>Fixed World Game</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #333;
+            background-color: #222;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        #gameContainer {
+            position: relative;
+            max-width: 100%;
+            max-height: 100%;
+            aspect-ratio: 16/9;
         }
         canvas {
             display: block;
+            width: 100%;
+            height: 100%;
             background-color: #87CEEB;
         }
         #score {
@@ -20,46 +32,64 @@
             font-family: Arial, sans-serif;
             font-size: 24px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
-    <div id="score">Score: 0</div>
-    <canvas id="gameCanvas"></canvas>
+    <div id="gameContainer">
+        <div id="score">Score: 0</div>
+        <canvas id="gameCanvas"></canvas>
+    </div>
 
     <script>
+        // Game constants
+        const WORLD_WIDTH = 1600;
+        const WORLD_HEIGHT = 900;
+        const PLAYER_SIZE = 40;
+
         // Canvas setup
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = 800;
-        canvas.height = 600;
+        const gameContainer = document.getElementById('gameContainer');
+        const scoreElement = document.getElementById('score');
 
         // Game variables
         let score = 0;
-        const scoreElement = document.getElementById('score');
+        let scaleFactor = 1;
+        let camera = {
+            x: 0,
+            y: 0,
+            width: canvas.width,
+            height: canvas.height
+        };
 
         // Sprite sheet setup
         const spriteSheet = new Image();
-        spriteSheet.src = './img/gray_kitty.jpeg"'; // fluffy
+        spriteSheet.src = './img/gray_kitty.jpeg''; // Example
 
         // Background setup
         const background = new Image();
-        background.src = './img/room.jpeg'; // background 
+        background.src = './img/room.jpeg';
 
-        // Classes
+        // Classes (simplified from previous example)
         class GameObject {
-            constructor(x, y, width, height, type) {
+            constructor(x, y, width, height) {
                 this.x = x;
                 this.y = y;
                 this.width = width;
                 this.height = height;
-                this.type = type;
             }
 
             draw() {
-                // Default rectangle drawing - can be overridden by child classes
+                // World to screen coordinates
+                const screenX = (this.x - camera.x) * scaleFactor;
+                const screenY = (this.y - camera.y) * scaleFactor;
+                const screenWidth = this.width * scaleFactor;
+                const screenHeight = this.height * scaleFactor;
+
                 ctx.fillStyle = 'gray';
-                ctx.fillRect(this.x, this.y, this.width, this.height);
+                ctx.fillRect(screenX, screenY, screenWidth, screenHeight);
             }
 
             collidesWith(other) {
@@ -70,180 +100,80 @@
             }
         }
 
-        class Obstacle extends GameObject {
-            constructor(x, y, width, height, type) {
-                super(x, y, width, height, type);
-            }
-
-            draw() {
-                // Different colors for different obstacle types
-                switch(this.type) {
-                    case 'tree':
-                        ctx.fillStyle = '#2E8B57';
-                        break;
-                    case 'rock':
-                        ctx.fillStyle = '#696969';
-                        break;
-                    case 'pond':
-                        ctx.fillStyle = '#1E90FF';
-                        break;
-                    case 'fence':
-                        ctx.fillStyle = '#8B4513';
-                        break;
-                    case 'house':
-                        ctx.fillStyle = '#CD5C5C';
-                        break;
-                    default:
-                        ctx.fillStyle = '#A9A9A9';
-                }
-                ctx.fillRect(this.x, this.y, this.width, this.height);
-            }
-        }
-
-        class Collectible extends GameObject {
-            constructor(x, y, width, height, type, value) {
-                super(x, y, width, height, type);
-                this.value = value;
-                this.collected = false;
-            }
-
-            draw() {
-                if (this.collected) return;
-                
-                // Different colors for different collectible types
-                switch(this.type) {
-                    case 'coin':
-                        ctx.fillStyle = '#FFD700';
-                        break;
-                    case 'gem':
-                        ctx.fillStyle = '#FF1493';
-                        break;
-                    case 'star':
-                        ctx.fillStyle = '#00BFFF';
-                        break;
-                    default:
-                        ctx.fillStyle = '#FFFF00';
-                }
-                ctx.beginPath();
-                ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
         class Player extends GameObject {
-            constructor(x, y, width, height) {
-                super(x, y, width, height, 'player');
+            constructor(x, y) {
+                super(x, y, PLAYER_SIZE, PLAYER_SIZE);
                 this.speed = 5;
-                this.direction = 'right';
-                this.spriteFrame = 0;
-                this.frameCount = 0;
             }
 
             draw() {
-                if (!spriteSheet.complete) {
-                    // Fallback if sprite sheet isn't loaded
-                    ctx.fillStyle = 'red';
-                    ctx.fillRect(this.x, this.y, this.width, this.height);
-                    return;
-                }
+                const screenX = (this.x - camera.x) * scaleFactor;
+                const screenY = (this.y - camera.y) * scaleFactor;
+                const screenSize = PLAYER_SIZE * scaleFactor;
 
-                // Sprite sheet animation logic
-                const spriteCols = 4; // Assuming 4 columns in sprite sheet
-                const spriteRows = 4; // Assuming 4 rows in sprite sheet
-                const spriteWidth = spriteSheet.width / spriteCols;
-                const spriteHeight = spriteSheet.height / spriteRows;
-                
-                let row = 0;
-                switch(this.direction) {
-                    case 'up': row = 3; break;
-                    case 'down': row = 0; break;
-                    case 'left': row = 1; break;
-                    case 'right': row = 2; break;
-                }
-                
-                // Animate only when moving
-                if (this.moving) {
-                    this.frameCount++;
-                    if (this.frameCount >= 10) {
-                        this.spriteFrame = (this.spriteFrame + 1) % spriteCols;
-                        this.frameCount = 0;
-                    }
+                if (spriteSheet.complete) {
+                    // Draw from sprite sheet (simplified)
+                    ctx.drawImage(
+                        spriteSheet,
+                        0, 0, 64, 64, // source from sprite sheet
+                        screenX, screenY, screenSize, screenSize
+                    );
                 } else {
-                    this.spriteFrame = 1; // Default standing frame
-                }
-                
-                ctx.drawImage(
-                    spriteSheet,
-                    this.spriteFrame * spriteWidth,
-                    row * spriteHeight,
-                    spriteWidth,
-                    spriteHeight,
-                    this.x,
-                    this.y,
-                    this.width,
-                    this.height
-                );
-            }
-
-            move(dx, dy, obstacles) {
-                this.moving = dx !== 0 || dy !== 0;
-                
-                // Update direction for sprite animation
-                if (dx > 0) this.direction = 'right';
-                if (dx < 0) this.direction = 'left';
-                if (dy > 0) this.direction = 'down';
-                if (dy < 0) this.direction = 'up';
-                
-                // Calculate new position
-                const newX = this.x + dx;
-                const newY = this.y + dy;
-                
-                // Check boundaries
-                if (newX < 0 || newX + this.width > canvas.width ||
-                    newY < 0 || newY + this.height > canvas.height) {
-                    return;
-                }
-                
-                // Create a temporary object to check collisions
-                const tempPlayer = new Player(newX, newY, this.width, this.height);
-                
-                // Check collisions with obstacles
-                const willCollide = obstacles.some(obstacle => tempPlayer.collidesWith(obstacle));
-                
-                if (!willCollide) {
-                    this.x = newX;
-                    this.y = newY;
+                    // Fallback
+                    ctx.fillStyle = 'red';
+                    ctx.fillRect(screenX, screenY, screenSize, screenSize);
                 }
             }
         }
 
         // Game objects
-        let obstacles = [];
-        let collectibles = [];
-        const player = new Player(50, 50, 40, 60);
+        const player = new Player(WORLD_WIDTH/2, WORLD_HEIGHT/2);
+        const obstacles = [];
+        const collectibles = [];
 
-        // Load JSON data
-        async function loadGameData() {
-            try {
-                // Load obstacles
-                const obstaclesResponse = await fetch('obstacles.json');
-                const obstaclesData = await obstaclesResponse.json();
-                obstacles = obstaclesData.map(item => new Obstacle(
-                    item.x, item.y, item.width, item.height, item.type
-                ));
-                
-                // Load collectibles
-                const collectiblesResponse = await fetch('collectibles.json');
-                const collectiblesData = await collectiblesResponse.json();
-                collectibles = collectiblesData.map(item => new Collectible(
-                    item.x, item.y, item.width, item.height, item.type, item.value
-                ));
-                
-                // Start game loop
-                gameLoop();
-            } catch (error) {
-                console.error('Error loading game data:', error);
-            }
+        // Initialize game world
+        function initWorld() {
+            // Create some obstacles
+            obstacles.push(new GameObject(300, 150, 50, 80));
+            obstacles.push(new GameObject(500, 300, 40, 40));
+            obstacles.push(new GameObject(200, 400, 120, 90));
+            obstacles.push(new GameObject(100, 200, 200, 20));
+            obstacles.push(new GameObject(600, 100, 100, 120));
+
+            // Create collectibles
+            collectibles.push(new GameObject(150, 350, 20, 20));
+            collectibles.push(new GameObject(400, 250, 25, 25));
+            collectibles.push(new GameObject(650, 400, 30, 30));
+        }
+
+        // Handle window resizing
+        function resize() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            
+            // Calculate scale to maintain aspect ratio
+            const scaleX = containerWidth / WORLD_WIDTH;
+            const scaleY = containerHeight / WORLD_HEIGHT;
+            scaleFactor = Math.min(scaleX, scaleY);
+            
+            // Set canvas size
+            canvas.width = WORLD_WIDTH * scaleFactor;
+            canvas.height = WORLD_HEIGHT * scaleFactor;
+            
+            // Update camera dimensions
+            camera.width = canvas.width / scaleFactor;
+            camera.height = canvas.height / scaleFactor;
+        }
+
+        // Update camera to follow player
+        function updateCamera() {
+            // Center camera on player
+            camera.x = player.x - camera.width / 2;
+            camera.y = player.y - camera.height / 2;
+            
+            // Keep camera within world bounds
+            camera.x = Math.max(0, Math.min(camera.x, WORLD_WIDTH - camera.width));
+            camera.y = Math.max(0, Math.min(camera.y, WORLD_HEIGHT - camera.height));
         }
 
         // Handle keyboard input
@@ -255,33 +185,16 @@
         };
 
         window.addEventListener('keydown', (e) => {
-            if (keys.hasOwnProperty(e.key)) {
-                keys[e.key] = true;
-            }
+            if (keys.hasOwnProperty(e.key)) keys[e.key] = true;
         });
 
         window.addEventListener('keyup', (e) => {
-            if (keys.hasOwnProperty(e.key)) {
-                keys[e.key] = false;
-            }
+            if (keys.hasOwnProperty(e.key)) keys[e.key] = false;
         });
 
-        // Game loop
-        function gameLoop() {
-            // Clear canvas
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Draw background
-            if (background.complete) {
-                // Create pattern if background is small
-                const pattern = ctx.createPattern(background, 'repeat');
-                ctx.fillStyle = pattern;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
-            
-            // Handle player movement
-            let dx = 0;
-            let dy = 0;
+        // Player movement
+        function updatePlayer() {
+            let dx = 0, dy = 0;
             const speed = player.speed;
             
             if (keys.ArrowUp) dy -= speed;
@@ -291,32 +204,95 @@
             
             // Normalize diagonal movement
             if (dx !== 0 && dy !== 0) {
-                dx *= 0.7071; // 1/sqrt(2)
+                dx *= 0.7071;
                 dy *= 0.7071;
             }
             
-            player.move(dx, dy, obstacles);
+            // Check potential new position
+            const newX = player.x + dx;
+            const newY = player.y + dy;
             
-            // Check for collected items
-            collectibles.forEach(collectible => {
-                if (!collectible.collected && player.collidesWith(collectible)) {
-                    collectible.collected = true;
-                    score += collectible.value;
-                    scoreElement.textContent = `Score: ${score}`;
+            // World boundaries
+            if (newX >= 0 && newX <= WORLD_WIDTH - player.width) {
+                player.x = newX;
+            }
+            if (newY >= 0 && newY <= WORLD_HEIGHT - player.height) {
+                player.y = newY;
+            }
+            
+            // Simple obstacle collision (for demo)
+            obstacles.forEach(obstacle => {
+                if (player.collidesWith(obstacle)) {
+                    // Push player back
+                    if (dx > 0) player.x = obstacle.x - player.width;
+                    if (dx < 0) player.x = obstacle.x + obstacle.width;
+                    if (dy > 0) player.y = obstacle.y - player.height;
+                    if (dy < 0) player.y = obstacle.y + obstacle.height;
                 }
             });
             
-            // Draw all game objects
-            obstacles.forEach(obstacle => obstacle.draw());
-            collectibles.forEach(collectible => collectible.draw());
+            // Collect items
+            collectibles.forEach((item, index) => {
+                if (player.collidesWith(item)) {
+                    collectibles.splice(index, 1);
+                    score += 10;
+                    scoreElement.textContent = `Score: ${score}`;
+                }
+            });
+        }
+
+        // Draw background
+        function drawBackground() {
+            if (!background.complete) return;
+            
+            // Calculate how many times to tile the background
+            const tileWidth = background.width;
+            const tileHeight = background.height;
+            
+            // Visible area in world coordinates
+            const startX = Math.floor(camera.x / tileWidth) * tileWidth;
+            const startY = Math.floor(camera.y / tileHeight) * tileHeight;
+            const endX = Math.ceil((camera.x + camera.width) / tileWidth) * tileWidth;
+            const endY = Math.ceil((camera.y + camera.height) / tileHeight) * tileHeight;
+            
+            // Draw tiled background
+            for (let y = startY; y < endY; y += tileHeight) {
+                for (let x = startX; x < endX; x += tileWidth) {
+                    const screenX = (x - camera.x) * scaleFactor;
+                    const screenY = (y - camera.y) * scaleFactor;
+                    const screenWidth = tileWidth * scaleFactor;
+                    const screenHeight = tileHeight * scaleFactor;
+                    
+                    ctx.drawImage(
+                        background,
+                        screenX, screenY, screenWidth, screenHeight
+                    );
+                }
+            }
+        }
+
+        // Game loop
+        function gameLoop() {
+            updatePlayer();
+            updateCamera();
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw everything
+            drawBackground();
+            obstacles.forEach(obj => obj.draw());
+            collectibles.forEach(obj => obj.draw());
             player.draw();
             
-            // Continue the game loop
             requestAnimationFrame(gameLoop);
         }
 
-        // Start the game
-        loadGameData();
+        // Initialize and start game
+        window.addEventListener('resize', resize);
+        resize();
+        initWorld();
+        gameLoop();
     </script>
 </body>
 </html>
