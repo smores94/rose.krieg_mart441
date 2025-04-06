@@ -4,6 +4,7 @@ const CANVAS_HEIGHT = 1200;
 const PLAYER_SIZE = 60;
 const SCORE_INCREMENT = 10;
 function resizeCanvas() {
+    
     // Get the container dimensions
     const container = document.getElementById('game-container');
     const containerWidth = container.clientWidth;
