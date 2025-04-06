@@ -28,5 +28,107 @@
         "height": 30,
         "value": 100,
         "phase": 1
+    },
+
+
+    {
+        "id": 1,
+        "type": "coin",
+        "x": 150,
+        "y": 350,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 1
+    },
+    {
+        "id": 2,
+        "type": "gem",
+        "x": 400,
+        "y": 250,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 1
+    },
+    {
+        "id": 3,
+        "type": "star",
+        "x": 650,
+        "y": 400,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 1
+    },
+    {
+        "id": 4,
+        "type": "coin",
+        "x": 800,
+        "y": 150,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 1
+    },
+    {
+        "id": 5,
+        "type": "gem",
+        "x": 1000,
+        "y": 300,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 1
+    },
+    {
+        "id": 6,
+        "type": "diamond",
+        "x": 200,
+        "y": 600,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 2
+    },
+    {
+        "id": 7,
+        "type": "crown",
+        "x": 500,
+        "y": 700,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 2
+    },
+    {
+        "id": 8,
+        "type": "diamond",
+        "x": 1200,
+        "y": 500,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 2
+    },
+    {
+        "id": 9,
+        "type": "crown",
+        "x": 900,
+        "y": 800,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 2
+    },
+    {
+        "id": 10,
+        "type": "star",
+        "x": 1300,
+        "y": 200,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 2
     }
 ]

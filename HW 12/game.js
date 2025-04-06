@@ -167,42 +167,26 @@ class Obstacle extends GameObject {
 }
 
 class Collectible extends GameObject {
-    constructor(x, y, width, height, type, value) {
+    constructor(x, y, width, height, type, value, phase = 1) {
         super(x, y, width, height, type);
         this.value = value;
         this.collected = false;
+        this.phase = phase;
     }
 
     draw() {
-        if (this.collected) return;
+        if (this.collected || this.phase > currentPhase) return;
         
         const colors = {
             'coin': '#FFD700',
             'gem': '#FF1493',
-            'star': '#00BFFF'
+            'star': '#00BFFF',
+            'diamond': '#00FF7F',  // New
+            'crown': '#9370DB'     // New
         };
         
         ctx.fillStyle = colors[this.type] || '#FFFF00';
-        ctx.beginPath();
-        ctx.arc(
-            this.x + this.width/2,
-            this.y + this.height/2,
-            this.width/2,
-            0,
-            Math.PI * 2
-        );
-        ctx.fill();
-        
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-        ctx.beginPath();
-        ctx.arc(
-            this.x + this.width/2 + this.width/4,
-            this.y + this.height/2 - this.height/4,
-            this.width/4,
-            0,
-            Math.PI * 2
-        );
-        ctx.fill();
+        // ... rest of draw logic ...
     }
 }
 
@@ -280,16 +264,29 @@ class Player extends GameObject {
     checkCollectibles() {
         for (let i = collectibles.length - 1; i >= 0; i--) {
             const collectible = collectibles[i];
-            if (!collectible.collected && this.collidesWith(collectible)) {
+            if (!collectible.collected && 
+                collectible.phase <= currentPhase && 
+                this.collidesWith(collectible)) {
+                
                 collectible.collected = true;
                 score += collectible.value;
+                
+                // Phase transition check
+                if (collectible.phase === 1) {
+                    phase1Collected++;
+                    if (phase1Collected >= PHASE1_COUNT) {
+                        currentPhase = 2;
+                        console.log("Phase 2 unlocked!");
+                    }
+                }
+                
                 updateScore();
                 collectibles.splice(i, 1);
-                console.log(`Collected ${collectible.type}! New score: ${score}`);
             }
         }
     }
-}
+            }
+
 
 // Game Functions
 async function loadObstacles() {
@@ -324,8 +321,19 @@ async function loadCollectibles() {
         collectibles = [
             new Collectible(150, 350, 20, 20, 'coin', 10),
             new Collectible(400, 250, 25, 25, 'gem', 50),
-            new Collectible(650, 400, 30, 30, 'star', 100)
-        ];
+            new Collectible(650, 400, 30, 30, 'star', 100),
+                new Collectible(150, 350, 20, 20, 'coin', 10, 1),
+                new Collectible(400, 250, 25, 25, 'gem', 50, 1),
+                new Collectible(650, 400, 30, 30, 'star', 100, 1),
+                new Collectible(800, 150, 20, 20, 'coin', 10, 1),
+                new Collectible(1000, 300, 25, 25, 'gem', 50, 1),
+                new Collectible(200, 600, 35, 35, 'diamond', 200, 2),
+                new Collectible(500, 700, 40, 40, 'crown', 500, 2),
+                new Collectible(1200, 500, 35, 35, 'diamond', 200, 2),
+                new Collectible(900, 800, 40, 40, 'crown', 500, 2),
+                new Collectible(1300, 200, 30, 30, 'star', 100, 2)
+            ];
+    
     }
 }
 
