@@ -3,7 +3,36 @@ const CANVAS_WIDTH = 1600;
 const CANVAS_HEIGHT = 1200;
 const PLAYER_SIZE = 60;
 const SCORE_INCREMENT = 10;
-
+function resizeCanvas() {
+    // Get the container dimensions
+    const container = document.getElementById('game-container');
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    
+    // Calculate the scale to fit while maintaining aspect ratio
+    const scaleX = containerWidth / CANVAS_WIDTH;
+    const scaleY = containerHeight / CANVAS_HEIGHT;
+    scale = Math.min(scaleX, scaleY);
+    
+    // Apply the scale
+    canvas.style.width = `${CANVAS_WIDTH * scale}px`;
+    canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
+    
+    // Center the canvas
+    canvas.style.position = 'absolute';
+    canvas.style.left = `${(containerWidth - CANVAS_WIDTH * scale) / 2}px`;
+    canvas.style.top = `${(containerHeight - CANVAS_HEIGHT * scale) / 2}px`;
+    
+    // Update the offset values for input calculations
+    canvasOffsetX = parseFloat(canvas.style.left);
+    canvasOffsetY = parseFloat(canvas.style.top);
+    
+    // For high DPI displays
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = CANVAS_WIDTH * dpr;
+    canvas.height = CANVAS_HEIGHT * dpr;
+    ctx.scale(dpr, dpr);
+}
 // Game Variables
 let canvas, ctx;
 let obstacles = [];
@@ -366,15 +395,40 @@ function gameLoop() {
 
 // Initialize Game
 async function initGame() {
-    // Set up canvas
-    canvas = document.getElementById('game-canvas');
-    ctx = canvas.getContext('2d');
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
-    
-    // Scale canvas to fit window
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    async function initGame() {
+        // Set up canvas
+        canvas = document.getElementById('game-canvas');
+        ctx = canvas.getContext('2d');
+        
+        // Initial resize
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // Create UI elements if they don't exist
+        if (!document.getElementById('debug-info')) {
+            const debugInfo = document.createElement('div');
+            debugInfo.id = 'debug-info';
+            document.body.appendChild(debugInfo);
+        }
+        
+        if (!document.getElementById('score-display')) {
+            const scoreDisplay = document.createElement('div');
+            scoreDisplay.id = 'score-display';
+            document.body.appendChild(scoreDisplay);
+        }
+        
+        // Load game assets
+        await Promise.all([loadObstacles(), loadCollectibles()]);
+        
+        // Initialize player
+        player = new Player(50, 50);
+        
+        // Set up controls
+        setupControls();
+        
+        // Start game loop
+        gameLoop();
+    }
     
     // Create UI elements if they don't exist
     if (!document.getElementById('debug-info')) {
