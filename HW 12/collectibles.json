@@ -1,29 +1,42 @@
 [
     {
       "id": 1,
-      "type": "coin",
-      "x": 150,
-      "y": 350,
-      "width": 20,
-      "height": 20,
-      "value": 10
+      "type": "tree",
+      "x": 300,
+      "y": 150,
+      "width": 60,
+      "height": 90
     },
     {
       "id": 2,
-      "type": "gem",
-      "x": 400,
-      "y": 250,
-      "width": 25,
-      "height": 25,
-      "value": 50
+      "type": "rock",
+      "x": 500,
+      "y": 300,
+      "width": 50,
+      "height": 40
     },
     {
       "id": 3,
-      "type": "star",
-      "x": 650,
+      "type": "pond",
+      "x": 200,
       "y": 400,
-      "width": 30,
-      "height": 30,
-      "value": 100
+      "width": 150,
+      "height": 100
+    },
+    {
+      "id": 4,
+      "type": "fence",
+      "x": 100,
+      "y": 200,
+      "width": 250,
+      "height": 30
+    },
+    {
+      "id": 5,
+      "type": "house",
+      "x": 600,
+      "y": 100,
+      "width": 120,
+      "height": 140
     }
   ]
