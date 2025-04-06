@@ -5,6 +5,10 @@ const PLAYER_SIZE = 60;
 const SCORE_INCREMENT = 10;
 const PHASE1_COUNT = 5;
 const PHASE_TIME_LIMIT = 60000;
+const OBSTACLE_PENALTY = 5;
+const COLLECTIBLE_BASE_SPEED = 1.5;
+const KNOCKBACK_FORCE = 0.5;
+const FLASH_DURATION = 200;
 
 // Game Variables
 let canvas, ctx;
@@ -26,7 +30,8 @@ let canvasOffsetY = 0;
 const sounds = {
     collect: null,
     phase: null,
-    warning: null
+    warning: null,
+    obstacle: null
 };
 
 // Game Classes
@@ -137,9 +142,55 @@ class Collectible extends GameObject {
         this.value = value;
         this.collected = false;
         this.phase = phase;
+        this.direction = Math.random() * Math.PI * 2;
+        this.speed = COLLECTIBLE_BASE_SPEED + (value / 20); // Higher value = faster
+        this.bounceCount = 0;
+    }
+
+    update() {
+        if (this.collected) return;
+        
+        // Random direction changes (more frequent when bouncing)
+        if (Math.random() < (this.bounceCount > 0 ? 0.1 : 0.05)) {
+            this.direction += (Math.random() - 0.5) * Math.PI/2;
+        }
+        
+        // Move in current direction
+        this.x += Math.cos(this.direction) * this.speed;
+        this.y += Math.sin(this.direction) * this.speed;
+        
+        // Bounce off walls with direction change
+        let bounced = false;
+        if (this.x < 0) {
+            this.x = 0;
+            this.direction = Math.PI - this.direction;
+            bounced = true;
+        }
+        if (this.x > CANVAS_WIDTH - this.width) {
+            this.x = CANVAS_WIDTH - this.width;
+            this.direction = Math.PI - this.direction;
+            bounced = true;
+        }
+        if (this.y < 0) {
+            this.y = 0;
+            this.direction = -this.direction;
+            bounced = true;
+        }
+        if (this.y > CANVAS_HEIGHT - this.height) {
+            this.y = CANVAS_HEIGHT - this.height;
+            this.direction = -this.direction;
+            bounced = true;
+        }
+        
+        if (bounced) {
+            this.bounceCount = 5; // Temporary speed boost after bouncing
+        } else if (this.bounceCount > 0) {
+            this.bounceCount--;
+        }
     }
 
     draw() {
+        this.update(); // Update position before drawing
         if (this.collected || this.phase > currentPhase) return;
         
         const colors = {
@@ -242,6 +293,9 @@ class Player extends GameObject {
         super(x, y, PLAYER_SIZE, PLAYER_SIZE, 'player');
         this.speed = 5;
         this.color = '#FF0000';
+        this.defaultColor = '#FF0000';
+        this.hitColor = '#FF3333';
+        this.flashTimeout = null;
     }
 
     draw() {
@@ -268,6 +322,14 @@ class Player extends GameObject {
         ctx.fill();
     }
 
+    flash() {
+        this.color = this.hitColor;
+        if (this.flashTimeout) clearTimeout(this.flashTimeout);
+        this.flashTimeout = setTimeout(() => {
+            this.color = this.defaultColor;
+        }, FLASH_DURATION);
+    }
+
     update() {
         let dx = 0, dy = 0;
         
@@ -292,10 +354,13 @@ class Player extends GameObject {
             newY <= CANVAS_HEIGHT - this.height;
         
         let canMove = withinBounds;
+        let hitObstacle = false;
+        
         if (canMove) {
             for (const obstacle of obstacles) {
                 if (tempPlayer.collidesWith(obstacle)) {
                     canMove = false;
+                    hitObstacle = true;
                     break;
                 }
             }
@@ -305,6 +370,18 @@ class Player extends GameObject {
             this.x = newX;
             this.y = newY;
             this.checkCollectibles();
+        } else if (hitObstacle) {
+            // Apply penalty and effects
+            score = Math.max(0, score - OBSTACLE_PENALTY);
+            updateScore();
+            
+            // Knockback effect
+            this.x -= dx * KNOCKBACK_FORCE;
+            this.y -= dy * KNOCKBACK_FORCE;
+            
+            // Visual feedback
+            this.flash();
+            if (sounds.obstacle) sounds.obstacle.play();
         }
     }
     
@@ -421,30 +498,24 @@ function updateDebugInfo() {
 }
 
 function resizeCanvas() {
-    // Get the container dimensions
     const container = document.getElementById('game-container');
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
     
-    // Calculate the scale to fit while maintaining aspect ratio
     const scaleX = containerWidth / CANVAS_WIDTH;
     const scaleY = containerHeight / CANVAS_HEIGHT;
     scale = Math.min(scaleX, scaleY);
     
-    // Apply the scale
     canvas.style.width = `${CANVAS_WIDTH * scale}px`;
     canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
     
-    // Center the canvas
     canvas.style.position = 'absolute';
     canvas.style.left = `${(containerWidth - CANVAS_WIDTH * scale) / 2}px`;
     canvas.style.top = `${(containerHeight - CANVAS_HEIGHT * scale) / 2}px`;
     
-    // Update the offset values for input calculations
     canvasOffsetX = parseFloat(canvas.style.left);
     canvasOffsetY = parseFloat(canvas.style.top);
     
-    // For high DPI displays
     const dpr = window.devicePixelRatio || 1;
     canvas.width = CANVAS_WIDTH * dpr;
     canvas.height = CANVAS_HEIGHT * dpr;
@@ -453,16 +524,17 @@ function resizeCanvas() {
 
 function gameLoop() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    player.update();
+    
     obstacles.forEach(o => o.draw());
     collectibles.forEach(c => c.draw());
+    player.update();
     player.draw();
+    
     updateDebugInfo();
     requestAnimationFrame(gameLoop);
 }
 
 async function initGame() {
-    // Set up canvas
     canvas = document.getElementById('game-canvas');
     if (!canvas) {
         console.error('Canvas element not found!');
@@ -470,12 +542,11 @@ async function initGame() {
     }
     ctx = canvas.getContext('2d');
     
-    // Initialize sounds with fallbacks
     sounds.collect = document.getElementById('collect-sound') || { play: () => {} };
     sounds.phase = document.getElementById('phase-sound') || { play: () => {} };
     sounds.warning = document.getElementById('time-warning') || { play: () => {} };
+    sounds.obstacle = document.getElementById('obstacle-sound') || { play: () => {} };
     
-    // Create UI elements if they don't exist
     if (!document.getElementById('debug-info')) {
         const debugInfo = document.createElement('div');
         debugInfo.id = 'debug-info';
@@ -488,24 +559,16 @@ async function initGame() {
         document.body.appendChild(scoreDisplay);
     }
     
-    // Initial resize
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     
-    // Load game assets
     await Promise.all([loadObstacles(), loadCollectibles()]);
     
-    // Initialize player
     player = new Player(50, 50);
-    
-    // Start phase timer
     phaseStartTime = Date.now();
     timeLeft = PHASE_TIME_LIMIT;
     
-    // Set up controls
     setupControls();
-    
-    // Start game loop
     gameLoop();
 }
 
