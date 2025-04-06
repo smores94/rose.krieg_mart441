@@ -444,4 +444,53 @@ class Collectible extends GameObject {
     }
 }
 
+async function loadCollectibles() {
+    try {
+        const response = await fetch('collectibles.json');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        
+        const data = await response.json();
+        
+        // Validate loaded data
+        if (!Array.isArray(data)) {
+            throw new Error("Loaded collectibles data is not an array");
+        }
+
+        collectibles = data.map(item => {
+            try {
+                // Ensure required properties exist
+                if (!item.type || isNaN(item.x) || isNaN(item.y)) {
+                    throw new Error("Missing required collectible properties");
+                }
+                
+                return new Collectible(
+                    Number(item.x),
+                    Number(item.y),
+                    Number(item.width || 20),  // Default width
+                    Number(item.height || item.width || 20), // Default height
+                    item.type,
+                    Number(item.value || 10),  // Default value
+                    Number(item.phase || 1)    // Default phase
+                );
+            } catch (error) {
+                console.error("Error creating collectible:", error, item);
+                return null;
+            }
+        }).filter(collectible => collectible !== null); // Remove any null entries
+
+        console.log("Successfully loaded collectibles:", collectibles);
+    } catch (error) {
+        console.error("Error loading collectibles:", error);
+        
+        // Create default collectibles if loading fails
+        collectibles = [
+            new Collectible(150, 350, 20, 20, 'coin', 10, 1),
+            new Collectible(400, 250, 25, 25, 'gem', 50, 1),
+            new Collectible(650, 400, 30, 30, 'star', 100, 1)
+        ];
+        
+        console.log("Using default collectibles due to loading error");
+    }
+}
+
 window.onload = initGame;
