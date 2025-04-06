@@ -207,7 +207,7 @@ async function loadObstacles() {
         const data = await response.json();
         obstacles = data.map(item => new Obstacle(
             item.x, item.y, item.width, item.height, item.type
-        ));
+        ))
     } catch (error) {
         console.error('Error loading obstacles:', error);
         obstacles = [
@@ -216,7 +216,19 @@ async function loadObstacles() {
             new Obstacle(200, 400, 150, 100, 'pond'),
             new Obstacle(100, 200, 250, 30, 'fence'),
             new Obstacle(600, 100, 120, 140, 'house')
-        ];
+        ]
+    }
+
+    getDefaultColor(type) {
+        const variations = {
+            'tree': ['#2E8B57', '#3CB371', '#228B22'],
+            'rock': ['#696969', '#808080', '#A9A9A9'],
+            'pond': ['#1E90FF', '#00BFFF', '#87CEFA'],
+            'fence': ['#8B4513', '#A0522D', '#D2691E'],
+            'house': ['#CD5C5C', '#DC143C', '#B22222']
+        };
+        const colors = variations[type] || ['#A9A9A9'];
+        return colors[Math.floor(Math.random() * colors.length)];
     }
 }
 
