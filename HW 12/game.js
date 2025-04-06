@@ -175,20 +175,112 @@ class Collectible extends GameObject {
     }
 
     draw() {
-        if (this.collected || this.phase > currentPhase) return;
+        if (this.collected) return;
+        
+        // Only draw collectibles for current phase or earlier
+        if (this.phase > currentPhase) return;
         
         const colors = {
             'coin': '#FFD700',
             'gem': '#FF1493',
             'star': '#00BFFF',
-            'diamond': '#00FF7F',  // New
-            'crown': '#9370DB'     // New
+            'diamond': '#00FF7F',
+            'crown': '#9370DB'
         };
         
         ctx.fillStyle = colors[this.type] || '#FFFF00';
-        // ... rest of draw logic ...
+        
+        // Draw different shapes based on type
+        switch(this.type) {
+            case 'coin':
+                ctx.beginPath();
+                ctx.arc(
+                    this.x + this.width/2,
+                    this.y + this.height/2,
+                    this.width/2,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fill();
+                break;
+                
+            case 'gem':
+                ctx.beginPath();
+                ctx.moveTo(this.x + this.width/2, this.y);
+                ctx.lineTo(this.x + this.width, this.y + this.height/2);
+                ctx.lineTo(this.x + this.width/2, this.y + this.height);
+                ctx.lineTo(this.x, this.y + this.height/2);
+                ctx.closePath();
+                ctx.fill();
+                break;
+                
+            case 'star':
+                drawStar(
+                    ctx,
+                    this.x + this.width/2,
+                    this.y + this.height/2,
+                    5,
+                    this.width/2,
+                    this.width/4
+                );
+                break;
+                
+            case 'diamond':
+                ctx.beginPath();
+                ctx.moveTo(this.x + this.width/2, this.y);
+                ctx.lineTo(this.x + this.width, this.y + this.height/2);
+                ctx.lineTo(this.x + this.width/2, this.y + this.height);
+                ctx.lineTo(this.x, this.y + this.height/2);
+                ctx.closePath();
+                ctx.fill();
+                break;
+                
+            case 'crown':
+                ctx.beginPath();
+                // Base
+                ctx.moveTo(this.x + 10, this.y + this.height - 10);
+                ctx.lineTo(this.x + this.width - 10, this.y + this.height - 10);
+                // Left side
+                ctx.lineTo(this.x + this.width/2, this.y + 10);
+                // Right side
+                ctx.lineTo(this.x + 10, this.y + this.height - 10);
+                ctx.fill();
+                break;
+                
+            default:
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
     }
 }
+
+// Helper function to draw a star
+function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
+    let rot = Math.PI/2 * 3;
+    let x = cx;
+    let y = cy;
+    let step = Math.PI / spikes;
+
+    ctx.beginPath();
+    ctx.moveTo(cx, cy - outerRadius);
+    
+    for(let i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+    }
+    
+    ctx.lineTo(cx, cy - outerRadius);
+    ctx.closePath();
+    ctx.fill();
+}
+    
+
 
 class Player extends GameObject {
     constructor(x, y) {
@@ -277,6 +369,23 @@ class Player extends GameObject {
                     if (phase1Collected >= PHASE1_COUNT) {
                         currentPhase = 2;
                         console.log("Phase 2 unlocked!");
+                        if (sounds.phase) sounds.phase.play();
+                    }
+                }
+                
+                updateScore();
+                if (sounds.collect) sounds.collect.play();
+                collectibles.splice(i, 1);
+            }
+        }
+    }
+                
+                // Phase transition check
+                if (collectible.phase === 1) {
+                    phase1Collected++;
+                    if (phase1Collected >= PHASE1_COUNT) {
+                        currentPhase = 2;
+                        console.log("Phase 2 unlocked!");
                     }
                 }
                 
@@ -314,27 +423,24 @@ async function loadCollectibles() {
         const response = await fetch('collectibles.json');
         const data = await response.json();
         collectibles = data.map(item => new Collectible(
-            item.x, item.y, item.width, item.height, item.type, item.value
+            item.x, item.y, item.width, item.height, item.type, item.value, item.phase || 1
         ));
     } catch (error) {
         console.error('Error loading collectibles:', error);
         collectibles = [
-            new Collectible(150, 350, 20, 20, 'coin', 10),
-            new Collectible(400, 250, 25, 25, 'gem', 50),
-            new Collectible(650, 400, 30, 30, 'star', 100),
-                new Collectible(150, 350, 20, 20, 'coin', 10, 1),
-                new Collectible(400, 250, 25, 25, 'gem', 50, 1),
-                new Collectible(650, 400, 30, 30, 'star', 100, 1),
-                new Collectible(800, 150, 20, 20, 'coin', 10, 1),
-                new Collectible(1000, 300, 25, 25, 'gem', 50, 1),
-                new Collectible(200, 600, 35, 35, 'diamond', 200, 2),
-                new Collectible(500, 700, 40, 40, 'crown', 500, 2),
-                new Collectible(1200, 500, 35, 35, 'diamond', 200, 2),
-                new Collectible(900, 800, 40, 40, 'crown', 500, 2),
-                new Collectible(1300, 200, 30, 30, 'star', 100, 2)
-            ];
-    
+            new Collectible(150, 350, 20, 20, 'coin', 10, 1),
+            new Collectible(400, 250, 25, 25, 'gem', 50, 1),
+            new Collectible(650, 400, 30, 30, 'star', 100, 1),
+            new Collectible(800, 150, 20, 20, 'coin', 10, 1),
+            new Collectible(1000, 300, 25, 25, 'gem', 50, 1),
+            new Collectible(200, 600, 35, 35, 'diamond', 200, 2),
+            new Collectible(500, 700, 40, 40, 'crown', 500, 2),
+            new Collectible(1200, 500, 35, 35, 'diamond', 200, 2),
+            new Collectible(900, 800, 40, 40, 'crown', 500, 2),
+            new Collectible(1300, 200, 30, 30, 'star', 100, 2)
+        ];
     }
+
 }
 
 function setupControls() {
