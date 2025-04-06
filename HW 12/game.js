@@ -288,7 +288,8 @@ async function initGame() {
     canvas.height = CANVAS_HEIGHT;
 
     async function initGame() {
-        // ... existing code ...
+        await loadObstacles();
+        await loadCollectibles();
         
         // Initialize sounds
         sounds.collect = document.getElementById('collect-sound');
@@ -299,7 +300,7 @@ async function initGame() {
         phaseStartTime = Date.now();
         timeLeft = PHASE_TIME_LIMIT;
         
-        // ... rest of init code ...
+     
     }
     
     // Create UI elements if they don't exist
@@ -490,6 +491,87 @@ async function loadCollectibles() {
         ];
         
         console.log("Using default collectibles due to loading error");
+    }
+}
+class Obstacle extends GameObject {
+    constructor(x, y, width, height, type, color) {
+        super(x, y, width, height, type);
+        this.color = color || this.getDefaultColor(type);
+    }
+
+    getDefaultColor(type) {
+        const colors = {
+            'tree': '#2E8B57',
+            'rock': '#696969',
+            'pond': '#1E90FF',
+            'fence': '#8B4513',
+            'house': '#CD5C5C'
+        };
+        return colors[type] || '#A9A9A9'; // Default gray
+    }
+
+    draw() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        
+        // Add outline for better visibility
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(this.x, this.y, this.width, this.height);
+        
+        // Add simple details based on type
+        this.addDetails();
+    }
+
+    addDetails() {
+        switch(this.type) {
+            case 'tree':
+                // Draw tree trunk
+                ctx.fillStyle = '#8B4513';
+                ctx.fillRect(
+                    this.x + this.width/2 - 5, 
+                    this.y + this.height - 20, 
+                    10, 
+                    20
+                );
+                break;
+            case 'house':
+                // Draw roof
+                ctx.fillStyle = '#8B0000';
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y + 30);
+                ctx.lineTo(this.x + this.width/2, this.y);
+                ctx.lineTo(this.x + this.width, this.y + 30);
+                ctx.closePath();
+                ctx.fill();
+                break;
+        }
+    }
+}
+async function loadObstacles() {
+    try {
+        const response = await fetch('obstacles.json');
+        const data = await response.json();
+        
+        obstacles = data.map(item => new Obstacle(
+            item.x,
+            item.y,
+            item.width,
+            item.height,
+            item.type,
+            item.color // Optional - will use default if missing
+        ));
+        
+    } catch (error) {
+        console.error("Error loading obstacles:", error);
+        // Create default obstacles if loading fails
+        obstacles = [
+            new Obstacle(300, 150, 60, 90, 'tree'),
+            new Obstacle(500, 300, 50, 40, 'rock'),
+            new Obstacle(200, 400, 150, 100, 'pond'),
+            new Obstacle(100, 200, 250, 30, 'fence'),
+            new Obstacle(600, 100, 120, 140, 'house')
+        ];
     }
 }
 
