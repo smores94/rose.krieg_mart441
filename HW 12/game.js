@@ -12,6 +12,22 @@ let player;
 let keys = {};
 let score = 0;
 
+// Add to Game Variables
+let currentPhase = 1;
+let phase1Collected = 0;
+const PHASE1_COUNT = 5;
+const PHASE_TIME_LIMIT = 60000; // 60 seconds per phase in milliseconds
+let phaseStartTime;
+let timeLeft;
+let timeWarningPlayed = false;
+
+// Sound objects
+const sounds = {
+    collect: null,
+    phase: null,
+    warning: null
+};
+
 // Game Classes
 class GameObject {
     constructor(x, y, width, height, type) {
@@ -266,6 +282,21 @@ async function initGame() {
     ctx = canvas.getContext('2d');
     canvas.width = CANVAS_WIDTH;
     canvas.height = CANVAS_HEIGHT;
+
+    async function initGame() {
+        // ... existing code ...
+        
+        // Initialize sounds
+        sounds.collect = document.getElementById('collect-sound');
+        sounds.phase = document.getElementById('phase-sound');
+        sounds.warning = document.getElementById('time-warning');
+        
+        // Start phase timer
+        phaseStartTime = Date.now();
+        timeLeft = PHASE_TIME_LIMIT;
+        
+        // ... rest of init code ...
+    }
     
     // Create UI elements if they don't exist
     if (!document.getElementById('debug-info')) {
@@ -286,5 +317,6 @@ async function initGame() {
     setupControls();
     gameLoop();
 }
+
 
 window.onload = initGame;
