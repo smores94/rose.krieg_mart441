@@ -258,10 +258,14 @@ function updateScore() {
 function updateDebugInfo() {
     const debugElement = document.getElementById('debug-info');
     if (debugElement) {
+        const minutes = Math.floor(timeLeft / 60000);
+        const seconds = Math.floor((timeLeft % 60000) / 1000);
+        
         debugElement.innerHTML = `
-            Player: (${Math.floor(player.x)}, ${Math.floor(player.y)})<br>
-            Collision: ${obstacles.some(o => player.collidesWith(o)) ? 'Yes' : 'No'}<br>
-            Collectibles left: ${collectibles.filter(c => !c.collected).length}
+            Phase: ${currentPhase}<br>
+            Phase 1: ${phase1Collected}/${PHASE1_COUNT}<br>
+            Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}<br>
+            Score: ${score}
         `;
     }
 }
@@ -317,6 +321,127 @@ async function initGame() {
     setupControls();
     gameLoop();
 }
+class Collectible extends GameObject {
+    constructor(x, y, width, height, type, value = 10, phase = 1) {
+        // Validate parameters
+        if (isNaN(x) || isNaN(y) || isNaN(width) || isNaN(height)) {
+            console.error("Invalid collectible coordinates/size:", {x, y, width, height});
+            throw new Error("Collectible parameters must be numbers");
+        }
 
+        super(x, y, width, height, type);
+        this.value = value;
+        this.collected = false;
+        this.phase = phase;
+        this.pulse = 0;
+        this.pulseDirection = 1;
+        
+        // Validate type
+        this.validTypes = ['coin', 'gem', 'star', 'diamond', 'crown'];
+        if (!this.validTypes.includes(type)) {
+            console.warn(`Unknown collectible type: ${type}. Defaulting to 'coin'`);
+            this.type = 'coin';
+        }
+    }
+
+    draw() {
+        try {
+            if (this.collected || this.phase > currentPhase) return;
+            
+            const colors = {
+                'coin': '#FFD700',
+                'gem': '#FF1493',
+                'star': '#00BFFF',
+                'diamond': '#00FF7F',
+                'crown': '#9370DB'
+            };
+            
+            ctx.save();
+            
+            // Pulsing effect for phase 2
+            if (this.phase === 2) {
+                this.pulse += 0.05 * this.pulseDirection;
+                if (this.pulse > 0.5 || this.pulse < 0) this.pulseDirection *= -1;
+                ctx.shadowColor = colors[this.type] || '#FFFF00';
+                ctx.shadowBlur = 15 + 15 * this.pulse;
+            }
+            
+            // Main shape
+            ctx.fillStyle = colors[this.type] || '#FFFF00';
+            ctx.beginPath();
+            
+            switch(this.type) {
+                case 'coin':
+                    ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
+                    break;
+                case 'gem':
+                    this.drawGemShape();
+                    break;
+                case 'star':
+                    this.drawStarShape();
+                    break;
+                default:
+                    ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
+            }
+            
+            ctx.fill();
+            
+            // Shine effect
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.beginPath();
+            ctx.arc(
+                this.x + this.width/2 + this.width/6,
+                this.y + this.height/2 - this.height/6,
+                this.width/5,
+                0,
+                Math.PI * 2
+            );
+            ctx.fill();
+            
+            ctx.restore();
+        } catch (error) {
+            console.error("Error drawing collectible:", error);
+            // Fallback drawing
+            ctx.fillStyle = 'red';
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+
+    drawGemShape() {
+        const centerX = this.x + this.width/2;
+        const centerY = this.y + this.height/2;
+        ctx.moveTo(centerX, centerY - this.height/2);
+        ctx.lineTo(centerX + this.width/2, centerY);
+        ctx.lineTo(centerX, centerY + this.height/2);
+        ctx.lineTo(centerX - this.width/2, centerY);
+        ctx.closePath();
+    }
+
+    drawStarShape() {
+        const spikes = 5;
+        const outerRadius = this.width/2;
+        const innerRadius = outerRadius * 0.4;
+        const centerX = this.x + this.width/2;
+        const centerY = this.y + this.height/2;
+        
+        ctx.moveTo(centerX, centerY - outerRadius);
+        
+        for (let i = 0; i < spikes; i++) {
+            const angle = Math.PI * 2 / spikes * i - Math.PI/2;
+            const nextAngle = Math.PI * 2 / spikes * (i + 0.5) - Math.PI/2;
+            
+            ctx.lineTo(
+                centerX + Math.cos(angle) * innerRadius,
+                centerY + Math.sin(angle) * innerRadius
+            );
+            ctx.lineTo(
+                centerX + Math.cos(nextAngle) * outerRadius,
+                centerY + Math.sin(nextAngle) * outerRadius
+            );
+        }
+        
+        ctx.closePath();
+    }
+}
 
 window.onload = initGame;

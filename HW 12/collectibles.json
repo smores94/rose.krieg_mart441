@@ -1,27 +1,32 @@
 [
     {
-      "id": 1,
-      "type": "coin",
-      "x": 150,
-      "y": 350,
-      "width": 20,
-      "height": 20,
-      "value": 10
+        "id": 1,
+        "type": "coin",
+        "x": 150,
+        "y": 350,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 1
     },
     {
-      "id": 2,
-      "type": "gem",
-      "x": 400,
-      "y": 250,
-      "width": 25,
-      "height": 25,
-      "value": 50
+        "id": 2,
+        "type": "gem",
+        "x": 400,
+        "y": 250,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 1
     },
     {
-      "id": 3,
-      "type": "star",
-      "x": 650,
-      "y": 400,
-      "width": 30
+        "id": 3,
+        "type": "star",
+        "x": 650,
+        "y": 400,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 1
     }
 ]
