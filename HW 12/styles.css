@@ -39,3 +39,45 @@ body {
   font-family: Arial, sans-serif;
   font-size: 18px;
 }
+
+/* Update styles.css */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #222;
+}
+
+#game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+}
+
+#game-canvas {
+  display: block;
+  background-color: #87CEEB;
+  /* Remove fixed width/height - let JavaScript set these */
+}
+
+#debug-info, #score-display {
+  position: fixed; /* Changed from absolute to stay visible */
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+#debug-info {
+  top: 10px;
+  left: 10px;
+}
+
+#score-display {
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+}

@@ -1,7 +1,7 @@
 // Game Constants
-const CANVAS_WIDTH = 800;
-const CANVAS_HEIGHT = 600;
-const PLAYER_SIZE = 40;
+const CANVAS_WIDTH = 1600;
+const CANVAS_HEIGHT = 1200;
+const PLAYER_SIZE = 60;
 
 // Game Variables
 let canvas, ctx;
