@@ -6,11 +6,49 @@ const SCORE_INCREMENT = 10;
 
 // Game Variables
 let canvas, ctx;
-let obstacles = [];
-let collectibles = [];
-let player;
-let keys = {};
-let score = 0;
+let scale = 1;
+let canvasOffsetX = 0;
+let canvasOffsetY = 0;
+
+async function initGame() {
+    // Set up canvas
+    canvas = document.getElementById('game-canvas');
+    ctx = canvas.getContext('2d');
+    
+    // Set internal game size
+    canvas.width = GAME_WIDTH;
+    canvas.height = GAME_HEIGHT;
+    
+    // Scale canvas to fit window
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    // ... rest of your initialization code ...
+}
+
+function resizeCanvas() {
+    const windowRatio = window.innerWidth / window.innerHeight;
+    const gameRatio = GAME_WIDTH / GAME_HEIGHT;
+    
+    if (windowRatio > gameRatio) {
+        // Window is wider than game - fit to height
+        scale = window.innerHeight / GAME_HEIGHT;
+    } else {
+        // Window is taller than game - fit to width
+        scale = window.innerWidth / GAME_WIDTH;
+    }
+    
+    // Apply scaling
+    canvas.style.width = `${GAME_WIDTH * scale}px`;
+    canvas.style.height = `${GAME_HEIGHT * scale}px`;
+    
+    // Center canvas
+    canvasOffsetX = (window.innerWidth - GAME_WIDTH * scale) / 2;
+    canvasOffsetY = (window.innerHeight - GAME_HEIGHT * scale) / 2;
+    canvas.style.position = 'absolute';
+    canvas.style.left = `${canvasOffsetX}px`;
+    canvas.style.top = `${canvasOffsetY}px`;
+}
 
 // Add to Game Variables
 let currentPhase = 1;
@@ -574,5 +612,19 @@ async function loadObstacles() {
         ];
     }
 }
-
+class Player extends GameObject {
+    draw() {
+        // Use normal coordinates - no need to adjust for scale
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(
+            this.x + this.width/2,
+            this.y + this.height/2,
+            this.width/2,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+    }
+}
 window.onload = initGame;
