@@ -55,23 +55,85 @@ class GameObject {
 class Obstacle extends GameObject {
     constructor(x, y, width, height, type) {
         super(x, y, width, height, type);
+        this.color = this.getRandomVariantColor(type); // Set random color on creation
+    }
+
+    getRandomVariantColor(type) {
+        const colorVariations = {
+            'tree': ['#2E8B57', '#3CB371', '#228B22', '#008000', '#006400'],
+            'rock': ['#696969', '#808080', '#A9A9A9', '#778899', '#708090'],
+            'pond': ['#1E90FF', '#00BFFF', '#87CEFA', '#4682B4', '#5F9EA0'],
+            'fence': ['#8B4513', '#A0522D', '#D2691E', '#CD853F', '#B8860B'],
+            'house': ['#CD5C5C', '#DC143C', '#B22222', '#8B0000', '#FF0000']
+        };
+        
+        const variants = colorVariations[type] || ['#A9A9A9'];
+        return variants[Math.floor(Math.random() * variants.length)];
     }
 
     draw() {
-        const colors = {
-            'tree': '#2E8B57',
-            'rock': '#696969',
-            'pond': '#1E90FF',
-            'fence': '#8B4513',
-            'house': '#CD5C5C'
-        };
-        
-        ctx.fillStyle = colors[this.type] || '#A9A9A9';
+        ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
         
+        // Add outline with shadow effect
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
         ctx.lineWidth = 2;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+        ctx.shadowBlur = 5;
         ctx.strokeRect(this.x, this.y, this.width, this.height);
+        ctx.shadowBlur = 0; // Reset shadow
+        
+        // Add special details based on type
+        this.addObstacleDetails();
+    }
+
+    addObstacleDetails() {
+        switch(this.type) {
+            case 'tree':
+                // Draw tree trunk
+                ctx.fillStyle = '#5D4037';
+                ctx.fillRect(
+                    this.x + this.width/2 - 5, 
+                    this.y + this.height - 20, 
+                    10, 
+                    20
+                );
+                break;
+                
+            case 'house':
+                // Draw roof
+                ctx.fillStyle = '#8B0000';
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y + 30);
+                ctx.lineTo(this.x + this.width/2, this.y);
+                ctx.lineTo(this.x + this.width, this.y + 30);
+                ctx.closePath();
+                ctx.fill();
+                
+                // Draw door
+                ctx.fillStyle = '#5D4037';
+                ctx.fillRect(
+                    this.x + this.width/2 - 15,
+                    this.y + this.height - 40,
+                    30,
+                    40
+                );
+                break;
+                
+            case 'fence':
+                // Draw fence posts
+                ctx.fillStyle = '#5D4037';
+                const postCount = Math.floor(this.width / 30);
+                for (let i = 0; i < postCount; i++) {
+                    ctx.fillRect(
+                        this.x + (i * (this.width/postCount)) + 5,
+                        this.y,
+                        5,
+                        this.height
+                    );
+                }
+                break;
+        }
     }
 }
 
@@ -207,7 +269,7 @@ async function loadObstacles() {
         const data = await response.json();
         obstacles = data.map(item => new Obstacle(
             item.x, item.y, item.width, item.height, item.type
-        ))
+        ));
     } catch (error) {
         console.error('Error loading obstacles:', error);
         obstacles = [
@@ -216,20 +278,9 @@ async function loadObstacles() {
             new Obstacle(200, 400, 150, 100, 'pond'),
             new Obstacle(100, 200, 250, 30, 'fence'),
             new Obstacle(600, 100, 120, 140, 'house')
-        ]
+        ];
     }
 
-    getDefaultColor(type) {
-        const variations = {
-            'tree': ['#2E8B57', '#3CB371', '#228B22'],
-            'rock': ['#696969', '#808080', '#A9A9A9'],
-            'pond': ['#1E90FF', '#00BFFF', '#87CEFA'],
-            'fence': ['#8B4513', '#A0522D', '#D2691E'],
-            'house': ['#CD5C5C', '#DC143C', '#B22222']
-        };
-        const colors = variations[type] || ['#A9A9A9'];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
 }
 
 async function loadCollectibles() {
