@@ -378,7 +378,7 @@ class Player extends GameObject {
                 collectibles.splice(i, 1);
             }
         }
-    }
+    
                 
                 // Phase transition check
                 if (collectible.phase === 1) {
@@ -393,8 +393,7 @@ class Player extends GameObject {
                 collectibles.splice(i, 1);
             }
         }
-    }
-            }
+    
 
 
 // Game Functions
