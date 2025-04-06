@@ -2,12 +2,15 @@
 const CANVAS_WIDTH = 1600;
 const CANVAS_HEIGHT = 1200;
 const PLAYER_SIZE = 60;
+const SCORE_INCREMENT = 10;
 
 // Game Variables
 let canvas, ctx;
 let obstacles = [];
+let collectibles = [];
 let player;
 let keys = {};
+let score = 0;
 
 // Game Classes
 class GameObject {
@@ -20,7 +23,6 @@ class GameObject {
     }
 
     draw() {
-        // Base draw method (override in child classes)
         ctx.fillStyle = 'gray';
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
@@ -39,7 +41,6 @@ class Obstacle extends GameObject {
     }
 
     draw() {
-        // Different colors for different obstacle types
         const colors = {
             'tree': '#2E8B57',
             'rock': '#696969',
@@ -51,10 +52,49 @@ class Obstacle extends GameObject {
         ctx.fillStyle = colors[this.type] || '#A9A9A9';
         ctx.fillRect(this.x, this.y, this.width, this.height);
         
-        // Add some simple details
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
         ctx.lineWidth = 2;
         ctx.strokeRect(this.x, this.y, this.width, this.height);
+    }
+}
+
+class Collectible extends GameObject {
+    constructor(x, y, width, height, type, value) {
+        super(x, y, width, height, type);
+        this.value = value;
+        this.collected = false;
+    }
+
+    draw() {
+        if (this.collected) return;
+        
+        const colors = {
+            'coin': '#FFD700',
+            'gem': '#FF1493',
+            'star': '#00BFFF'
+        };
+        
+        ctx.fillStyle = colors[this.type] || '#FFFF00';
+        ctx.beginPath();
+        ctx.arc(
+            this.x + this.width/2,
+            this.y + this.height/2,
+            this.width/2,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+        
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.beginPath();
+        ctx.arc(
+            this.x + this.width/2 + this.width/4,
+            this.y + this.height/2 - this.height/4,
+            this.width/4,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
     }
 }
 
@@ -77,7 +117,6 @@ class Player extends GameObject {
         );
         ctx.fill();
         
-        // Simple eyes to show direction
         ctx.fillStyle = 'white';
         ctx.beginPath();
         ctx.arc(
@@ -90,273 +129,7 @@ class Player extends GameObject {
         ctx.fill();
     }
 
-    update(obstacles) {
-        let dx = 0, dy = 0;
-        
-        // Movement based on key presses
-        if (keys.ArrowUp) dy -= this.speed;
-        if (keys.ArrowDown) dy += this.speed;
-        if (keys.ArrowLeft) dx -= this.speed;
-        if (keys.ArrowRight) dx += this.speed;
-        
-        // Normalize diagonal movement
-        if (dx !== 0 && dy !== 0) {
-            dx *= 0.7071;
-            dy *= 0.7071;
-        }
-        
-        // Check potential new position
-        const newX = this.x + dx;
-        const newY = this.y + dy;
-        
-        // Create temporary player to check collisions
-        const tempPlayer = new Player(newX, newY);
-        
-        // Check boundaries
-        const withinBounds = 
-            newX >= 0 && 
-            newX <= CANVAS_WIDTH - this.width &&
-            newY >= 0 && 
-            newY <= CANVAS_HEIGHT - this.height;
-        
-        // Check collisions with obstacles
-        let canMove = withinBounds;
-        if (canMove) {
-            for (const obstacle of obstacles) {
-                if (tempPlayer.collidesWith(obstacle)) {
-                    canMove = false;
-                    break;
-                }
-            }
-        }
-        
-        // Update position if no collision
-        if (canMove) {
-            this.x = newX;
-            this.y = newY;
-        }
-    }
-}
-
-// Initialize Game
-async function initGame() {
-    // Set up canvas
-    canvas = document.getElementById('game-canvas');
-    ctx = canvas.getContext('2d');
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
-    
-    // Load obstacles
-    await loadObstacles();
-    
-    // Create player
-    player = new Player(50, 50);
-    
-    // Set up keyboard controls
-    setupControls();
-    
-    // Start game loop
-    gameLoop();
-}
-
-// Load obstacles from JSON
-async function loadObstacles() {
-    try {
-        const response = await fetch('obstacles.json');
-        const data = await response.json();
-        
-        obstacles = data.map(item => new Obstacle(
-            item.x,
-            item.y,
-            item.width,
-            item.height,
-            item.type
-        ));
-        
-        console.log('Loaded obstacles:', obstacles);
-    } catch (error) {
-        console.error('Error loading obstacles:', error);
-        // Create default obstacles if loading fails
-        obstacles = [
-            new Obstacle(300, 150, 60, 90, 'tree'),
-            new Obstacle(500, 300, 50, 40, 'rock'),
-            new Obstacle(200, 400, 150, 100, 'pond'),
-            new Obstacle(100, 200, 250, 30, 'fence'),
-            new Obstacle(600, 100, 120, 140, 'house')
-        ];
-    }
-}
-
-// Set up keyboard controls
-function setupControls() {
-    window.addEventListener('keydown', (e) => {
-        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-            keys[e.key] = true;
-        }
-    });
-    
-    window.addEventListener('keyup', (e) => {
-        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
-            keys[e.key] = false;
-        }
-    });
-}
-
-// Main game loop
-function gameLoop() {
-    // Clear canvas
-    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    
-    // Update player
-    player.update(obstacles);
-    
-    // Draw all objects
-    obstacles.forEach(obstacle => obstacle.draw());
-    player.draw();
-    
-    // Show debug info
-    updateDebugInfo();
-    
-    // Continue loop
-    requestAnimationFrame(gameLoop);
-}
-
-// Update debug information
-function updateDebugInfo() {
-    const debugElement = document.getElementById('debug-info');
-    debugElement.innerHTML = `
-        Player: (${Math.floor(player.x)}, ${Math.floor(player.y)})<br>
-        Collision: ${checkCollisions() ? 'Yes' : 'No'}
-    `;
-}
-
-// Check if player is colliding with any obstacles
-function checkCollisions() {
-    return obstacles.some(obstacle => player.collidesWith(obstacle));
-}
-
-// Start the game
-window.onload = initGame;
-
-// Add to Game Constants
-const SCORE_INCREMENT = 10;
-
-// Add to Game Variables
-let collectibles = [];
-let score = 0;
-let scoreElement;
-
-// Add new Collectible class
-class Collectible extends GameObject {
-    constructor(x, y, width, height, type, value) {
-        super(x, y, width, height, type);
-        this.value = value;
-        this.collected = false;
-    }
-
-    draw() {
-        if (this.collected) return;
-        
-        // Different colors for different collectible types
-        const colors = {
-            'coin': '#FFD700',
-            'gem': '#FF1493',
-            'star': '#00BFFF'
-        };
-        
-        ctx.fillStyle = colors[this.type] || '#FFFF00';
-        ctx.beginPath();
-        ctx.arc(
-            this.x + this.width/2,
-            this.y + this.height/2,
-            this.width/2,
-            0,
-            Math.PI * 2
-        );
-        ctx.fill();
-        
-        // Add shine effect
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-        ctx.beginPath();
-        ctx.arc(
-            this.x + this.width/2 + this.width/4,
-            this.y + this.height/2 - this.height/4,
-            this.width/4,
-            0,
-            Math.PI * 2
-        );
-        ctx.fill();
-    }
-}
-
-// Update initGame function
-async function initGame() {
-    // Set up canvas
-    canvas = document.getElementById('game-canvas');
-    ctx = canvas.getContext('2d');
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
-    
-    // Create score display
-    scoreElement = document.createElement('div');
-    scoreElement.id = 'score-display';
-    scoreElement.style.position = 'absolute';
-    scoreElement.style.top = '10px';
-    scoreElement.style.right = '10px';
-    scoreElement.style.color = 'white';
-    scoreElement.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
-    scoreElement.style.padding = '5px 10px';
-    scoreElement.style.borderRadius = '5px';
-    scoreElement.style.fontFamily = 'Arial, sans-serif';
-    document.getElementById('game-container').appendChild(scoreElement);
-    updateScore();
-    
-    // Load game data
-    await loadObstacles();
-    await loadCollectibles();
-    
-    // Create player
-    player = new Player(50, 50);
-    
-    // Set up keyboard controls
-    setupControls();
-    
-    // Start game loop
-    gameLoop();
-}
-
-// Add new function to load collectibles
-async function loadCollectibles() {
-    try {
-        const response = await fetch('collectibles.json');
-        const data = await response.json();
-        
-        collectibles = data.map(item => new Collectible(
-            item.x,
-            item.y,
-            item.width,
-            item.height,
-            item.type,
-            item.value
-        ));
-        
-        console.log('Loaded collectibles:', collectibles);
-    } catch (error) {
-        console.error('Error loading collectibles:', error);
-        // Create default collectibles if loading fails
-        collectibles = [
-            new Collectible(150, 350, 20, 20, 'coin', 10),
-            new Collectible(400, 250, 25, 25, 'gem', 50),
-            new Collectible(650, 400, 30, 30, 'star', 100)
-        ];
-    }
-}
-
-// Update Player's update method to check for collectibles
-class Player extends GameObject {
-    // ... (previous code remains the same until update method)
-    
-    update(obstacles) {
+    update() {
         let dx = 0, dy = 0;
         
         if (keys.ArrowUp) dy -= this.speed;
@@ -403,44 +176,115 @@ class Player extends GameObject {
                 collectible.collected = true;
                 score += collectible.value;
                 updateScore();
-                
-                // Remove from array (optional, we could also keep them)
                 collectibles.splice(i, 1);
-                
                 console.log(`Collected ${collectible.type}! New score: ${score}`);
             }
         }
     }
 }
 
-// Add function to update score display
-function updateScore() {
-    scoreElement.textContent = `Score: ${score}`;
+// Game Functions
+async function loadObstacles() {
+    try {
+        const response = await fetch('obstacles.json');
+        const data = await response.json();
+        obstacles = data.map(item => new Obstacle(
+            item.x, item.y, item.width, item.height, item.type
+        ));
+    } catch (error) {
+        console.error('Error loading obstacles:', error);
+        obstacles = [
+            new Obstacle(300, 150, 60, 90, 'tree'),
+            new Obstacle(500, 300, 50, 40, 'rock'),
+            new Obstacle(200, 400, 150, 100, 'pond'),
+            new Obstacle(100, 200, 250, 30, 'fence'),
+            new Obstacle(600, 100, 120, 140, 'house')
+        ];
+    }
 }
 
-// Update gameLoop to draw collectibles
+async function loadCollectibles() {
+    try {
+        const response = await fetch('collectibles.json');
+        const data = await response.json();
+        collectibles = data.map(item => new Collectible(
+            item.x, item.y, item.width, item.height, item.type, item.value
+        ));
+    } catch (error) {
+        console.error('Error loading collectibles:', error);
+        collectibles = [
+            new Collectible(150, 350, 20, 20, 'coin', 10),
+            new Collectible(400, 250, 25, 25, 'gem', 50),
+            new Collectible(650, 400, 30, 30, 'star', 100)
+        ];
+    }
+}
+
+function setupControls() {
+    window.addEventListener('keydown', (e) => {
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+            keys[e.key] = true;
+        }
+    });
+    
+    window.addEventListener('keyup', (e) => {
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+            keys[e.key] = false;
+        }
+    });
+}
+
+function updateScore() {
+    const scoreElement = document.getElementById('score-display');
+    if (scoreElement) scoreElement.textContent = `Score: ${score}`;
+}
+
+function updateDebugInfo() {
+    const debugElement = document.getElementById('debug-info');
+    if (debugElement) {
+        debugElement.innerHTML = `
+            Player: (${Math.floor(player.x)}, ${Math.floor(player.y)})<br>
+            Collision: ${obstacles.some(o => player.collidesWith(o)) ? 'Yes' : 'No'}<br>
+            Collectibles left: ${collectibles.filter(c => !c.collected).length}
+        `;
+    }
+}
+
 function gameLoop() {
-    // Clear canvas
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    
-    // Update and draw
-    player.update(obstacles);
-    obstacles.forEach(obstacle => obstacle.draw());
-    collectibles.forEach(collectible => collectible.draw());
+    player.update();
+    obstacles.forEach(o => o.draw());
+    collectibles.forEach(c => c.draw());
     player.draw();
-    
-    // Show debug info
     updateDebugInfo();
-    
     requestAnimationFrame(gameLoop);
 }
 
-// Update debug info to show collectibles count
-function updateDebugInfo() {
-    const debugElement = document.getElementById('debug-info');
-    debugElement.innerHTML = `
-        Player: (${Math.floor(player.x)}, ${Math.floor(player.y)})<br>
-        Collision: ${checkCollisions() ? 'Yes' : 'No'}<br>
-        Collectibles left: ${collectibles.filter(c => !c.collected).length}
-    `;
+// Initialize Game
+async function initGame() {
+    canvas = document.getElementById('game-canvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = CANVAS_WIDTH;
+    canvas.height = CANVAS_HEIGHT;
+    
+    // Create UI elements if they don't exist
+    if (!document.getElementById('debug-info')) {
+        const debugInfo = document.createElement('div');
+        debugInfo.id = 'debug-info';
+        document.body.appendChild(debugInfo);
+    }
+    
+    if (!document.getElementById('score-display')) {
+        const scoreDisplay = document.createElement('div');
+        scoreDisplay.id = 'score-display';
+        document.body.appendChild(scoreDisplay);
+    }
+    
+    await loadObstacles();
+    await loadCollectibles();
+    player = new Player(50, 50);
+    setupControls();
+    gameLoop();
 }
+
+window.onload = initGame;
