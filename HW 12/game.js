@@ -237,3 +237,210 @@ function checkCollisions() {
 
 // Start the game
 window.onload = initGame;
+
+// Add to Game Constants
+const SCORE_INCREMENT = 10;
+
+// Add to Game Variables
+let collectibles = [];
+let score = 0;
+let scoreElement;
+
+// Add new Collectible class
+class Collectible extends GameObject {
+    constructor(x, y, width, height, type, value) {
+        super(x, y, width, height, type);
+        this.value = value;
+        this.collected = false;
+    }
+
+    draw() {
+        if (this.collected) return;
+        
+        // Different colors for different collectible types
+        const colors = {
+            'coin': '#FFD700',
+            'gem': '#FF1493',
+            'star': '#00BFFF'
+        };
+        
+        ctx.fillStyle = colors[this.type] || '#FFFF00';
+        ctx.beginPath();
+        ctx.arc(
+            this.x + this.width/2,
+            this.y + this.height/2,
+            this.width/2,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+        
+        // Add shine effect
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.beginPath();
+        ctx.arc(
+            this.x + this.width/2 + this.width/4,
+            this.y + this.height/2 - this.height/4,
+            this.width/4,
+            0,
+            Math.PI * 2
+        );
+        ctx.fill();
+    }
+}
+
+// Update initGame function
+async function initGame() {
+    // Set up canvas
+    canvas = document.getElementById('game-canvas');
+    ctx = canvas.getContext('2d');
+    canvas.width = CANVAS_WIDTH;
+    canvas.height = CANVAS_HEIGHT;
+    
+    // Create score display
+    scoreElement = document.createElement('div');
+    scoreElement.id = 'score-display';
+    scoreElement.style.position = 'absolute';
+    scoreElement.style.top = '10px';
+    scoreElement.style.right = '10px';
+    scoreElement.style.color = 'white';
+    scoreElement.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+    scoreElement.style.padding = '5px 10px';
+    scoreElement.style.borderRadius = '5px';
+    scoreElement.style.fontFamily = 'Arial, sans-serif';
+    document.getElementById('game-container').appendChild(scoreElement);
+    updateScore();
+    
+    // Load game data
+    await loadObstacles();
+    await loadCollectibles();
+    
+    // Create player
+    player = new Player(50, 50);
+    
+    // Set up keyboard controls
+    setupControls();
+    
+    // Start game loop
+    gameLoop();
+}
+
+// Add new function to load collectibles
+async function loadCollectibles() {
+    try {
+        const response = await fetch('collectibles.json');
+        const data = await response.json();
+        
+        collectibles = data.map(item => new Collectible(
+            item.x,
+            item.y,
+            item.width,
+            item.height,
+            item.type,
+            item.value
+        ));
+        
+        console.log('Loaded collectibles:', collectibles);
+    } catch (error) {
+        console.error('Error loading collectibles:', error);
+        // Create default collectibles if loading fails
+        collectibles = [
+            new Collectible(150, 350, 20, 20, 'coin', 10),
+            new Collectible(400, 250, 25, 25, 'gem', 50),
+            new Collectible(650, 400, 30, 30, 'star', 100)
+        ];
+    }
+}
+
+// Update Player's update method to check for collectibles
+class Player extends GameObject {
+    // ... (previous code remains the same until update method)
+    
+    update(obstacles) {
+        let dx = 0, dy = 0;
+        
+        if (keys.ArrowUp) dy -= this.speed;
+        if (keys.ArrowDown) dy += this.speed;
+        if (keys.ArrowLeft) dx -= this.speed;
+        if (keys.ArrowRight) dx += this.speed;
+        
+        if (dx !== 0 && dy !== 0) {
+            dx *= 0.7071;
+            dy *= 0.7071;
+        }
+        
+        const newX = this.x + dx;
+        const newY = this.y + dy;
+        const tempPlayer = new Player(newX, newY);
+        
+        const withinBounds = 
+            newX >= 0 && 
+            newX <= CANVAS_WIDTH - this.width &&
+            newY >= 0 && 
+            newY <= CANVAS_HEIGHT - this.height;
+        
+        let canMove = withinBounds;
+        if (canMove) {
+            for (const obstacle of obstacles) {
+                if (tempPlayer.collidesWith(obstacle)) {
+                    canMove = false;
+                    break;
+                }
+            }
+        }
+        
+        if (canMove) {
+            this.x = newX;
+            this.y = newY;
+            this.checkCollectibles();
+        }
+    }
+    
+    checkCollectibles() {
+        for (let i = collectibles.length - 1; i >= 0; i--) {
+            const collectible = collectibles[i];
+            if (!collectible.collected && this.collidesWith(collectible)) {
+                collectible.collected = true;
+                score += collectible.value;
+                updateScore();
+                
+                // Remove from array (optional, we could also keep them)
+                collectibles.splice(i, 1);
+                
+                console.log(`Collected ${collectible.type}! New score: ${score}`);
+            }
+        }
+    }
+}
+
+// Add function to update score display
+function updateScore() {
+    scoreElement.textContent = `Score: ${score}`;
+}
+
+// Update gameLoop to draw collectibles
+function gameLoop() {
+    // Clear canvas
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    
+    // Update and draw
+    player.update(obstacles);
+    obstacles.forEach(obstacle => obstacle.draw());
+    collectibles.forEach(collectible => collectible.draw());
+    player.draw();
+    
+    // Show debug info
+    updateDebugInfo();
+    
+    requestAnimationFrame(gameLoop);
+}
+
+// Update debug info to show collectibles count
+function updateDebugInfo() {
+    const debugElement = document.getElementById('debug-info');
+    debugElement.innerHTML = `
+        Player: (${Math.floor(player.x)}, ${Math.floor(player.y)})<br>
+        Collision: ${checkCollisions() ? 'Yes' : 'No'}<br>
+        Collectibles left: ${collectibles.filter(c => !c.collected).length}
+    `;
+}
