@@ -50,7 +50,6 @@ const gameInstructions = `
     - Complete before time runs out!
 `;
 
-// Game Classes
 class GameObject {
     constructor(x, y, width, height, type) {
         this.x = x;
@@ -294,25 +293,6 @@ function setupUI() {
     resetButton.style.zIndex = '1000';
     resetButton.addEventListener('click', resetGame);
     document.body.appendChild(resetButton);
-
-    function resetGame() {
-        location.reload(); // Simplest way to reset without complex logic
-    }
-    
-    // Add a reset button (put this right before gameLoop() in initGame)
-    const resetBtn = document.createElement('button');
-    resetBtn.textContent = 'Reset Game';
-    resetBtn.style.position = 'fixed';
-    resetBtn.style.top = '20px';
-    resetBtn.style.right = '20px';
-    resetBtn.style.padding = '8px 15px';
-    resetBtn.style.backgroundColor = '#4CAF50';
-    resetBtn.style.color = 'white';
-    resetBtn.style.border = 'none';
-    resetBtn.style.borderRadius = '4px';
-    resetBtn.style.cursor = 'pointer';
-    resetBtn.onclick = resetGame;
-    document.body.appendChild(resetBtn);
 
     // Create instructions popup
     if (showInstructions) {
@@ -626,30 +606,6 @@ async function initGame() {
         return;
     }
     ctx = canvas.getContext('2d');
-
-    if (!document.getElementById('score-display')) {
-        const scoreDisplay = document.createElement('div');
-        scoreDisplay.id = 'score-display';
-        document.body.appendChild(scoreDisplay);
-        
-        // Add instructions div below score display
-        const instructionsDiv = document.createElement('div');
-        instructionsDiv.id = 'game-instructions';
-        instructionsDiv.style.position = 'fixed';
-        instructionsDiv.style.left = '20px';
-        instructionsDiv.style.top = '60px'; // Below score
-        instructionsDiv.style.color = 'white';
-        instructionsDiv.style.backgroundColor = 'rgba(0,0,0,0.7)';
-        instructionsDiv.style.padding = '10px';
-        instructionsDiv.style.borderRadius = '5px';
-        instructionsDiv.style.maxWidth = '300px';
-        instructionsDiv.style.fontFamily = 'Arial, sans-serif';
-        instructionsDiv.style.fontSize = '14px';
-        instructionsDiv.style.whiteSpace = 'pre-line'; // Preserves line breaks
-        instructionsDiv.textContent = gameInstructions;
-        document.body.appendChild(instructionsDiv);
-    }
-
     
     // Initialize sounds properly
     sounds.collect = document.getElementById('collect-sound');
