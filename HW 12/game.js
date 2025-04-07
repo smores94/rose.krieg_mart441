@@ -11,6 +11,7 @@ const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
 const PHASE2_COUNT = 5; // Number of phase 2 collectibles needed to win
 
+
 // Game Variables
 let canvas, ctx;
 let obstacles = [];
@@ -28,6 +29,8 @@ let canvasOffsetX = 0;
 let canvasOffsetY = 0;
 let gameWon = false;
 let phase2Collected = 0;
+let showInstructions = true;
+let resetButton;
 
 // Sound objects
 const sounds = {
@@ -262,6 +265,56 @@ class Collectible extends GameObject {
             default:
                 ctx.fillRect(this.x, this.y, this.width, this.height);
         }
+    }
+}
+
+function setupUI() {
+    // Create reset button
+    resetButton = document.createElement('button');
+    resetButton.textContent = 'Reset Game';
+    resetButton.style.position = 'absolute';
+    resetButton.style.top = '20px';
+    resetButton.style.right = '20px';
+    resetButton.style.padding = '10px 20px';
+    resetButton.style.backgroundColor = '#4CAF50';
+    resetButton.style.color = 'white';
+    resetButton.style.border = 'none';
+    resetButton.style.borderRadius = '5px';
+    resetButton.style.cursor = 'pointer';
+    resetButton.style.zIndex = '1000';
+    resetButton.addEventListener('click', resetGame);
+    document.body.appendChild(resetButton);
+
+    // Create instructions popup
+    if (showInstructions) {
+        const popup = document.createElement('div');
+        popup.style.position = 'fixed';
+        popup.style.top = '50%';
+        popup.style.left = '50%';
+        popup.style.transform = 'translate(-50%, -50%)';
+        popup.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+        popup.style.color = 'white';
+        popup.style.padding = '20px';
+        popup.style.borderRadius = '10px';
+        popup.style.zIndex = '1000';
+        popup.style.maxWidth = '600px';
+        popup.style.textAlign = 'center';
+        
+        popup.innerHTML = `
+            <h2>Game Instructions</h2>
+            <p>Use arrow keys to move your character (red circle).</p>
+            <p>Collect ${PHASE1_COUNT} Phase 1 items to unlock Phase 2.</p>
+            <p>Avoid obstacles - they will reduce your score.</p>
+            <p>Complete Phase 2 by collecting ${PHASE2_COUNT} special items before time runs out!</p>
+            <button id="start-game" style="margin-top: 20px; padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Game</button>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        document.getElementById('start-game').addEventListener('click', () => {
+            document.body.removeChild(popup);
+            showInstructions = false;
+        });
     }
 }
 
