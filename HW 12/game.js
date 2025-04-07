@@ -9,7 +9,6 @@ const OBSTACLE_PENALTY = 5;
 const COLLECTIBLE_BASE_SPEED = .4;
 const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
-const PHASE2_COUNT = 5; // Number of phase 2 collectibles needed to win
 
 // Game Variables
 let canvas, ctx;
@@ -26,9 +25,6 @@ let timeWarningPlayed = false;
 let scale = 1;
 let canvasOffsetX = 0;
 let canvasOffsetY = 0;
-let gameWon = false;
-let phase2Collected = 0;
-let gameActive = true;
 
 // Sound objects
 const sounds = {
@@ -404,28 +400,17 @@ class Player extends GameObject {
                     if (phase1Collected >= PHASE1_COUNT) {
                         currentPhase = 2;
                         console.log("Phase 2 unlocked!");
-                        playSound(sounds.phase);
-                    }
-                } else if (collectible.phase === 2) {
-                    phase2Collected++;
-                    if (phase2Collected >= PHASE2_COUNT) {
-                        gameWon = true;
+                        if (sounds.phase) sounds.phase.play();
                     }
                 }
-                
-                updateScore();
-                playSound(sounds.collect);
-                collectibles.splice(i, 1);
-            }
-        }
-    
                 
                 updateScore();
                 if (sounds.collect) sounds.collect.play();
                 collectibles.splice(i, 1);
             }
         }
-    
+    }
+}
 
 async function loadObstacles() {
     try {
@@ -538,83 +523,16 @@ function resizeCanvas() {
 }
 
 function gameLoop() {
-    if (gameWon) {
-        showVictoryScreen();
-        return; // Stop the game loop
-    }
-    
-
-
-    
-    
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    player.update();
+    
     obstacles.forEach(o => o.draw());
     collectibles.forEach(c => c.draw());
+    player.update();
     player.draw();
+    
     updateDebugInfo();
     requestAnimationFrame(gameLoop);
 }
-
-function showVictoryScreen() {
-    const victoryScreen = document.createElement('div');
-    victoryScreen.id = 'victory-screen';
-    victoryScreen.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.8);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-family: Arial;
-        z-index: 1000;
-    `;
-    
-    victoryScreen.innerHTML = `
-        <h1 style="font-size: 48px; margin-bottom: 20px;">YOU WON!</h1>
-        <p style="font-size: 24px; margin-bottom: 30px;">Final Score: ${score}</p>
-        <button id="play-again" style="
-            padding: 15px 30px;
-            font-size: 20px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        ">Play Again</button>
-    `;
-    
-    document.body.appendChild(victoryScreen);
-    
-    document.getElementById('play-again').addEventListener('click', () => {
-        location.reload(); // Simple restart
-        // Or call resetGame() if you want a more sophisticated restart
-    });
-}
-
-function resetGame() {
-    // Reset all game variables
-    score = 0;
-    currentPhase = 1;
-    phase1Collected = 0;
-    phase2Collected = 0;
-    gameWon = false;
-    obstacles = [];
-    collectibles = [];
-    
-    // Remove victory screen
-    const victoryScreen = document.getElementById('victory-screen');
-    if (victoryScreen) victoryScreen.remove();
-    
-    // Reload game assets
-    initGame();
-}
-
 
 async function initGame() {
     canvas = document.getElementById('game-canvas');
@@ -630,7 +548,7 @@ async function initGame() {
     sounds.warning = document.getElementById('warning-sound');
     sounds.obstacle = document.getElementById('obstacle-sound');
     
-    // Try to preload sounds 
+    // Try to preload sounds (helps with first-play delay)
     try {
         await Promise.all([
             sounds.collect.load(),
@@ -641,26 +559,7 @@ async function initGame() {
     } catch (error) {
         console.warn("Sound preload error:", error);
     }
-    function playSound(sound) {
-        if (!sound) return;
-        
-        try {
-            sound.currentTime = 0; // Rewind to start
-            sound.play().catch(e => {
-                console.warn("Sound play failed:", e);
-                // Fallback - create new audio element
-                const newAudio = new Audio(sound.src);
-                newAudio.play().catch(e => console.warn("Fallback sound failed:", e));
-            });
-        } catch (e) {
-            console.warn("Sound error:", e);
-        }
-    }
-    // Replace all sound.play() calls with:
-playSound(sounds.collect); // For collection
-playSound(sounds.phase);   // For phase change
-playSound(sounds.warning); // For time warning
-playSound(sounds.obstacle); // For collisions
+    
     
     if (!document.getElementById('debug-info')) {
         const debugInfo = document.createElement('div');
