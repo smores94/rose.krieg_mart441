@@ -30,7 +30,6 @@ let gameWon = false;
 let phase2Collected = 0;
 let gameActive = true;
 
-
 // Sound objects
 const sounds = {
     collect: null,
@@ -400,7 +399,6 @@ class Player extends GameObject {
                 collectible.collected = true;
                 score += collectible.value;
                 
-                // Phase transition check
                 if (collectible.phase === 1) {
                     phase1Collected++;
                     if (phase1Collected >= PHASE1_COUNT) {
@@ -408,13 +406,11 @@ class Player extends GameObject {
                         console.log("Phase 2 unlocked!");
                         playSound(sounds.phase);
                     }
-                }
-            }
-                // Check if this was the last collectible
-                const remainingCollectibles = collectibles.filter(c => !c.collected).length;
-                if (remainingCollectibles === 0) {
-                    gameWon = true;
-                    return; // Exit early since we won
+                } else if (collectible.phase === 2) {
+                    phase2Collected++;
+                    if (phase2Collected >= PHASE2_COUNT) {
+                        gameWon = true;
+                    }
                 }
                 
                 updateScore();
@@ -422,28 +418,34 @@ class Player extends GameObject {
                 collectibles.splice(i, 1);
             }
         }
-}
     
-
-        async function loadObstacles() {
-            try {
-                const response = await fetch('obstacles.json');
-                const data = await response.json();
-                obstacles = data.map(item => new Obstacle(
-                    item.x, item.y, item.width, item.height, item.type
-                ));
-            } catch (error) {
-                console.error('Error loading obstacles:', error);
-                obstacles = [
-                    new Obstacle(300, 150, 60, 90, 'tree'),
-                    new Obstacle(500, 300, 50, 40, 'rock'),
-                    new Obstacle(200, 400, 150, 100, 'pond'),
-                    new Obstacle(100, 200, 250, 30, 'fence'),
-                    new Obstacle(600, 100, 120, 140, 'house')
-                ];
+                
+                updateScore();
+                if (sounds.collect) sounds.collect.play();
+                collectibles.splice(i, 1);
             }
         }
-        
+    
+
+async function loadObstacles() {
+    try {
+        const response = await fetch('obstacles.json');
+        const data = await response.json();
+        obstacles = data.map(item => new Obstacle(
+            item.x, item.y, item.width, item.height, item.type
+        ));
+    } catch (error) {
+        console.error('Error loading obstacles:', error);
+        obstacles = [
+            new Obstacle(300, 150, 60, 90, 'tree'),
+            new Obstacle(500, 300, 50, 40, 'rock'),
+            new Obstacle(200, 400, 150, 100, 'pond'),
+            new Obstacle(100, 200, 250, 30, 'fence'),
+            new Obstacle(600, 100, 120, 140, 'house')
+        ];
+    }
+}
+
 async function loadCollectibles() {
     try {
         const response = await fetch('collectibles.json');
@@ -542,77 +544,8 @@ function gameLoop() {
     }
     
 
-function gameLoop() {
-        if (!gameActive) return; // Stop the game if not active
-        
-        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    }
-    if (!gameWon && timeLeft > 0) {
-        timeLeft = PHASE_TIME_LIMIT - (Date.now() - phaseStartTime);
-        player.update();
-        obstacles.forEach(o => o.draw());
-        collectibles.forEach(c => c.draw());
-        player.draw();
-    } 
-    else if (timeLeft <= 0) {
-        endGame(false); // Time ran out
-    }
-    else if (gameWon) {
-        endGame(true); // Player won
-    }
-    
-    updateDebugInfo();
-    requestAnimationFrame(gameLoop);
-}
 
-// New endGame function to handle both win/lose states
-function endGame(victory) {
-    gameActive = false;
     
-    const endScreen = document.createElement('div');
-    endScreen.id = 'end-screen';
-    endScreen.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.85);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-family: Arial;
-        z-index: 1000;
-    `;
-    
-    endScreen.innerHTML = `
-        <h1 style="font-size: 48px; margin-bottom: 20px;">
-            ${victory ? 'YOU WON!' : 'TIME UP!'}
-        </h1>
-        <p style="font-size: 24px; margin-bottom: 20px;">Final Score: ${score}</p>
-        <p style="font-size: 18px; margin-bottom: 30px;">
-            ${victory ? 'You collected all treasures!' : 'Try to be faster next time!'}
-        </p>
-        <button id="play-again" style="
-            padding: 15px 30px;
-            font-size: 20px;
-            background: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        ">Play Again</button>
-    `;
-    
-    document.body.appendChild(endScreen);
-    
-    document.getElementById('play-again').addEventListener('click', () => {
-        document.body.removeChild(endScreen);
-        resetGame();
-    });
-}
     
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     player.update();
@@ -621,7 +554,7 @@ function endGame(victory) {
     player.draw();
     updateDebugInfo();
     requestAnimationFrame(gameLoop);
-
+}
 
 function showVictoryScreen() {
     const victoryScreen = document.createElement('div');
@@ -754,4 +687,4 @@ playSound(sounds.obstacle); // For collisions
     gameLoop();
 }
 
-window.onload = initGame
+window.onload = initGame;
