@@ -9,6 +9,7 @@ const OBSTACLE_PENALTY = 5;
 const COLLECTIBLE_BASE_SPEED = .4;
 const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
+const PHASE2_COUNT = 5; // Number of phase 2 collectibles needed to win
 
 // Game Variables
 let canvas, ctx;
@@ -25,6 +26,8 @@ let timeWarningPlayed = false;
 let scale = 1;
 let canvasOffsetX = 0;
 let canvasOffsetY = 0;
+let gameWon = false;
+let phase2Collected = 0;
 
 // Sound objects
 const sounds = {
@@ -400,17 +403,28 @@ class Player extends GameObject {
                     if (phase1Collected >= PHASE1_COUNT) {
                         currentPhase = 2;
                         console.log("Phase 2 unlocked!");
-                        if (sounds.phase) sounds.phase.play();
+                        playSound(sounds.phase);
+                    }
+                } else if (collectible.phase === 2) {
+                    phase2Collected++;
+                    if (phase2Collected >= PHASE2_COUNT) {
+                        gameWon = true;
                     }
                 }
+                
+                updateScore();
+                playSound(sounds.collect);
+                collectibles.splice(i, 1);
+            }
+        }
+    
                 
                 updateScore();
                 if (sounds.collect) sounds.collect.play();
                 collectibles.splice(i, 1);
             }
         }
-    }
-}
+    
 
 async function loadObstacles() {
     try {
@@ -548,7 +562,7 @@ async function initGame() {
     sounds.warning = document.getElementById('warning-sound');
     sounds.obstacle = document.getElementById('obstacle-sound');
     
-    // Try to preload sounds (helps with first-play delay)
+    // Try to preload sounds 
     try {
         await Promise.all([
             sounds.collect.load(),
@@ -559,7 +573,26 @@ async function initGame() {
     } catch (error) {
         console.warn("Sound preload error:", error);
     }
-    
+    function playSound(sound) {
+        if (!sound) return;
+        
+        try {
+            sound.currentTime = 0; // Rewind to start
+            sound.play().catch(e => {
+                console.warn("Sound play failed:", e);
+                // Fallback - create new audio element
+                const newAudio = new Audio(sound.src);
+                newAudio.play().catch(e => console.warn("Fallback sound failed:", e));
+            });
+        } catch (e) {
+            console.warn("Sound error:", e);
+        }
+    }
+    // Replace all sound.play() calls with:
+playSound(sounds.collect); // For collection
+playSound(sounds.phase);   // For phase change
+playSound(sounds.warning); // For time warning
+playSound(sounds.obstacle); // For collisions
     
     if (!document.getElementById('debug-info')) {
         const debugInfo = document.createElement('div');
