@@ -542,10 +542,43 @@ async function initGame() {
     }
     ctx = canvas.getContext('2d');
     
-    sounds.collect = document.getElementById('collect-sound') || { play: () => {} };
-    sounds.phase = document.getElementById('phase-sound') || { play: () => {} };
-    sounds.warning = document.getElementById('time-warning') || { play: () => {} };
-    sounds.obstacle = document.getElementById('obstacle-sound') || { play: () => {} };
+    // Initialize sounds properly
+    sounds.collect = document.getElementById('collect-sound');
+    sounds.phase = document.getElementById('phase-sound');
+    sounds.warning = document.getElementById('warning-sound');
+    sounds.obstacle = document.getElementById('obstacle-sound');
+    
+    // Try to preload sounds 
+    try {
+        await Promise.all([
+            sounds.collect.load(),
+            sounds.phase.load(),
+            sounds.warning.load(),
+            sounds.obstacle.load()
+        ]);
+    } catch (error) {
+        console.warn("Sound preload error:", error);
+    }
+    function playSound(sound) {
+        if (!sound) return;
+        
+        try {
+            sound.currentTime = 0; // Rewind to start
+            sound.play().catch(e => {
+                console.warn("Sound play failed:", e);
+                // Fallback - create new audio element
+                const newAudio = new Audio(sound.src);
+                newAudio.play().catch(e => console.warn("Fallback sound failed:", e));
+            });
+        } catch (e) {
+            console.warn("Sound error:", e);
+        }
+    }
+    // Replace all sound.play() calls with:
+playSound(sounds.collect); // For collection
+playSound(sounds.phase);   // For phase change
+playSound(sounds.warning); // For time warning
+playSound(sounds.obstacle); // For collisions
     
     if (!document.getElementById('debug-info')) {
         const debugInfo = document.createElement('div');
