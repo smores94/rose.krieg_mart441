@@ -6,7 +6,7 @@ const SCORE_INCREMENT = 10;
 const PHASE1_COUNT = 5;
 const PHASE_TIME_LIMIT = 60000;
 const OBSTACLE_PENALTY = 5;
-const COLLECTIBLE_BASE_SPEED = 1.5;
+const COLLECTIBLE_BASE_SPEED = .7;
 const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
 
@@ -143,7 +143,7 @@ class Collectible extends GameObject {
         this.collected = false;
         this.phase = phase;
         this.direction = Math.random() * Math.PI * 2;
-        this.speed = COLLECTIBLE_BASE_SPEED + (value / 20); // Higher value = faster
+        this.speed = COLLECTIBLE_BASE_SPEED + (value / 40); // Higher value = faster
         this.bounceCount = 0;
     }
 
