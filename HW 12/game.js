@@ -268,55 +268,6 @@ class Collectible extends GameObject {
     }
 }
 
-function setupUI() {
-    // Create reset button
-    resetButton = document.createElement('button');
-    resetButton.textContent = 'Reset Game';
-    resetButton.style.position = 'absolute';
-    resetButton.style.top = '20px';
-    resetButton.style.right = '20px';
-    resetButton.style.padding = '10px 20px';
-    resetButton.style.backgroundColor = '#4CAF50';
-    resetButton.style.color = 'white';
-    resetButton.style.border = 'none';
-    resetButton.style.borderRadius = '5px';
-    resetButton.style.cursor = 'pointer';
-    resetButton.style.zIndex = '1000';
-    resetButton.addEventListener('click', resetGame);
-    document.body.appendChild(resetButton);
-
-    // Create instructions popup
-    if (showInstructions) {
-        const popup = document.createElement('div');
-        popup.style.position = 'fixed';
-        popup.style.top = '50%';
-        popup.style.left = '50%';
-        popup.style.transform = 'translate(-50%, -50%)';
-        popup.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-        popup.style.color = 'white';
-        popup.style.padding = '20px';
-        popup.style.borderRadius = '10px';
-        popup.style.zIndex = '1000';
-        popup.style.maxWidth = '600px';
-        popup.style.textAlign = 'center';
-        
-        popup.innerHTML = `
-            <h2>Game Instructions</h2>
-            <p>Use arrow keys to move your character (red circle).</p>
-            <p>Collect ${PHASE1_COUNT} Phase 1 items to unlock Phase 2.</p>
-            <p>Avoid obstacles - they will reduce your score.</p>
-            <p>Complete Phase 2 by collecting ${PHASE2_COUNT} special items before time runs out!</p>
-            <button id="start-game" style="margin-top: 20px; padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Game</button>
-        `;
-        
-        document.body.appendChild(popup);
-        
-        document.getElementById('start-game').addEventListener('click', () => {
-            document.body.removeChild(popup);
-            showInstructions = false;
-        });
-    }
-// Add this function to reset the game state
 function resetGame() {
     // Reset game variables
     score = 0;
@@ -339,7 +290,6 @@ function resetGame() {
     });
 }
 
-// Modify the initGame function to call setupUI
 async function initGame() {
     canvas = document.getElementById('game-canvas');
     if (!canvas) {
@@ -347,6 +297,68 @@ async function initGame() {
         return;
     }
     ctx = canvas.getContext('2d');
+    
+    // Initialize sounds properly
+    sounds.collect = document.getElementById('collect-sound');
+    sounds.phase = document.getElementById('phase-sound');
+    sounds.warning = document.getElementById('warning-sound');
+    sounds.obstacle = document.getElementById('obstacle-sound');
+    
+    // Try to preload sounds 
+    try {
+        await Promise.all([
+            sounds.collect.load(),
+            sounds.phase.load(),
+            sounds.warning.load(),
+            sounds.obstacle.load()
+        ]);
+    } catch (error) {
+        console.warn("Sound preload error:", error);
+    }
+    
+    function playSound(sound) {
+        if (!sound) return;
+        
+        try {
+            sound.currentTime = 0; // Rewind to start
+            sound.play().catch(e => {
+                console.warn("Sound play failed:", e);
+                // Fallback - create new audio element
+                const newAudio = new Audio(sound.src);
+                newAudio.play().catch(e => console.warn("Fallback sound failed:", e));
+            });
+        } catch (e) {
+            console.warn("Sound error:", e);
+        }
+    }
+
+    if (!document.getElementById('debug-info')) {
+        const debugInfo = document.createElement('div');
+        debugInfo.id = 'debug-info';
+        document.body.appendChild(debugInfo);
+    }
+    
+    if (!document.getElementById('score-display')) {
+        const scoreDisplay = document.createElement('div');
+        scoreDisplay.id = 'score-display';
+        document.body.appendChild(scoreDisplay);
+    }
+
+    // Set up the UI elements
+    setupUI();
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    await Promise.all([loadObstacles(), loadCollectibles()]);
+    
+    player = new Player(50, 50);
+    phaseStartTime = Date.now();
+    timeLeft = PHASE_TIME_LIMIT;
+    
+    setupControls();
+    gameLoop();
+}
     
     // Initialize sounds properly
     sounds.collect = document.getElementById('collect-sound');
@@ -392,8 +404,6 @@ async function initGame() {
     
     setupControls();
     gameLoop();
-}
-}
 
 function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
     let rot = Math.PI/2 * 3;
@@ -737,5 +747,53 @@ playSound(sounds.obstacle); // For collisions
     setupControls();
     gameLoop();
 }
+function setupUI() {
+    // Create reset button
+    resetButton = document.createElement('button');
+    resetButton.textContent = 'Reset Game';
+    resetButton.style.position = 'fixed';
+    resetButton.style.top = '20px';
+    resetButton.style.right = '20px';
+    resetButton.style.padding = '10px 20px';
+    resetButton.style.backgroundColor = '#4CAF50';
+    resetButton.style.color = 'white';
+    resetButton.style.border = 'none';
+    resetButton.style.borderRadius = '5px';
+    resetButton.style.cursor = 'pointer';
+    resetButton.style.zIndex = '1000';
+    resetButton.addEventListener('click', resetGame);
+    document.body.appendChild(resetButton);
 
+    // Create instructions popup
+    if (showInstructions) {
+        const popup = document.createElement('div');
+        popup.style.position = 'fixed';
+        popup.style.top = '50%';
+        popup.style.left = '50%';
+        popup.style.transform = 'translate(-50%, -50%)';
+        popup.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+        popup.style.color = 'white';
+        popup.style.padding = '20px';
+        popup.style.borderRadius = '10px';
+        popup.style.zIndex = '1000';
+        popup.style.maxWidth = '600px';
+        popup.style.textAlign = 'center';
+        
+        popup.innerHTML = `
+            <h2>Game Instructions</h2>
+            <p>Use arrow keys to move your character (red circle).</p>
+            <p>Collect ${PHASE1_COUNT} Phase 1 items to unlock Phase 2.</p>
+            <p>Avoid obstacles - they will reduce your score.</p>
+            <p>Complete Phase 2 by collecting ${PHASE2_COUNT} special items before time runs out!</p>
+            <button id="start-game" style="margin-top: 20px; padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Game</button>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        document.getElementById('start-game').addEventListener('click', () => {
+            document.body.removeChild(popup);
+            showInstructions = false;
+        });
+    }
+}
 window.onload = initGame;
