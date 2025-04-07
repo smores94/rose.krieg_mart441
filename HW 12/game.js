@@ -6,9 +6,10 @@ const SCORE_INCREMENT = 10;
 const PHASE1_COUNT = 5;
 const PHASE_TIME_LIMIT = 60000;
 const OBSTACLE_PENALTY = 5;
-const COLLECTIBLE_BASE_SPEED = 0.4;
+const COLLECTIBLE_BASE_SPEED = .4;
 const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
+const PHASE2_COUNT = 5; // Number of phase 2 collectibles needed to win
 
 // Game Variables
 let canvas, ctx;
@@ -26,7 +27,9 @@ let scale = 1;
 let canvasOffsetX = 0;
 let canvasOffsetY = 0;
 let gameWon = false;
+let phase2Collected = 0;
 let gameActive = true;
+
 
 // Sound objects
 const sounds = {
@@ -145,20 +148,23 @@ class Collectible extends GameObject {
         this.collected = false;
         this.phase = phase;
         this.direction = Math.random() * Math.PI * 2;
-        this.speed = COLLECTIBLE_BASE_SPEED + (value / 40);
+        this.speed = COLLECTIBLE_BASE_SPEED + (value / 40); // Higher value = faster
         this.bounceCount = 0;
     }
 
     update() {
         if (this.collected) return;
         
+        // Random direction changes (more frequent when bouncing)
         if (Math.random() < (this.bounceCount > 0 ? 0.1 : 0.05)) {
             this.direction += (Math.random() - 0.5) * Math.PI/2;
         }
         
+        // Move in current direction
         this.x += Math.cos(this.direction) * this.speed;
         this.y += Math.sin(this.direction) * this.speed;
         
+        // Bounce off walls with direction change
         let bounced = false;
         if (this.x < 0) {
             this.x = 0;
@@ -182,14 +188,14 @@ class Collectible extends GameObject {
         }
         
         if (bounced) {
-            this.bounceCount = 5;
+            this.bounceCount = 5; // Temporary speed boost after bouncing
         } else if (this.bounceCount > 0) {
             this.bounceCount--;
         }
     }
 
     draw() {
-        this.update();
+        this.update(); // Update position before drawing
         if (this.collected || this.phase > currentPhase) return;
         
         const colors = {
@@ -370,12 +376,17 @@ class Player extends GameObject {
             this.y = newY;
             this.checkCollectibles();
         } else if (hitObstacle) {
+            // Apply penalty and effects
             score = Math.max(0, score - OBSTACLE_PENALTY);
             updateScore();
+            
+            // Knockback effect
             this.x -= dx * KNOCKBACK_FORCE;
             this.y -= dy * KNOCKBACK_FORCE;
+            
+            // Visual feedback
             this.flash();
-            playSound(sounds.obstacle);
+            if (sounds.obstacle) sounds.obstacle.play();
         }
     }
     
@@ -389,17 +400,21 @@ class Player extends GameObject {
                 collectible.collected = true;
                 score += collectible.value;
                 
+                // Phase transition check
                 if (collectible.phase === 1) {
                     phase1Collected++;
                     if (phase1Collected >= PHASE1_COUNT) {
                         currentPhase = 2;
+                        console.log("Phase 2 unlocked!");
                         playSound(sounds.phase);
                     }
                 }
-                
-                const remaining = collectibles.filter(c => !c.collected).length;
-                if (remaining === 0) {
+            }
+                // Check if this was the last collectible
+                const remainingCollectibles = collectibles.filter(c => !c.collected).length;
+                if (remainingCollectibles === 0) {
                     gameWon = true;
+                    return; // Exit early since we won
                 }
                 
                 updateScore();
@@ -407,28 +422,28 @@ class Player extends GameObject {
                 collectibles.splice(i, 1);
             }
         }
-    }
 }
+    
 
-async function loadObstacles() {
-    try {
-        const response = await fetch('obstacles.json');
-        const data = await response.json();
-        obstacles = data.map(item => new Obstacle(
-            item.x, item.y, item.width, item.height, item.type
-        ));
-    } catch (error) {
-        console.error('Error loading obstacles:', error);
-        obstacles = [
-            new Obstacle(300, 150, 60, 90, 'tree'),
-            new Obstacle(500, 300, 50, 40, 'rock'),
-            new Obstacle(200, 400, 150, 100, 'pond'),
-            new Obstacle(100, 200, 250, 30, 'fence'),
-            new Obstacle(600, 100, 120, 140, 'house')
-        ];
-    }
-}
-
+        async function loadObstacles() {
+            try {
+                const response = await fetch('obstacles.json');
+                const data = await response.json();
+                obstacles = data.map(item => new Obstacle(
+                    item.x, item.y, item.width, item.height, item.type
+                ));
+            } catch (error) {
+                console.error('Error loading obstacles:', error);
+                obstacles = [
+                    new Obstacle(300, 150, 60, 90, 'tree'),
+                    new Obstacle(500, 300, 50, 40, 'rock'),
+                    new Obstacle(200, 400, 150, 100, 'pond'),
+                    new Obstacle(100, 200, 250, 30, 'fence'),
+                    new Obstacle(600, 100, 120, 140, 'house')
+                ];
+            }
+        }
+        
 async function loadCollectibles() {
     try {
         const response = await fetch('collectibles.json');
@@ -479,7 +494,7 @@ function updateDebugInfo() {
         if (timeLeft < 0) timeLeft = 0;
         
         if (timeLeft < 10000 && !timeWarningPlayed) {
-            playSound(sounds.warning);
+            if (sounds.warning) sounds.warning.play();
             timeWarningPlayed = true;
         }
         
@@ -520,6 +535,37 @@ function resizeCanvas() {
     ctx.scale(dpr, dpr);
 }
 
+function gameLoop() {
+    if (gameWon) {
+        showVictoryScreen();
+        return; // Stop the game loop
+    }
+    
+
+function gameLoop() {
+        if (!gameActive) return; // Stop the game if not active
+        
+        ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    }
+    if (!gameWon && timeLeft > 0) {
+        timeLeft = PHASE_TIME_LIMIT - (Date.now() - phaseStartTime);
+        player.update();
+        obstacles.forEach(o => o.draw());
+        collectibles.forEach(c => c.draw());
+        player.draw();
+    } 
+    else if (timeLeft <= 0) {
+        endGame(false); // Time ran out
+    }
+    else if (gameWon) {
+        endGame(true); // Player won
+    }
+    
+    updateDebugInfo();
+    requestAnimationFrame(gameLoop);
+}
+
+// New endGame function to handle both win/lose states
 function endGame(victory) {
     gameActive = false;
     
@@ -567,54 +613,75 @@ function endGame(victory) {
         resetGame();
     });
 }
-
-function resetGame() {
-    score = 0;
-    currentPhase = 1;
-    phase1Collected = 0;
-    gameWon = false;
-    gameActive = true;
-    timeWarningPlayed = false;
-    obstacles = [];
-    collectibles = [];
-    
-    initGame();
-}
-
-function gameLoop() {
-    if (!gameActive) return;
     
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    
-    if (gameWon) {
-        endGame(true);
-        return;
-    }
-    
-    if (timeLeft <= 0) {
-        endGame(false);
-        return;
-    }
-    
-    timeLeft = PHASE_TIME_LIMIT - (Date.now() - phaseStartTime);
     player.update();
     obstacles.forEach(o => o.draw());
     collectibles.forEach(c => c.draw());
     player.draw();
     updateDebugInfo();
-    
     requestAnimationFrame(gameLoop);
+
+
+function showVictoryScreen() {
+    const victoryScreen = document.createElement('div');
+    victoryScreen.id = 'victory-screen';
+    victoryScreen.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-family: Arial;
+        z-index: 1000;
+    `;
+    
+    victoryScreen.innerHTML = `
+        <h1 style="font-size: 48px; margin-bottom: 20px;">YOU WON!</h1>
+        <p style="font-size: 24px; margin-bottom: 30px;">Final Score: ${score}</p>
+        <button id="play-again" style="
+            padding: 15px 30px;
+            font-size: 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        ">Play Again</button>
+    `;
+    
+    document.body.appendChild(victoryScreen);
+    
+    document.getElementById('play-again').addEventListener('click', () => {
+        location.reload(); // Simple restart
+        // Or call resetGame() if you want a more sophisticated restart
+    });
 }
 
-function playSound(sound) {
-    if (!sound) return;
-    try {
-        sound.currentTime = 0;
-        sound.play().catch(e => console.warn("Sound error:", e));
-    } catch (e) {
-        console.warn("Sound error:", e);
-    }
+function resetGame() {
+    // Reset all game variables
+    score = 0;
+    currentPhase = 1;
+    phase1Collected = 0;
+    phase2Collected = 0;
+    gameWon = false;
+    obstacles = [];
+    collectibles = [];
+    
+    // Remove victory screen
+    const victoryScreen = document.getElementById('victory-screen');
+    if (victoryScreen) victoryScreen.remove();
+    
+    // Reload game assets
+    initGame();
 }
+
 
 async function initGame() {
     canvas = document.getElementById('game-canvas');
@@ -624,11 +691,13 @@ async function initGame() {
     }
     ctx = canvas.getContext('2d');
     
+    // Initialize sounds properly
     sounds.collect = document.getElementById('collect-sound');
     sounds.phase = document.getElementById('phase-sound');
     sounds.warning = document.getElementById('warning-sound');
     sounds.obstacle = document.getElementById('obstacle-sound');
     
+    // Try to preload sounds 
     try {
         await Promise.all([
             sounds.collect.load(),
@@ -639,6 +708,26 @@ async function initGame() {
     } catch (error) {
         console.warn("Sound preload error:", error);
     }
+    function playSound(sound) {
+        if (!sound) return;
+        
+        try {
+            sound.currentTime = 0; // Rewind to start
+            sound.play().catch(e => {
+                console.warn("Sound play failed:", e);
+                // Fallback - create new audio element
+                const newAudio = new Audio(sound.src);
+                newAudio.play().catch(e => console.warn("Fallback sound failed:", e));
+            });
+        } catch (e) {
+            console.warn("Sound error:", e);
+        }
+    }
+    // Replace all sound.play() calls with:
+playSound(sounds.collect); // For collection
+playSound(sounds.phase);   // For phase change
+playSound(sounds.warning); // For time warning
+playSound(sounds.obstacle); // For collisions
     
     if (!document.getElementById('debug-info')) {
         const debugInfo = document.createElement('div');
@@ -665,8 +754,4 @@ async function initGame() {
     gameLoop();
 }
 
-// Start screen handler
-document.getElementById('start-button').addEventListener('click', () => {
-    document.getElementById('start-screen').style.display = 'none';
-    initGame();
-});
+window.onload = initGame
