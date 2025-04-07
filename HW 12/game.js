@@ -268,6 +268,7 @@ class Collectible extends GameObject {
     }
 }
 
+// Add this function right after setupUI()
 function resetGame() {
     // Reset game variables
     score = 0;
@@ -290,6 +291,8 @@ function resetGame() {
     });
 }
 
+
+// Modify the initGame function to call setupUI
 async function initGame() {
     canvas = document.getElementById('game-canvas');
     if (!canvas) {
@@ -297,68 +300,6 @@ async function initGame() {
         return;
     }
     ctx = canvas.getContext('2d');
-    
-    // Initialize sounds properly
-    sounds.collect = document.getElementById('collect-sound');
-    sounds.phase = document.getElementById('phase-sound');
-    sounds.warning = document.getElementById('warning-sound');
-    sounds.obstacle = document.getElementById('obstacle-sound');
-    
-    // Try to preload sounds 
-    try {
-        await Promise.all([
-            sounds.collect.load(),
-            sounds.phase.load(),
-            sounds.warning.load(),
-            sounds.obstacle.load()
-        ]);
-    } catch (error) {
-        console.warn("Sound preload error:", error);
-    }
-    
-    function playSound(sound) {
-        if (!sound) return;
-        
-        try {
-            sound.currentTime = 0; // Rewind to start
-            sound.play().catch(e => {
-                console.warn("Sound play failed:", e);
-                // Fallback - create new audio element
-                const newAudio = new Audio(sound.src);
-                newAudio.play().catch(e => console.warn("Fallback sound failed:", e));
-            });
-        } catch (e) {
-            console.warn("Sound error:", e);
-        }
-    }
-
-    if (!document.getElementById('debug-info')) {
-        const debugInfo = document.createElement('div');
-        debugInfo.id = 'debug-info';
-        document.body.appendChild(debugInfo);
-    }
-    
-    if (!document.getElementById('score-display')) {
-        const scoreDisplay = document.createElement('div');
-        scoreDisplay.id = 'score-display';
-        document.body.appendChild(scoreDisplay);
-    }
-
-    // Set up the UI elements
-    setupUI();
-    
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    
-    await Promise.all([loadObstacles(), loadCollectibles()]);
-    
-    player = new Player(50, 50);
-    phaseStartTime = Date.now();
-    timeLeft = PHASE_TIME_LIMIT;
-    
-    setupControls();
-    gameLoop();
-}
     
     // Initialize sounds properly
     sounds.collect = document.getElementById('collect-sound');
@@ -404,6 +345,8 @@ async function initGame() {
     
     setupControls();
     gameLoop();
+}
+
 
 function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
     let rot = Math.PI/2 * 3;
