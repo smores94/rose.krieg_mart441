@@ -6,10 +6,9 @@ const SCORE_INCREMENT = 10;
 const PHASE1_COUNT = 5;
 const PHASE_TIME_LIMIT = 60000;
 const OBSTACLE_PENALTY = 5;
-const COLLECTIBLE_BASE_SPEED = .4;
+const COLLECTIBLE_BASE_SPEED = 0.4;
 const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
-const PHASE2_COUNT = 5; // Number of phase 2 collectibles needed to win
 
 // Game Variables
 let canvas, ctx;
@@ -27,7 +26,7 @@ let scale = 1;
 let canvasOffsetX = 0;
 let canvasOffsetY = 0;
 let gameWon = false;
-let phase2Collected = 0;
+let gameActive = true;
 
 // Sound objects
 const sounds = {
@@ -36,6 +35,7 @@ const sounds = {
     warning: null,
     obstacle: null
 };
+
 
 // Game Classes
 class GameObject {
@@ -153,7 +153,7 @@ class Collectible extends GameObject {
     update() {
         if (this.collected) return;
         
-        // Random direction changes (more frequent when bouncing)
+        // Random direction changes 
         if (Math.random() < (this.bounceCount > 0 ? 0.1 : 0.05)) {
             this.direction += (Math.random() - 0.5) * Math.PI/2;
         }
@@ -402,14 +402,15 @@ class Player extends GameObject {
                     phase1Collected++;
                     if (phase1Collected >= PHASE1_COUNT) {
                         currentPhase = 2;
-                        console.log("Phase 2 unlocked!");
                         playSound(sounds.phase);
                     }
-                } else if (collectible.phase === 2) {
-                    phase2Collected++;
-                    if (phase2Collected >= PHASE2_COUNT) {
-                        gameWon = true;
-                    }
+                }
+                
+                // Check if all collectibles are collected
+                const remaining = collectibles.filter(c => !c.collected).length;
+                if (remaining === 0) {
+                    gameWon = true;
+                    showVictoryScreen();
                 }
                 
                 updateScore();
@@ -417,14 +418,12 @@ class Player extends GameObject {
                 collectibles.splice(i, 1);
             }
         }
+    }
+}
+
     
                 
-                updateScore();
-                if (sounds.collect) sounds.collect.play();
-                collectibles.splice(i, 1);
-            }
-        }
-    
+           
 
 async function loadObstacles() {
     try {
@@ -537,15 +536,154 @@ function resizeCanvas() {
 }
 
 function gameLoop() {
+    if (!gameActive) return;
+    
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     
+    if (gameWon) {
+        return; // Victory screen is already shown
+    }
+    
+    if (timeLeft <= 0) {
+        endGame(false);
+        return;
+    }
+    
+    timeLeft = PHASE_TIME_LIMIT - (Date.now() - phaseStartTime);
+    player.update();
     obstacles.forEach(o => o.draw());
     collectibles.forEach(c => c.draw());
-    player.update();
     player.draw();
-    
     updateDebugInfo();
+    
     requestAnimationFrame(gameLoop);
+}
+
+function showVictoryScreen() {
+    gameActive = false;
+    
+    const victoryScreen = document.createElement('div');
+    victoryScreen.id = 'victory-screen';
+    victoryScreen.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.85);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-family: Arial;
+        z-index: 1000;
+    `;
+    
+    victoryScreen.innerHTML = `
+        <h1 style="font-size: 48px; margin-bottom: 20px;">YOU WON!</h1>
+        <p style="font-size: 24px; margin-bottom: 20px;">Final Score: ${score}</p>
+        <button id="play-again" style="
+            padding: 15px 30px;
+            font-size: 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        ">Play Again</button>
+    `;
+    
+    document.body.appendChild(victoryScreen);
+    
+    document.getElementById('play-again').addEventListener('click', () => {
+        document.body.removeChild(victoryScreen);
+        resetGame();
+    });
+}
+
+function endGame(victory) {
+    gameActive = false;
+    
+    const endScreen = document.createElement('div');
+    endScreen.id = 'end-screen';
+    endScreen.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.85);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-family: Arial;
+        z-index: 1000;
+    `;
+    
+    endScreen.innerHTML = `
+        <h1 style="font-size: 48px; margin-bottom: 20px;">
+            ${victory ? 'YOU WON!' : 'TIME UP!'}
+        </h1>
+        <p style="font-size: 24px; margin-bottom: 20px;">Final Score: ${score}</p>
+        <button id="play-again" style="
+            padding: 15px 30px;
+            font-size: 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        ">Play Again</button>
+    `;
+    
+    document.body.appendChild(endScreen);
+    
+    document.getElementById('play-again').addEventListener('click', () => {
+        document.body.removeChild(endScreen);
+        resetGame();
+    });
+}
+
+function resetGame() {
+    // Reset game state
+    score = 0;
+    currentPhase = 1;
+    phase1Collected = 0;
+    gameWon = false;
+    gameActive = true;
+    timeWarningPlayed = false;
+    
+    // Clear existing game objects
+    obstacles = [];
+    collectibles = [];
+    
+    // Remove any existing end screens
+    const existingScreen = document.getElementById('victory-screen') || document.getElementById('end-screen');
+    if (existingScreen) {
+        document.body.removeChild(existingScreen);
+    }
+    
+    // Reload game assets
+    loadObstacles();
+    loadCollectibles();
+    
+    // Reset player
+    player = new Player(50, 50);
+    
+    // Reset timer
+    phaseStartTime = Date.now();
+    timeLeft = PHASE_TIME_LIMIT;
+    
+    // Update UI
+    updateScore();
+    updateDebugInfo();
+    
+    // Restart game loop
+    gameActive = true;
+    gameLoop();
 }
 
 async function initGame() {
@@ -556,6 +694,11 @@ async function initGame() {
     }
     ctx = canvas.getContext('2d');
     
+    document.getElementById('start-button').addEventListener('click', () => {
+        document.getElementById('start-screen').style.display = 'none';
+        initGame();
+    });
+
     // Initialize sounds properly
     sounds.collect = document.getElementById('collect-sound');
     sounds.phase = document.getElementById('phase-sound');
