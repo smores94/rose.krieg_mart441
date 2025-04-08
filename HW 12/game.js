@@ -11,7 +11,6 @@ const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
 const PHASE2_COUNT = 5; // Number of phase 2 collectibles needed to win
 
-
 // Game Variables
 let canvas, ctx;
 let obstacles = [];
@@ -27,10 +26,7 @@ let timeWarningPlayed = false;
 let scale = 1;
 let canvasOffsetX = 0;
 let canvasOffsetY = 0;
-let gameWon = false;
-let phase2Collected = 0;
-let showInstructions = true;
-let resetButton;
+
 
 // Sound objects
 const sounds = {
@@ -267,9 +263,6 @@ class Collectible extends GameObject {
         }
     }
 }
-
-
-
 
 function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
     let rot = Math.PI/2 * 3;
