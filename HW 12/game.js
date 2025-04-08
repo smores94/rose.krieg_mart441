@@ -40,17 +40,7 @@ const sounds = {
     obstacle: null
 };
 
-const gameInstructions = `
-    GAME INSTRUCTIONS:
-    - Use arrow keys to move
-    - Collect ${PHASE1_COUNT} Phase 1 items
-    - Then collect ${PHASE2_COUNT} Phase 2 items
-    - Avoid obstacles (they reduce score)
-    - Complete before time runs out!
-`;
-
-
-
+// Game Classes
 class GameObject {
     constructor(x, y, width, height, type) {
         this.x = x;
@@ -278,55 +268,8 @@ class Collectible extends GameObject {
     }
 }
 
-function setupUI() {
-    // Create reset button
-    resetButton = document.createElement('button');
-    resetButton.textContent = 'Reset Game';
-    resetButton.style.position = 'absolute';
-    resetButton.style.top = '20px';
-    resetButton.style.right = '20px';
-    resetButton.style.padding = '10px 20px';
-    resetButton.style.backgroundColor = '#4CAF50';
-    resetButton.style.color = 'white';
-    resetButton.style.border = 'none';
-    resetButton.style.borderRadius = '5px';
-    resetButton.style.cursor = 'pointer';
-    resetButton.style.zIndex = '1000';
-    resetButton.addEventListener('click', resetGame);
-    document.body.appendChild(resetButton);
 
-    // Create instructions popup
-    if (showInstructions) {
-        const popup = document.createElement('div');
-        popup.style.position = 'fixed';
-        popup.style.top = '50%';
-        popup.style.left = '50%';
-        popup.style.transform = 'translate(-50%, -50%)';
-        popup.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
-        popup.style.color = 'white';
-        popup.style.padding = '20px';
-        popup.style.borderRadius = '10px';
-        popup.style.zIndex = '1000';
-        popup.style.maxWidth = '600px';
-        popup.style.textAlign = 'center';
-        
-        popup.innerHTML = `
-            <h2>Game Instructions</h2>
-            <p>Use arrow keys to move your character (red circle).</p>
-            <p>Collect ${PHASE1_COUNT} Phase 1 items to unlock Phase 2.</p>
-            <p>Avoid obstacles - they will reduce your score.</p>
-            <p>Complete Phase 2 by collecting ${PHASE2_COUNT} special items before time runs out!</p>
-            <button id="start-game" style="margin-top: 20px; padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">Start Game</button>
-        `;
-        
-        document.body.appendChild(popup);
-        
-        document.getElementById('start-game').addEventListener('click', () => {
-            document.body.removeChild(popup);
-            showInstructions = false;
-        });
-    }
-}
+
 
 function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
     let rot = Math.PI/2 * 3;
@@ -588,21 +531,6 @@ function resizeCanvas() {
     ctx.scale(dpr, dpr);
 }
 
-// Add a reset button (put this right before gameLoop() in initGame)
-const resetBtn = document.createElement('button');
-resetBtn.textContent = 'Reset Game';
-resetBtn.style.position = 'fixed';
-resetBtn.style.top = '20px';
-resetBtn.style.right = '20px';
-resetBtn.style.padding = '8px 15px';
-resetBtn.style.backgroundColor = '#4CAF50';
-resetBtn.style.color = 'white';
-resetBtn.style.border = 'none';
-resetBtn.style.borderRadius = '4px';
-resetBtn.style.cursor = 'pointer';
-resetBtn.onclick = resetGame;
-document.body.appendChild(resetBtn);
-
 function gameLoop() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     
@@ -622,35 +550,6 @@ async function initGame() {
         return;
     }
     ctx = canvas.getContext('2d');
-
-    if (!document.getElementById('score-display')) {
-        const scoreDisplay = document.createElement('div');
-        scoreDisplay.id = 'score-display';
-        document.body.appendChild(scoreDisplay);
-        
-        // Add instructions div below score display
-        const instructionsDiv = document.createElement('div');
-        instructionsDiv.id = 'game-instructions';
-        instructionsDiv.style.position = 'fixed';
-        instructionsDiv.style.left = '20px';
-        instructionsDiv.style.top = '60px'; // Below score
-        instructionsDiv.style.color = 'white';
-        instructionsDiv.style.backgroundColor = 'rgba(0,0,0,0.7)';
-        instructionsDiv.style.padding = '10px';
-        instructionsDiv.style.borderRadius = '5px';
-        instructionsDiv.style.maxWidth = '300px';
-        instructionsDiv.style.fontFamily = 'Arial, sans-serif';
-        instructionsDiv.style.fontSize = '14px';
-        instructionsDiv.style.whiteSpace = 'pre-line'; // Preserves line breaks
-        instructionsDiv.textContent = gameInstructions;
-        document.body.appendChild(instructionsDiv);
-    }
-
-    // Add this simple reset function that won't break anything
-function resetGame() {
-    location.reload(); // Simplest way to reset without complex logic
-}
-
     
     // Initialize sounds properly
     sounds.collect = document.getElementById('collect-sound');
