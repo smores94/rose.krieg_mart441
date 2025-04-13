@@ -225,7 +225,73 @@
                 this.dy = 0;
             }
         }
+            // NEW: Invincibility variables
+    let consecutiveHits = 0;
+    const maxConsecutiveHits = 3;
+    let isInvincible = false;
+    let invincibleTimer = 0;
+    const invincibleDuration = 120; // 2 seconds (60fps * 2)
+
+    // Game object class (unchanged)
+    class GameObject { /* ... */ }
+
+    // NEW: Updated collision logic (in gameLoop())
+    if (player.checkCollision(target)) {
+        if (!collisionOccurred) {
+            flashFrames = maxFlashFrames;
+            
+            // NEW: Invincibility system
+            if (!isInvincible) {
+                consecutiveHits++;
+                if (consecutiveHits >= maxConsecutiveHits) {
+                    isInvincible = true;
+                    invincibleTimer = invincibleDuration;
+                    consecutiveHits = 0;
+                }
+                
+                // Only shrink if not invincible
+                const playerShrunk = player.shrink();
+                const targetShrunk = target.shrink();
+                if (playerShrunk || targetShrunk) {
+                    background = '#FFA07A';
+                    clearTimeout(backgroundTimeout);
+                    backgroundTimeout = setTimeout(() => {
+                        if (!collisionOccurred) background = '#87CEEB';
+                    }, 1000);
+                }
+            }
+
+            // Bounce effect (always happens)
+            const tempDx = player.dx;
+            const tempDy = player.dy;
+            player.dx = target.dx * 1.5;
+            player.dy = target.dy * 1.5;
+            target.dx = tempDx * 1.5;
+            target.dy = tempDy * 1.5;
+            
+            collisionOccurred = true;
+        }
+    } else {
+        // NEW: Reset combo if player avoids hits
+        if (collisionOccurred) {
+            collisionOccurred = false;
+            consecutiveHits = 0;
+        }
+    }
+
+    // NEW: Update invincibility timer
+    if (isInvincible) {
+        invincibleTimer--;
+        if (invincibleTimer <= 0) {
+            isInvincible = false;
+        }
         
+        // Visual feedback (pulsing outline)
+        const pulse = Math.sin(Date.now() * 0.01) * 3 + 3;
+        ctx.strokeStyle = `rgba(0, 255, 255, ${0.5 + Math.abs(Math.sin(Date.now() * 0.005))})`;
+        ctx.lineWidth = pulse;
+        ctx.strokeRect(player.x - 5, player.y - 5, player.width + 10, player.height + 10);
+    }
         // NEW: Improved target creation with aggressive movement
 function createTargets(count) {
     targets = [];
