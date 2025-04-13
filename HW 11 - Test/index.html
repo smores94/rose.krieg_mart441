@@ -113,19 +113,123 @@
         let level = 1;
         let targets = [];
         
-        // NEW: Invincibility system
+        // Invincibility system
         let consecutiveHits = 0;
         const maxConsecutiveHits = 3;
         let isInvincible = false;
         let invincibleTimer = 0;
         const invincibleDuration = 120; // 2 seconds at 60fps
         
-        // Game object class (unchanged)
+        // Game object class
         class GameObject {
-            // ... (keep existing GameObject class code)
+            constructor(x, y, width, height, color, dx = 0, dy = 0) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.color = color;
+                this.dx = dx;
+                this.dy = dy;
+                this.initialWidth = width;
+                this.initialHeight = height;
+            }
+            
+            draw() {
+                const gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
+                gradient.addColorStop(0, this.color);
+                gradient.addColorStop(1, this.darkenColor(this.color, 20));
+                
+                ctx.fillStyle = gradient;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+                
+                ctx.strokeStyle = '#000';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(this.x, this.y, this.width, this.height);
+                
+                if (this.width < 30) {
+                    ctx.fillStyle = '#000';
+                    ctx.fillRect(this.x + this.width/4, this.y + this.height/4, this.width/8, this.height/8);
+                    ctx.fillRect(this.x + this.width*3/4 - this.width/8, this.y + this.height/4, this.width/8, this.height/8);
+                    ctx.fillRect(this.x + this.width/4, this.y + this.height*3/4, this.width/2, this.height/8);
+                }
+            }
+            
+            darkenColor(color, percent) {
+                const num = parseInt(color.replace("#", ""), 16);
+                const amt = Math.round(2.55 * percent);
+                const R = (num >> 16) - amt;
+                const G = (num >> 8 & 0x00FF) - amt;
+                const B = (num & 0x0000FF) - amt;
+                return `#${(
+                    0x1000000 + 
+                    (R < 0 ? 0 : R) * 0x10000 + 
+                    (G < 0 ? 0 : G) * 0x100 + 
+                    (B < 0 ? 0 : B)
+                ).toString(16).slice(1)}`;
+            }
+            
+            update() {
+                if (this.x <= 0) {
+                    this.x = 0;
+                    this.dx = -this.dx * 0.9;
+                }
+                if (this.x + this.width >= canvas.width) {
+                    this.x = canvas.width - this.width;
+                    this.dx = -this.dx * 0.9;
+                }
+                if (this.y <= 0) {
+                    this.y = 0;
+                    this.dy = -this.dy * 0.9;
+                }
+                if (this.y + this.height >= canvas.height) {
+                    this.y = canvas.height - this.height;
+                    this.dy = -this.dy * 0.9;
+                }
+                
+                this.x += this.dx;
+                this.y += this.dy;
+                
+                this.dx *= 0.99;
+                this.dy *= 0.99;
+            }
+            
+            checkCollision(other) {
+                return this.x < other.x + other.width &&
+                       this.x + this.width > other.x &&
+                       this.y < other.y + other.height &&
+                       this.y + this.height > other.y;
+            }
+            
+            shrink() {
+                if (this.width > minSize && this.height > minSize) {
+                    const centerX = this.x + this.width / 2;
+                    const centerY = this.y + this.height / 2;
+                    
+                    this.width *= shrinkFactor;
+                    this.height *= shrinkFactor;
+                    
+                    this.x = centerX - this.width / 2;
+                    this.y = centerY - this.height / 2;
+                    
+                    this.dx *= 1.05;
+                    this.dy *= 1.05;
+                    
+                    return true;
+                }
+                return false;
+            }
+            
+            reset() {
+                this.width = this.initialWidth;
+                this.height = this.initialHeight;
+                this.x = canvas.width/2 - this.width/2;
+                this.y = canvas.height/2 - this.height/2;
+                this.dx = 0;
+                this.dy = 0;
+            }
         }
     
-        // Create targets function (unchanged)
+        // Create targets function
         function createTargets(count) {
             targets = [];
             const targetColors = ['#41BA47', '#3AA655', '#2E8B57'];
@@ -145,7 +249,7 @@
             }
         }
     
-        // Reset game function (updated)
+        // Reset game function
         function resetGame() {
             player.reset();
             level = 1;
@@ -170,7 +274,7 @@
             keys.ArrowRight = false;
         }
     
-        // Game loop (updated with proper invincibility)
+        // Game loop
         function gameLoop() {
             if (!gameActive) return;
             
@@ -347,17 +451,38 @@
             ArrowLeft: false,
             ArrowRight: false
         };
- 
-
         
-        // Event listeners for reset (unchanged)
+        window.addEventListener('keydown', (e) => {
+            if (keys.hasOwnProperty(e.key) && gameActive) {
+                keys[e.key] = true;
+            }
+        });
+        
+        window.addEventListener('keyup', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = false;
+            }
+        });
+        
+        // Music toggle
+        musicToggle.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                musicToggle.textContent = 'Pause Music';
+            } else {
+                music.pause();
+                musicToggle.textContent = 'Play Music';
+            }
+        });
+        
+        // Event listeners for reset
         resetButton.addEventListener('click', resetGame);
         playAgainButton.addEventListener('click', resetGame);
         
-        // Start music (unchanged)
+        // Start music
         music.volume = 0.3;
         
-        // Flash background (unchanged)
+        // Flash background
         function flashBackground() {
             let flashCount = 0;
             const maxFlashes = 6;
@@ -372,159 +497,6 @@
                 background = colors[Math.floor(flashCount / 2) % colors.length];
                 flashCount++;
             }, 200);
-        }
-        
-        // Game loop (updated for multiple targets)
-        function gameLoop() {
-            if (!gameActive) return;
-            
-            // Clear canvas
-            ctx.fillStyle = background;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Handle player movement (unchanged)
-            const acceleration = 0.2;
-            if (keys.ArrowUp) player.dy = Math.max(player.dy - acceleration, -maxSpeed);
-            if (keys.ArrowDown) player.dy = Math.min(player.dy + acceleration, maxSpeed);
-            if (keys.ArrowLeft) player.dx = Math.max(player.dx - acceleration, -maxSpeed);
-            if (keys.ArrowRight) player.dx = Math.min(player.dx + acceleration, maxSpeed);
-            player.update();
-            
-            // NEW: Update and check collisions with all targets
-            collisionOccurred = false;
-            targets.forEach(target => {
-                // Update target movement
-                directionChangeTimer++;
-                if (directionChangeTimer >= directionChangeInterval) {
-                    directionChangeTimer = 0;
-                    const trackPlayer = Math.random() > 0.75;
-                    
-                    if (trackPlayer) {
-                        const seekOrFlee = Math.random() > 0.5 ? 1 : -1;
-                        target.dx = (player.x - target.x) * 0.015 * seekOrFlee;
-                        target.dy = (player.y - target.y) * 0.015 * seekOrFlee;
-                        
-                        const speed = Math.sqrt(target.dx * target.dx + target.dy * target.dy);
-                        if (speed > maxSpeed) {
-                            target.dx = (target.dx / speed) * maxSpeed;
-                            target.dy = (target.dy / speed) * maxSpeed;
-                        }
-                    } else {
-                        const angle = Math.random() * Math.PI * 2;
-                        const speed = 1.5 + Math.random() * 2;
-                        target.dx = Math.cos(angle) * speed;
-                        target.dy = Math.sin(angle) * speed;
-                    }
-                }
-                
-                target.update();
-                
-                if (player.checkCollision(target)) {
-    if (!collisionOccurred) {
-        flashFrames = maxFlashFrames;
-        
-        // NEW: Combo system
-        consecutiveHits++;
-        if (consecutiveHits >= maxConsecutiveHits) {
-            isShrinkProtected = true;
-            consecutiveHits = 0; // Reset counter
-            console.log("Shield activated!"); // Optional feedback
-        }
-
-        // Only shrink if NOT protected
-        if (!isShrinkProtected) {
-            const playerShrunk = player.shrink();
-            const targetShrunk = target.shrink();
-            if (playerShrunk || targetShrunk) {
-                background = '#FFA07A';
-                clearTimeout(backgroundTimeout);
-                backgroundTimeout = setTimeout(() => {
-                    if (!collisionOccurred) background = '#87CEEB';
-                }, 1000);
-            }
-        } else {
-            // Visual feedback for shield (optional)
-            ctx.fillStyle = 'rgba(100, 255, 255, 0.5)';
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-        }
-
-        // Bounce effect (always happens)
-        const tempDx = player.dx;
-        const tempDy = player.dy;
-        player.dx = target.dx * 1.5;
-        player.dy = target.dy * 1.5;
-        target.dx = tempDx * 1.5;
-        target.dy = tempDy * 1.5;
-        
-        collisionOccurred = true;
-    }
-} else {
-    // NEW: Reset combo if player avoids hits
-    if (collisionOccurred) {
-        collisionOccurred = false;
-        consecutiveHits = 0;
-        isShrinkProtected = false; // Remove shield on successful dodge
-    }
-}
-                        
-                       });
-
-// Draw this AFTER drawing the player (in gameLoop())
-if (isShrinkProtected) {
-    ctx.strokeStyle = '#00FFFF';
-    ctx.lineWidth = 3;
-    ctx.strokeRect(player.x - 5, player.y - 5, player.width + 10, player.height + 10);
-}
-            
-            // Extended flash effect (unchanged)
-            if (flashFrames > 0) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                flashFrames--;
-            }
-            
-            // Draw objects
-            player.draw();
-            targets.forEach(target => target.draw()); // NEW: Draw all targets
-            
-            // NEW: Calculate win condition based on average target size
-            const avgTargetSize = targets.reduce((sum, t) => sum + t.width, 0) / targets.length;
-            const difficulty = Math.round((50 - avgTargetSize) / 50 * 100);
-            
-            // Draw UI
-            ctx.fillStyle = '#000';
-            ctx.font = '16px Arial';
-            ctx.fillText(`Player: ${Math.round(player.width)}px`, 20, 30);
-            ctx.fillText(`Targets: ${targets.length} (Avg: ${Math.round(avgTargetSize)}px)`, 20, 60); // Updated
-            ctx.fillText(`Level: ${level}`, 20, 90); // NEW: Show level
-            ctx.fillText(`Difficulty: ${difficulty}%`, 20, 120);
-            
-            // NEW: Level progression logic
-            if (difficulty >= 80) {
-                if (player.width >= avgTargetSize * 0.8) {
-                    if (level === 1) {
-                        level++;
-                        createTargets(3); // Phase 3: Spawn 3 targets
-                        player.reset(); // Optional: Reset player size
-                        background = '#87CEEB';
-                    } else {
-                        // Final win
-                        gameActive = false;
-                        flashBackground();
-                        finalMessage.textContent = "YOU BEAT ALL LEVELS!";
-                        finalMessage.style.color = "#4CAF50";
-                        gameOverMessage.style.display = 'block';
-                    }
-                } else {
-                    gameActive = false;
-                    flashBackground();
-                    finalMessage.textContent = "YOU LOST!";
-                    finalMessage.style.color = "#F44336";
-                    gameOverMessage.style.display = 'block';
-                }
-            }
-            
-            requestAnimationFrame(gameLoop);
         }
         
         // Start the game
