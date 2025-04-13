@@ -112,6 +112,10 @@
         let backgroundTimeout;
         let level = 1; // NEW: Track level
         let targets = []; // NEW: Array for multiple targets
+        let consecutiveHits = 0;      // Track rapid hits
+        const maxConsecutiveHits = 3; // Player won't shrink after this
+        let isShrinkProtected = false; // Shield flag
+
         
         // Game object class (unchanged)
         class GameObject {
@@ -395,33 +399,62 @@ targets.forEach(target => {
                 
                 target.update();
                 
-                // Check collision
                 if (player.checkCollision(target)) {
-                    if (!collisionOccurred) {
-                        flashFrames = maxFlashFrames;
-                        const playerShrunk = player.shrink();
-                        const targetShrunk = target.shrink();
+    if (!collisionOccurred) {
+        flashFrames = maxFlashFrames;
+        
+        // NEW: Combo system
+        consecutiveHits++;
+        if (consecutiveHits >= maxConsecutiveHits) {
+            isShrinkProtected = true;
+            consecutiveHits = 0; // Reset counter
+            console.log("Shield activated!"); // Optional feedback
+        }
+
+        // Only shrink if NOT protected
+        if (!isShrinkProtected) {
+            const playerShrunk = player.shrink();
+            const targetShrunk = target.shrink();
+            if (playerShrunk || targetShrunk) {
+                background = '#FFA07A';
+                clearTimeout(backgroundTimeout);
+                backgroundTimeout = setTimeout(() => {
+                    if (!collisionOccurred) background = '#87CEEB';
+                }, 1000);
+            }
+        } else {
+            // Visual feedback for shield (optional)
+            ctx.fillStyle = 'rgba(100, 255, 255, 0.5)';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+        }
+
+        // Bounce effect (always happens)
+        const tempDx = player.dx;
+        const tempDy = player.dy;
+        player.dx = target.dx * 1.5;
+        player.dy = target.dy * 1.5;
+        target.dx = tempDx * 1.5;
+        target.dy = tempDy * 1.5;
+        
+        collisionOccurred = true;
+    }
+} else {
+    // NEW: Reset combo if player avoids hits
+    if (collisionOccurred) {
+        collisionOccurred = false;
+        consecutiveHits = 0;
+        isShrinkProtected = false; // Remove shield on successful dodge
+    }
+}
                         
-                        if (playerShrunk || targetShrunk) {
-                            background = '#FFA07A';
-                            clearTimeout(backgroundTimeout);
-                            backgroundTimeout = setTimeout(() => {
-                                if (!collisionOccurred) background = '#87CEEB';
-                            }, 1000);
-                        }
-                        
-                        // Bounce effect
-                        const tempDx = player.dx;
-                        const tempDy = player.dy;
-                        player.dx = target.dx * 1.5;
-                        player.dy = target.dy * 1.5;
-                        target.dx = tempDx * 1.5;
-                        target.dy = tempDy * 1.5;
-                        
-                        collisionOccurred = true;
-                    }
-                }
-            });
+                       });
+
+// Draw this AFTER drawing the player (in gameLoop())
+if (isShrinkProtected) {
+    ctx.strokeStyle = '#00FFFF';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(player.x - 5, player.y - 5, player.width + 10, player.height + 10);
+}
             
             // Extended flash effect (unchanged)
             if (flashFrames > 0) {
