@@ -222,22 +222,47 @@
             }
         }
         
-        // NEW: Create multiple targets
-        function createTargets(count) {
-            targets = [];
-            const targetColors = ['#41BA47', '#3AA655', '#2E8B57']; // Different greens
-            for (let i = 0; i < count; i++) {
-                const dx = 2 + Math.random() * 1.5;
-                const dy = 1.5 + Math.random() * 1.5;
-                targets.push(new GameObject(
-                    Math.random() * (canvas.width - 50),
-                    Math.random() * (canvas.height - 50),
-                    50, 50, 
-                    targetColors[i % 3], // Cycle through colors
-                    dx, dy
-                ));
-            }
-        }
+        // NEW: Improved target creation with aggressive movement
+function createTargets(count) {
+    targets = [];
+    const targetColors = ['#41BA47', '#3AA655', '#2E8B57'];
+    const baseSpeed = 3 + (level * 0.5); // NEW: Speed scales with level
+    
+    for (let i = 0; i < count; i++) {
+        // NEW: Randomize speeds more aggressively
+        const dx = (Math.random() - 0.5) * baseSpeed * 2;
+        const dy = (Math.random() - 0.5) * baseSpeed * 2;
+        
+        targets.push(new GameObject(
+            Math.random() * (canvas.width - 50),
+            Math.random() * (canvas.height - 50),
+            50, 50, 
+            targetColors[i % 3],
+            dx, dy
+        ));
+    }
+}
+
+// In gameLoop(), replace the target movement logic with this:
+targets.forEach(target => {
+    // NEW: More frequent and erratic direction changes
+    if (Math.random() > 0.98) { // 2% chance per frame to change direction
+        target.dx = (Math.random() - 0.5) * (4 + level); // NEW: Scale with level
+        target.dy = (Math.random() - 0.5) * (4 + level);
+    }
+    
+    // NEW: Occasional "bursts" of speed (10% chance)
+    if (Math.random() > 0.9) {
+        target.dx *= 1.5;
+        target.dy *= 1.5;
+    }
+    
+    // NEW: Ensure targets don't slow down too much
+    if (Math.abs(target.dx) < 1) target.dx *= 1.5;
+    if (Math.abs(target.dy) < 1) target.dy *= 1.5;
+    
+    target.update();
+});
         
         // Create player and initial target
         const player = new GameObject(100, 150, 60, 60, '#D21267');
