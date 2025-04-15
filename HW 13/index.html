@@ -46,51 +46,45 @@ var scoreText;
 var levelText;
 var timerText;
 var startTime;
-var starTypes = ['star', 'star2', 'star3']; // Different star types
-var level = 1; // Add this with your other variables
-var levelText; // Add this for displaying level
+var starTypes = ['star', 'star2', 'star3'];
 var game = new Phaser.Game(config);
 
-function preload ()
-{
-    // Load available sprites
-    this.load.image('sky', 'assets/space3.png'); // Using space3 as it's likely more interesting
+function preload () {
+    this.load.image('sky', 'assets/space3.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('star2', 'assets/star2.png');
     this.load.image('star3', 'assets/star3.png');
     this.load.image('bomb', 'assets/bomb.png');
-    this.load.image('spike', 'assets/bomb.png'); // Using bomb as spike since we don't have spike sprite
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
-    this.load.image('spaceship', 'assets/spaceship.png'); // Will use as decoration
+    this.load.image('spaceship', 'assets/spaceship.png');
 }
 
-function create ()
-{
-    // Start timer
+function create () {
     startTime = this.time.now;
     
-    // Background with spaceship decoration
+    // Background
     this.add.image(400, 300, 'sky');
     this.add.image(100, 100, 'spaceship').setScale(0.5);
     this.add.image(700, 150, 'spaceship').setScale(0.3).setFlipX(true);
 
     // Platforms
     platforms = this.physics.add.staticGroup();
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
-    // Additional platforms
-    platforms.create(300, 350, 'ground').setScale(0.5).refreshBody();
-    platforms.create(500, 150, 'ground').setScale(0.7).refreshBody();
+    platforms.create(400, 568, 'ground').setScale(2, 0.5).refreshBody();
+    
+    if (level === 1) {
+        platforms.create(600, 450, 'ground').setScale(1, 0.5).refreshBody();
+        platforms.create(100, 350, 'ground').setScale(1, 0.5).refreshBody();
+        platforms.create(750, 300, 'ground').setScale(1, 0.5).refreshBody();
+    }
 
-    // Player - using dude sprite
+    // Player
     player = this.physics.add.sprite(100, 450, 'dude');
+    player.setScale(0.8);
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
-    // Player animations
+    // Animations
     this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
@@ -115,61 +109,45 @@ function create ()
     cursors = this.input.keyboard.createCursorKeys();
     spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-    // Stars with different types and gravity
-    stars = this.physics.add.group();
-    for (let i = 0; i < 12; i++) {
-        let starType = starTypes[Phaser.Math.Between(0, starTypes.length - 1)];
-        let star = stars.create(12 + (i * 70), 0, starType);
-        star.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-        // Each star has its own gravity
-        star.body.gravity.y = Phaser.Math.Between(100, 500);
-    }
-// Add level text display
-    levelText = this.add.text(16, 50, 'Level: ' + level, { fontSize: '32px', fill: '#000' });
-
-    // Modify your star creation to be level-aware
+    // Stars
     if (level === 1) {
-        // Level 1 - stationary stars
         stars = this.physics.add.group({
             key: 'star',
             repeat: 11,
             setXY: { x: 12, y: 0, stepX: 70 }
         });
+        stars.children.iterate(function (child) {
+            child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+            child.body.gravity.y = Phaser.Math.Between(100, 500);
+        });
     } else {
-        // Level 2 - moving stars
         stars = this.physics.add.group({
             key: 'star',
-            repeat: 15, // More stars in level 2
+            repeat: 15,
             setXY: { x: Phaser.Math.Between(50, 750), y: Phaser.Math.Between(50, 300), stepX: 0 }
         });
-        
-        // Make stars move and bounce
         stars.children.iterate(function (child) {
             child.setBounce(1);
             child.setCollideWorldBounds(true);
             child.setVelocity(Phaser.Math.Between(-100, 100), Phaser.Math.Between(-100, 100));
         });
     }
+
     // Bombs
     bombs = this.physics.add.group();
 
-    // Spikes (using bomb sprite but colored differently)
+    // Spikes
     spikes = this.physics.add.staticGroup();
     let spike1 = spikes.create(400, 534, 'bomb');
-    spike1.setTint(0xff0000); // Red color for spikes
-    spike1.setScale(0.5).refreshBody();
-    
+    spike1.setTint(0xff0000).setScale(0.5).refreshBody();
     let spike2 = spikes.create(500, 534, 'bomb');
-    spike2.setTint(0xff0000);
-    spike2.setScale(0.5).refreshBody();
-    
+    spike2.setTint(0xff0000).setScale(0.5).refreshBody();
     let spike3 = spikes.create(200, 384, 'bomb');
-    spike3.setTint(0xff0000);
-    spike3.setScale(0.5).refreshBody();
+    spike3.setTint(0xff0000).setScale(0.5).refreshBody();
 
     // UI
     scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#fff' });
-    levelText = this.add.text(16, 50, 'Level: 1', { fontSize: '32px', fill: '#fff' });
+    levelText = this.add.text(16, 50, 'Level: ' + level, { fontSize: '32px', fill: '#fff' });
     timerText = this.add.text(600, 16, 'Time: 0', { fontSize: '32px', fill: '#fff' });
 
     // Collisions
@@ -181,15 +159,12 @@ function create ()
     this.physics.add.collider(player, spikes, hitSpike, null, this);
 }
 
-function update ()
-{
+function update () {
     if (gameOver) return;
 
-    // Update timer
     let elapsedTime = Math.floor((this.time.now - startTime) / 1000);
     timerText.setText('Time: ' + elapsedTime);
 
-    // Player movement
     if (cursors.left.isDown) {
         player.setVelocityX(-160);
         player.anims.play('left', true);
@@ -201,61 +176,9 @@ function update ()
         player.anims.play('turn');
     }
 
-    // Jump with spacebar
     if ((spaceKey.isDown || cursors.up.isDown) && player.body.touching.down) {
         player.setVelocityY(-360);
     }
-}
-
-function collectStar (player, star)
-{
-    star.disableBody(true, true);
-
-    // Different scores for different star types
-    if (star.texture.key === 'star') score += 10;
-    else if (star.texture.key === 'star2') score += 20;
-    else if (star.texture.key === 'star3') score += 30;
-
-    scoreText.setText('Score: ' + score);
-
-    if (stars.countActive(true) === 0) {
-        level++;
-        levelText.setText('Level: ' + level);
-        
-        // Reset stars for new level
-        stars.children.iterate(function (child) {
-            let starType = starTypes[Phaser.Math.Between(0, starTypes.length - 1)];
-            child.enableBody(true, child.x, 0, true, true);
-            child.setTexture(starType);
-            child.body.gravity.y = Phaser.Math.Between(100, 500);
-        });
-
-        // Add more challenge with bombs
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-        var bomb = bombs.create(x, 16, 'bomb');
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        bomb.allowGravity = false;
-    }
-}
-
-function hitBomb (player, bomb)
-{
-    this.physics.pause();
-    player.setTint(0xff0000);
-    player.anims.play('turn');
-    gameOver = true;
-    this.add.text(300, 300, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
-}
-
-function hitSpike (player, spike)
-{
-    this.physics.pause();
-    player.setTint(0xff0000);
-    player.anims.play('turn');
-    gameOver = true;
-    this.add.text(300, 300, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
 }
 
 function collectStar (player, star) {
@@ -273,12 +196,14 @@ function collectStar (player, star) {
             platforms.clear(true, true);
             platforms.create(400, 568, 'ground').setScale(2).refreshBody();
             
-            // Add more platforms for level 2
-            platforms.create(200, 400, 'ground');
-            platforms.create(600, 300, 'ground');
-            platforms.create(100, 250, 'ground');
-            platforms.create(700, 200, 'ground');
-            platforms.create(400, 150, 'ground');
+            // LEVEL 2 PLATFORMS
+            platforms.create(150, 450, 'ground').setScale(0.7).refreshBody();  // Left side
+            platforms.create(650, 450, 'ground').setScale(0.7).refreshBody();  // Right side
+            platforms.create(300, 350, 'ground').setScale(0.7).refreshBody();  // Middle left
+            platforms.create(500, 350, 'ground').setScale(0.7).refreshBody();  // Middle right
+            platforms.create(400, 250, 'ground').setScale(0.7).refreshBody();  // Top center
+            platforms.create(100, 200, 'ground').setScale(0.5).refreshBody();  // High left
+            platforms.create(700, 200, 'ground').setScale(0.5).refreshBody();  // High right
             
             // Reset player position
             player.setPosition(100, 450);
@@ -302,10 +227,25 @@ function collectStar (player, star) {
                 this.physics.add.overlap(player, stars, collectStar, null, this);
             }, [], this);
         } else {
-            // You could add level 3 logic here if you want
             this.add.text(300, 300, 'You Win!', { fontSize: '64px', fill: '#000' });
         }
     }
+}
+
+function hitBomb (player, bomb) {
+    this.physics.pause();
+    player.setTint(0xff0000);
+    player.anims.play('turn');
+    gameOver = true;
+    this.add.text(300, 300, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
+}
+
+function hitSpike (player, spike) {
+    this.physics.pause();
+    player.setTint(0xff0000);
+    player.anims.play('turn');
+    gameOver = true;
+    this.add.text(300, 300, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
 }
 </script>
 </body>
