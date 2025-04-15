@@ -47,7 +47,8 @@ var levelText;
 var timerText;
 var startTime;
 var starTypes = ['star', 'star2', 'star3']; // Different star types
-
+var level = 1; // Add this with your other variables
+var levelText; // Add this for displaying level
 var game = new Phaser.Game(config);
 
 function preload ()
@@ -123,7 +124,32 @@ function create ()
         // Each star has its own gravity
         star.body.gravity.y = Phaser.Math.Between(100, 500);
     }
+// Add level text display
+    levelText = this.add.text(16, 50, 'Level: ' + level, { fontSize: '32px', fill: '#000' });
 
+    // Modify your star creation to be level-aware
+    if (level === 1) {
+        // Level 1 - stationary stars
+        stars = this.physics.add.group({
+            key: 'star',
+            repeat: 11,
+            setXY: { x: 12, y: 0, stepX: 70 }
+        });
+    } else {
+        // Level 2 - moving stars
+        stars = this.physics.add.group({
+            key: 'star',
+            repeat: 15, // More stars in level 2
+            setXY: { x: Phaser.Math.Between(50, 750), y: Phaser.Math.Between(50, 300), stepX: 0 }
+        });
+        
+        // Make stars move and bounce
+        stars.children.iterate(function (child) {
+            child.setBounce(1);
+            child.setCollideWorldBounds(true);
+            child.setVelocity(Phaser.Math.Between(-100, 100), Phaser.Math.Between(-100, 100));
+        });
+    }
     // Bombs
     bombs = this.physics.add.group();
 
@@ -230,6 +256,56 @@ function hitSpike (player, spike)
     player.anims.play('turn');
     gameOver = true;
     this.add.text(300, 300, 'Game Over', { fontSize: '64px', fill: '#ff0000' });
+}
+
+function collectStar (player, star) {
+    star.disableBody(true, true);
+    score += 10;
+    scoreText.setText('Score: ' + score);
+
+    if (stars.countActive(true) === 0) {
+        if (level === 1) {
+            // Advance to level 2
+            level++;
+            levelText.setText('Level: ' + level);
+            
+            // Clear existing platforms (except ground)
+            platforms.clear(true, true);
+            platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+            
+            // Add more platforms for level 2
+            platforms.create(200, 400, 'ground');
+            platforms.create(600, 300, 'ground');
+            platforms.create(100, 250, 'ground');
+            platforms.create(700, 200, 'ground');
+            platforms.create(400, 150, 'ground');
+            
+            // Reset player position
+            player.setPosition(100, 450);
+            
+            // Create new stars for level 2
+            this.time.delayedCall(500, function() {
+                stars = this.physics.add.group({
+                    key: 'star',
+                    repeat: 15,
+                    setXY: { x: Phaser.Math.Between(50, 750), y: Phaser.Math.Between(50, 300), stepX: 0 }
+                });
+                
+                stars.children.iterate(function (child) {
+                    child.setBounce(1);
+                    child.setCollideWorldBounds(true);
+                    child.setVelocity(Phaser.Math.Between(-100, 100), Phaser.Math.Between(-100, 100));
+                });
+                
+                // Re-add collisions
+                this.physics.add.collider(stars, platforms);
+                this.physics.add.overlap(player, stars, collectStar, null, this);
+            }, [], this);
+        } else {
+            // You could add level 3 logic here if you want
+            this.add.text(300, 300, 'You Win!', { fontSize: '64px', fill: '#000' });
+        }
+    }
 }
 </script>
 </body>
