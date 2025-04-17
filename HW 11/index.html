@@ -121,7 +121,7 @@
         const maxConsecutiveHits = 3;
         let isInvincible = false;
         let invincibleTimer = 0;
-        const invincibleDuration = 240; // 4 seconds at 60fps
+        const invincibleDuration = 300; // 5 seconds at 60fps
         
         // Game object class
         class GameObject {
@@ -465,7 +465,7 @@
             ctx.fillText(`Level: ${level}`, 20, 90);
             ctx.fillText(`Difficulty: ${difficulty}%`, 20, 120);
             if (isInvincible) {
-                ctx.fillText(`INVINCIBLE! ${Math.ceil(invincibleTimer/60)}s`, 20, 150);
+                ctx.fillText(`INVINCIBLE! ${(invincibleTimer/60).toFixed(1)}s`, 20, 150);
             }
             
               // Level progression logic - updated for 5 levels
