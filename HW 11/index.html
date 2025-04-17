@@ -120,6 +120,8 @@
         let timerWarningActive = false;
         let animationFrameId = null;
         let gameLoopRunning = false;
+        let lastCollisionTime = 0;
+        const collisionCooldown = 10; // frames
         
         // Game variables
         let directionChangeTimer = 0;
@@ -221,6 +223,10 @@
                        this.x + this.width > other.x &&
                        this.y < other.y + other.height &&
                        this.y + this.height > other.y;
+                       if (player.checkCollision(target) && (frameCount - lastCollisionTime) > collisionCooldown) {
+    lastCollisionTime = frameCount;
+    // Handle collision
+}
             }
             
             shrink() {
@@ -331,6 +337,9 @@
             levelTimer = 0;
             levelTimeLimit = 0;
             timerWarningActive = false;
+
+ 
+    
             
             // Reset player
             player.reset();
@@ -358,24 +367,28 @@
             
             // Cancel any existing game loop
             if (animationFrameId) {
-                cancelAnimationFrame(animationFrameId);
-            }
-            
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
             // Start new game loop
             gameLoopRunning = true;
-            animationFrameId = requestAnimationFrame(gameLoop);
-        }
+    animationFrameId = requestAnimationFrame(gameLoop);
+}
 
         // Main game loop
-        function gameLoop() {
-            if (!gameActive) {
-                gameLoopRunning = false;
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
-                }
-                return;
-            }
+   
+        
+
+            function gameLoop() {
+    if (!gameActive) {
+        gameLoopRunning = false;
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
             gameLoopRunning = true;
+        }
+        return;
+    }
 
             // Handle level timer for levels 4+
             if (level >= 4 && levelTimeLimit > 0) {
