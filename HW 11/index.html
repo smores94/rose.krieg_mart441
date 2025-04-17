@@ -118,6 +118,7 @@
         let levelTimeLimit = 0; // Will be set per level
         const timerWarningThreshold = 10; // Seconds left when warning appears
         let timerWarningActive = false;
+        let animationFrameId = null;
         
         
         // Invincibility system
@@ -320,22 +321,19 @@
     // Hide game over message
     gameOverMessage.style.display = 'none';
     
-    // Create new targets
-    createTarget
-            
-            // Restart game loop if it was stopped
-            if (!gameLoopRunning) {
-                gameLoopRunning = true;
-                gameLoop();
-            }
-        }
+    // Create new targets 
+    createTargets();
     
-        function gameLoop() {
+    // restart game loop
+    function gameLoop() {
     if (!gameActive) {
         gameLoopRunning = false;
         return;
     }
     gameLoopRunning = true;
+}
+animationFrameId = requestAnimationFrame(gameLoop);
+}
 
     // Handle level timer for levels 4+
     if (level >= 4 && levelTimeLimit > 0) {
@@ -561,8 +559,8 @@
         }
     }
     
-    requestAnimationFrame(gameLoop);
-}
+    animationFrameId = requestAnimationFrame(gameLoop);
+
             
         
         
