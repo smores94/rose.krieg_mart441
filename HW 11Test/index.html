@@ -118,7 +118,11 @@
         let levelTimeLimit = 0; // Will be set per level
         const timerWarningThreshold = 10; // Seconds left when warning appears
         let timerWarningActive = false;
-        
+        let timeFreezeActive = false;
+        let timeFreezeTimer = 0;
+        const timeFreezeDuration = 180; // 3 seconds at 60fps
+        let timeFreezePowerUp = null;
+        const timeFreezeSpawnChance = 0.01; // 1% chance per frame
         
         // Invincibility system
         let consecutiveHits = 0;
@@ -129,8 +133,7 @@
         
         // Game object class
         class GameObject {
-            constructor(x, y, width, height, color, dx = 0, dy = 0) {
-                this.x = x;
+            constructor(x, y, width, height, color, dx = 0, dy = 0, type = 'normal') {                this.x = x;
                 this.y = y;
                 this.width = width;
                 this.height = height;
@@ -139,9 +142,22 @@
                 this.dy = dy;
                 this.initialWidth = width;
                 this.initialHeight = height;
+                this.type = type; // 'normal', 'timeFreeze'
             }
             
+            
             draw() {
+        if (this.type === 'timeFreeze') {
+            // Special drawing for time freeze power-up
+            ctx.fillStyle = '#00FFFF';
+            ctx.beginPath();
+            ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            return;
+        }
                 const gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.width, this.y + this.height);
                 gradient.addColorStop(0, this.color);
                 gradient.addColorStop(1, this.darkenColor(this.color, 20));
@@ -259,7 +275,19 @@
                     targetColors[i % targetColors.length],
                     dx, dy
                 ));
-            }
+            // Create time freeze power-up (random chance)
+    if (Math.random() < 0.3 && level >= 3) { // 30% chance to spawn, only after level 3
+        timeFreezePowerUp = new GameObject(
+            Math.random() * (canvas.width - 30),
+            Math.random() * (canvas.height - 30),
+            30, 30,
+            '#00FFFF',
+            (Math.random() - 0.5) * 2,
+            (Math.random() - 0.5) * 2,
+            'timeFreeze'
+        );
+    }
+}
             
             // Set time limits for levels 4+
     if (level >= 4) {
@@ -298,6 +326,8 @@
             clearTimeout(backgroundTimeout);
             surpriseTarget = null;
             surpriseTriggered = false;
+            timeFreezeActive = false;
+            timeFreezePowerUp = null;
             
             // Reset invincibility
             consecutiveHits = 0;
@@ -323,6 +353,44 @@
     }
     gameLoopRunning = true;
 
+// Handle time freeze power-up
+if (timeFreezePowerUp && !timeFreezeActive) {
+        timeFreezePowerUp.update();
+        timeFreezePowerUp.draw();
+        
+        if (player.checkCollision(timeFreezePowerUp)) {
+            timeFreezeActive = true;
+            timeFreezeTimer = timeFreezeDuration;
+            timeFreezePowerUp = null;
+            // Visual effect
+            ctx.fillStyle = 'rgba(0, 255, 255, 0.5)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+    }
+    
+    // Update time freeze timer
+    if (timeFreezeActive) {
+        timeFreezeTimer--;
+        if (timeFreezeTimer <= 0) {
+            timeFreezeActive = false;
+        }
+        
+        // Visual effect during time freeze
+        ctx.fillStyle = 'rgba(0, 255, 255, 0.1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    
+    // Modify the timer logic in your level 4+ section:
+    if (level >= 4 && levelTimeLimit > 0 && !timeFreezeActive) {
+        let timeDeduction = 1/60; // Normal time deduction
+        
+        // Double deduction during invincibility
+        if (isInvincible) {
+            timeDeduction *= 2;
+        }
+        
+        levelTimer += timeDeduction;
+    }
     // Handle level timer for levels 4+
     if (level >= 4 && levelTimeLimit > 0) {
         levelTimer += 1/60; // Increment by ~1 second per 60 frames
@@ -447,6 +515,16 @@
                     }
                 }
 
+                 // Add time bonus (levels 4+ only)
+            if (level >= 4 && target.type !== 'timeFreeze') {
+                levelTimer = Math.max(0, levelTimer - 3/60); // Add 3 seconds
+                
+                // Visual feedback
+                ctx.fillStyle = '#00FF00';
+                ctx.font = '20px Arial';
+                ctx.fillText('+3s', target.x, target.y - 10);
+            }
+
                 // Bounce effect (always happens)
                 const tempDx = player.dx;
                 const tempDy = player.dy;
@@ -499,6 +577,10 @@
     if (isInvincible) {
         ctx.fillText(`INVINCIBLE! ${(invincibleTimer/60).toFixed(1)}s`, 20, 150);
     }
+    if (timeFreezeActive) {
+    ctx.fillStyle = '#00FFFF';
+    ctx.fillText(`TIME FROZEN! ${Math.ceil(timeFreezeTimer/60)}s`, canvas.width/2 - 80, 30);
+}
     
     // Draw timer for levels 4+
     if (level >= 4 && levelTimeLimit > 0) {
