@@ -76,7 +76,7 @@
     <div id="game-container">
         <h1>Shrinky Dinks!</h1>
         <canvas id="gameCanvas" width="600" height="400"></canvas>
-        <p>Use arrow keys to move. Catch the green object before you shrink too much!</p>
+        <p>Use arrow keys to move. Catch the green objects before you shrink too much!</p>
         <audio id="bgMusic" loop>
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
@@ -230,12 +230,13 @@
         }
     
         // Create targets function
-        function createTargets(count) {
+        function createTargets() {
             targets = [];
             const targetColors = ['#41BA47', '#3AA655', '#2E8B57'];
             const baseSpeed = 3 + (level * 0.5);
+            const targetCount = level === 1 ? 1 : (level === 2 ? 2 : 3);
             
-            for (let i = 0; i < count; i++) {
+            for (let i = 0; i < targetCount; i++) {
                 const dx = (Math.random() - 0.5) * baseSpeed * 2;
                 const dy = (Math.random() - 0.5) * baseSpeed * 2;
                 
@@ -253,7 +254,7 @@
         function resetGame() {
             player.reset();
             level = 1;
-            createTargets(1);
+            createTargets();
             background = '#87CEEB';
             gameActive = true;
             directionChangeTimer = 0;
@@ -272,11 +273,22 @@
             keys.ArrowDown = false;
             keys.ArrowLeft = false;
             keys.ArrowRight = false;
+            
+            // Restart game loop if it was stopped
+            if (!gameLoopRunning) {
+                gameLoopRunning = true;
+                gameLoop();
+            }
         }
     
         // Game loop
+        let gameLoopRunning = false;
         function gameLoop() {
-            if (!gameActive) return;
+            if (!gameActive) {
+                gameLoopRunning = false;
+                return;
+            }
+            gameLoopRunning = true;
             
             // Clear canvas
             ctx.fillStyle = background;
@@ -305,9 +317,10 @@
                 directionChangeTimer++;
                 if (directionChangeTimer >= directionChangeInterval) {
                     directionChangeTimer = 0;
-                    const trackPlayer = Math.random() > 0.75;
+                    const trackPlayer = level === 3 ? (Math.random() > 0.5) : false;
                     
                     if (trackPlayer) {
+                        // In level 3, targets actively chase the player
                         const seekOrFlee = Math.random() > 0.5 ? 1 : -1;
                         target.dx = (player.x - target.x) * 0.015 * seekOrFlee;
                         target.dy = (player.y - target.y) * 0.015 * seekOrFlee;
@@ -409,9 +422,9 @@
             // Level progression logic
             if (difficulty >= 80) {
                 if (player.width >= avgTargetSize * 0.8) {
-                    if (level === 1) {
+                    if (level < 3) {
                         level++;
-                        createTargets(3);
+                        createTargets();
                         player.reset();
                         background = '#87CEEB';
                     } else {
@@ -435,7 +448,7 @@
         
         // Create player and initial target
         const player = new GameObject(100, 150, 60, 60, '#D21267');
-        createTargets(1);
+        createTargets();
         
         // Game variables
         let directionChangeTimer = 0;
