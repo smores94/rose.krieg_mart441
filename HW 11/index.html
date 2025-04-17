@@ -283,31 +283,45 @@
         }
 
     
-        // Reset game function
         function resetGame() {
-            player.reset();
-            level = 1;
-            createTargets();
-            background = '#87CEEB';
-            gameActive = true;
-            directionChangeTimer = 0;
-            collisionOccurred = false;
-            flashFrames = 0;
-            gameOverMessage.style.display = 'none';
-            clearInterval(flashInterval);
-            clearTimeout(backgroundTimeout);
-            surpriseTarget = null;
-            surpriseTriggered = false;
-            
-            // Reset invincibility
-            consecutiveHits = 0;
-            isInvincible = false;
-            invincibleTimer = 0;
-            
-            keys.ArrowUp = false;
-            keys.ArrowDown = false;
-            keys.ArrowLeft = false;
-            keys.ArrowRight = false;
+    // Reset all game state variables
+    gameActive = true;
+    level = 1;
+    background = '#87CEEB';
+    collisionOccurred = false;
+    flashFrames = 0;
+    directionChangeTimer = 0;
+    surpriseTriggered = false;
+    timeFreezeActive = false;
+    timeFreezeTimer = 0;
+    timeFreezePowerUp = null;
+    levelTimer = 0;
+    levelTimeLimit = 0;
+    timerWarningActive = false;
+    
+    // Reset player
+    player.reset();
+    
+    // Reset invincibility
+    consecutiveHits = 0;
+    isInvincible = false;
+    invincibleTimer = 0;
+    
+    // Reset controls
+    keys.ArrowUp = false;
+    keys.ArrowDown = false;
+    keys.ArrowLeft = false;
+    keys.ArrowRight = false;
+    
+    // Clear any active intervals/timeouts
+    clearInterval(flashInterval);
+    clearTimeout(backgroundTimeout);
+    
+    // Hide game over message
+    gameOverMessage.style.display = 'none';
+    
+    // Create new targets
+    createTarget
             
             // Restart game loop if it was stopped
             if (!gameLoopRunning) {
