@@ -313,7 +313,9 @@
         }
 
         // Reset game function
-        gameActive = true;
+        function resetGame() {
+            // Reset game state
+            gameActive = true;
             level = 1;
             background = '#87CEEB';
             collisionOccurred = false;
@@ -356,6 +358,7 @@
                 gameLoopRunning = true;
                 requestAnimationFrame(gameLoop);
             }
+        }
         
             
             consecutiveHits = 0;
