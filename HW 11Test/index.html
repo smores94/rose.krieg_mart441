@@ -326,12 +326,15 @@
     if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
     }
-    function gameLoop() {  
-    // Start new game loop
-    gameLoopRunning = true;
-    animationFrameId = requestAnimationFrame(gameLoop);
-}
-
+    function gameLoop() {
+    if (!gameActive) {
+        gameLoopRunning = false;
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+        return;
+    }
+    }
 
     // Handle level timer for levels 4+
     if (level >= 4 && levelTimeLimit > 0) {
@@ -628,9 +631,10 @@
             }, 200);
         
         }
-        // Start the game
-        function gameLoop() {
-        }
+     // Start the game
+createTargets();
+gameLoopRunning = true;
+animationFrameId = requestAnimationFrame(gameLoop);
     }
     </script>
 </body>
