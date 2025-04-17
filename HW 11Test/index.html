@@ -292,7 +292,7 @@
             // Set time limits for levels 4+
     if (level >= 4) {
         levelTimer = 0;
-        levelTimeLimit = level === 4 ? 240 : 180; // 240s for L4, 180s for L5
+        levelTimeLimit = level === 4 ? 360 : 420; // 360s for L4, 420s for L5
         timerWarningActive = false;
     }
 
@@ -575,7 +575,7 @@ if (timeFreezePowerUp && !timeFreezeActive) {
     ctx.fillText(`Level: ${level}`, 20, 90);
     ctx.fillText(`Difficulty: ${difficulty}%`, 20, 120);
     if (isInvincible) {
-        ctx.fillText(`INVINCIBLE! ${(invincibleTimer/60).toFixed(1)}s`, 20, 150);
+    ctx.fillText(`INVINCIBLE! ${(invincibleTimer/60).toFixed(1)}s`, 20, 150);
     }
     if (timeFreezeActive) {
     ctx.fillStyle = '#00FFFF';
