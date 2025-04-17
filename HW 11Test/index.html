@@ -92,34 +92,118 @@
     </div>
 
     <script>
-        // Canvas setup
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const music = document.getElementById('bgMusic');
-        const musicToggle = document.getElementById('musicToggle');
-        const resetButton = document.getElementById('resetGame');
-        const gameOverMessage = document.getElementById('gameOverMessage');
-        const finalMessage = document.getElementById('finalMessage');
-        const playAgainButton = document.getElementById('playAgain');
-        
-        // Game state
-        let background = '#87CEEB';
-        let collisionOccurred = false;
-        let shrinkFactor = 0.9;
-        let minSize = 10;
-        let gameActive = true;
-        let flashInterval;
-        let backgroundTimeout;
-        let level = 1;
-        let targets = [];
-        let surpriseTarget = null; // For the surprise target in level 4/5
-        let surpriseTriggered = false;
-        let levelTimer = 0;
-        let levelTimeLimit = 0; // Will be set per level
-        const timerWarningThreshold = 10; // Seconds left when warning appears
-        let timerWarningActive = false;
-        let animationFrameId = null;
-        let gameLoopRunning = false;
+      // Canvas setup
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const music = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+const resetButton = document.getElementById('resetGame');
+const gameOverMessage = document.getElementById('gameOverMessage');
+const finalMessage = document.getElementById('finalMessage');
+const playAgainButton = document.getElementById('playAgain');
+
+// Game state variables
+let background = '#87CEEB';
+let collisionOccurred = false;
+let shrinkFactor = 0.9;
+let minSize = 10;
+let gameActive = true;
+let flashInterval;
+let backgroundTimeout;
+let level = 1;
+let targets = [];
+let surpriseTarget = null;
+let surpriseTriggered = false;
+let levelTimer = 0;
+let levelTimeLimit = 0;
+const timerWarningThreshold = 10;
+let timerWarningActive = false;
+let animationFrameId = null;
+let gameLoopRunning = false;
+
+// Game variables
+let directionChangeTimer = 0;
+const directionChangeInterval = 60;
+const maxSpeed = 6;
+let flashFrames = 0;
+const maxFlashFrames = 25;
+
+// Invincibility system
+let consecutiveHits = 0;
+const maxConsecutiveHits = 3;
+let isInvincible = false;
+let invincibleTimer = 0;
+const invincibleDuration = 300;
+
+// Keyboard controls
+const keys = {
+    ArrowUp: false,
+    ArrowDown: false,
+    ArrowLeft: false,
+    ArrowRight: false
+};
+
+// Player object (single declaration)
+let player = new GameObject(100, 150, 60, 60, '#D21267');
+
+// Reset game function
+function resetGame() {
+    // Reset game state
+    gameActive = true;
+    level = 1;
+    background = '#87CEEB';
+    collisionOccurred = false;
+    flashFrames = 0;
+    directionChangeTimer = 0;
+    surpriseTriggered = false;
+    levelTimer = 0;
+    levelTimeLimit = 0;
+    timerWarningActive = false;
+    
+    // Reset player
+    player.reset();
+    
+    // Reset invincibility
+    consecutiveHits = 0;
+    isInvincible = false;
+    invincibleTimer = 0;
+    
+    // Reset controls
+    keys.ArrowUp = false;
+    keys.ArrowDown = false;
+    keys.ArrowLeft = false;
+    keys.ArrowRight = false;
+    
+    // Clear any active intervals/timeouts
+    clearInterval(flashInterval);
+    clearTimeout(backgroundTimeout);
+    
+    // Hide game over message
+    gameOverMessage.style.display = 'none';
+    
+    // Create new targets
+    createTargets();
+    
+    // Cancel any existing game loop
+    if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+    }
+    
+    // Start new game loop
+    gameLoopRunning = true;
+    animationFrameId = requestAnimationFrame(gameLoop);
+}
+
+// Main game loop (standalone function)
+function gameLoop() {
+    if (!gameActive) {
+        gameLoopRunning = false;
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+        return;
+    }
+
         
         
         // Invincibility system
@@ -321,6 +405,9 @@
     
     // Create new targets
     createTargets();
+gameLoopRunning = true;
+animationFrameId = requestAnimationFrame(gameLoop);
+
     
     // Cancel any existing game loop
     if (animationFrameId) {
@@ -636,6 +723,8 @@ createTargets();
 gameLoopRunning = true;
 animationFrameId = requestAnimationFrame(gameLoop);
     }
+}
+
     </script>
 </body>
 </html>
