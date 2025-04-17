@@ -316,16 +316,14 @@
             }
         }
     
-        // Game loop
-        let gameLoopRunning = false;
         function gameLoop() {
-            if (!gameActive) {
-                gameLoopRunning = false;
-                return;
-            }
-            gameLoopRunning = true;
-    
-             // Handle level timer for levels 4+
+    if (!gameActive) {
+        gameLoopRunning = false;
+        return;
+    }
+    gameLoopRunning = true;
+
+    // Handle level timer for levels 4+
     if (level >= 4 && levelTimeLimit > 0) {
         levelTimer += 1/60; // Increment by ~1 second per 60 frames
         
@@ -347,207 +345,209 @@
         }
     }
 
+    // Check for loss condition
+    if (player.width < 5 || player.height < 5) {
+        gameActive = false;
+        flashBackground();
+        finalMessage.textContent = "YOU SHRANK TOO MUCH!";
+        finalMessage.style.color = "#F44336";
+        gameOverMessage.style.display = 'block';
+        return;
+    }
 
- // Check for loss condition
- if (player.width < 5 || player.height < 5) {
-                gameActive = false;
-                flashBackground();
-                finalMessage.textContent = "YOU SHRANK TOO MUCH!";
-                finalMessage.style.color = "#F44336";
-                gameOverMessage.style.display = 'block';
-                return;
-            }
-
-            // Clear canvas
-            ctx.fillStyle = background;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Handle player movement
-            const acceleration = 0.2;
-            if (keys.ArrowUp) player.dy = Math.max(player.dy - acceleration, -maxSpeed);
-            if (keys.ArrowDown) player.dy = Math.min(player.dy + acceleration, maxSpeed);
-            if (keys.ArrowLeft) player.dx = Math.max(player.dx - acceleration, -maxSpeed);
-            if (keys.ArrowRight) player.dx = Math.min(player.dx + acceleration, maxSpeed);
-            player.update();
-            
-            // Update invincibility timer
-            if (isInvincible) {
-                invincibleTimer--;
-                if (invincibleTimer <= 0) {
-                    isInvincible = false;
-                }
-            }
-              // Check if we should trigger surprise target (levels 4+)
-              if (level >= 4 && !surpriseTriggered && surpriseTarget) {
-                const avgTargetSize = targets.reduce((sum, t) => sum + t.width, 0) / targets.length;
-                if (avgTargetSize <= 15) { // When targets are almost defeated
-                    targets.push(surpriseTarget);
-                    surpriseTriggered = true;
-                    
-                    // Visual alert for surprise target
-                    ctx.fillStyle = 'rgba(255, 50, 50, 0.7)';
-                    ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    setTimeout(() => {
-                        background = '#87CEEB';
-                    }, 300);
-                }
-            }
-            
-            // Update and check collisions with all targets
-            collisionOccurred = false;
-            targets.forEach(target => {
-                // Update target movement
-                directionChangeTimer++;
-                if (directionChangeTimer >= directionChangeInterval) {
-                    directionChangeTimer = 0;
-                    const trackPlayer = level === 3 ? (Math.random() > 0.5) : false;
-                    
-                    if (trackPlayer) {
-                        // In level 3, targets actively chase the player
-                        const seekOrFlee = Math.random() > 0.5 ? 1 : -1;
-                        target.dx = (player.x - target.x) * 0.015 * seekOrFlee;
-                        target.dy = (player.y - target.y) * 0.015 * seekOrFlee;
-                        
-                        const speed = Math.sqrt(target.dx * target.dx + target.dy * target.dy);
-                        if (speed > maxSpeed) {
-                            target.dx = (target.dx / speed) * maxSpeed;
-                            target.dy = (target.dy / speed) * maxSpeed;
-                        }
-                    } else {
-                        const angle = Math.random() * Math.PI * 2;
-                        const speed = 1.5 + Math.random() * 2;
-                        target.dx = Math.cos(angle) * speed;
-                        target.dy = Math.sin(angle) * speed;
-                    }
-                }
-                
-                target.update();
-                
-                // Check collision
-                if (player.checkCollision(target)) {
-                    if (!collisionOccurred) {
-                        flashFrames = maxFlashFrames;
-                        
-                        // Invincibility system
-                        if (!isInvincible) {
-                            consecutiveHits++;
-                            if (consecutiveHits >= maxConsecutiveHits) {
-                                isInvincible = true;
-                                invincibleTimer = invincibleDuration;
-                                consecutiveHits = 0;
-                            }
-                            
-                            // Only shrink if not invincible
-                            const playerShrunk = player.shrink();
-                            const targetShrunk = target.shrink();
-                            if (playerShrunk || targetShrunk) {
-                                background = '#FFA07A';
-                                clearTimeout(backgroundTimeout);
-                                backgroundTimeout = setTimeout(() => {
-                                    if (!collisionOccurred) background = '#87CEEB';
-                                }, 1000);
-                            }
-                        }
+    // Clear canvas
+    ctx.fillStyle = background;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-                        // Bounce effect (always happens)
-                        const tempDx = player.dx;
-                        const tempDy = player.dy;
-                        player.dx = target.dx * 1.5;
-                        player.dy = target.dy * 1.5;
-                        target.dx = tempDx * 1.5;
-                        target.dy = tempDy * 1.5;
-                        
-                        collisionOccurred = true;
-                    }
-                } else {
-                    // Reset combo if player avoids hits
-                    if (collisionOccurred) {
-                        collisionOccurred = false;
+    // Handle player movement
+    const acceleration = 0.2;
+    if (keys.ArrowUp) player.dy = Math.max(player.dy - acceleration, -maxSpeed);
+    if (keys.ArrowDown) player.dy = Math.min(player.dy + acceleration, maxSpeed);
+    if (keys.ArrowLeft) player.dx = Math.max(player.dx - acceleration, -maxSpeed);
+    if (keys.ArrowRight) player.dx = Math.min(player.dx + acceleration, maxSpeed);
+    player.update();
+    
+    // Update invincibility timer
+    if (isInvincible) {
+        invincibleTimer--;
+        if (invincibleTimer <= 0) {
+            isInvincible = false;
+        }
+    }
+
+    // Check if we should trigger surprise target (levels 4+)
+    if (level >= 4 && !surpriseTriggered && surpriseTarget) {
+        const avgTargetSize = targets.reduce((sum, t) => sum + t.width, 0) / targets.length;
+        if (avgTargetSize <= 15) { // When targets are almost defeated
+            targets.push(surpriseTarget);
+            surpriseTriggered = true;
+            
+            // Visual alert for surprise target
+            ctx.fillStyle = 'rgba(255, 50, 50, 0.7)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            setTimeout(() => {
+                background = '#87CEEB';
+            }, 300);
+        }
+    }
+    
+    // Update and check collisions with all targets
+    collisionOccurred = false;
+    targets.forEach(target => {
+        // Update target movement
+        directionChangeTimer++;
+        if (directionChangeTimer >= directionChangeInterval) {
+            directionChangeTimer = 0;
+            const trackPlayer = level === 3 ? (Math.random() > 0.5) : false;
+            
+            if (trackPlayer) {
+                // In level 3, targets actively chase the player
+                const seekOrFlee = Math.random() > 0.5 ? 1 : -1;
+                target.dx = (player.x - target.x) * 0.015 * seekOrFlee;
+                target.dy = (player.y - target.y) * 0.015 * seekOrFlee;
+                
+                const speed = Math.sqrt(target.dx * target.dx + target.dy * target.dy);
+                if (speed > maxSpeed) {
+                    target.dx = (target.dx / speed) * maxSpeed;
+                    target.dy = (target.dy / speed) * maxSpeed;
+                }
+            } else {
+                const angle = Math.random() * Math.PI * 2;
+                const speed = 1.5 + Math.random() * 2;
+                target.dx = Math.cos(angle) * speed;
+                target.dy = Math.sin(angle) * speed;
+            }
+        }
+        
+        target.update();
+        
+        // Check collision
+        if (player.checkCollision(target)) {
+            if (!collisionOccurred) {
+                flashFrames = maxFlashFrames;
+                
+                // Invincibility system
+                if (!isInvincible) {
+                    consecutiveHits++;
+                    if (consecutiveHits >= maxConsecutiveHits) {
+                        isInvincible = true;
+                        invincibleTimer = invincibleDuration;
                         consecutiveHits = 0;
                     }
-                }
-            });
-            
-            // Visual feedback for invincibility
-            if (isInvincible) {
-                const pulse = Math.sin(Date.now() * 0.01) * 3 + 3;
-                ctx.strokeStyle = `rgba(0, 255, 255, ${0.5 + Math.abs(Math.sin(Date.now() * 0.005))})`;
-                ctx.lineWidth = pulse;
-                ctx.strokeRect(player.x - 5, player.y - 5, player.width + 10, player.height + 10);
-            }
-            
-            // Extended flash effect
-            if (flashFrames > 0) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                flashFrames--;
-            }
-            
-            // Draw objects
-            player.draw();
-            targets.forEach(target => target.draw());
-            
-            // Calculate win condition
-            const avgTargetSize = targets.reduce((sum, t) => sum + t.width, 0) / targets.length;
-            const difficulty = Math.round((50 - avgTargetSize) / 50 * 100);
-            
-            // Draw UI
-            ctx.fillStyle = '#000';
-            ctx.font = '16px Arial';
-            ctx.fillText(`Player: ${Math.round(player.width)}px`, 20, 30);
-            ctx.fillText(`Targets: ${targets.length} (Avg: ${Math.round(avgTargetSize)}px)`, 20, 60);
-            ctx.fillText(`Level: ${level}`, 20, 90);
-            ctx.fillText(`Difficulty: ${difficulty}%`, 20, 120);
-            if (isInvincible) {
-                ctx.fillText(`INVINCIBLE! ${(invincibleTimer/60).toFixed(1)}s`, 20, 150);
-            }
-            // Draw timer for levels 4+
-if (level >= 4 && levelTimeLimit > 0) {
-    const timeLeft = Math.ceil(levelTimeLimit - levelTimer);
-    const timerColor = timeLeft <= timerWarningThreshold ? '#FF0000' : '#000';
-    ctx.fillStyle = timerColor;
-    ctx.fillText(`Time: ${timeLeft}s`, canvas.width - 100, 30);
-    
-    // Pulsing effect when time is low
-    if (timeLeft <= timerWarningThreshold) {
-        const pulse = Math.abs(Math.sin(Date.now() * 0.005)) * 5;
-        ctx.strokeStyle = `rgba(255, 0, 0, ${0.3 + pulse/10})`;
-        ctx.lineWidth = 2;
-        ctx.strokeRect(canvas.width - 110, 15, 90, 20);
-    }
-              // Level progression logic - updated for 5 levels
-              if (difficulty >= 80) {
-                if (player.width >= avgTargetSize * 0.8) {
-                    if (level < 5) {
-                        level++;
-                        createTargets();
-                        player.reset();
-                        background = '#87CEEB';
-                        
-                        // Show level transition message
-                        ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-                        ctx.fillRect(canvas.width/2 - 150, canvas.height/2 - 30, 300, 60);
-                        ctx.fillStyle = '#FFF';
-                        ctx.font = '24px Arial';
-                        ctx.fillText(`LEVEL ${level} START!`, canvas.width/2 - 80, canvas.height/2 + 10);
-                    } else {
-                        gameActive = false;
-                        flashBackground();
-                        finalMessage.textContent = "YOU BEAT ALL LEVELS!";
-                        finalMessage.style.color = "#4CAF50";
-                        gameOverMessage.style.display = 'block';
+                    
+                    // Only shrink if not invincible
+                    const playerShrunk = player.shrink();
+                    const targetShrunk = target.shrink();
+                    if (playerShrunk || targetShrunk) {
+                        background = '#FFA07A';
+                        clearTimeout(backgroundTimeout);
+                        backgroundTimeout = setTimeout(() => {
+                            if (!collisionOccurred) background = '#87CEEB';
+                        }, 1000);
                     }
-                } else {
-                    gameActive = false;
-                    flashBackground();
-                    finalMessage.textContent = "YOU LOST!";
-                    finalMessage.style.color = "#F44336";
-                    gameOverMessage.style.display = 'block';
                 }
+
+                // Bounce effect (always happens)
+                const tempDx = player.dx;
+                const tempDy = player.dy;
+                player.dx = target.dx * 1.5;
+                player.dy = target.dy * 1.5;
+                target.dx = tempDx * 1.5;
+                target.dy = tempDy * 1.5;
+                
+                collisionOccurred = true;
             }
-            
-            requestAnimationFrame(gameLoop);
-}
+        } else {
+            // Reset combo if player avoids hits
+            if (collisionOccurred) {
+                collisionOccurred = false;
+                consecutiveHits = 0;
+            }
+        }
+    });
+    
+    // Visual feedback for invincibility
+    if (isInvincible) {
+        const pulse = Math.sin(Date.now() * 0.01) * 3 + 3;
+        ctx.strokeStyle = `rgba(0, 255, 255, ${0.5 + Math.abs(Math.sin(Date.now() * 0.005))})`;
+        ctx.lineWidth = pulse;
+        ctx.strokeRect(player.x - 5, player.y - 5, player.width + 10, player.height + 10);
+    }
+    
+    // Extended flash effect
+    if (flashFrames > 0) {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        flashFrames--;
+    }
+    
+    // Draw objects
+    player.draw();
+    targets.forEach(target => target.draw());
+    
+    // Calculate win condition
+    const avgTargetSize = targets.reduce((sum, t) => sum + t.width, 0) / targets.length;
+    const difficulty = Math.round((50 - avgTargetSize) / 50 * 100);
+    
+    // Draw UI
+    ctx.fillStyle = '#000';
+    ctx.font = '16px Arial';
+    ctx.fillText(`Player: ${Math.round(player.width)}px`, 20, 30);
+    ctx.fillText(`Targets: ${targets.length} (Avg: ${Math.round(avgTargetSize)}px)`, 20, 60);
+    ctx.fillText(`Level: ${level}`, 20, 90);
+    ctx.fillText(`Difficulty: ${difficulty}%`, 20, 120);
+    if (isInvincible) {
+        ctx.fillText(`INVINCIBLE! ${(invincibleTimer/60).toFixed(1)}s`, 20, 150);
+    }
+    
+    // Draw timer for levels 4+
+    if (level >= 4 && levelTimeLimit > 0) {
+        const timeLeft = Math.ceil(levelTimeLimit - levelTimer);
+        const timerColor = timeLeft <= timerWarningThreshold ? '#FF0000' : '#000';
+        ctx.fillStyle = timerColor;
+        ctx.fillText(`Time: ${timeLeft}s`, canvas.width - 100, 30);
+        
+        // Pulsing effect when time is low
+        if (timeLeft <= timerWarningThreshold) {
+            const pulse = Math.abs(Math.sin(Date.now() * 0.005)) * 5;
+            ctx.strokeStyle = `rgba(255, 0, 0, ${0.3 + pulse/10})`;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(canvas.width - 110, 15, 90, 20);
+        }
+    }
+    
+    // Level progression logic - updated for 5 levels
+    if (difficulty >= 80) {
+        if (player.width >= avgTargetSize * 0.8) {
+            if (level < 5) {
+                level++;
+                createTargets();
+                player.reset();
+                background = '#87CEEB';
+                
+                // Show level transition message
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                ctx.fillRect(canvas.width/2 - 150, canvas.height/2 - 30, 300, 60);
+                ctx.fillStyle = '#FFF';
+                ctx.font = '24px Arial';
+                ctx.fillText(`LEVEL ${level} START!`, canvas.width/2 - 80, canvas.height/2 + 10);
+            } else {
+                gameActive = false;
+                flashBackground();
+                finalMessage.textContent = "YOU BEAT ALL LEVELS!";
+                finalMessage.style.color = "#4CAF50";
+                gameOverMessage.style.display = 'block';
+            }
+        } else {
+            gameActive = false;
+            flashBackground();
+            finalMessage.textContent = "YOU LOST!";
+            finalMessage.style.color = "#F44336";
+            gameOverMessage.style.display = 'block';
+        }
+    }
+    
+    requestAnimationFrame(gameLoop);
 }
             
         
