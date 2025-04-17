@@ -125,6 +125,13 @@
         const timeFreezeSpawnChance = 0.01;
         let gameLoopRunning = false;
         
+        // Game variables
+        let directionChangeTimer = 0;
+        const directionChangeInterval = 60;
+        const maxSpeed = 6;
+        let flashFrames = 0;
+        const maxFlashFrames = 25;
+        
         // Invincibility system
         let consecutiveHits = 0;
         const maxConsecutiveHits = 3;
@@ -132,6 +139,14 @@
         let invincibleTimer = 0;
         const invincibleDuration = 300;
         
+        // Keyboard controls
+        const keys = {
+            ArrowUp: false,
+            ArrowDown: false,
+            ArrowLeft: false,
+            ArrowRight: false
+        };
+
         // Game object class
         class GameObject {
             constructor(x, y, width, height, color, dx = 0, dy = 0, type = 'normal') {
@@ -252,7 +267,10 @@
                 this.dy = 0;
             }
         }
-    
+
+        // Create player
+        const player = new GameObject(100, 150, 60, 60, '#D21267');
+
         // Create targets function
         function createTargets() {
             targets = [];
@@ -359,23 +377,7 @@
                 requestAnimationFrame(gameLoop);
             }
         }
-        
-            
-            consecutiveHits = 0;
-            isInvincible = false;
-            invincibleTimer = 0;
-            
-            keys.ArrowUp = false;
-            keys.ArrowDown = false;
-            keys.ArrowLeft = false;
-            keys.ArrowRight = false;
-            
-            if (!gameLoopRunning) {
-                gameLoopRunning = true;
-                gameLoop();
-            }
-        
-    
+
         function gameLoop() {
             if (!gameActive) {
                 gameLoopRunning = false;
@@ -642,26 +644,11 @@
             
             requestAnimationFrame(gameLoop);
         }
-            
-        // Create player and initial target
-        const player = new GameObject(100, 150, 60, 60, '#D21267');
+
+        // Initialize game
         createTargets();
         
-        // Game variables
-        let directionChangeTimer = 0;
-        const directionChangeInterval = 60;
-        const maxSpeed = 6;
-        let flashFrames = 0;
-        const maxFlashFrames = 25;
-        
-        // Keyboard controls
-        const keys = {
-            ArrowUp: false,
-            ArrowDown: false,
-            ArrowLeft: false,
-            ArrowRight: false
-        };
-        
+        // Event listeners
         window.addEventListener('keydown', (e) => {
             if (keys.hasOwnProperty(e.key) && gameActive) {
                 keys[e.key] = true;
@@ -674,7 +661,6 @@
             }
         });
         
-        // Music toggle
         musicToggle.addEventListener('click', () => {
             if (music.paused) {
                 music.play().catch(e => {
@@ -688,7 +674,6 @@
             }
         });
         
-        // Event listeners for reset
         resetButton.addEventListener('click', resetGame);
         playAgainButton.addEventListener('click', resetGame);
         
