@@ -46,7 +46,7 @@
             border-radius: 4px;
             cursor: pointer;
         }
-     
+        
         button:hover {
             background-color: #D52675;
         }
@@ -73,11 +73,10 @@
     </style>
 </head>
 <body>
-
     <div id="game-container">
         <h1>Shrinky Dinks!</h1>
         <canvas id="gameCanvas" width="600" height="400"></canvas>
-        <p>Use arrow keys to move. Catch the green object before you shrink too much!</p>
+        <p>Use arrow keys to move. Catch the green objects before you shrink too much!</p>
         <audio id="bgMusic" loop>
             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
             Your browser does not support the audio element.
@@ -111,6 +110,15 @@
         let gameActive = true;
         let flashInterval;
         let backgroundTimeout;
+        let level = 1;
+        let targets = [];
+        
+        // Invincibility system
+        let consecutiveHits = 0;
+        const maxConsecutiveHits = 3;
+        let isInvincible = false;
+        let invincibleTimer = 0;
+        const invincibleDuration = 120; // 2 seconds at 60fps
         
         // Game object class
         class GameObject {
@@ -220,17 +228,234 @@
                 this.dy = 0;
             }
         }
+    
+        // Create targets function
+        function createTargets() {
+            targets = [];
+            const targetColors = ['#41BA47', '#3AA655', '#2E8B57'];
+            const baseSpeed = 3 + (level * 0.5);
+            const targetCount = level === 1 ? 1 : (level === 2 ? 2 : 3);
+            
+            for (let i = 0; i < targetCount; i++) {
+                const dx = (Math.random() - 0.5) * baseSpeed * 2;
+                const dy = (Math.random() - 0.5) * baseSpeed * 2;
+                
+                targets.push(new GameObject(
+                    Math.random() * (canvas.width - 50),
+                    Math.random() * (canvas.height - 50),
+                    50, 50, 
+                    targetColors[i % 3],
+                    dx, dy
+                ));
+            }
+        }
+    
+        // Reset game function
+        function resetGame() {
+            player.reset();
+            level = 1;
+            createTargets();
+            background = '#87CEEB';
+            gameActive = true;
+            directionChangeTimer = 0;
+            collisionOccurred = false;
+            flashFrames = 0;
+            gameOverMessage.style.display = 'none';
+            clearInterval(flashInterval);
+            clearTimeout(backgroundTimeout);
+            
+            // Reset invincibility
+            consecutiveHits = 0;
+            isInvincible = false;
+            invincibleTimer = 0;
+            
+            keys.ArrowUp = false;
+            keys.ArrowDown = false;
+            keys.ArrowLeft = false;
+            keys.ArrowRight = false;
+            
+            // Restart game loop if it was stopped
+            if (!gameLoopRunning) {
+                gameLoopRunning = true;
+                gameLoop();
+            }
+        }
+    
+        // Game loop
+        let gameLoopRunning = false;
+        function gameLoop() {
+            if (!gameActive) {
+                gameLoopRunning = false;
+                return;
+            }
+            gameLoopRunning = true;
+            
+            // Clear canvas
+            ctx.fillStyle = background;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Handle player movement
+            const acceleration = 0.2;
+            if (keys.ArrowUp) player.dy = Math.max(player.dy - acceleration, -maxSpeed);
+            if (keys.ArrowDown) player.dy = Math.min(player.dy + acceleration, maxSpeed);
+            if (keys.ArrowLeft) player.dx = Math.max(player.dx - acceleration, -maxSpeed);
+            if (keys.ArrowRight) player.dx = Math.min(player.dx + acceleration, maxSpeed);
+            player.update();
+            
+            // Update invincibility timer
+            if (isInvincible) {
+                invincibleTimer--;
+                if (invincibleTimer <= 0) {
+                    isInvincible = false;
+                }
+            }
+            
+            // Update and check collisions with all targets
+            collisionOccurred = false;
+            targets.forEach(target => {
+                // Update target movement
+                directionChangeTimer++;
+                if (directionChangeTimer >= directionChangeInterval) {
+                    directionChangeTimer = 0;
+                    const trackPlayer = level === 3 ? (Math.random() > 0.5) : false;
+                    
+                    if (trackPlayer) {
+                        // In level 3, targets actively chase the player
+                        const seekOrFlee = Math.random() > 0.5 ? 1 : -1;
+                        target.dx = (player.x - target.x) * 0.015 * seekOrFlee;
+                        target.dy = (player.y - target.y) * 0.015 * seekOrFlee;
+                        
+                        const speed = Math.sqrt(target.dx * target.dx + target.dy * target.dy);
+                        if (speed > maxSpeed) {
+                            target.dx = (target.dx / speed) * maxSpeed;
+                            target.dy = (target.dy / speed) * maxSpeed;
+                        }
+                    } else {
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = 1.5 + Math.random() * 2;
+                        target.dx = Math.cos(angle) * speed;
+                        target.dy = Math.sin(angle) * speed;
+                    }
+                }
+                
+                target.update();
+                
+                // Check collision
+                if (player.checkCollision(target)) {
+                    if (!collisionOccurred) {
+                        flashFrames = maxFlashFrames;
+                        
+                        // Invincibility system
+                        if (!isInvincible) {
+                            consecutiveHits++;
+                            if (consecutiveHits >= maxConsecutiveHits) {
+                                isInvincible = true;
+                                invincibleTimer = invincibleDuration;
+                                consecutiveHits = 0;
+                            }
+                            
+                            // Only shrink if not invincible
+                            const playerShrunk = player.shrink();
+                            const targetShrunk = target.shrink();
+                            if (playerShrunk || targetShrunk) {
+                                background = '#FFA07A';
+                                clearTimeout(backgroundTimeout);
+                                backgroundTimeout = setTimeout(() => {
+                                    if (!collisionOccurred) background = '#87CEEB';
+                                }, 1000);
+                            }
+                        }
+    
+                        // Bounce effect (always happens)
+                        const tempDx = player.dx;
+                        const tempDy = player.dy;
+                        player.dx = target.dx * 1.5;
+                        player.dy = target.dy * 1.5;
+                        target.dx = tempDx * 1.5;
+                        target.dy = tempDy * 1.5;
+                        
+                        collisionOccurred = true;
+                    }
+                } else {
+                    // Reset combo if player avoids hits
+                    if (collisionOccurred) {
+                        collisionOccurred = false;
+                        consecutiveHits = 0;
+                    }
+                }
+            });
+            
+            // Visual feedback for invincibility
+            if (isInvincible) {
+                const pulse = Math.sin(Date.now() * 0.01) * 3 + 3;
+                ctx.strokeStyle = `rgba(0, 255, 255, ${0.5 + Math.abs(Math.sin(Date.now() * 0.005))})`;
+                ctx.lineWidth = pulse;
+                ctx.strokeRect(player.x - 5, player.y - 5, player.width + 10, player.height + 10);
+            }
+            
+            // Extended flash effect
+            if (flashFrames > 0) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                flashFrames--;
+            }
+            
+            // Draw objects
+            player.draw();
+            targets.forEach(target => target.draw());
+            
+            // Calculate win condition
+            const avgTargetSize = targets.reduce((sum, t) => sum + t.width, 0) / targets.length;
+            const difficulty = Math.round((50 - avgTargetSize) / 50 * 100);
+            
+            // Draw UI
+            ctx.fillStyle = '#000';
+            ctx.font = '16px Arial';
+            ctx.fillText(`Player: ${Math.round(player.width)}px`, 20, 30);
+            ctx.fillText(`Targets: ${targets.length} (Avg: ${Math.round(avgTargetSize)}px)`, 20, 60);
+            ctx.fillText(`Level: ${level}`, 20, 90);
+            ctx.fillText(`Difficulty: ${difficulty}%`, 20, 120);
+            if (isInvincible) {
+                ctx.fillText(`INVINCIBLE! ${Math.ceil(invincibleTimer/60)}s`, 20, 150);
+            }
+            
+            // Level progression logic
+            if (difficulty >= 80) {
+                if (player.width >= avgTargetSize * 0.8) {
+                    if (level < 3) {
+                        level++;
+                        createTargets();
+                        player.reset();
+                        background = '#87CEEB';
+                    } else {
+                        gameActive = false;
+                        flashBackground();
+                        finalMessage.textContent = "YOU BEAT ALL LEVELS!";
+                        finalMessage.style.color = "#4CAF50";
+                        gameOverMessage.style.display = 'block';
+                    }
+                } else {
+                    gameActive = false;
+                    flashBackground();
+                    finalMessage.textContent = "YOU LOST!";
+                    finalMessage.style.color = "#F44336";
+                    gameOverMessage.style.display = 'block';
+                }
+            }
+            
+            requestAnimationFrame(gameLoop);
+        }
         
-        // Create game objects
+        // Create player and initial target
         const player = new GameObject(100, 150, 60, 60, '#D21267');
-        const autonomousObj = new GameObject(400, 200, 50, 50, '#41BA47', 2, 1.5);
+        createTargets();
         
         // Game variables
         let directionChangeTimer = 0;
         const directionChangeInterval = 60;
         const maxSpeed = 6;
         let flashFrames = 0;
-        const maxFlashFrames = 25; // Increased flash duration
+        const maxFlashFrames = 25;
         
         // Keyboard controls
         const keys = {
@@ -263,41 +488,6 @@
             }
         });
         
-        // Reset game function
-        function resetGame() {
-            // Reset player
-            player.width = player.initialWidth;
-            player.height = player.initialHeight;
-            player.x = 100;
-            player.y = 150;
-            player.dx = 0;
-            player.dy = 0;
-            
-            // Reset autonomous object
-            autonomousObj.width = autonomousObj.initialWidth;
-            autonomousObj.height = autonomousObj.initialHeight;
-            autonomousObj.x = 400;
-            autonomousObj.y = 200;
-            autonomousObj.dx = 2 + Math.random();
-            autonomousObj.dy = 1.5 + Math.random();
-            
-            // Reset game state
-            background = '#87CEEB';
-            gameActive = true;
-            directionChangeTimer = 0;
-            collisionOccurred = false;
-            flashFrames = 0;
-            gameOverMessage.style.display = 'none';
-            clearInterval(flashInterval);
-            clearTimeout(backgroundTimeout);
-            
-            // Clear any active key presses
-            keys.ArrowUp = false;
-            keys.ArrowDown = false;
-            keys.ArrowLeft = false;
-            keys.ArrowRight = false;
-        }
-        
         // Event listeners for reset
         resetButton.addEventListener('click', resetGame);
         playAgainButton.addEventListener('click', resetGame);
@@ -305,7 +495,7 @@
         // Start music
         music.volume = 0.3;
         
-        // Flash background for game over
+        // Flash background
         function flashBackground() {
             let flashCount = 0;
             const maxFlashes = 6;
@@ -320,128 +510,6 @@
                 background = colors[Math.floor(flashCount / 2) % colors.length];
                 flashCount++;
             }, 200);
-        }
-        
-        // Game loop
-        function gameLoop() {
-            if (!gameActive) return;
-            
-            // Clear canvas
-            ctx.fillStyle = background;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Handle player movement
-            const acceleration = 0.2;
-            
-            if (keys.ArrowUp) player.dy = Math.max(player.dy - acceleration, -maxSpeed);
-            if (keys.ArrowDown) player.dy = Math.min(player.dy + acceleration, maxSpeed);
-            if (keys.ArrowLeft) player.dx = Math.max(player.dx - acceleration, -maxSpeed);
-            if (keys.ArrowRight) player.dx = Math.min(player.dx + acceleration, maxSpeed);
-            
-            // Update player
-            player.update();
-            
-            // Enhanced autonomous movement (less erratic)
-            directionChangeTimer++;
-            if (directionChangeTimer >= directionChangeInterval) {
-                directionChangeTimer = 0;
-                
-                const trackPlayer = Math.random() > 0.75; // 25% chance to track player
-                
-                if (trackPlayer) {
-                    const seekOrFlee = Math.random() > 0.5 ? 1 : -1;
-                    autonomousObj.dx = (player.x - autonomousObj.x) * 0.015 * seekOrFlee;
-                    autonomousObj.dy = (player.y - autonomousObj.y) * 0.015 * seekOrFlee;
-                    
-                    const speed = Math.sqrt(autonomousObj.dx * autonomousObj.dx + autonomousObj.dy * autonomousObj.dy);
-                    if (speed > maxSpeed) {
-                        autonomousObj.dx = (autonomousObj.dx / speed) * maxSpeed;
-                        autonomousObj.dy = (autonomousObj.dy / speed) * maxSpeed;
-                    }
-                } else {
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = 1.5 + Math.random() * 2;
-                    autonomousObj.dx = Math.cos(angle) * speed;
-                    autonomousObj.dy = Math.sin(angle) * speed;
-                }
-            }
-            
-            // Update autonomous object
-            autonomousObj.update();
-            
-            // Check for collision
-            if (player.checkCollision(autonomousObj)) {
-                if (!collisionOccurred) {
-                    flashFrames = maxFlashFrames; // Longer flash
-                    
-                    const playerShrunk = player.shrink();
-                    const autoShrunk = autonomousObj.shrink();
-                    
-                    if (playerShrunk || autoShrunk) {
-                        background = '#FFA07A';
-                        clearTimeout(backgroundTimeout);
-                        backgroundTimeout = setTimeout(() => {
-                            if (!collisionOccurred) {
-                                background = '#87CEEB';
-                            }
-                        }, 1000); // Keep background color for 1 second
-                    }
-                    
-                    // Bounce effect
-                    const tempDx = player.dx;
-                    const tempDy = player.dy;
-                    player.dx = autonomousObj.dx * 1.5;
-                    player.dy = autonomousObj.dy * 1.5;
-                    autonomousObj.dx = tempDx * 1.5;
-                    autonomousObj.dy = tempDy * 1.5;
-                    
-                    collisionOccurred = true;
-                }
-            } else {
-                if (collisionOccurred) {
-                    collisionOccurred = false;
-                }
-            }
-            
-            // Extended flash effect
-            if (flashFrames > 0) {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                flashFrames--;
-            }
-            
-            // Draw objects
-            player.draw();
-            autonomousObj.draw();
-            
-            // Calculate difficulty
-            const difficulty = Math.round((50 - autonomousObj.width) / 50 * 100);
-            
-            // Draw UI
-            ctx.fillStyle = '#000';
-            ctx.font = '16px Arial';
-            ctx.fillText(`Player: ${Math.round(player.width)}px`, 20, 30);
-            ctx.fillText(`Target: ${Math.round(autonomousObj.width)}px`, 20, 60);
-            ctx.fillText(`Difficulty: ${difficulty}%`, 20, 90);
-            
-            // Check win/lose condition at 80% difficulty
-            if (difficulty >= 80) {
-                gameActive = false;
-                flashBackground();
-                
-                // Win if player is at least 80% the size of autonomous object
-                if (player.width >= autonomousObj.width * 0.8) {
-                    finalMessage.textContent = "YOU WON!";
-                    finalMessage.style.color = "#4CAF50";
-                } else {
-                    finalMessage.textContent = "YOU LOST!";
-                    finalMessage.style.color = "#F44336";
-                }
-                
-                gameOverMessage.style.display = 'block';
-            }
-            
-            requestAnimationFrame(gameLoop);
         }
         
         // Start the game
