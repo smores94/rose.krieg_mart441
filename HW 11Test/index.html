@@ -114,6 +114,10 @@
         let targets = [];
         let surpriseTarget = null; // For the surprise target in level 4/5
         let surpriseTriggered = false;
+        let levelTimer = 0;
+        let levelTimeLimit = 0; // Will be set per level
+        const timerWarningThreshold = 10; // Seconds left when warning appears
+        let timerWarningActive = false;
         
         
         // Invincibility system
@@ -121,7 +125,7 @@
         const maxConsecutiveHits = 3;
         let isInvincible = false;
         let invincibleTimer = 0;
-        const invincibleDuration = 120; // 2 seconds at 60fps
+        const invincibleDuration = 300; // 5 seconds at 60fps
         
         // Game object class
         class GameObject {
@@ -257,6 +261,13 @@
                 ));
             }
             
+            // Set time limits for levels 4+
+    if (level >= 4) {
+        levelTimer = 0;
+        levelTimeLimit = level === 4 ? 45 : 30; // 45s for L4, 30s for L5
+        timerWarningActive = false;
+    }
+
             // Pre-create (but don't activate) surprise target for level 4/5
             if (level >= 4) {
                 const sizeMultiplier = level === 5 ? 4 : 1;
@@ -313,7 +324,30 @@
                 return;
             }
             gameLoopRunning = true;
-            
+    
+             // Handle level timer for levels 4+
+    if (level >= 4 && levelTimeLimit > 0) {
+        levelTimer += 1/60; // Increment by ~1 second per 60 frames
+        
+        // Check if time is running out
+        const timeLeft = Math.ceil(levelTimeLimit - levelTimer);
+        if (timeLeft <= timerWarningThreshold && !timerWarningActive) {
+            timerWarningActive = true;
+            flashBackground(); // Visual warning
+        }
+        
+        // Check for timeout
+        if (levelTimer >= levelTimeLimit) {
+            gameActive = false;
+            flashBackground();
+            finalMessage.textContent = "TIME'S UP!";
+            finalMessage.style.color = "#F44336";
+            gameOverMessage.style.display = 'block';
+            return;
+        }
+    }
+
+
  // Check for loss condition
  if (player.width < 5 || player.height < 5) {
                 gameActive = false;
@@ -465,9 +499,22 @@
             ctx.fillText(`Level: ${level}`, 20, 90);
             ctx.fillText(`Difficulty: ${difficulty}%`, 20, 120);
             if (isInvincible) {
-                ctx.fillText(`INVINCIBLE! ${Math.ceil(invincibleTimer/60)}s`, 20, 150);
+                ctx.fillText(`INVINCIBLE! ${(invincibleTimer/60).toFixed(1)}s`, 20, 150);
             }
-            
+            // Draw timer for levels 4+
+if (level >= 4 && levelTimeLimit > 0) {
+    const timeLeft = Math.ceil(levelTimeLimit - levelTimer);
+    const timerColor = timeLeft <= timerWarningThreshold ? '#FF0000' : '#000';
+    ctx.fillStyle = timerColor;
+    ctx.fillText(`Time: ${timeLeft}s`, canvas.width - 100, 30);
+    
+    // Pulsing effect when time is low
+    if (timeLeft <= timerWarningThreshold) {
+        const pulse = Math.abs(Math.sin(Date.now() * 0.005)) * 5;
+        ctx.strokeStyle = `rgba(255, 0, 0, ${0.3 + pulse/10})`;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(canvas.width - 110, 15, 90, 20);
+    }
               // Level progression logic - updated for 5 levels
               if (difficulty >= 80) {
                 if (player.width >= avgTargetSize * 0.8) {
@@ -568,7 +615,7 @@
                 flashCount++;
             }, 200);
         }
-        
+    }
         // Start the game
         gameLoop();
     </script>
