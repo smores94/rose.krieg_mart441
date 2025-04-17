@@ -549,6 +549,8 @@ if (level >= 4 && levelTimeLimit > 0) {
             requestAnimationFrame(gameLoop);
         }
   
+    
+        }
         
         // Create player and initial target
         const player = new GameObject(100, 150, 60, 60, '#D21267');
@@ -615,7 +617,7 @@ if (level >= 4 && levelTimeLimit > 0) {
                 flashCount++;
             }, 200);
         }
-    }
+    
         // Start the game
         gameLoop();
     </script>
