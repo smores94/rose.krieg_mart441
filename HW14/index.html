@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pinball Test</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cannon-es@0.20.0/dist/cannon-es.js"></script>
+    <style>body { margin: 0; }</style>
+</head>
+<body>
+    <script>
+        // Scene setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        // Add a ball
+        const ball = new THREE.Mesh(
+            new THREE.SphereGeometry(0.5),
+            new THREE.MeshStandardMaterial({ color: 0xff0000 })
+        );
+        scene.add(ball);
+        camera.position.set(0, 5, 10);
+
+        // Physics
+        const world = new CANNON.World({ gravity: { y: -9.82 } });
+        const ballBody = new CANNON.Body({ mass: 1, shape: new CANNON.Sphere(0.5) });
+        world.addBody(ballBody);
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            world.step(1/60);
+            ball.position.copy(ballBody.position);
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
