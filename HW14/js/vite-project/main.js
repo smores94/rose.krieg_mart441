@@ -1,18 +1,10 @@
-// Three.js core
-import * as THREE from './js/three.js-master/build/three.module.js';
-
-// Three.js controls
-import { OrbitControls } from './js/three.js-master/examples/jsm/controls/OrbitControls.js';
-
-// GLTF Loader (fixed path)
-import { GLTFLoader } from './js/three.js-master/examples/jsm/loaders/GLTFLoader.js';
-
-
-// ALTERNATIVE CDN IMPORT
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
+import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/loaders/GLTFLoader.js';
+import { FontLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/loaders/FontLoader.js';
+import { TextGeometry } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/geometries/TextGeometry.js';
 import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.22.0/dist/cannon-es.js';
-
-// Howler.js (fixed path)
-import { Howl } from './js/howler/dist/howler.esm.js';
+import { Howl } from 'https://cdn.jsdelivr.net/npm/howler@2.2.4/dist/howler.esm.js';
 
 // SCENE SETUP
 const scene = new THREE.Scene();
