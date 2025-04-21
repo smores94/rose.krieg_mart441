@@ -1,112 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Simple 3D Scene - Homework 14</title>
-    <style>
-        body { margin: 0; }
-        canvas { display: block; }
-    </style>
+    <title>Working 3D Scene</title>
+    <style>body { margin: 0; }</style>
 </head>
 <body>
     <script type="module">
+        // CORRECT THREE.JS IMPORTS
         import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
         import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/controls/OrbitControls.js';
         import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/loaders/GLTFLoader.js';
         import { FontLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/loaders/FontLoader.js';
         import { TextGeometry } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/geometries/TextGeometry.js';
 
-        // Basic setup
+        // SCENE SETUP
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        const renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // Add lights
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(5, 10, 5);
-        scene.add(light);
-        scene.add(new THREE.AmbientLight(0x404040));
-
-        // Requirement 1: Two shapes
+        // SIMPLE SHAPES (REQUIREMENT 1)
         const cube = new THREE.Mesh(
-            new THREE.BoxGeometry(2, 2, 2),
-            new THREE.MeshStandardMaterial({ color: 0x00ff00 })
+            new THREE.BoxGeometry(1, 1, 1),
+            new THREE.MeshBasicMaterial({ color: 0x00ff00 })
         );
-        cube.position.set(-5, 5, 0);
         scene.add(cube);
 
-        const torus = new THREE.Mesh(
-            new THREE.TorusGeometry(1, 0.4, 16, 100),
-            new THREE.MeshStandardMaterial({ color: 0xff0000 })
+        const sphere = new THREE.Mesh(
+            new THREE.SphereGeometry(0.5),
+            new THREE.MeshBasicMaterial({ color: 0xff0000 })
         );
-        torus.position.set(5, 5, 0);
-        scene.add(torus);
+        sphere.position.x = 2;
+        scene.add(sphere);
 
-        // Requirement 2: 3D Model (using Three.js example model)
+        // SIMPLE MODEL (REQUIREMENT 2)
         const loader = new GLTFLoader();
         loader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r164/examples/models/gltf/Duck/glTF/Duck.gltf', 
             (gltf) => {
-                const duck = gltf.scene;
-                duck.scale.set(0.5, 0.5, 0.5);
-                duck.position.set(0, 5, 0);
-                scene.add(duck);
+                scene.add(gltf.scene);
             }
         );
 
-        // Requirement 3: Rotation
+        // ROTATION (REQUIREMENT 3)
         function animate() {
             requestAnimationFrame(animate);
-            
             cube.rotation.x += 0.01;
             cube.rotation.y += 0.01;
-            
-            torus.rotation.x += 0.02;
-            torus.rotation.y += 0.01;
-            
+            sphere.rotation.z += 0.02;
             renderer.render(scene, camera);
         }
 
-        // Add text
-        const fontLoader = new FontLoader();
-        fontLoader.load('https://cdn.jsdelivr.net/npm/three@0.164.1/examples/fonts/helvetiker_regular.typeface.json',
-            (font) => {
-                const textGeometry = new TextGeometry('3D Scene', {
-                    font: font,
-                    size: 1,
-                    height: 0.2
-                });
-                const textMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
-                const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-                textMesh.position.set(-4, 10, 0);
-                scene.add(textMesh);
-            }
-        );
-
-        // Add decorative lines
-        const points = [];
-        points.push(new THREE.Vector3(-10, 0, 0));
-        points.push(new THREE.Vector3(10, 0, 0));
-        points.push(new THREE.Vector3(0, 0, 10));
-        
-        const lineGeometry = new THREE.BufferGeometry().setFromPoints(points);
-        const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff });
-        const line = new THREE.Line(lineGeometry, lineMaterial);
-        scene.add(line);
-
-        // Camera controls
-        const controls = new OrbitControls(camera, renderer.domElement);
-        camera.position.z = 20;
-        camera.position.y = 10;
-        controls.update();
-
-        // Handle window resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth/window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
+        // BASIC CAMERA
+        camera.position.z = 5;
         animate();
     </script>
 </body>
