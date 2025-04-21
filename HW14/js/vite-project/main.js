@@ -9,7 +9,7 @@ import * as CANNON from './js/cannon-es';
 
 // Howler.js
 // Correct import for ES modules
-import { Howl, Howler } from 'howler';
+import { Howl } from '../node_modules/howler/dist/howler.esm.js';
 
 // SCENE SETUP (only once!)
 const scene = new THREE.Scene();
