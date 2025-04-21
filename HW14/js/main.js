@@ -1,7 +1,7 @@
 import * as THREE from './three.js/three.module.js';
 import { OrbitControls } from './three.js/OrbitControls.js';
-import * as CANNON from 'cannon-es';
 import { Howl } from 'howler';
+import * as CANNON from './node_modules/cannon-es/dist/cannon-es.js';
 
 // SCENE SETUP
 const scene = new THREE.Scene();
