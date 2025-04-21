@@ -1,5 +1,5 @@
 // Corrected imports (assuming local files)
-import * as THREE from '../js/three/three.module.js';
+import * as THREE from './three/three.module.js';
 import { OrbitControls } from './js/three/controls/OrbitControls.js';
 import * as CANNON from './js/cannon-es';
 import { Howl } from './js/howler.js/dist/howler.js';
