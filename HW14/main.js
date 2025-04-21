@@ -60,3 +60,32 @@ window.addEventListener('resize', () => {
 
 // Debug: Log success
 console.log("It's working! Ball position:", ball.position);
+
+// Using Raycaster for mouse interaction
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+function onClick(event) {
+  // Calculate mouse position
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  // Check intersections
+  const intersects = raycaster.intersectObjects(clickableObjects);
+  if (intersects.length > 0) {
+    // Handle button press
+  }
+}
+
+// Keyboard controls
+document.addEventListener('keydown', (e) => {
+    if (e.code === 'ArrowLeft') {
+      // Activate left flipper
+    }
+    if (e.code === 'ArrowRight') {
+      // Activate right flipper
+    }
+    if (e.code === 'Space') {
+      // Launch plunger
+    }
+  });
