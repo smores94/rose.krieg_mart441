@@ -8,7 +8,8 @@ import { OrbitControls } from './js/three.js-master/examples/jsm/controls/OrbitC
 import * as CANNON from './js/cannon-es';
 
 // Howler.js
-import { Howl } from './js/howler.js';
+// Correct import for ES modules
+import { Howl, Howler } from 'howler';
 
 // SCENE SETUP (only once!)
 const scene = new THREE.Scene();
