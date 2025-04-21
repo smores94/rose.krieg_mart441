@@ -1,5 +1,33 @@
-import * as THREE from 'three';
+import * as THREE from './three.js/three.module.js';
+import { OrbitControls } from './three.js/OrbitControls.js';
 import * as CANNON from 'cannon-es';
+import { Howl } from 'howler';
+
+// SCENE SETUP
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x111122);
+
+// CAMERA
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.set(0, 20, -30);
+camera.lookAt(0, 0, 0);
+
+// RENDERER
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.shadowMap.enabled = true;
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+// CONTROLS (for debugging)
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+
+// PHYSICS WORLD
+const world = new CANNON.World({
+    gravity: new CANNON.Vec3(0, -20, 0), // Stronger gravity for pinball
+    allowSleep: true,
+});
+world.defaultContactMaterial.restitution = 0.7; // Bounciness
 
 
 
