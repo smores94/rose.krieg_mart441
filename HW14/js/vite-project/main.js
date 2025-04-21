@@ -7,8 +7,9 @@ import { OrbitControls } from './js/three.js-master/examples/jsm/controls/OrbitC
 // GLTF Loader (fixed path)
 import { GLTFLoader } from './js/three.js-master/examples/jsm/loaders/GLTFLoader.js';
 
-// Cannon-es (fixed import)
-import * as CANNON from './js/cannon-es';
+
+// ALTERNATIVE CDN IMPORT
+import * as CANNON from 'https://cdn.jsdelivr.net/npm/cannon-es@0.22.0/dist/cannon-es.js';
 
 // Howler.js (fixed path)
 import { Howl } from './js/howler/dist/howler.esm.js';
