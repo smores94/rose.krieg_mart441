@@ -62,7 +62,6 @@ scene.add(light);
 scene.add(new THREE.AmbientLight(0x404040));
 
 // 5. Physics setup
-const world = new CANNON.World({ gravity: { y: -20 } });
 const ballBody = new CANNON.Body({ mass: 1, shape: new CANNON.Sphere(0.5) });
 ballBody.position.set(0, 5, 0);
 world.addBody(ballBody);
