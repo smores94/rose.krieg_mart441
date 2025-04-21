@@ -1,14 +1,14 @@
 // Three.js core
-import * as THREE from './three.js-master/build/three.module.js';
+import * as THREE from './js/three.js-master/build/three.module.js';
 
 // Three.js controls
-import { OrbitControls } from './three.js-master/examples/jsm/controls/OrbitControls.js';
+import { OrbitControls } from './js/three.js-master/examples/jsm/controls/OrbitControls.js';
 
 // Cannon-es (needs npm install)
-import * as CANNON from './cannon-es';
+import * as CANNON from './js/cannon-es';
 
 // Howler.js
-import { Howl } from './howler.js';
+import { Howl } from './js/howler.js';
 
 // SCENE SETUP (only once!)
 const scene = new THREE.Scene();
