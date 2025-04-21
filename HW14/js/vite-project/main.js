@@ -112,14 +112,6 @@ light.castShadow = true;
 scene.add(light);
 scene.add(new THREE.AmbientLight(0x404040));
 
-// ANIMATION LOOP
-function animate() {
-    requestAnimationFrame(animate);
-    world.step(1 / 60);
-    ball.position.copy(ballBody.position);
-    renderer.render(scene, camera);
-}
-animate();
 
 // WINDOW RESIZE
 window.addEventListener('resize', () => {
