@@ -1,7 +1,7 @@
 // Corrected imports (assuming local files)
 import * as THREE from './three/three.module.js';
 import { OrbitControls } from './three/controls/OrbitControls.js';
-import * as CANNON from 'cannon-es';
+import * as CANNON from './js/cannon-es';
 import { Howl } from './howler.js/dist/howler.js';
 
 // SCENE SETUP (only once!)
