@@ -1,27 +1,22 @@
 {
   "name": "hw14v2",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
-    "cannon": "^0.6.2",
-    "howler": "^2.2.4",
-    "three": "^0.175.0"
+    "cannon-es": "^0.22.0",
+    "howler": "^2.2.3",
+    "three": "^0.132.2"
   },
   "devDependencies": {
     "vite": "^6.3.2"
-  }
-}
-
-
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
