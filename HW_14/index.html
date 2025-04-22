@@ -21,17 +21,17 @@
     <div id="textOverlay">This was really HARD</div>
     
     <script type="module">
-        // THREE.JS CORE IMPORT
+        // THREE.JS IMPORT
         import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
         
-        // SIMPLE ROTATING CUBE
+        //  CUBE
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // Requirement 1: Two shapes
+        // shapes
         const cube = new THREE.Mesh(
             new THREE.BoxGeometry(1, 1, 1),
             new THREE.MeshBasicMaterial({ color: 0x00ff00 })
@@ -45,7 +45,7 @@
         sphere.position.x = 2;
         scene.add(sphere);
 
-        // Requirement 2: Simple model
+        // model
         const textureLoader = new THREE.TextureLoader();
         textureLoader.load('https://threejs.org/examples/textures/crate.gif', (texture) => {
             const model = new THREE.Mesh(
@@ -56,7 +56,7 @@
             scene.add(model);
         });
 
-        // Requirement 3: Rotation
+        // Rotation
         camera.position.z = 5;
         function animate() {
             requestAnimationFrame(animate);
