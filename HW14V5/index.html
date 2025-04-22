@@ -8,19 +8,19 @@
     </style>
 </head>
 <body>
-    <script src="./node_modules/cannon-es"></script>
+    <script src="./node_modules/three/build/three.min.js"></script>
+    <script src="./node_modules/cannon-es/dist/cannon-es.js"></script>
     <script src="./node_modules/three/examples/jsm/controls/OrbitControls.js"></script>
-    <script src="./node_modules/three"></script>
-    <script src="./node_modules/howler"></script>
+    <script src="./node_modules/howler/dist/howler.min.js"></script>
     <script>
         // SCENE SETUP
         const scene = new THREE.Scene();
         scene.background = new THREE.Color(0x111122);
         
         // CAMERA
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 20, -30);
-        camera.lookAt(0, 0, 0);
+
+camera.position.set(0, 15, -20); 
+camera.lookAt(0, 0, 0);
         
         // RENDERER
         const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -160,13 +160,15 @@
         ballMesh.receiveShadow = true;
         scene.add(ballMesh);
         
-        const ballBody = new CANNON.Body({
-            mass: 1,
-            shape: new CANNON.Sphere(ballRadius),
-            material: rubberMaterial,
-            position: new CANNON.Vec3(0, 5, tableDepth / 2 - 5),
-            linearDamping: 0.01,
-            angularDamping: 0.1,
+// ball body
+const ballBody = new CANNON.Body({
+    mass: 1,
+    shape: new CANNON.Sphere(ballRadius),
+    material: rubberMaterial,
+    position: new CANNON.Vec3(0, 5, tableDepth / 2 - 5),
+    linearDamping: 0.1,  // Increased from 0.01
+    angularDamping: 0.5   // Increased from 0.1
+});
         });
         world.addBody(ballBody);
         
@@ -311,6 +313,13 @@
             });
             plungerBody.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), Math.PI / 2);
             world.addBody(plungerBody);
+            // Replace position-based plunger with force-based
+if (keys.plunger && !plunger.isPulled) {
+    plunger.body.applyForce(new CANNON.Vec3(0, 0, -50), plunger.body.position);
+} else if (!keys.plunger && plunger.isPulled) {
+    plunger.body.applyForce(new CANNON.Vec3(0, 0, 100), plunger.body.position);
+    sounds.plunger.play();
+}
             
             // Constraint for sliding
             const constraint = new CANNON.PointToPointConstraint(

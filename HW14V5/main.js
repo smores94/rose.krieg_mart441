@@ -3,10 +3,12 @@ const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x333333);
 
 // Table
-const table = new THREE.Mesh(
-  new THREE.BoxGeometry(20, 1, 40),
-  new THREE.MeshStandardMaterial({ color: 0x226622 })
-);
+const tableMat = new THREE.MeshStandardMaterial({
+    color: 0x226622,
+    roughness: 0.8,
+    metalness: 0.2,
+    side: THREE.DoubleSide  // Add this from your main.js version
+});
 scene.add(table);
 
 // Ball
