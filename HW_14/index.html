@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Working 3D Scene</title>
-    <style>body { margin: 0; }</style>
+    <title>Three -3D Scene</title>
+    <style>
+        body { margin: 0; }
+        #textOverlay {
+            position: fixed;
+            top: 40px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-family: Arial, sans-serif;
+            z-index: 100;
+            text-shadow: 2px 2px 4px rgba(221, 14, 14, 0.5);
+        }
+    </style>
 </head>
 <body>
+    <div id="textOverlay">This was really HARD</div>
+    
     <script type="module">
         // THREE.JS CORE IMPORT
         import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
         
-        // SIMPLE ROTATING CUBE (meets requirements)
+        // SIMPLE ROTATING CUBE
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer();
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
@@ -30,7 +45,7 @@
         sphere.position.x = 2;
         scene.add(sphere);
 
-        // Requirement 2: Simple "model" (cube with texture)
+        // Requirement 2: Simple model
         const textureLoader = new THREE.TextureLoader();
         textureLoader.load('https://threejs.org/examples/textures/crate.gif', (texture) => {
             const model = new THREE.Mesh(
