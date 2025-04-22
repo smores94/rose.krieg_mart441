@@ -1,11 +1,11 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
+import path from 'path';
 
 export default defineConfig({
   base: './',
   resolve: {
     alias: {
-      // Map to three.js
-      'three': './js/three.js-master/build/three.module.js'
+      'three': path.resolve(__dirname, 'js/three.js-master/build/three.module.js'),
     }
   }
-})
+});
