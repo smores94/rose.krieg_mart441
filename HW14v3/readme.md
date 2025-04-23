@@ -1,0 +1,3 @@
+# rose.krieg_mart441
+
+So I don't know what happened here, but I tried about 20 iterations of things. I had a lot of trouble integrating Three.js. I'm not sure why. I went through the class video and other videos. I got it installed/in the folder correctly along with howler and cannon (I had big plans haha).Console kept telling me it couldn't open modules, so even after making many adjustments with modules,no modules, I gave up and used CDN. After all was said and done, I went through many, many versions of code (trying to make a simple pinball). I eventually ended up with this, just to be done with it. 
