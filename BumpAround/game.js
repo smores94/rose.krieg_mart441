@@ -416,20 +416,6 @@ function generateObstacles() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Star Drawing Utility Function
 function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
     let rot = Math.PI/2 * 3;
