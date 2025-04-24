@@ -1,32 +1,148 @@
-// TITLE SCREEN SETUP
+// Game Constants
+const GAME_WIDTH = 1200;
+const GAME_HEIGHT = 800;
+
 function initTitleScreen() {
     const titleCanvas = document.getElementById('title-canvas');
     const startButton = document.getElementById('start-button');
-    const gameContainer = document.getElementById('game-container');
     
-    // Set canvas size
+    // Set reasonable title screen size
     titleCanvas.width = 800;
-    titleCanvas.height = 400;
+    titleCanvas.height = 450;
     
-    // Initialize Chromata
-    var imageElement = new Image();
-    imageElement.src = './img/bumparound.jpg';
+    // Chromata initialization with proper error handling
+    const img = new Image();
+    img.src = './img/bumparound.jpg'; // Make sure this path is correct
     
-    imageElement.onload = function() {
-        var chromata = new Chromata(titleCanvas, imageElement);
-        chromata.start({
-            particleSize: 2,
-            particleGap: 1,
-            animationDuration: 3000,
-            animationType: 'random'
-        });
+    img.onerror = () => {
+        console.error("Title image failed to load!");
+        const ctx = titleCanvas.getContext('2d');
+        ctx.fillStyle = '#222';
+        ctx.fillRect(0, 0, titleCanvas.width, titleCanvas.height);
+        ctx.fillStyle = '#fff';
+        ctx.font = '30px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('BUMP AROUND', titleCanvas.width/2, titleCanvas.height/2);
+        startButton.style.opacity = 1;
+    };
+    
+    img.onload = () => {
+        try {
+            const chromata = new Chromata(titleCanvas, img);
+            chromata.start({
+                particleSize: 2,
+                particleGap: 1,
+                animationDuration: 3000,
+                animationType: 'random'
+            });
+            
+            // Fallback check in case Chromata silently fails
+            setTimeout(() => {
+                if (!document.querySelector('.chromata-particle')) {
+                    throw new Error("Chromata particles not detected");
+                }
+            }, 500);
+        } catch (e) {
+            console.warn("Chromata failed, using fallback:", e);
+            const ctx = titleCanvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, titleCanvas.width, titleCanvas.height);
+        }
+        
+        // Show start button after delay
+        setTimeout(() => {
+            startButton.style.opacity = '1';
+            startButton.style.cursor = 'pointer';
+        }, 1500);
+    };
+    
+    startButton.addEventListener('click', startGame);
+}
+
+function startGame() {
+    console.log("Starting game...");
+    document.getElementById('title-screen').style.display = 'none';
+    const gameContainer = document.getElementById('game-container');
+    gameContainer.style.display = 'block';
+    
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set up responsive canvas
+    function resize() {
+        const scale = Math.min(
+            window.innerWidth / GAME_WIDTH,
+            window.innerHeight / GAME_HEIGHT
+        );
+        canvas.style.width = (GAME_WIDTH * scale) + 'px';
+        canvas.style.height = (GAME_HEIGHT * scale) + 'px';
+    }
+    
+    canvas.width = GAME_WIDTH;
+    canvas.height = GAME_HEIGHT;
+    window.addEventListener('resize', resize);
+    resize();
+    
+    // Test rendering - should see a red square if working
+    ctx.fillStyle = 'red';
+    ctx.fillRect(100, 100, 50, 50);
+    
+    // Add debug output
+    console.log("Canvas dimensions:", canvas.width, canvas.height);
+    console.log("Display dimensions:", canvas.style.width, canvas.style.height);
+}
+
+document.addEventListener('DOMContentLoaded', initTitleScreen);
+        // Show start button after delay
+        setTimeout(() => {
+            startButton.style.opacity = '1';
+            startButton.style.cursor = 'pointer';
+        }, 1500);
+    
+    
+    startButton.addEventListener('click', startGame);
+
+
+function startGame() {
+    console.log("Starting game...");
+    document.getElementById('title-screen').style.display = 'none';
+    const gameContainer = document.getElementById('game-container');
+    gameContainer.style.display = 'block';
+    
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set up responsive canvas
+    function resize() {
+        const scale = Math.min(
+            window.innerWidth / GAME_WIDTH,
+            window.innerHeight / GAME_HEIGHT
+        );
+        canvas.style.width = (GAME_WIDTH * scale) + 'px';
+        canvas.style.height = (GAME_HEIGHT * scale) + 'px';
+    }
+    
+    canvas.width = GAME_WIDTH;
+    canvas.height = GAME_HEIGHT;
+    window.addEventListener('resize', resize);
+    resize();
+    
+    // Test rendering - should see a red square if working
+    ctx.fillStyle = 'red';
+    ctx.fillRect(100, 100, 50, 50);
+    
+    // Add debug output
+    console.log("Canvas dimensions:", canvas.width, canvas.height);
+    console.log("Display dimensions:", canvas.style.width, canvas.style.height);
+}
+
+document.addEventListener('DOMContentLoaded', initTitleScreen);
         
         // Show start button after animation
         setTimeout(() => {
             startButton.style.opacity = '1';
             startButton.style.cursor = 'pointer';
         }, 3500);
-    };
+    
     
     // Start game button
     startButton.addEventListener('click', function() {
@@ -39,7 +155,7 @@ function initTitleScreen() {
         // Initialize your game
         initGame();
     });
-}
+
 
 // Initialize title screen when DOM is loaded
 document.addEventListener('DOMContentLoaded', initTitleScreen);
