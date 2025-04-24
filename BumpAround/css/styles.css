@@ -156,3 +156,66 @@ canvas {
   image-rendering: pixelated;
   image-rendering: crisp-edges;
 }
+
+body {
+  margin: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+#title-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #222;
+}
+
+#title-canvas {
+  border: 2px solid white;
+  margin-bottom: 20px;
+}
+
+#start-button {
+  padding: 10px 30px;
+  font-size: 24px;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+#game-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#game-canvas {
+  display: block;
+  background: #f0f0f0;
+}
+
+#score-display, #timer {
+  position: absolute;
+  top: 10px;
+  font-size: 24px;
+  color: black;
+  padding: 5px 10px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 5px;
+}
+
+#score-display {
+  left: 10px;
+}
+
+#timer {
+  right: 10px;
+}
