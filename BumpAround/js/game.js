@@ -10,7 +10,7 @@ function initTitleScreen() {
     
     // Initialize Chromata
     var imageElement = new Image();
-    imageElement.src = '../img/bumparound.jpg';
+    imageElement.src = './img/bumparound.jpg';
     
     imageElement.onload = function() {
         var chromata = new Chromata(titleCanvas, imageElement);
