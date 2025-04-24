@@ -4,8 +4,6 @@ if (imageElement) {
     var chromata = new Chromata(imageElement);
     chromata.start();
 }
-canvas = document.getElementById('game-canvas');
-ctx = canvas.getContext('2d');
 
 // Game Constants
 const CANVAS_WIDTH = 1600;
