@@ -1,9 +1,49 @@
-// Game Initialization
-var imageElement = document.querySelector('./img/bumparound.jpg');
-if (imageElement) {
-    var chromata = new Chromata(imageElement);
-    chromata.start();
+// TITLE SCREEN SETUP
+function initTitleScreen() {
+    const titleCanvas = document.getElementById('title-canvas');
+    const startButton = document.getElementById('start-button');
+    const gameContainer = document.getElementById('game-container');
+    
+    // Set canvas size
+    titleCanvas.width = 800;
+    titleCanvas.height = 400;
+    
+    // Initialize Chromata
+    var imageElement = new Image();
+    imageElement.src = './img/bumparound.jpg';
+    
+    imageElement.onload = function() {
+        var chromata = new Chromata(titleCanvas, imageElement);
+        chromata.start({
+            particleSize: 2,
+            particleGap: 1,
+            animationDuration: 3000,
+            animationType: 'random'
+        });
+        
+        // Show start button after animation
+        setTimeout(() => {
+            startButton.style.opacity = '1';
+            startButton.style.cursor = 'pointer';
+        }, 3500);
+    };
+    
+    // Start game button
+    startButton.addEventListener('click', function() {
+        // Hide title screen
+        document.getElementById('title-screen').style.display = 'none';
+        
+        // Show game container
+        gameContainer.style.display = 'block';
+        
+        // Initialize your game
+        initGame();
+    });
 }
+
+// Initialize title screen when DOM is loaded
+document.addEventListener('DOMContentLoaded', initTitleScreen);
+
 
 // Game Constants
 const CANVAS_WIDTH = 1600;
@@ -307,21 +347,70 @@ class Collectible extends GameObject {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function generateObstacles() {
+    const obstacleTypes = ['tree', 'rock', 'pond', 'fence', 'house', 'lava'];
+    obstacles = [];
+    
+    for (let i = 0; i < 20; i++) {
+      const type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+      obstacles.push(new Obstacle(
+        Math.random() * (CANVAS_WIDTH - 100),
+        Math.random() * (CANVAS_HEIGHT - 100),
+        40 + Math.random() * 60,
+        40 + Math.random() * 60,
+        type
+      ));
+    }
+  }
+  
+  function generateCollectibles() {
+    const collectibleTypes = ['coin', 'gem', 'star', 'diamond', 'crown', 'fireboots'];
+    collectibles = [];
+    
+    for (let i = 0; i < 15; i++) {
+      const type = collectibleTypes[Math.floor(Math.random() * collectibleTypes.length)];
+      collectibles.push(new Collectible(
+        Math.random() * (CANVAS_WIDTH - 30),
+        Math.random() * (CANVAS_HEIGHT - 30),
+        20,
+        20,
+        type,
+        SCORE_INCREMENT
+      ));
+    }
+  }
+  
+  function updateScore() {
+    document.getElementById('score-display').textContent = `Score: ${score}`;
+  }
+  
+  function updateTimer() {
+    const elapsed = Date.now() - phaseStartTime;
+    timeLeft = LEVELS[currentPhase].timeLimit - elapsed;
+    
+    if (timeLeft <= 10000 && !timeWarningPlayed) {
+      if (sounds.warning) sounds.warning.play();
+      timeWarningPlayed = true;
+    }
+    
+    document.getElementById('timer').textContent = `Time: ${Math.ceil(timeLeft/1000)}s`;
+  }
+  
+  function advanceLevel() {
+    currentPhase++;
+    phaseCollected = 0;
+    phaseStartTime = Date.now();
+    timeWarningPlayed = false;
+    
+    if (currentPhase > Object.keys(LEVELS).length) {
+      // Game win condition
+      endGame(true);
+      return;
+    }
+    
+    if (sounds.phase) sounds.phase.play();
+    generateCollectibles();
+  }
 
 
 
@@ -556,3 +645,43 @@ class Boss {
         );
     }
 }
+function initGame() {
+    canvas = document.getElementById('game-canvas');
+    ctx = canvas.getContext('2d');
+  window.addEventListener('keydown', (e) => keys[e.key] = true);
+window.addEventListener('keyup', (e) => keys[e.key] = false);
+    // Set canvas size
+    canvas.width = CANVAS_WIDTH;
+    canvas.height = CANVAS_HEIGHT;
+    
+    // Initialize game objects
+    player = new Player(CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+    generateObstacles();
+    generateCollectibles();
+    phaseStartTime = Date.now();
+    
+    // Start game loop
+    gameLoop();
+  }
+  
+  function gameLoop() {
+    // Clear canvas
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    
+    // Update and draw game objects
+    player.update();
+    player.draw();
+    
+    obstacles.forEach(obstacle => {
+      obstacle.update();
+      obstacle.draw();
+    });
+    
+    collectibles.forEach(collectible => collectible.draw());
+    
+    // Update timer and check phase completion
+    updateTimer();
+    
+    // Continue loop
+    requestAnimationFrame(gameLoop);
+  }
