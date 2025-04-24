@@ -1,11 +1,51 @@
-// Game Initialization
-var imageElement = document.querySelector('./img/bumparound.jpg');
-if (imageElement) {
-    var chromata = new Chromata(imageElement);
-    chromata.start();
+/ ======================
+// TITLE SCREEN SETUP
+// ======================
+function initTitleScreen() {
+    const titleCanvas = document.getElementById('title-canvas');
+    const startButton = document.getElementById('start-button');
+    const gameContainer = document.getElementById('game-container');
+    
+    // Set canvas size
+    titleCanvas.width = 800;
+    titleCanvas.height = 400;
+    
+    // Initialize Chromata
+    var imageElement = new Image();
+    imageElement.src = './img/bumparound.jpg';
+    
+    imageElement.onload = function() {
+        var chromata = new Chromata(titleCanvas, imageElement);
+        chromata.start({
+            particleSize: 2,
+            particleGap: 1,
+            animationDuration: 3000,
+            animationType: 'random'
+        });
+        
+        // Show start button after animation
+        setTimeout(() => {
+            startButton.style.opacity = '1';
+            startButton.style.cursor = 'pointer';
+        }, 3500);
+    };
+    
+    // Start game button
+    startButton.addEventListener('click', function() {
+        // Hide title screen
+        document.getElementById('title-screen').style.display = 'none';
+        
+        // Show game container
+        gameContainer.style.display = 'block';
+        
+        // Initialize your game
+        initGame();
+    });
 }
-canvas = document.getElementById('game-canvas');
-ctx = canvas.getContext('2d');
+
+// Initialize title screen when DOM is loaded
+document.addEventListener('DOMContentLoaded', initTitleScreen);
+
 
 // Game Constants
 const CANVAS_WIDTH = 1600;
