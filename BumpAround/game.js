@@ -508,8 +508,8 @@ async function loadObstacles() {
         
         return newObstacles;
     }
+}
 
-    try {
         // Try to load from JSON first
         const response = await fetch('obstacles.json');
         const data = await response.json();
@@ -872,5 +872,5 @@ playSound(sounds.bumpWarning); // For collisions
     setupControls();
     gameLoop();
 }
-
+    
 window.onload = initGame;
