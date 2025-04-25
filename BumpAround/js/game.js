@@ -1,199 +1,167 @@
+// Global elements - moved after DOMContentLoaded to ensure they exist
+let startButton, titleCanvas, gameCanvas;
+
 // Game Constants
 const GAME_WIDTH = 1200;
 const GAME_HEIGHT = 800;
+const CANVAS_WIDTH = 1600;
+const CANVAS_HEIGHT = 1200;
+// ... (keep other constants the same) ...
 
-function initTitleScreen() {
-    const titleCanvas = document.getElementById('title-canvas');
-    const startButton = document.getElementById('start-button');
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Get elements after DOM loads
+    startButton = document.getElementById('start-button');
+    titleCanvas = document.getElementById('title-canvas');
+    gameCanvas = document.getElementById('game-canvas');
+
+    // Initialize title screen
+    initTitleScreen();
     
-    // Set reasonable title screen size
+    // Set up start button
+    startButton.addEventListener('click', startGame);
+});
+
+// Title Screen Initialization
+function initTitleScreen() {
+    // Set title screen size
     titleCanvas.width = 800;
     titleCanvas.height = 450;
     
-    // Chromata initialization with proper error handling
-    const img = new Image();
-    img.src = './img/bumparound.jpg'; // Make sure this path is correct
+    // Simple title screen rendering
+    const ctx = titleCanvas.getContext('2d');
+    ctx.fillStyle = '#222';
+    ctx.fillRect(0, 0, titleCanvas.width, titleCanvas.height);
+    ctx.fillStyle = '#fff';
+    ctx.font = '30px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('BUMP AROUND', titleCanvas.width/2, titleCanvas.height/2);
     
-    img.onerror = () => {
-        console.error("Title image failed to load!");
-        const ctx = titleCanvas.getContext('2d');
-        ctx.fillStyle = '#222';
-        ctx.fillRect(0, 0, titleCanvas.width, titleCanvas.height);
-        ctx.fillStyle = '#fff';
-        ctx.font = '30px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText('BUMP AROUND', titleCanvas.width/2, titleCanvas.height/2);
-        startButton.style.opacity = 1;
-    };
-    
-    img.onload = () => {
-        try {
-            const chromata = new Chromata(titleCanvas, img);
-            chromata.start({
-                particleSize: 2,
-                particleGap: 1,
-                animationDuration: 3000,
-                animationType: 'random'
-            });
-            
-            // Fallback check in case Chromata silently fails
-            setTimeout(() => {
-                if (!document.querySelector('.chromata-particle')) {
-                    throw new Error("Chromata particles not detected");
-                }
-            }, 500);
-        } catch (e) {
-            console.warn("Chromata failed, using fallback:", e);
-            const ctx = titleCanvas.getContext('2d');
-            ctx.drawImage(img, 0, 0, titleCanvas.width, titleCanvas.height);
-        }
-        
-        // Show start button after delay
-        setTimeout(() => {
-            startButton.style.opacity = '1';
-            startButton.style.cursor = 'pointer';
-        }, 1500);
-    };
-    
-    startButton.addEventListener('click', startGame);
+    // Show start button
+    startButton.style.opacity = '1';
+    startButton.style.cursor = 'pointer';
 }
 
+// Start Game Function
+function startGame() {// Global elements - moved after DOMContentLoaded to ensure they exist
+let startButton, titleCanvas, gameCanvas;
+
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    // Get elements after DOM loads
+    startButton = document.getElementById('start-button');
+    titleCanvas = document.getElementById('title-canvas');
+    gameCanvas = document.getElementById('game-canvas');
+
+    // Initialize title screen
+    initTitleScreen();
+    
+    // Set up start button
+    startButton.addEventListener('click', startGame);
+});
+
+// Title Screen Initialization
+function initTitleScreen() {
+    // Set title screen size
+    titleCanvas.width = 800;
+    titleCanvas.height = 450;
+    
+    // Simple title screen rendering
+    const ctx = titleCanvas.getContext('2d');
+    ctx.fillStyle = '#222';
+    ctx.fillRect(0, 0, titleCanvas.width, titleCanvas.height);
+    ctx.fillStyle = '#fff';
+    ctx.font = '30px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('BUMP AROUND', titleCanvas.width/2, titleCanvas.height/2);
+    
+    // Show start button
+    startButton.style.opacity = '1';
+    startButton.style.cursor = 'pointer';
+}
+
+// Start Game Function
 function startGame() {
     console.log("Starting game...");
     document.getElementById('title-screen').style.display = 'none';
-    const gameContainer = document.getElementById('game-container');
-    gameContainer.style.display = 'block';
-    
-    const canvas = document.getElementById('game-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    // Set up responsive canvas
-    function resize() {
-        const scale = Math.min(
-            window.innerWidth / GAME_WIDTH,
-            window.innerHeight / GAME_HEIGHT
-        );
-        canvas.style.width = (GAME_WIDTH * scale) + 'px';
-        canvas.style.height = (GAME_HEIGHT * scale) + 'px';
-    }
-    
-    canvas.width = GAME_WIDTH;
-    canvas.height = GAME_HEIGHT;
-    window.addEventListener('resize', resize);
-    resize();
-    
-    // Test rendering - should see a red square if working
-    ctx.fillStyle = 'red';
-    ctx.fillRect(100, 100, 50, 50);
-    
-    // Add debug output
-    console.log("Canvas dimensions:", canvas.width, canvas.height);
-    console.log("Display dimensions:", canvas.style.width, canvas.style.height);
+    document.getElementById('game-container').style.display = 'block';
+    initGame();
 }
-
-document.addEventListener('DOMContentLoaded', initTitleScreen);
-        // Show start button after delay
-        setTimeout(() => {
-            startButton.style.opacity = '1';
-            startButton.style.cursor = 'pointer';
-        }, 1500);
-    
-    
-    startButton.addEventListener('click', startGame);
-
-
-function startGame() {
     console.log("Starting game...");
     document.getElementById('title-screen').style.display = 'none';
-    const gameContainer = document.getElementById('game-container');
-    gameContainer.style.display = 'block';
-    
-    const canvas = document.getElementById('game-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    // Set up responsive canvas
-    function resize() {
-        const scale = Math.min(
-            window.innerWidth / GAME_WIDTH,
-            window.innerHeight / GAME_HEIGHT
-        );
-        canvas.style.width = (GAME_WIDTH * scale) + 'px';
-        canvas.style.height = (GAME_HEIGHT * scale) + 'px';
-    }
-    
-    canvas.width = GAME_WIDTH;
-    canvas.height = GAME_HEIGHT;
-    window.addEventListener('resize', resize);
-    resize();
-    
-    // Test rendering - should see a red square if working
-    ctx.fillStyle = 'red';
-    ctx.fillRect(100, 100, 50, 50);
-    
-    // Add debug output
-    console.log("Canvas dimensions:", canvas.width, canvas.height);
-    console.log("Display dimensions:", canvas.style.width, canvas.style.height);
-}
+    document.getElementById('game-container').style.display = 'block';
+    initGame();
 
-document.addEventListener('DOMContentLoaded', initTitleScreen);
-        
-        // Show start button after animation
-        setTimeout(() => {
-            startButton.style.opacity = '1';
-            startButton.style.cursor = 'pointer';
-        }, 3500);
-    
-    
-    // Start game button
-    startButton.addEventListener('click', function() {
-        // Hide title screen
-        document.getElementById('title-screen').style.display = 'none';
-        
-        // Show game container
-        gameContainer.style.display = 'block';
-        
-        // Initialize your game
-        initGame();
-    });
-
-
-// Initialize title screen when DOM is loaded
-document.addEventListener('DOMContentLoaded', initTitleScreen);
 
 
 // Game Constants
+const GAME_WIDTH = 1200;
+const GAME_HEIGHT = 800;
 const CANVAS_WIDTH = 1600;
 const CANVAS_HEIGHT = 1200;
 const PLAYER_SIZE = 60;
 const SCORE_INCREMENT = 10;
+const PHASE1_COUNT = 5;
+const PHASE_TIME_LIMIT = 60000;
 const OBSTACLE_PENALTY = 5;
 const COLLECTIBLE_BASE_SPEED = 0.4;
 const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
-
-const LEVELS = {
-    1: { collectiblesRequired: 5, timeLimit: 60000 },
-    2: { collectiblesRequired: 5, timeLimit: 45000 },
-    3: { collectiblesRequired: 8, timeLimit: 40000 },
-    4: { collectiblesRequired: 10, timeLimit: 35000 },
-    5: { collectiblesRequired: 15, timeLimit: 30000 }
-};
+const PHASE2_COUNT = 5;
 
 // Game Variables
 let canvas, ctx;
 let obstacles = [];
 let collectibles = [];
-let player, mirrorPlayer, boss;
+let player;
 let keys = {};
 let score = 0;
 let currentPhase = 1;
-let phaseCollected = 0;
+let phase1Collected = 0;
 let phaseStartTime;
 let timeLeft;
 let timeWarningPlayed = false;
 let scale = 1;
 let canvasOffsetX = 0;
 let canvasOffsetY = 0;
+
+
+
+// Title Screen Initialization
+function initTitleScreen() {
+    // Set title screen size
+    titleCanvas.width = 800;
+    titleCanvas.height = 450;
+    
+    // Simple title screen rendering
+    const ctx = titleCanvas.getContext('2d');
+    ctx.fillStyle = '#222';
+    ctx.fillRect(0, 0, titleCanvas.width, titleCanvas.height);
+    ctx.fillStyle = '#fff';
+    ctx.font = '30px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('BUMP AROUND', titleCanvas.width/2, titleCanvas.height/2);
+    
+    // Show start button after delay
+    setTimeout(() => {
+        startButton.style.opacity = '1';
+        startButton.style.cursor = 'pointer';
+    }, 1500);
+}
+
+// Start Game Function
+function startGame() {
+    console.log("Starting game...");
+    document.getElementById('title-screen').style.display = 'none';
+    document.getElementById('game-container').style.display = 'block';
+    initGame();
+}
+
+// Initialize event listeners
+startButton.addEventListener('click', startGame);
+document.addEventListener('DOMContentLoaded', initTitleScreen);
+
 
 // Sound objects
 const sounds = {
@@ -203,7 +171,49 @@ const sounds = {
     obstacle: null
 };
 
-// Base Game Object Class
+async function initGame() {
+    // Initialize game canvas
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = CANVAS_WIDTH;
+    canvas.height = CANVAS_HEIGHT;
+    
+    // Create UI elements if they don't exist
+    if (!document.getElementById('debug-info')) {
+        const debugInfo = document.createElement('div');
+        debugInfo.id = 'debug-info';
+        debugInfo.style.position = 'absolute';
+        debugInfo.style.top = '10px';
+        debugInfo.style.left = '10px';
+        debugInfo.style.color = 'white';
+        document.body.appendChild(debugInfo);
+    }
+    
+    if (!document.getElementById('score-display')) {
+        const scoreDisplay = document.createElement('div');
+        scoreDisplay.id = 'score-display';
+        scoreDisplay.style.position = 'absolute';
+        scoreDisplay.style.top = '10px';
+        scoreDisplay.style.right = '10px';
+        scoreDisplay.style.color = 'white';
+        document.body.appendChild(scoreDisplay);
+    }
+
+    // Load game assets
+    await Promise.all([loadObstacles(), loadCollectibles()]);
+    
+    // Initialize player
+    player = new Player(50, 50);
+    phaseStartTime = Date.now();
+    
+    // Set up controls
+    setupControls();
+    
+    // Start game loop
+    gameLoop();
+}
+
+// Game Classes
 class GameObject {
     constructor(x, y, width, height, type) {
         this.x = x;
@@ -211,6 +221,11 @@ class GameObject {
         this.width = width;
         this.height = height;
         this.type = type;
+    }
+
+    draw() {
+        ctx.fillStyle = 'gray';
+        ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
     collidesWith(other) {
@@ -221,12 +236,10 @@ class GameObject {
     }
 }
 
-// Obstacle Class
 class Obstacle extends GameObject {
     constructor(x, y, width, height, type) {
         super(x, y, width, height, type);
         this.color = this.getRandomVariantColor(type);
-        this.moveY = type === 'lava' ? -0.3 : 0;
     }
 
     getRandomVariantColor(type) {
@@ -235,60 +248,39 @@ class Obstacle extends GameObject {
             'rock': ['#696969', '#808080', '#A9A9A9', '#778899', '#708090'],
             'pond': ['#1E90FF', '#00BFFF', '#87CEFA', '#4682B4', '#5F9EA0'],
             'fence': ['#8B4513', '#A0522D', '#D2691E', '#CD853F', '#B8860B'],
-            'house': ['#CD5C5C', '#DC143C', '#B22222', '#8B0000', '#FF0000'],
-            'lava': ['#FF4500']
+            'house': ['#CD5C5C', '#DC143C', '#B22222', '#8B0000', '#FF0000']
         };
-        return colorVariations[type]?.[Math.floor(Math.random() * colorVariations[type].length)] || '#A9A9A9';
-    }
-
-    createLavaPattern() {
-        const patternCanvas = document.createElement('canvas');
-        const pctx = patternCanvas.getContext('2d');
-        patternCanvas.width = 50;
-        patternCanvas.height = 50;
         
-        pctx.fillStyle = '#FF4500';
-        pctx.fillRect(0, 0, 50, 50);
-        pctx.fillStyle = '#FF8C00';
-        pctx.beginPath();
-        pctx.arc(25, 25, 15, 0, Math.PI * 2);
-        pctx.fill();
-        
-        return ctx.createPattern(patternCanvas, 'repeat');
-    }
-
-    update() {
-        if (this.type === 'lava') {
-            this.y += this.moveY;
-            if (this.y < CANVAS_HEIGHT * 0.6) this.moveY *= -1;
-        }
+        const variants = colorVariations[type] || ['#A9A9A9'];
+        return variants[Math.floor(Math.random() * variants.length)];
     }
 
     draw() {
-        if (this.type === 'lava') {
-            ctx.fillStyle = this.createLavaPattern();
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-        } else {
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            
-            ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
-            ctx.lineWidth = 2;
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
-            ctx.shadowBlur = 5;
-            ctx.strokeRect(this.x, this.y, this.width, this.height);
-            ctx.shadowBlur = 0;
-            
-            this.addObstacleDetails();
-        }
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.lineWidth = 2;
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+        ctx.shadowBlur = 5;
+        ctx.strokeRect(this.x, this.y, this.width, this.height);
+        ctx.shadowBlur = 0;
+        
+        this.addObstacleDetails();
     }
 
     addObstacleDetails() {
         switch(this.type) {
             case 'tree':
                 ctx.fillStyle = '#5D4037';
-                ctx.fillRect(this.x + this.width/2 - 5, this.y + this.height - 20, 10, 20);
+                ctx.fillRect(
+                    this.x + this.width/2 - 5, 
+                    this.y + this.height - 20, 
+                    10, 
+                    20
+                );
                 break;
+                
             case 'house':
                 ctx.fillStyle = '#8B0000';
                 ctx.beginPath();
@@ -299,20 +291,30 @@ class Obstacle extends GameObject {
                 ctx.fill();
                 
                 ctx.fillStyle = '#5D4037';
-                ctx.fillRect(this.x + this.width/2 - 15, this.y + this.height - 40, 30, 40);
+                ctx.fillRect(
+                    this.x + this.width/2 - 15,
+                    this.y + this.height - 40,
+                    30,
+                    40
+                );
                 break;
+                
             case 'fence':
                 ctx.fillStyle = '#5D4037';
                 const postCount = Math.floor(this.width / 30);
                 for (let i = 0; i < postCount; i++) {
-                    ctx.fillRect(this.x + (i * (this.width/postCount)) + 5, this.y, 5, this.height);
+                    ctx.fillRect(
+                        this.x + (i * (this.width/postCount)) + 5,
+                        this.y,
+                        5,
+                        this.height
+                    );
                 }
                 break;
         }
     }
 }
 
-// Collectible Class
 class Collectible extends GameObject {
     constructor(x, y, width, height, type, value, phase = 1) {
         super(x, y, width, height, type);
@@ -320,20 +322,23 @@ class Collectible extends GameObject {
         this.collected = false;
         this.phase = phase;
         this.direction = Math.random() * Math.PI * 2;
-        this.speed = COLLECTIBLE_BASE_SPEED + (value / 40);
+        this.speed = COLLECTIBLE_BASE_SPEED + (value / 40); // Higher value = faster
         this.bounceCount = 0;
     }
 
     update() {
         if (this.collected) return;
         
+        // Random direction changes (more frequent when bouncing)
         if (Math.random() < (this.bounceCount > 0 ? 0.1 : 0.05)) {
             this.direction += (Math.random() - 0.5) * Math.PI/2;
         }
         
+        // Move in current direction
         this.x += Math.cos(this.direction) * this.speed;
         this.y += Math.sin(this.direction) * this.speed;
         
+        // Bounce off walls with direction change
         let bounced = false;
         if (this.x < 0) {
             this.x = 0;
@@ -356,12 +361,15 @@ class Collectible extends GameObject {
             bounced = true;
         }
         
-        if (bounced) this.bounceCount = 5;
-        else if (this.bounceCount > 0) this.bounceCount--;
+        if (bounced) {
+            this.bounceCount = 5; // Temporary speed boost after bouncing
+        } else if (this.bounceCount > 0) {
+            this.bounceCount--;
+        }
     }
 
     draw() {
-        this.update();
+        this.update(); // Update position before drawing
         if (this.collected || this.phase > currentPhase) return;
         
         const colors = {
@@ -369,8 +377,7 @@ class Collectible extends GameObject {
             'gem': '#FF1493',
             'star': '#00BFFF',
             'diamond': '#00FF7F',
-            'crown': '#9370DB',
-            'fireboots': '#FF4500' 
+            'crown': '#9370DB'
         };
         
         ctx.fillStyle = colors[this.type] || '#FFFF00';
@@ -378,9 +385,16 @@ class Collectible extends GameObject {
         switch(this.type) {
             case 'coin':
                 ctx.beginPath();
-                ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
+                ctx.arc(
+                    this.x + this.width/2,
+                    this.y + this.height/2,
+                    this.width/2,
+                    0,
+                    Math.PI * 2
+                );
                 ctx.fill();
                 break;
+                
             case 'gem':
                 ctx.beginPath();
                 ctx.moveTo(this.x + this.width/2, this.y);
@@ -390,9 +404,18 @@ class Collectible extends GameObject {
                 ctx.closePath();
                 ctx.fill();
                 break;
+                
             case 'star':
-                this.drawStar();
+                drawStar(
+                    ctx,
+                    this.x + this.width/2,
+                    this.y + this.height/2,
+                    5,
+                    this.width/2,
+                    this.width/4
+                );
                 break;
+                
             case 'diamond':
                 ctx.beginPath();
                 ctx.moveTo(this.x + this.width/2, this.y);
@@ -402,6 +425,7 @@ class Collectible extends GameObject {
                 ctx.closePath();
                 ctx.fill();
                 break;
+                
             case 'crown':
                 ctx.beginPath();
                 ctx.moveTo(this.x + 10, this.y + this.height - 10);
@@ -410,171 +434,35 @@ class Collectible extends GameObject {
                 ctx.lineTo(this.x + 10, this.y + this.height - 10);
                 ctx.fill();
                 break;
-            case 'fireboots':
-                ctx.beginPath();
-                ctx.roundRect(this.x, this.y + this.height/2, this.width, this.height/2, 5);
-                ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2.5, Math.PI, 0);
-                ctx.fill();
-                break;
+                
             default:
                 ctx.fillRect(this.x, this.y, this.width, this.height);
         }
     }
-
-    drawStar() {
-        const spikes = 5;
-        const outerRadius = this.width/2;
-        const innerRadius = this.width/4;
-        const cx = this.x + this.width/2;
-        const cy = this.y + this.height/2;
-        
-        let rot = Math.PI/2 * 3;
-        ctx.beginPath();
-        ctx.moveTo(cx, cy - outerRadius);
-        
-        for(let i = 0; i < spikes; i++) {
-            const x = cx + Math.cos(rot) * outerRadius;
-            const y = cy + Math.sin(rot) * outerRadius;
-            ctx.lineTo(x, y);
-            rot += Math.PI / spikes;
-            
-            ctx.lineTo(
-                cx + Math.cos(rot) * innerRadius,
-                cy + Math.sin(rot) * innerRadius
-            );
-            rot += Math.PI / spikes;
-        }
-        
-        ctx.closePath();
-        ctx.fill();
-    }
-
-    applyEffect() {
-        switch(this.type) {
-            case 'fireboots':
-                player.speed *= 1.5;
-                setTimeout(() => player.speed /= 1.5, 10000);
-                break;
-            case 'mirror':
-                // Mirror dimension activation
-                break;
-        }
-    }
 }
 
-
-function generateObstacles() {
-    console.log("Generating obstacles..."); // Debug line
-    const obstacleTypes = ['tree', 'rock', 'pond', 'fence', 'house', 'lava'];
-    obstacles = [];
-    
-    for (let i = 0; i < 20; i++) {
-        const type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
-        obstacles.push(new Obstacle(
-            Math.random() * (CANVAS_WIDTH - 100),
-            Math.random() * (CANVAS_HEIGHT - 100),
-            40 + Math.random() * 60,
-            40 + Math.random() * 60,
-            type
-        ));
-    }
-    console.log(`Generated ${obstacles.length} obstacles`); // Debug line
-}
-
-function generateCollectibles() {
-    console.log("Generating collectibles..."); // Debug line
-    const collectibleTypes = ['coin', 'gem', 'star', 'diamond', 'crown', 'fireboots'];
-    collectibles = [];
-    
-    for (let i = 0; i < 15; i++) {
-        const type = collectibleTypes[Math.floor(Math.random() * collectibleTypes.length)];
-        collectibles.push(new Collectible(
-            Math.random() * (CANVAS_WIDTH - 30),
-            Math.random() * (CANVAS_HEIGHT - 30),
-            20,
-            20,
-            type,
-            SCORE_INCREMENT
-        ));
-    }
-    console.log(`Generated ${collectibles.length} collectibles`); // Debug line
-}
-
-  
-  function generateCollectibles() {
-    const collectibleTypes = ['coin', 'gem', 'star', 'diamond', 'crown', 'fireboots'];
-    collectibles = [];
-    
-    for (let i = 0; i < 15; i++) {
-      const type = collectibleTypes[Math.floor(Math.random() * collectibleTypes.length)];
-      collectibles.push(new Collectible(
-        Math.random() * (CANVAS_WIDTH - 30),
-        Math.random() * (CANVAS_HEIGHT - 30),
-        20,
-        20,
-        type,
-        SCORE_INCREMENT
-      ));
-    }
-  }
-  
-  function updateScore() {
-    document.getElementById('score-display').textContent = `Score: ${score}`;
-  }
-  
-  function updateTimer() {
-    const elapsed = Date.now() - phaseStartTime;
-    timeLeft = LEVELS[currentPhase].timeLimit - elapsed;
-    
-    if (timeLeft <= 10000 && !timeWarningPlayed) {
-      if (sounds.warning) sounds.warning.play();
-      timeWarningPlayed = true;
-    }
-    
-    document.getElementById('timer').textContent = `Time: ${Math.ceil(timeLeft/1000)}s`;
-  }
-  
-  function advanceLevel() {
-    currentPhase++;
-    phaseCollected = 0;
-    phaseStartTime = Date.now();
-    timeWarningPlayed = false;
-    
-    if (currentPhase > Object.keys(LEVELS).length) {
-      // Game win condition
-      endGame(true);
-      return;
-    }
-    
-    if (sounds.phase) sounds.phase.play();
-    generateCollectibles();
-  }
-
-
-
-
-
-// Star Drawing Utility Function
 function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
     let rot = Math.PI/2 * 3;
-    const step = Math.PI / spikes;
-    
+    let x = cx;
+    let y = cy;
+    let step = Math.PI / spikes;
+
     ctx.beginPath();
     ctx.moveTo(cx, cy - outerRadius);
     
     for(let i = 0; i < spikes; i++) {
+        x = cx + Math.cos(rot) * outerRadius;
+        y = cy + Math.sin(rot) * outerRadius;
+        ctx.lineTo(x, y);
         rot += step;
-        ctx.lineTo(
-            cx + Math.cos(rot) * outerRadius,
-            cy + Math.sin(rot) * outerRadius
-        );
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        ctx.lineTo(x, y);
         rot += step;
-        ctx.lineTo(
-            cx + Math.cos(rot) * innerRadius,
-            cy + Math.sin(rot) * innerRadius
-        );
     }
     
+    ctx.lineTo(cx, cy - outerRadius);
     ctx.closePath();
     ctx.fill();
 }
@@ -590,7 +478,6 @@ class Player extends GameObject {
     }
 
     draw() {
-        // Draw player body
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(
@@ -602,7 +489,6 @@ class Player extends GameObject {
         );
         ctx.fill();
         
-        // Draw player eye
         ctx.fillStyle = 'white';
         ctx.beginPath();
         ctx.arc(
@@ -615,33 +501,6 @@ class Player extends GameObject {
         ctx.fill();
     }
 
-    update() {
-        // Movement calculations
-        let dx = 0, dy = 0;
-        if (keys.ArrowUp || keys.w) dy -= this.speed;
-        if (keys.ArrowDown || keys.s) dy += this.speed;
-        if (keys.ArrowLeft || keys.a) dx -= this.speed;
-        if (keys.ArrowRight || keys.d) dx += this.speed;
-
-        // Normalize diagonal movement
-        if (dx !== 0 && dy !== 0) {
-            dx *= 0.7071;
-            dy *= 0.7071;
-        }
-
-        // Update position
-        this.x += dx;
-        this.y += dy;
-
-        // Boundary checking
-        this.x = Math.max(0, Math.min(CANVAS_WIDTH - this.width, this.x));
-        this.y = Math.max(0, Math.min(CANVAS_HEIGHT - this.height, this.y));
-
-        // Check for collisions
-        this.checkCollectibles();
-    }
-
-     
     flash() {
         this.color = this.hitColor;
         if (this.flashTimeout) clearTimeout(this.flashTimeout);
@@ -651,24 +510,22 @@ class Player extends GameObject {
     }
 
     update() {
-        // Handle movement input
         let dx = 0, dy = 0;
+        
         if (keys.ArrowUp) dy -= this.speed;
         if (keys.ArrowDown) dy += this.speed;
         if (keys.ArrowLeft) dx -= this.speed;
         if (keys.ArrowRight) dx += this.speed;
         
-        // Diagonal movement normalization
         if (dx !== 0 && dy !== 0) {
-            dx *= 0.7071; // 1/sqrt(2)
+            dx *= 0.7071;
             dy *= 0.7071;
         }
         
-        // Calculate new position
         const newX = this.x + dx;
         const newY = this.y + dy;
+        const tempPlayer = new Player(newX, newY);
         
-        // Check boundaries and collisions
         const withinBounds = 
             newX >= 0 && 
             newX <= CANVAS_WIDTH - this.width &&
@@ -679,7 +536,6 @@ class Player extends GameObject {
         let hitObstacle = false;
         
         if (canMove) {
-            const tempPlayer = new Player(newX, newY);
             for (const obstacle of obstacles) {
                 if (tempPlayer.collidesWith(obstacle)) {
                     canMove = false;
@@ -689,39 +545,23 @@ class Player extends GameObject {
             }
         }
         
-        // Apply movement or collision response
         if (canMove) {
             this.x = newX;
             this.y = newY;
             this.checkCollectibles();
-            
-            // Mirror player logic for phase 4
-            if (currentPhase === 4) {
-                if (!mirrorPlayer) {
-                    mirrorPlayer = new Player(0, 0);
-                    mirrorPlayer.color = 'rgba(255, 0, 0, 0.5)';
-                }
-                mirrorPlayer.x = CANVAS_WIDTH - this.x;
-                mirrorPlayer.y = CANVAS_HEIGHT - this.y;
-                mirrorPlayer.draw();
-            }
         } else if (hitObstacle) {
-            this.handleObstacleCollision(dx, dy);
+            // Apply penalty and effects
+            score = Math.max(0, score - OBSTACLE_PENALTY);
+            updateScore();
+            
+            // Knockback effect
+            this.x -= dx * KNOCKBACK_FORCE;
+            this.y -= dy * KNOCKBACK_FORCE;
+            
+            // Visual feedback
+            this.flash();
+            if (sounds.obstacle) sounds.obstacle.play();
         }
-    }
-    
-    handleObstacleCollision(dx, dy) {
-        // Apply score penalty
-        score = Math.max(0, score - OBSTACLE_PENALTY);
-        updateScore();
-        
-        // Knockback effect
-        this.x -= dx * KNOCKBACK_FORCE;
-        this.y -= dy * KNOCKBACK_FORCE;
-        
-        // Visual feedback
-        this.flash();
-        if (sounds.obstacle) sounds.obstacle.play();
     }
     
     checkCollectibles() {
@@ -731,157 +571,218 @@ class Player extends GameObject {
                 collectible.phase <= currentPhase && 
                 this.collidesWith(collectible)) {
                 
-                this.collectItem(collectible, i);
+                collectible.collected = true;
+                score += collectible.value;
+                
+                if (collectible.phase === 1) {
+                    phase1Collected++;
+                    if (phase1Collected >= PHASE1_COUNT) {
+                        currentPhase = 2;
+                        console.log("Phase 2 unlocked!");
+                        if (sounds.phase) sounds.phase.play();
+                    }
+                }
+                
+                updateScore();
+                if (sounds.collect) sounds.collect.play();
+                collectibles.splice(i, 1);
             }
         }
     }
-    
-    collectItem(collectible, index) {
-        collectible.collected = true;
-        score += collectible.value;
-        
-        // Phase progression
-        if (collectible.phase === currentPhase) {
-            phaseCollected++;
-            if (phaseCollected >= LEVELS[currentPhase].collectiblesRequired) {
-                advanceLevel();
-            }
-        }
-        
-        // Play sound and remove
-        if (sounds.collect) sounds.collect.play();
-        collectibles.splice(index, 1);
-        updateScore();
+}
+
+async function loadObstacles() {
+    try {
+        const response = await fetch('obstacles.json');
+        const data = await response.json();
+        obstacles = data.map(item => new Obstacle(
+            item.x, item.y, item.width, item.height, item.type
+        ));
+    } catch (error) {
+        console.error('Error loading obstacles:', error);
+        obstacles = [
+            new Obstacle(300, 150, 60, 90, 'tree'),
+            new Obstacle(500, 300, 50, 40, 'rock'),
+            new Obstacle(200, 400, 150, 100, 'pond'),
+            new Obstacle(100, 200, 250, 30, 'fence'),
+            new Obstacle(600, 100, 120, 140, 'house')
+        ];
     }
 }
 
-// Boss Class
-class Boss {
-    constructor() {
-        this.size = 120;
-        this.health = 10;
-        this.position = { x: CANVAS_WIDTH/2, y: 100 };
-        this.speed = 2;
-    }
-
-    update() {
-        // Simple chase AI
-        const dx = player.x - this.position.x;
-        const dy = player.y - this.position.y;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-        
-        if (distance > 0) {
-            this.position.x += (dx / distance) * this.speed;
-            this.position.y += (dy / distance) * this.speed;
-        }
-    }
-
-    draw() {
-        // Draw boss body
-        ctx.fillStyle = '#8B0000';
-        ctx.beginPath();
-        ctx.arc(
-            this.position.x, 
-            this.position.y, 
-            this.size/2, 
-            0, 
-            Math.PI * 2
-        );
-        ctx.fill();
-        
-        // Draw health bar
-        const healthWidth = this.size;
-        const healthHeight = 10;
-        ctx.fillStyle = 'red';
-        ctx.fillRect(
-            this.position.x - healthWidth/2,
-            this.position.y - this.size/2 - 15,
-            healthWidth,
-            healthHeight
-        );
-        
-        ctx.fillStyle = 'green';
-        ctx.fillRect(
-            this.position.x - healthWidth/2,
-            this.position.y - this.size/2 - 15,
-            healthWidth * (this.health/10),
-            healthHeight
-        );
+async function loadCollectibles() {
+    try {
+        const response = await fetch('collectibles.json');
+        const data = await response.json();
+        collectibles = data.map(item => new Collectible(
+            item.x, item.y, item.width, item.height, item.type, item.value, item.phase || 1
+        ));
+    } catch (error) {
+        console.error('Error loading collectibles:', error);
+        collectibles = [
+            new Collectible(150, 350, 20, 20, 'coin', 10, 1),
+            new Collectible(400, 250, 25, 25, 'gem', 50, 1),
+            new Collectible(650, 400, 30, 30, 'star', 100, 1),
+            new Collectible(800, 150, 20, 20, 'coin', 10, 1),
+            new Collectible(1000, 300, 25, 25, 'gem', 50, 1),
+            new Collectible(200, 600, 35, 35, 'diamond', 200, 2),
+            new Collectible(500, 700, 40, 40, 'crown', 500, 2),
+            new Collectible(1200, 500, 35, 35, 'diamond', 200, 2),
+            new Collectible(900, 800, 40, 40, 'crown', 500, 2),
+            new Collectible(1300, 200, 30, 30, 'star', 100, 2)
+        ];
     }
 }
-function initGame() {
-    canvas = document.getElementById('game-canvas');
-    ctx = canvas.getContext('2d');
-  window.addEventListener('keydown', (e) => keys[e.key] = true);
-window.addEventListener('keyup', (e) => keys[e.key] = false);
-    // Set canvas size
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
-    
-    // Initialize game objects
-    player = new Player(CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
-    generateObstacles();
-    generateCollectibles();
-    phaseStartTime = Date.now();
-    console.log("Initializing game..."); // Debug line
-    
-    canvas = document.getElementById('game-canvas');
-    ctx = canvas.getContext('2d');
-    
-    // Debug: Test if canvas is working
-    ctx.fillStyle = 'red';
-    ctx.fillRect(50, 50, 100, 100);
-    console.log("Canvas test drawn"); // Debug line
-    
-    // Set canvas size
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
-    
-    // Initialize game objects
-    player = new Player(CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
-    generateObstacles();
-    generateCollectibles();
-    
-    console.log(`Objects generated - Player: ${player}, Obstacles: ${obstacles.length}, Collectibles: ${collectibles.length}`); // Debug line
-    
-    // Set up controls
+
+function setupControls() {
     window.addEventListener('keydown', (e) => {
-        keys[e.key] = true;
-        console.log(`Key pressed: ${e.key}`); // Debug line
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+            keys[e.key] = true;
+        }
     });
     
     window.addEventListener('keyup', (e) => {
-        keys[e.key] = false;
+        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+            keys[e.key] = false;
+        }
     });
-    
-    phaseStartTime = Date.now();
-    gameLoop();
 }
-  
+
+function updateScore() {
+    const scoreElement = document.getElementById('score-display');
+    if (scoreElement) scoreElement.textContent = `Score: ${score}`;
+}
+
+function updateDebugInfo() {
+    const debugElement = document.getElementById('debug-info');
+    if (debugElement) {
+        timeLeft = PHASE_TIME_LIMIT - (Date.now() - phaseStartTime);
+        if (timeLeft < 0) timeLeft = 0;
+        
+        if (timeLeft < 10000 && !timeWarningPlayed) {
+            if (sounds.warning) sounds.warning.play();
+            timeWarningPlayed = true;
+        }
+        
+        const minutes = Math.floor(timeLeft / 60000);
+        const seconds = Math.floor((timeLeft % 60000) / 1000);
+        
+        debugElement.innerHTML = `
+            Phase: ${currentPhase}<br>
+            Phase 1: ${phase1Collected}/${PHASE1_COUNT}<br>
+            Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}<br>
+            Score: ${score}
+        `;
+    }
+}
+
+function resizeCanvas() {
+    const container = document.getElementById('game-container');
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    
+    const scaleX = containerWidth / CANVAS_WIDTH;
+    const scaleY = containerHeight / CANVAS_HEIGHT;
+    scale = Math.min(scaleX, scaleY);
+    
+    canvas.style.width = `${CANVAS_WIDTH * scale}px`;
+    canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
+    
+    canvas.style.position = 'absolute';
+    canvas.style.left = `${(containerWidth - CANVAS_WIDTH * scale) / 2}px`;
+    canvas.style.top = `${(containerHeight - CANVAS_HEIGHT * scale) / 2}px`;
+    
+    canvasOffsetX = parseFloat(canvas.style.left);
+    canvasOffsetY = parseFloat(canvas.style.top);
+    
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = CANVAS_WIDTH * dpr;
+    canvas.height = CANVAS_HEIGHT * dpr;
+    ctx.scale(dpr, dpr);
+}
+
 function gameLoop() {
-    // Clear canvas
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     
-    // Draw background
-    ctx.fillStyle = '#87CEEB'; // Sky blue
-    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    
-    // Draw all objects
-    obstacles.forEach(obstacle => {
-        obstacle.update();
-        obstacle.draw();
-    });
-    
-    collectibles.forEach(collectible => {
-        collectible.draw();
-    });
-    
+    obstacles.forEach(o => o.draw());
+    collectibles.forEach(c => c.draw());
     player.update();
     player.draw();
     
-    // Update UI
-    updateTimer();
-    
-    // Continue loop
+    updateDebugInfo();
     requestAnimationFrame(gameLoop);
+}
+
+async function initGame() {
+    canvas = document.getElementById('game-canvas');
+    if (!canvas) {
+        console.error('Canvas element not found!');
+        return;
+    }
+    ctx = canvas.getContext('2d');
+    
+    // Initialize sounds properly
+    sounds.collect = document.getElementById('collect-sound');
+    sounds.phase = document.getElementById('phase-sound');
+    sounds.warning = document.getElementById('warning-sound');
+    sounds.obstacle = document.getElementById('obstacle-sound');
+    
+    // Try to preload sounds 
+    try {
+        await Promise.all([
+            sounds.collect.load(),
+            sounds.phase.load(),
+            sounds.warning.load(),
+            sounds.obstacle.load()
+        ]);
+    } catch (error) {
+        console.warn("Sound preload error:", error);
+    }
+    function playSound(sound) {
+        if (!sound) return;
+        
+        try {
+            sound.currentTime = 0; // Rewind to start
+            sound.play().catch(e => {
+                console.warn("Sound play failed:", e);
+                // Fallback - create new audio element
+                const newAudio = new Audio(sound.src);
+                newAudio.play().catch(e => console.warn("Fallback sound failed:", e));
+            });
+        } catch (e) {
+            console.warn("Sound error:", e);
+        }
+    }
+    // Replace all sound.play() calls with:
+playSound(sounds.collect); // For collection
+playSound(sounds.phase);   // For phase change
+playSound(sounds.warning); // For time warning
+playSound(sounds.obstacle); // For collisions
+    
+    if (!document.getElementById('debug-info')) {
+        const debugInfo = document.createElement('div');
+        debugInfo.id = 'debug-info';
+        document.body.appendChild(debugInfo);
+    }
+    
+    if (!document.getElementById('score-display')) {
+        const scoreDisplay = document.createElement('div');
+        scoreDisplay.id = 'score-display';
+        document.body.appendChild(scoreDisplay);
+    }
+    
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+    
+    await Promise.all([loadObstacles(), loadCollectibles()]);
+    
+    player = new Player(50, 50);
+    phaseStartTime = Date.now();
+    timeLeft = PHASE_TIME_LIMIT;
+    
+    setupControls();
+    gameLoop();
+}
+
+window.onload = initTitleScreen;
 }
