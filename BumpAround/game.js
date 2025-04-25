@@ -513,6 +513,15 @@ async function loadObstacles() {
         // Try to load from JSON first
         const response = await fetch('obstacles.json');
         const data = await response.json();
+
+        const repoName = 'smores94/rose.krieg_mart441'; 
+const basePath = window.location.host.includes('github.io') 
+    ? `/${repoName}/BumpAround/` 
+    : './';
+
+async function loadObstacles() {
+    try {
+        const response = await fetch(`${basePath}obstacles.json`);
         
         // Process loaded obstacles
         obstacles = data.map(item => new Obstacle(
