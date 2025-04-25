@@ -464,20 +464,42 @@ class Collectible extends GameObject {
 
 
 function generateObstacles() {
+    console.log("Generating obstacles..."); // Debug line
     const obstacleTypes = ['tree', 'rock', 'pond', 'fence', 'house', 'lava'];
     obstacles = [];
     
     for (let i = 0; i < 20; i++) {
-      const type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
-      obstacles.push(new Obstacle(
-        Math.random() * (CANVAS_WIDTH - 100),
-        Math.random() * (CANVAS_HEIGHT - 100),
-        40 + Math.random() * 60,
-        40 + Math.random() * 60,
-        type
-      ));
+        const type = obstacleTypes[Math.floor(Math.random() * obstacleTypes.length)];
+        obstacles.push(new Obstacle(
+            Math.random() * (CANVAS_WIDTH - 100),
+            Math.random() * (CANVAS_HEIGHT - 100),
+            40 + Math.random() * 60,
+            40 + Math.random() * 60,
+            type
+        ));
     }
-  }
+    console.log(`Generated ${obstacles.length} obstacles`); // Debug line
+}
+
+function generateCollectibles() {
+    console.log("Generating collectibles..."); // Debug line
+    const collectibleTypes = ['coin', 'gem', 'star', 'diamond', 'crown', 'fireboots'];
+    collectibles = [];
+    
+    for (let i = 0; i < 15; i++) {
+        const type = collectibleTypes[Math.floor(Math.random() * collectibleTypes.length)];
+        collectibles.push(new Collectible(
+            Math.random() * (CANVAS_WIDTH - 30),
+            Math.random() * (CANVAS_HEIGHT - 30),
+            20,
+            20,
+            type,
+            SCORE_INCREMENT
+        ));
+    }
+    console.log(`Generated ${collectibles.length} collectibles`); // Debug line
+}
+
   
   function generateCollectibles() {
     const collectibleTypes = ['coin', 'gem', 'star', 'diamond', 'crown', 'fireboots'];
@@ -557,7 +579,6 @@ function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
     ctx.fill();
 }
 
-// Player Class
 class Player extends GameObject {
     constructor(x, y) {
         super(x, y, PLAYER_SIZE, PLAYER_SIZE, 'player');
@@ -594,6 +615,33 @@ class Player extends GameObject {
         ctx.fill();
     }
 
+    update() {
+        // Movement calculations
+        let dx = 0, dy = 0;
+        if (keys.ArrowUp || keys.w) dy -= this.speed;
+        if (keys.ArrowDown || keys.s) dy += this.speed;
+        if (keys.ArrowLeft || keys.a) dx -= this.speed;
+        if (keys.ArrowRight || keys.d) dx += this.speed;
+
+        // Normalize diagonal movement
+        if (dx !== 0 && dy !== 0) {
+            dx *= 0.7071;
+            dy *= 0.7071;
+        }
+
+        // Update position
+        this.x += dx;
+        this.y += dy;
+
+        // Boundary checking
+        this.x = Math.max(0, Math.min(CANVAS_WIDTH - this.width, this.x));
+        this.y = Math.max(0, Math.min(CANVAS_HEIGHT - this.height, this.y));
+
+        // Check for collisions
+        this.checkCollectibles();
+    }
+
+     
     flash() {
         this.color = this.hitColor;
         if (this.flashTimeout) clearTimeout(this.flashTimeout);
@@ -775,29 +823,65 @@ window.addEventListener('keyup', (e) => keys[e.key] = false);
     generateObstacles();
     generateCollectibles();
     phaseStartTime = Date.now();
+    console.log("Initializing game..."); // Debug line
     
-    // Start game loop
+    canvas = document.getElementById('game-canvas');
+    ctx = canvas.getContext('2d');
+    
+    // Debug: Test if canvas is working
+    ctx.fillStyle = 'red';
+    ctx.fillRect(50, 50, 100, 100);
+    console.log("Canvas test drawn"); // Debug line
+    
+    // Set canvas size
+    canvas.width = CANVAS_WIDTH;
+    canvas.height = CANVAS_HEIGHT;
+    
+    // Initialize game objects
+    player = new Player(CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+    generateObstacles();
+    generateCollectibles();
+    
+    console.log(`Objects generated - Player: ${player}, Obstacles: ${obstacles.length}, Collectibles: ${collectibles.length}`); // Debug line
+    
+    // Set up controls
+    window.addEventListener('keydown', (e) => {
+        keys[e.key] = true;
+        console.log(`Key pressed: ${e.key}`); // Debug line
+    });
+    
+    window.addEventListener('keyup', (e) => {
+        keys[e.key] = false;
+    });
+    
+    phaseStartTime = Date.now();
     gameLoop();
-  }
+}
   
-  function gameLoop() {
+function gameLoop() {
     // Clear canvas
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     
-    // Update and draw game objects
+    // Draw background
+    ctx.fillStyle = '#87CEEB'; // Sky blue
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    
+    // Draw all objects
+    obstacles.forEach(obstacle => {
+        obstacle.update();
+        obstacle.draw();
+    });
+    
+    collectibles.forEach(collectible => {
+        collectible.draw();
+    });
+    
     player.update();
     player.draw();
     
-    obstacles.forEach(obstacle => {
-      obstacle.update();
-      obstacle.draw();
-    });
-    
-    collectibles.forEach(collectible => collectible.draw());
-    
-    // Update timer and check phase completion
+    // Update UI
     updateTimer();
     
     // Continue loop
     requestAnimationFrame(gameLoop);
-  }
+}
