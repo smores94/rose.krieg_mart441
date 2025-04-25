@@ -1,103 +1,4 @@
-// Global elements - moved after DOMContentLoaded to ensure they exist
-let startButton, titleCanvas, gameCanvas;
-
 // Game Constants
-const GAME_WIDTH = 1200;
-const GAME_HEIGHT = 800;
-const CANVAS_WIDTH = 1600;
-const CANVAS_HEIGHT = 1200;
-// ... (keep other constants the same) ...
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Get elements after DOM loads
-    startButton = document.getElementById('start-button');
-    titleCanvas = document.getElementById('title-canvas');
-    gameCanvas = document.getElementById('game-canvas');
-
-    // Initialize title screen
-    initTitleScreen();
-    
-    // Set up start button
-    startButton.addEventListener('click', startGame);
-});
-
-// Title Screen Initialization
-function initTitleScreen() {
-    // Set title screen size
-    titleCanvas.width = 800;
-    titleCanvas.height = 450;
-    
-    // Simple title screen rendering
-    const ctx = titleCanvas.getContext('2d');
-    ctx.fillStyle = '#222';
-    ctx.fillRect(0, 0, titleCanvas.width, titleCanvas.height);
-    ctx.fillStyle = '#fff';
-    ctx.font = '30px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('BUMP AROUND', titleCanvas.width/2, titleCanvas.height/2);
-    
-    // Show start button
-    startButton.style.opacity = '1';
-    startButton.style.cursor = 'pointer';
-}
-
-// Start Game Function
-function startGame() {// Global elements - moved after DOMContentLoaded to ensure they exist
-let startButton, titleCanvas, gameCanvas;
-
-
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    // Get elements after DOM loads
-    startButton = document.getElementById('start-button');
-    titleCanvas = document.getElementById('title-canvas');
-    gameCanvas = document.getElementById('game-canvas');
-
-    // Initialize title screen
-    initTitleScreen();
-    
-    // Set up start button
-    startButton.addEventListener('click', startGame);
-});
-
-// Title Screen Initialization
-function initTitleScreen() {
-    // Set title screen size
-    titleCanvas.width = 800;
-    titleCanvas.height = 450;
-    
-    // Simple title screen rendering
-    const ctx = titleCanvas.getContext('2d');
-    ctx.fillStyle = '#222';
-    ctx.fillRect(0, 0, titleCanvas.width, titleCanvas.height);
-    ctx.fillStyle = '#fff';
-    ctx.font = '30px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('BUMP AROUND', titleCanvas.width/2, titleCanvas.height/2);
-    
-    // Show start button
-    startButton.style.opacity = '1';
-    startButton.style.cursor = 'pointer';
-}
-
-// Start Game Function
-function startGame() {
-    console.log("Starting game...");
-    document.getElementById('title-screen').style.display = 'none';
-    document.getElementById('game-container').style.display = 'block';
-    initGame();
-}
-    console.log("Starting game...");
-    document.getElementById('title-screen').style.display = 'none';
-    document.getElementById('game-container').style.display = 'block';
-    initGame();
-
-
-
-// Game Constants
-const GAME_WIDTH = 1200;
-const GAME_HEIGHT = 800;
 const CANVAS_WIDTH = 1600;
 const CANVAS_HEIGHT = 1200;
 const PLAYER_SIZE = 60;
@@ -105,10 +6,10 @@ const SCORE_INCREMENT = 10;
 const PHASE1_COUNT = 5;
 const PHASE_TIME_LIMIT = 60000;
 const OBSTACLE_PENALTY = 5;
-const COLLECTIBLE_BASE_SPEED = 0.4;
+const COLLECTIBLE_BASE_SPEED = .4;
 const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
-const PHASE2_COUNT = 5;
+const PHASE2_COUNT = 5; // Number of phase 2 collectibles needed to win
 
 // Game Variables
 let canvas, ctx;
@@ -125,43 +26,7 @@ let timeWarningPlayed = false;
 let scale = 1;
 let canvasOffsetX = 0;
 let canvasOffsetY = 0;
-
-
-
-// Title Screen Initialization
-function initTitleScreen() {
-    // Set title screen size
-    titleCanvas.width = 800;
-    titleCanvas.height = 450;
-    
-    // Simple title screen rendering
-    const ctx = titleCanvas.getContext('2d');
-    ctx.fillStyle = '#222';
-    ctx.fillRect(0, 0, titleCanvas.width, titleCanvas.height);
-    ctx.fillStyle = '#fff';
-    ctx.font = '30px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('BUMP AROUND', titleCanvas.width/2, titleCanvas.height/2);
-    
-    // Show start button after delay
-    setTimeout(() => {
-        startButton.style.opacity = '1';
-        startButton.style.cursor = 'pointer';
-    }, 1500);
-}
-
-// Start Game Function
-function startGame() {
-    console.log("Starting game...");
-    document.getElementById('title-screen').style.display = 'none';
-    document.getElementById('game-container').style.display = 'block';
-    initGame();
-}
-
-// Initialize event listeners
-startButton.addEventListener('click', startGame);
-document.addEventListener('DOMContentLoaded', initTitleScreen);
-
+let gameState = 'title'; // 'title', 'playing', 'gameover'
 
 // Sound objects
 const sounds = {
@@ -170,48 +35,6 @@ const sounds = {
     warning: null,
     obstacle: null
 };
-
-async function initGame() {
-    // Initialize game canvas
-    const canvas = document.getElementById('game-canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = CANVAS_WIDTH;
-    canvas.height = CANVAS_HEIGHT;
-    
-    // Create UI elements if they don't exist
-    if (!document.getElementById('debug-info')) {
-        const debugInfo = document.createElement('div');
-        debugInfo.id = 'debug-info';
-        debugInfo.style.position = 'absolute';
-        debugInfo.style.top = '10px';
-        debugInfo.style.left = '10px';
-        debugInfo.style.color = 'white';
-        document.body.appendChild(debugInfo);
-    }
-    
-    if (!document.getElementById('score-display')) {
-        const scoreDisplay = document.createElement('div');
-        scoreDisplay.id = 'score-display';
-        scoreDisplay.style.position = 'absolute';
-        scoreDisplay.style.top = '10px';
-        scoreDisplay.style.right = '10px';
-        scoreDisplay.style.color = 'white';
-        document.body.appendChild(scoreDisplay);
-    }
-
-    // Load game assets
-    await Promise.all([loadObstacles(), loadCollectibles()]);
-    
-    // Initialize player
-    player = new Player(50, 50);
-    phaseStartTime = Date.now();
-    
-    // Set up controls
-    setupControls();
-    
-    // Start game loop
-    gameLoop();
-}
 
 // Game Classes
 class GameObject {
@@ -636,6 +459,11 @@ async function loadCollectibles() {
 
 function setupControls() {
     window.addEventListener('keydown', (e) => {
+        if (gameState === 'title' && e.key === 'Enter') {
+            startGame();
+            return;
+        }
+
         if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
             keys[e.key] = true;
         }
@@ -644,6 +472,13 @@ function setupControls() {
     window.addEventListener('keyup', (e) => {
         if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
             keys[e.key] = false;
+        }
+    });
+
+    // Add click/touch support for title screen
+    canvas.addEventListener('click', () => {
+        if (gameState === 'title') {
+            startGame();
         }
     });
 }
@@ -678,6 +513,8 @@ function updateDebugInfo() {
 
 function resizeCanvas() {
     const container = document.getElementById('game-container');
+    if (!container) return;
+    
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
     
@@ -701,16 +538,68 @@ function resizeCanvas() {
     ctx.scale(dpr, dpr);
 }
 
+function drawTitleScreen() {
+    // Clear canvas
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    
+    // Draw background
+    ctx.fillStyle = '#222';
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    
+    // Draw title
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 100px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('COLLECTOR GAME', CANVAS_WIDTH/2, CANVAS_HEIGHT/3);
+    
+    // Draw instructions
+    ctx.font = '30px Arial';
+    ctx.fillText('Collect all the items before time runs out!', CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+    
+    // Draw start prompt
+    ctx.font = '40px Arial';
+    ctx.fillStyle = '#4CAF50';
+    ctx.fillText('Press ENTER or Click to Start', CANVAS_WIDTH/2, CANVAS_HEIGHT * 2/3);
+}
+
 function gameLoop() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     
-    obstacles.forEach(o => o.draw());
-    collectibles.forEach(c => c.draw());
-    player.update();
-    player.draw();
+    if (gameState === 'title') {
+        drawTitleScreen();
+    } else if (gameState === 'playing') {
+        // Draw game background
+        ctx.fillStyle = '#f0f0f0';
+        ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+        
+        obstacles.forEach(o => o.draw());
+        collectibles.forEach(c => c.draw());
+        player.update();
+        player.draw();
+        
+        updateDebugInfo();
+    }
     
-    updateDebugInfo();
     requestAnimationFrame(gameLoop);
+}
+
+function startGame() {
+    gameState = 'playing';
+    score = 0;
+    currentPhase = 1;
+    phase1Collected = 0;
+    phaseStartTime = Date.now();
+    timeLeft = PHASE_TIME_LIMIT;
+    timeWarningPlayed = false;
+    
+    // Reset player position
+    player = new Player(50, 50);
+    
+    // Hide title screen elements if any
+    const titleElements = document.querySelectorAll('.title-screen');
+    titleElements.forEach(el => el.style.display = 'none');
+    
+    updateScore();
 }
 
 async function initGame() {
@@ -730,14 +619,15 @@ async function initGame() {
     // Try to preload sounds 
     try {
         await Promise.all([
-            sounds.collect.load(),
-            sounds.phase.load(),
-            sounds.warning.load(),
-            sounds.obstacle.load()
+            sounds.collect && sounds.collect.load(),
+            sounds.phase && sounds.phase.load(),
+            sounds.warning && sounds.warning.load(),
+            sounds.obstacle && sounds.obstacle.load()
         ]);
     } catch (error) {
         console.warn("Sound preload error:", error);
     }
+    
     function playSound(sound) {
         if (!sound) return;
         
@@ -753,11 +643,6 @@ async function initGame() {
             console.warn("Sound error:", e);
         }
     }
-    // Replace all sound.play() calls with:
-playSound(sounds.collect); // For collection
-playSound(sounds.phase);   // For phase change
-playSound(sounds.warning); // For time warning
-playSound(sounds.obstacle); // For collisions
     
     if (!document.getElementById('debug-info')) {
         const debugInfo = document.createElement('div');
@@ -781,8 +666,10 @@ playSound(sounds.obstacle); // For collisions
     timeLeft = PHASE_TIME_LIMIT;
     
     setupControls();
+    
+    // Start with title screen
+    gameState = 'title';
     gameLoop();
 }
 
-window.onload = initTitleScreen;
-}
+window.onload = initGame;
