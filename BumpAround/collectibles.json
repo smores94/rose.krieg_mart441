@@ -130,37 +130,5 @@
         "height": 30,
         "value": 100,
         "phase": 2
-    },
-
-    {
-        "id": 11,
-        "type": "fireboots",
-        "x": 350,
-        "y": 750,
-        "width": 40,
-        "height": 40,
-        "value": 300,
-        "phase": 3
-    },
-    {
-        "id": 12,
-        "type": "fireboots",
-        "x": 1200,
-        "y": 900,
-        "width": 40,
-        "height": 40,
-        "value": 300,
-        "phase": 3
-    },
-    {
-        "id": 13,
-        "type": "fireboots",
-        "x": 800,
-        "y": 1000,
-        "width": 40,
-        "height": 40,
-        "value": 300,
-        "phase": 3
     }
 ]
-
