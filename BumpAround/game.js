@@ -1,7 +1,7 @@
 // Game Constants
-const CANVAS_WIDTH = 1600;
-const CANVAS_HEIGHT = 1200;
-const PLAYER_SIZE = 60;
+const CANVAS_WIDTH = 1200;
+const CANVAS_HEIGHT = 800;
+const PLAYER_SIZE = 40;
 const SCORE_INCREMENT = 10;
 const PHASE1_COUNT = 5;
 const PHASE_TIME_LIMIT = 60000;
@@ -9,7 +9,7 @@ const OBSTACLE_PENALTY = 5;
 const COLLECTIBLE_BASE_SPEED = .4;
 const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
-const PHASE2_COUNT = 5; // Number of phase 2 collectibles needed to win
+const PHASE2_COUNT = 15; // Number of phase 2 collectibles needed to win
 
 // Game Variables
 let canvas, ctx;
@@ -20,6 +20,7 @@ let keys = {};
 let score = 0;
 let currentPhase = 1;
 let phase1Collected = 0;
+let phase2Collected = 0; 
 let phaseStartTime;
 let timeLeft;
 let timeWarningPlayed = false;
@@ -404,6 +405,12 @@ class Player extends GameObject {
                         console.log("Phase 2 unlocked!");
                         if (sounds.phase) sounds.phase.play();
                     }
+                } else if (collectible.phase === 2) {
+                    phase2Collected++; // Track phase 2 collectibles
+                    if (phase2Collected >= PHASE2_COUNT) {
+                        console.log("You win!"); // Add your win condition here
+                        // You might want to add a win screen or celebration
+                    }
                 }
                 
                 updateScore();
@@ -415,22 +422,115 @@ class Player extends GameObject {
 }
 
 async function loadObstacles() {
+    // Helper function for generating random obstacles
+    function generateRandomObstacles(count) {
+        const types = ['tree', 'rock', 'pond', 'fence', 'house'];
+        const newObstacles = [];
+        
+        // Size presets for each obstacle type
+        const sizePresets = {
+            'tree': { minW: 30, maxW: 50, minH: 50, maxH: 70 },
+            'rock': { minW: 20, maxW: 40, minH: 20, maxH: 40 },
+            'pond': { minW: 80, maxW: 160, minH: 60, maxH: 120 },
+            'fence': { minW: 150, maxW: 300, minH: 15, maxH: 25 },
+            'house': { minW: 80, maxW: 120, minH: 100, maxH: 140 }
+        };
+
+        // Generate requested number of obstacles
+        for (let i = 0; i < count; i++) {
+            const type = types[Math.floor(Math.random() * types.length)];
+            const preset = sizePresets[type];
+            
+            const width = preset.minW + Math.random() * (preset.maxW - preset.minW);
+            const height = preset.minH + Math.random() * (preset.maxH - preset.minH);
+            
+            // Ensure obstacles don't spawn too close to edges
+            const maxX = CANVAS_WIDTH - width - 20;
+            const maxY = CANVAS_HEIGHT - height - 20;
+            
+            newObstacles.push(new Obstacle(
+                20 + Math.random() * maxX,
+                20 + Math.random() * maxY,
+                width,
+                height,
+                type
+            ));
+        }
+        
+        return newObstacles;
+    }
+
     try {
+        // Try to load from JSON first
         const response = await fetch('obstacles.json');
         const data = await response.json();
+        
+        // Process loaded obstacles
         obstacles = data.map(item => new Obstacle(
-            item.x, item.y, item.width, item.height, item.type
+            item.x, 
+            item.y, 
+            item.width || 40,  // Default size if not specified
+            item.height || 40, // Default size if not specified
+            item.type || 'rock' // Default type if not specified
         ));
+        
+        // Add 10 random obstacles to the loaded ones
+        obstacles = obstacles.concat(generateRandomObstacles(10));
+        
     } catch (error) {
         console.error('Error loading obstacles:', error);
+        
+        // Create 20 well-distributed default obstacles when JSON fails
         obstacles = [
-            new Obstacle(300, 150, 60, 90, 'tree'),
-            new Obstacle(500, 300, 50, 40, 'rock'),
-            new Obstacle(200, 400, 150, 100, 'pond'),
-            new Obstacle(100, 200, 250, 30, 'fence'),
-            new Obstacle(600, 100, 120, 140, 'house')
+            // Strategic trees
+            new Obstacle(150, 100, 40, 60, 'tree'),
+            new Obstacle(450, 300, 45, 65, 'tree'),
+            new Obstacle(750, 150, 35, 55, 'tree'),
+            new Obstacle(1050, 400, 40, 60, 'tree'),
+            new Obstacle(150, 700, 40, 60, 'tree'),
+            
+            // Scattered rocks
+            new Obstacle(300, 500, 30, 30, 'rock'),
+            new Obstacle(600, 200, 35, 35, 'rock'),
+            new Obstacle(900, 600, 25, 25, 'rock'),
+            new Obstacle(200, 300, 30, 30, 'rock'),
+            
+            // Water features
+            new Obstacle(150, 400, 100, 80, 'pond'),
+            new Obstacle(700, 500, 120, 90, 'pond'),
+            new Obstacle(1000, 200, 90, 70, 'pond'),
+            
+            // Barrier fences
+            new Obstacle(100, 200, 200, 20, 'fence'),
+            new Obstacle(400, 700, 250, 20, 'fence'),
+            new Obstacle(800, 400, 180, 20, 'fence'),
+            
+            // Buildings
+            new Obstacle(1100, 100, 100, 120, 'house'),
+            new Obstacle(300, 650, 100, 120, 'house'),
+            new Obstacle(900, 100, 90, 110, 'house'),
+            
+            // Additional random obstacles
+            ...generateRandomObstacles(5)
         ];
     }
+    
+    // Ensure player starting area (center) is clear
+    const centerX = CANVAS_WIDTH/2;
+    const centerY = CANVAS_HEIGHT/2;
+    const clearance = 150; // Clear area radius
+    
+    obstacles = obstacles.filter(obs => {
+        const obsCenterX = obs.x + obs.width/2;
+        const obsCenterY = obs.y + obs.height/2;
+        const distance = Math.sqrt(
+            Math.pow(obsCenterX - centerX, 2) + 
+            Math.pow(obsCenterY - centerY, 2)
+        );
+        return distance > clearance;
+    });
+    
+    console.log(`Loaded ${obstacles.length} obstacles`);
 }
 
 async function loadCollectibles() {
@@ -443,19 +543,38 @@ async function loadCollectibles() {
     } catch (error) {
         console.error('Error loading collectibles:', error);
         collectibles = [
+            // Phase 1 items
             new Collectible(150, 350, 20, 20, 'coin', 10, 1),
             new Collectible(400, 250, 25, 25, 'gem', 50, 1),
             new Collectible(650, 400, 30, 30, 'star', 100, 1),
             new Collectible(800, 150, 20, 20, 'coin', 10, 1),
             new Collectible(1000, 300, 25, 25, 'gem', 50, 1),
+            new Collectible(150, 350, 20, 20, 'coin', 10, 1),
+            new Collectible(400, 250, 25, 25, 'gem', 50, 1),
+            new Collectible(650, 400, 30, 30, 'star', 100, 1),
+            new Collectible(800, 150, 20, 20, 'coin', 10, 1),
+            new Collectible(1000, 300, 25, 25, 'gem', 50, 1),
+            
+            // Phase 2 items (now at least 15)
             new Collectible(200, 600, 35, 35, 'diamond', 200, 2),
             new Collectible(500, 700, 40, 40, 'crown', 500, 2),
             new Collectible(1200, 500, 35, 35, 'diamond', 200, 2),
             new Collectible(900, 800, 40, 40, 'crown', 500, 2),
-            new Collectible(1300, 200, 30, 30, 'star', 100, 2)
+            new Collectible(1300, 200, 30, 30, 'star', 100, 2),
+            new Collectible(300, 200, 35, 35, 'diamond', 200, 2),
+            new Collectible(700, 300, 40, 40, 'crown', 500, 2),
+            new Collectible(1100, 700, 35, 35, 'diamond', 200, 2),
+            new Collectible(500, 500, 40, 40, 'crown', 500, 2),
+            new Collectible(100, 100, 30, 30, 'star', 100, 2),
+            new Collectible(1400, 400, 35, 35, 'diamond', 200, 2),
+            new Collectible(600, 600, 40, 40, 'crown', 500, 2),
+            new Collectible(200, 800, 35, 35, 'diamond', 200, 2),
+            new Collectible(800, 200, 40, 40, 'crown', 500, 2)
         ];
+        
     }
 }
+
 
 function setupControls() {
     window.addEventListener('keydown', (e) => {
@@ -493,6 +612,7 @@ function updateDebugInfo() {
         debugElement.innerHTML = `
             Phase: ${currentPhase}<br>
             Phase 1: ${phase1Collected}/${PHASE1_COUNT}<br>
+            ${currentPhase === 2 ? `Phase 2: ${phase2Collected}/${PHASE2_COUNT}<br>` : ''}
             Time: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}<br>
             Score: ${score}
         `;
@@ -504,20 +624,22 @@ function resizeCanvas() {
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
     
-    const scaleX = containerWidth / CANVAS_WIDTH;
-    const scaleY = containerHeight / CANVAS_HEIGHT;
-    scale = Math.min(scaleX, scaleY);
+    // Calculate scale to fit container while maintaining aspect ratio
+    const scale = Math.min(
+        containerWidth / CANVAS_WIDTH,
+        containerHeight / CANVAS_HEIGHT
+    );
     
+    // Apply the scale
     canvas.style.width = `${CANVAS_WIDTH * scale}px`;
     canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
     
+    // Center the canvas
     canvas.style.position = 'absolute';
     canvas.style.left = `${(containerWidth - CANVAS_WIDTH * scale) / 2}px`;
     canvas.style.top = `${(containerHeight - CANVAS_HEIGHT * scale) / 2}px`;
     
-    canvasOffsetX = parseFloat(canvas.style.left);
-    canvasOffsetY = parseFloat(canvas.style.top);
-    
+    // Handle high DPI displays
     const dpr = window.devicePixelRatio || 1;
     canvas.width = CANVAS_WIDTH * dpr;
     canvas.height = CANVAS_HEIGHT * dpr;
