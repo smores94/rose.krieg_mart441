@@ -34,6 +34,8 @@ let canvasOffsetX = 0;
 let canvasOffsetY = 0;
 let phase3Collected = 0;
 let phase3Unlocked = false;
+let phaseStartTime;
+let timeLeft;
 let specialItemsCollected = {
     diamonds: 0,
     crowns: 0,
@@ -508,18 +510,33 @@ async function loadObstacles() {
         
         return newObstacles;
     }
-}
 
+    try {
         // Try to load from JSON first
         const response = await fetch('obstacles.json');
         const data = await response.json();
 
-        const repoName = 'smores94/rose.krieg_mart441'; 
+        const repoName = 'rose.krieg_mart441'; 
 const basePath = window.location.host.includes('github.io') 
     ? `/${repoName}/BumpAround/` 
     : './';
 
 async function loadObstacles() {
+    try {
+        const response = await fetch(`${basePath}obstacles.json`);
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        
+        obstacles = data.map(item => new Obstacle(
+            item.x, item.y, 
+            item.width || 40,
+            item.height || 40,
+            item.type || 'rock'
+        ));
+    } catch (error) {
+        console.warn('Using default obstacles');
+
+
     try {
         const response = await fetch(`${basePath}obstacles.json`);
         
@@ -572,7 +589,8 @@ async function loadObstacles() {
             ...generateRandomObstacles(5)
         ];
     }
-    
+
+
     // Ensure player starting area (center) is clear
     const centerX = CANVAS_WIDTH/2;
     const centerY = CANVAS_HEIGHT/2;
@@ -590,17 +608,25 @@ async function loadObstacles() {
     
     console.log(`Loaded ${obstacles.length} obstacles`);
 }
-
+    
 
 async function loadCollectibles() {
     try {
-        const response = await fetch('collectibles.json');
+        const response = await fetch(`${basePath}collectibles.json`);
+        if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
+        
         collectibles = data.map(item => new Collectible(
-            item.x, item.y, item.width, item.height, item.type, item.value, item.phase || 1
+            item.x, item.y,
+            item.width || 20,
+            item.height || 20,
+            item.type || 'coin',
+            item.value || 50,
+            item.phase || 1
         ));
     } catch (error) {
-        console.error('Error loading collectibles:', error);
+        console.warn('Using default collectibles');
+    
         
         // ===== PHASE 1 COLLECTIBLES =====
         const gridCollectibles = generateCollectibleGrid(5, 4, 1); // 5x4 grid (20 items)

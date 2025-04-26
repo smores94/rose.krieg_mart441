@@ -1,0 +1,4 @@
+touch BumpAround/.nojekyll
+git add BumpAround/.nojekyll
+git commit -m "Add nojekyll file"
+git push
