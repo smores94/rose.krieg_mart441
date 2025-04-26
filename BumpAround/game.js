@@ -15,12 +15,18 @@ const FLASH_DURATION = 200;
 const PHASE1_SCORE_REQUIRED = 500;
 const PHASE2_SCORE_REQUIRED = 1500;
 const PHASE3_SCORE_REQUIRED = 3000;
+const PHASE4_SCORE_REQUIRED = 5000;
+const PHASE5_SCORE_REQUIRED = 10000;
+
+
 
 // Game Variables
 let canvas, ctx;
+let particles = [];
 let collisionCount = 0;
 let obstacles = [];
 let collectibles = [];
+let currentLevel = 1; // Start with level 1, change this when progressing
 let player;
 let keys = {};
 let score = 0;
@@ -39,6 +45,21 @@ let specialItemsCollected = {
     crowns: 0,
     stars: 0
 };
+
+
+function drawHUD() {
+    // Level indicator
+    // Time remaining
+    // Special item counters
+    // Objective markers
+}
+
+function drawHUD() {
+    // Level indicator
+    // Time remaining
+    // Special item counters
+    // Objective markers
+}
 
 // Sound objects
 const sounds = {
@@ -78,11 +99,69 @@ class GameObject {
     }
 }
 
-class Obstacle extends GameObject {
-    constructor(x, y, width, height, type) {
-        super(x, y, width, height, type);
-        this.color = this.getRandomVariantColor(type);
+
+function advanceLevel() {
+    if (currentLevel < 5) {
+        currentLevel++;
+        resetLevel();
+    } else {
+        showVictoryScreen();
     }
+}
+
+function resetLevel() {
+    obstacles = [];
+    collectibles = [];
+    loadObstacles();
+    loadCollectibles();
+    player.x = 50;
+    player.y = 50;
+}
+
+function setLevelTheme() {
+    const themes = [
+        '#F0E68C', // Town (khaki)
+        '#87CEEB', // Water World (sky blue)
+        '#228B22', // Forest (forest green)
+        '#C0C0C0', // Mirror World (silver)
+        '#4B0082'  // Mystical (indigo)
+    ];
+    document.body.style.backgroundColor = themes[currentLevel-1];
+}
+
+const GRID_SIZE = 200; // Adjust based on needs
+
+function createSpatialGrid() {
+    const grid = [];
+    // Initialize grid based on canvas size
+    // Sort obstacles into grid cells
+    // Use grid for collision checks
+}
+
+
+
+class Obstacle extends GameObject {
+    constructor(x, y, width, height, type, color) {
+        super(x, y, width, height, type);
+        this.color = color || this.getDefaultColor();
+    }
+
+ 
+    getDefaultColor() {
+        // Default colors for types not specified in JSON
+        const typeColors = {
+            tree: '#2E8B57',
+            rock: '#696969',
+            pond: '#1E90FF',
+            fence: '#8B4513',
+            house: '#CD5C5C',
+            bush: '#3d8b37',
+            mirror: '#c0c0c0',
+            portal: '#9400d3'
+        };
+        return typeColors[this.type] || '#CCCCCC';
+    }
+
 
     getRandomVariantColor(type) {
         const colorVariations = {
@@ -287,6 +366,17 @@ class Collectible extends GameObject {
     }
 }
 
+
+function createCollectEffect(x, y, color) {
+    for (let i = 0; i < 20; i++) {
+        particles.push(new Particle(
+            x + Math.random() * 20 - 10,
+            y + Math.random() * 20 - 10,
+            color
+        ));
+    }
+}
+
 function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
     let rot = Math.PI/2 * 3;
     let x = cx;
@@ -313,6 +403,42 @@ function drawStar(ctx, cx, cy, spikes, outerRadius, innerRadius) {
     ctx.fill();
 }
 
+
+
+class Particle {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = Math.random() * 4 + 2;
+        this.life = 1;
+        this.velocity = {
+            x: (Math.random() - 0.5) * 6,
+            y: (Math.random() - 0.5) * 6
+        };
+        this.alpha = 1;
+    }
+
+    update() {
+        this.x += this.velocity.x;
+        this.y += this.velocity.y;
+        this.alpha -= 0.02;
+        this.life -= 0.03;
+        this.radius *= 0.97;
+    }
+
+    draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
+
 class Player extends GameObject {
     constructor(x, y) {
         super(x, y, PLAYER_SIZE, PLAYER_SIZE, 'player');
@@ -324,6 +450,20 @@ class Player extends GameObject {
         this.phase2Collectibles = [];
         this.phase3Collectibles = [];
     }
+
+
+
+get center() {
+    return {
+        x: this.x + this.width/2,
+        y: this.y + this.height/2
+    };
+}
+
+checkCollision(obstacle) {
+    // Implement circle-rectangle collision
+}
+
 
     draw() {
         ctx.fillStyle = this.color;
@@ -421,6 +561,12 @@ class Player extends GameObject {
             if (c.collected || c.phase > currentPhase) continue;
     
             if (this.collidesWith(c)) {
+                createCollectEffect(
+                    c.x + c.width/2, 
+                    c.y + c.height/2, 
+                    c.color || '#FFFF00'
+                );
+                
                 if (c.specialType) {
                     specialItemsCollected[c.specialType + 's']++;
                 }
@@ -428,26 +574,21 @@ class Player extends GameObject {
                 c.collected = true;
                 score += c.value;
                 
+                // Phase handling logic
                 if (c.phase === 1) {
                     phase1Collected++;
-                    console.log(`Phase 1 Progress: ${phase1Collected}/${PHASE1_COUNT} | Score: ${score}/${PHASE1_SCORE_REQUIRED}`);
                     if (phase1Collected >= PHASE1_COUNT && score >= PHASE1_SCORE_REQUIRED) {
                         currentPhase = 2;
                         collectibles.push(...this.phase2Collectibles);
-                        if (sounds.phase) sounds.phase.play();
-                        console.log("UNLOCKED PHASE 2");
                     }
                 }
                 else if (c.phase === 2) {
                     phase2Collected++;
-                    console.log(`Phase 2 Progress: ${phase2Collected}/${PHASE2_COUNT} | Score: ${score}/${PHASE2_SCORE_REQUIRED}`);
                     if ((phase2Collected >= PHASE2_COUNT || score >= PHASE2_SCORE_REQUIRED) && !phase3Unlocked) {
                         currentPhase = 3;
                         phase3Unlocked = true;
                         collectibles.push(...this.phase3Collectibles);
                         timeLeft += PHASE3_TIME_BONUS;
-                        if (sounds.phase) sounds.phase.play();
-                        console.log("UNLOCKED PHASE 3");
                     }
                 }
                 
@@ -460,98 +601,154 @@ class Player extends GameObject {
 }
 
 async function loadObstacles() {
-    // Helper function for generating random obstacles
-    function generateRandomObstacles(count) {
-        const types = ['tree', 'rock', 'pond', 'fence', 'house'];
-        const newObstacles = [];
-        
-        // Size presets for each obstacle type
-        const sizePresets = {
-            'tree': { minW: 30, maxW: 50, minH: 50, maxH: 70 },
-            'rock': { minW: 20, maxW: 40, minH: 20, maxH: 40 },
-            'pond': { minW: 80, maxW: 160, minH: 60, maxH: 120 },
-            'fence': { minW: 150, maxW: 300, minH: 15, maxH: 25 },
-            'house': { minW: 80, maxW: 120, minH: 100, maxH: 140 }
-        };
 
-        // Generate requested number of obstacles
-        for (let i = 0; i < count; i++) {
-            const type = types[Math.floor(Math.random() * types.length)];
-            const preset = sizePresets[type];
-            
-            const width = preset.minW + Math.random() * (preset.maxW - preset.minW);
-            const height = preset.minH + Math.random() * (preset.maxH - preset.minH);
-            
-            // Ensure obstacles don't spawn too close to edges
-            const maxX = CANVAS_WIDTH - width - 20;
-            const maxY = CANVAS_HEIGHT - height - 20;
-            
-            newObstacles.push(new Obstacle(
-                20 + Math.random() * maxX,
-                20 + Math.random() * maxY,
-                width,
-                height,
-                type
-            ));
+
+if (!Array.isArray(data)) {
+    throw new Error('Invalid obstacle data format');
+}
+
+    const levelConfig = {
+        1: { // Town
+            types: ['house', 'fence', 'tree', 'rock'],
+            randomCount: 8,
+            sizePresets: {
+                'house': { minW: 80, maxW: 120, minH: 100, maxH: 140 },
+                'fence': { minW: 150, maxW: 300, minH: 15, maxH: 25 },
+                'tree': { minW: 30, maxW: 50, minH: 50, maxH: 70 },
+                'rock': { minW: 20, maxW: 40, minH: 20, maxH: 40 }
+            }
+        },
+        2: { // Water World
+            types: ['pond', 'tree', 'rock'],
+            randomCount: 12,
+            sizePresets: {
+                'pond': { minW: 100, maxW: 200, minH: 80, maxH: 160 },
+                'tree': { minW: 40, maxW: 60, minH: 60, maxH: 80 },
+                'rock': { minW: 30, maxW: 50, minH: 30, maxH: 50 }
+            }
+        },
+        3: { // Forest
+            types: ['tree', 'bush', 'rock'],
+            randomCount: 15,
+            sizePresets: {
+                'tree': { minW: 40, maxW: 60, minH: 70, maxH: 90 },
+                'bush': { minW: 20, maxW: 40, minH: 20, maxH: 40 },
+                'rock': { minW: 20, maxW: 40, minH: 20, maxH: 40 }
+            }
+        },
+        4: { // Mirror World
+            types: ['mirror', 'geometric'],
+            randomCount: 10,
+            sizePresets: {
+                'mirror': { minW: 50, maxW: 100, minH: 100, maxH: 150 },
+                'geometric': { minW: 40, maxW: 80, minH: 40, maxH: 80 }
+            }
+        },
+        5: { // Mystical
+            types: ['portal', 'obelisk'],
+            randomCount: 8,
+            sizePresets: {
+                'portal': { minW: 60, maxW: 100, minH: 100, maxH: 120 },
+                'obelisk': { minW: 30, maxW: 50, minH: 80, maxH: 120 }
+            }
         }
+    };
+
+    const config = levelConfig[currentLevel] || levelConfig[1];
+    
+    try {
+        const response = await fetch('obstacles.json');
+        const data = await response.json();
         
-        return newObstacles;
+        // Filter and map obstacles from JSON
+        obstacles = data
+            .filter(obs => config.types.includes(obs.type))
+            .map(item => new Obstacle(
+                item.x,
+                item.y,
+                item.width,
+                item.height,
+                item.type,
+                item.color // Use color from JSON
+            ));
+
+        // Add random level-appropriate obstacles
+        obstacles = obstacles.concat(generateRandomObstacles(config.randomCount, config));
+        
+    } catch (error) {
+        console.error('Error loading:', error);
+        // Fallback to all random obstacles
+        obstacles = generateRandomObstacles(20 + config.randomCount, config);
     }
 
+    // Apply center clearance filter
+    const centerX = CANVAS_WIDTH/2;
+    const centerY = CANVAS_HEIGHT/2;
+    const clearance = 150;
+    
+    obstacles = obstacles.filter(obs => {
+        const obsCenterX = obs.x + obs.width/2;
+        const obsCenterY = obs.y + obs.height/2;
+        return Math.sqrt(
+            Math.pow(obsCenterX - centerX, 2) + 
+            Math.pow(obsCenterY - centerY, 2)
+        ) > clearance;
+    });
+
+    console.log(`Level ${currentLevel} loaded with ${obstacles.length} obstacles`);
+}
+
+// Updated random obstacle generator
+function generateRandomObstacles(count, config) {
+    const newObstacles = [];
+    
+    for (let i = 0; i < count; i++) {
+        const type = config.types[Math.floor(Math.random() * config.types.length)];
+        const preset = config.sizePresets[type];
+        
+        const width = preset.minW + Math.random() * (preset.maxW - preset.minW);
+        const height = preset.minH + Math.random() * (preset.maxH - preset.minH);
+        
+        const maxX = CANVAS_WIDTH - width - 20;
+        const maxY = CANVAS_HEIGHT - height - 20;
+        
+        newObstacles.push(new Obstacle(
+            20 + Math.random() * maxX,
+            20 + Math.random() * maxY,
+            width,
+            height,
+            type // Color will be auto-generated by Obstacle class
+        ));
+    }
+    
+    return newObstacles;
+}
+
     try {
-        // Try to load from JSON first
         const response = await fetch('obstacles.json');
         const data = await response.json();
         
         // Process loaded obstacles
-        obstacles = data.map(item => new Obstacle(
-            item.x, 
-            item.y, 
-            item.width || 40,  // Default size if not specified
-            item.height || 40, // Default size if not specified
-            item.type || 'rock' // Default type if not specified
-        ));
+        obstacles = data
+            .filter(item => types.includes(item.type)) // Keep only level-appropriate types
+            .map(item => new Obstacle(
+                item.x, 
+                item.y, 
+                item.width || 40,
+                item.height || 40,
+                item.type || types[0] // Default to first type in level config
+            ));
         
-        // Add 10 random obstacles to the loaded ones
-        obstacles = obstacles.concat(generateRandomObstacles(10));
+        // Add level-appropriate random obstacles
+        obstacles = obstacles.concat(generateRandomObstacles(randomCount));
         
     } catch (error) {
         console.error('Error loading obstacles:', error);
-        
-        // Create 20 well-distributed default obstacles when JSON fails
-        obstacles = [
-            // Strategic trees
-            new Obstacle(150, 100, 40, 60, 'tree'),
-            new Obstacle(450, 300, 45, 65, 'tree'),
-            new Obstacle(750, 150, 35, 55, 'tree'),
-            new Obstacle(1050, 400, 40, 60, 'tree'),
-            new Obstacle(150, 700, 40, 60, 'tree'),
-            
-            // Scattered rocks
-            new Obstacle(300, 500, 30, 30, 'rock'),
-            new Obstacle(600, 200, 35, 35, 'rock'),
-            new Obstacle(900, 600, 25, 25, 'rock'),
-            new Obstacle(200, 300, 30, 30, 'rock'),
-            
-            // Water features
-            new Obstacle(150, 400, 100, 80, 'pond'),
-            new Obstacle(700, 500, 120, 90, 'pond'),
-            new Obstacle(1000, 200, 90, 70, 'pond'),
-            
-            // Barrier fences
-            new Obstacle(100, 200, 200, 20, 'fence'),
-            new Obstacle(400, 700, 250, 20, 'fence'),
-            new Obstacle(800, 400, 180, 20, 'fence'),
-            
-            // Buildings
-            new Obstacle(1100, 100, 100, 120, 'house'),
-            new Obstacle(300, 650, 100, 120, 'house'),
-            new Obstacle(900, 100, 90, 110, 'house'),
-            
-            // Additional random obstacles
-            ...generateRandomObstacles(5)
-        ];
+        // Generate full set of random obstacles for current level
+        obstacles = generateRandomObstacles(20 + randomCount);
     }
+
+    // Existing clearance filter remains the same
     const centerX = CANVAS_WIDTH/2;
     const centerY = CANVAS_HEIGHT/2;
     const clearance = 150;
@@ -566,18 +763,22 @@ async function loadObstacles() {
         return distance > clearance;
     });
     
-    console.log(`Loaded ${obstacles.length} obstacles`);
+    console.log(`Level ${currentLevel} loaded with ${obstacles.length} obstacles`);
 }
-
 async function loadCollectibles() {
+
+    const collectibleConfig = {
+        1: ['coin', 'gem'],
+        2: ['coin', 'star'],
+        3: ['gem', 'diamond'],
+        4: ['crystal', 'mirror_shard'],
+        5: ['portal_key', 'time_orb']
+    };
+
     try {
         const response = await fetch('collectibles.json');
         const data = await response.json();
-        collectibles = data.map(item => new Collectible(
-            item.x, item.y, item.width, item.height, item.type, item.value, item.phase || 1
-        ));
-        
-        collectibles = data.map(item => new Collectible(
+          collectibles = data.map(item => new Collectible(
             item.x, item.y,
             item.width || 20,
             item.height || 20,
@@ -588,7 +789,7 @@ async function loadCollectibles() {
     } catch (error) {
         console.warn('Using default collectibles');
         
-        const gridCollectibles = generateCollectibleGrid(5, 4, );
+        const gridCollectibles = generateCollectibleGrid(6, 5, 1);
         const manualPhase1Collectibles = [
             new Collectible(150, 350, 30, 30, 'star', 100, 1),
             new Collectible(400, 250, 25, 25, 'gem', 75, 1),
@@ -638,7 +839,8 @@ async function loadCollectibles() {
     }
 }
 
-function generateCollectibleGrid(columns, rows, phase) {
+function generateCollectibleGrid(columns, rows, phase = 1)
+ {
     const gridCollectibles = [];
     const colWidth = CANVAS_WIDTH / columns;
     const rowHeight = CANVAS_HEIGHT / rows;
@@ -717,25 +919,43 @@ function resizeCanvas() {
     const container = document.getElementById('game-container');
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
+    
     const scale = Math.min(
         containerWidth / CANVAS_WIDTH,
         containerHeight / CANVAS_HEIGHT
     );
     
+    // Update canvas styling
     canvas.style.width = `${CANVAS_WIDTH * scale}px`;
     canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
-    canvas.style.position = 'absolute';
-    canvas.style.left = `${(containerWidth - CANVAS_WIDTH * scale) / 2}px`;
-    canvas.style.top = `${(containerHeight - CANVAS_HEIGHT * scale) / 2}px`;
     
+    // Set actual canvas dimensions
     const dpr = window.devicePixelRatio || 1;
     canvas.width = CANVAS_WIDTH * dpr;
     canvas.height = CANVAS_HEIGHT * dpr;
+    
+    // Reset transform and scale
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 }
 
 function gameLoop() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+    setLevelTheme();
+    
+    // Update and draw particles
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+    
+    particles = particles.filter(p => p.life > 0);
+    particles.forEach(p => {
+        p.update();
+        p.draw();
+    });
+    
     obstacles.forEach(o => o.draw());
     collectibles.forEach(c => c.draw());
     player.update();
@@ -744,12 +964,21 @@ function gameLoop() {
     requestAnimationFrame(gameLoop);
 }
 
+
+
 async function initGame() {
     canvas = document.getElementById('game-canvas');
     if (!canvas) {
         console.error('Canvas element not found!');
         return;
     }
+
+    await Promise.all([loadObstacles(), loadCollectibles()]);
+    player = new Player(50, 50);
+        // Center player in clear area
+        player.x = CANVAS_WIDTH/2 - PLAYER_SIZE/2;
+        player.y = CANVAS_HEIGHT/2 - PLAYER_SIZE/2;
+
     ctx = canvas.getContext('2d');
     
     sounds.collect = document.getElementById('collect-sound');
