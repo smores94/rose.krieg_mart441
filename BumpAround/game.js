@@ -460,9 +460,12 @@ class Player extends GameObject {
 }
 
 async function loadObstacles() {
+    // Helper function for generating random obstacles
     function generateRandomObstacles(count) {
         const types = ['tree', 'rock', 'pond', 'fence', 'house'];
         const newObstacles = [];
+        
+        // Size presets for each obstacle type
         const sizePresets = {
             'tree': { minW: 30, maxW: 50, minH: 50, maxH: 70 },
             'rock': { minW: 20, maxW: 40, minH: 20, maxH: 40 },
@@ -471,11 +474,15 @@ async function loadObstacles() {
             'house': { minW: 80, maxW: 120, minH: 100, maxH: 140 }
         };
 
+        // Generate requested number of obstacles
         for (let i = 0; i < count; i++) {
             const type = types[Math.floor(Math.random() * types.length)];
             const preset = sizePresets[type];
+            
             const width = preset.minW + Math.random() * (preset.maxW - preset.minW);
             const height = preset.minH + Math.random() * (preset.maxH - preset.minH);
+            
+            // Ensure obstacles don't spawn too close to edges
             const maxX = CANVAS_WIDTH - width - 20;
             const maxY = CANVAS_HEIGHT - height - 20;
             
@@ -487,48 +494,64 @@ async function loadObstacles() {
                 type
             ));
         }
+        
         return newObstacles;
     }
 
     try {
-        const response = await fetch(`${basePath}obstacles.json`);
-        if (!response.ok) throw new Error('Network response was not ok');
+        // Try to load from JSON first
+        const response = await fetch('obstacles.json');
         const data = await response.json();
         
+        // Process loaded obstacles
         obstacles = data.map(item => new Obstacle(
             item.x, 
             item.y, 
-            item.width || 40,
-            item.height || 40,
-            item.type || 'rock'
+            item.width || 40,  // Default size if not specified
+            item.height || 40, // Default size if not specified
+            item.type || 'rock' // Default type if not specified
         ));
         
+        // Add 10 random obstacles to the loaded ones
         obstacles = obstacles.concat(generateRandomObstacles(10));
+        
     } catch (error) {
         console.error('Error loading obstacles:', error);
+        
+        // Create 20 well-distributed default obstacles when JSON fails
         obstacles = [
+            // Strategic trees
             new Obstacle(150, 100, 40, 60, 'tree'),
             new Obstacle(450, 300, 45, 65, 'tree'),
             new Obstacle(750, 150, 35, 55, 'tree'),
             new Obstacle(1050, 400, 40, 60, 'tree'),
             new Obstacle(150, 700, 40, 60, 'tree'),
+            
+            // Scattered rocks
             new Obstacle(300, 500, 30, 30, 'rock'),
             new Obstacle(600, 200, 35, 35, 'rock'),
             new Obstacle(900, 600, 25, 25, 'rock'),
             new Obstacle(200, 300, 30, 30, 'rock'),
+            
+            // Water features
             new Obstacle(150, 400, 100, 80, 'pond'),
             new Obstacle(700, 500, 120, 90, 'pond'),
             new Obstacle(1000, 200, 90, 70, 'pond'),
+            
+            // Barrier fences
             new Obstacle(100, 200, 200, 20, 'fence'),
             new Obstacle(400, 700, 250, 20, 'fence'),
             new Obstacle(800, 400, 180, 20, 'fence'),
+            
+            // Buildings
             new Obstacle(1100, 100, 100, 120, 'house'),
             new Obstacle(300, 650, 100, 120, 'house'),
             new Obstacle(900, 100, 90, 110, 'house'),
+            
+            // Additional random obstacles
             ...generateRandomObstacles(5)
         ];
     }
-
     const centerX = CANVAS_WIDTH/2;
     const centerY = CANVAS_HEIGHT/2;
     const clearance = 150;
@@ -548,9 +571,11 @@ async function loadObstacles() {
 
 async function loadCollectibles() {
     try {
-        const response = await fetch(`${basePath}collectibles.json`);
-        if (!response.ok) throw new Error('Network response was not ok');
+        const response = await fetch('collectibles.json');
         const data = await response.json();
+        collectibles = data.map(item => new Collectible(
+            item.x, item.y, item.width, item.height, item.type, item.value, item.phase || 1
+        ));
         
         collectibles = data.map(item => new Collectible(
             item.x, item.y,
