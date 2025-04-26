@@ -588,7 +588,7 @@ async function loadCollectibles() {
     } catch (error) {
         console.warn('Using default collectibles');
         
-        const gridCollectibles = generateCollectibleGrid(5, 4, 1);
+        const gridCollectibles = generateCollectibleGrid(5, 4, );
         const manualPhase1Collectibles = [
             new Collectible(150, 350, 30, 30, 'star', 100, 1),
             new Collectible(400, 250, 25, 25, 'gem', 75, 1),
