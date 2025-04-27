@@ -1,3 +1,9 @@
+window.onload = function() {
+    initGame(); // Add this to start the game
+    resizeCanvas(); // Initial resize
+    window.addEventListener('resize', resizeCanvas);
+}
+
 // Game Constants
 const CANVAS_WIDTH = 1200;
 const CANVAS_HEIGHT = 800;
@@ -22,6 +28,7 @@ const PHASE5_SCORE_REQUIRED = 10000;
 
 // Game Variables
 let canvas, ctx;
+let audioEnabled = false;
 let particles = [];
 let collisionCount = 0;
 let obstacles = [];
@@ -46,6 +53,13 @@ let specialItemsCollected = {
     stars: 0
 };
 
+function startGame() {
+    document.getElementById('start-screen').style.display = 'none';
+    enableAudio();
+    initGame();
+}
+
+
 
 function drawHUD() {
     // Level indicator
@@ -53,28 +67,42 @@ function drawHUD() {
     // Special item counters
     // Objective markers
 }
-
-function drawHUD() {
-    // Level indicator
-    // Time remaining
-    // Special item counters
-    // Objective markers
-}
-
-// Sound objects
-const sounds = {
-    collect: null,
-    phase: null,
-    warning: null,
-    obstacle: null,
-    bumpWarning: null
-};
 
 // Path configuration
 const repoName = 'rose.krieg_mart441';
 const basePath = window.location.host.includes('github.io')
     ? `/${repoName}/BumpAround/`
     : './';
+
+
+    
+    function tryCreateAudio(url) {
+        try {
+            return new Audio(url);
+        } catch (error) {
+            console.warn('Error creating audio for:', url);
+            return null;
+        }
+    }
+
+// Add this to handle audio enabling
+function enableAudio() {
+    if (!audioEnabled) {
+        audioEnabled = true;
+        // Play a silent buffer to unlock audio
+        const ctx = new AudioContext();
+        const buffer = ctx.createBuffer(1, 1, 22050);
+        const source = ctx.createBufferSource();
+        source.buffer = buffer;
+        source.connect(ctx.destination);
+        source.start(0);
+    }
+}
+
+
+
+
+
 
 // Game Classes
 class GameObject {
@@ -552,7 +580,12 @@ checkCollision(obstacle) {
             updateScore();
             if (sounds.obstacle) sounds.obstacle.play();
         }
+        if (sounds.collect && audioEnabled) {
+            sounds.collect.currentTime = 0;
+            sounds.collect.play().catch(() => { /* Ignore errors */ });
+        }
     }
+
 
     checkCollectibles() {
         for (let i = collectibles.length - 1; i >= 0; i--) {
@@ -599,172 +632,171 @@ checkCollision(obstacle) {
         }
     }
 }
-
 async function loadObstacles() {
+    const levelConfig = getLevelConfig();
+    const config = levelConfig[currentLevel] || levelConfig[1];
+    const clearance = 150;
+    const centerX = CANVAS_WIDTH / 2;
+    const centerY = CANVAS_HEIGHT / 2;
 
+    try {
+        console.log('Starting obstacle load...');
+        const data = await fetchObstacleData('obstacles.json');
 
-if (!Array.isArray(data)) {
-    throw new Error('Invalid obstacle data format');
+        const filteredObstacles = data
+            .filter(item => config.types.includes(item.type))
+            .map(item => createObstacleFromData(item, config));
+
+        const randomObstacles = generateRandomObstacles(config.randomCount, config);
+
+        obstacles = [...filteredObstacles, ...randomObstacles].filter(obs => {
+            const obsCenterX = obs.x + obs.width / 2;
+            const obsCenterY = obs.y + obs.height / 2;
+            return getDistance(obsCenterX, obsCenterY, centerX, centerY) > clearance;
+        });
+
+    } catch (error) {
+        console.error('Error loading obstacles:', error);
+        // Fallback: simple random generation
+        obstacles = generateRandomObstacles(30, getFallbackConfig());
+    }
+
+    console.log(`Loaded Level ${currentLevel}: ${obstacles.length} obstacles`);
 }
 
-    const levelConfig = {
-        1: { // Town
+// ---------------------
+// Helper Functions
+// ---------------------
+
+function getLevelConfig() {
+    return {
+        1: {
             types: ['house', 'fence', 'tree', 'rock'],
             randomCount: 8,
             sizePresets: {
-                'house': { minW: 80, maxW: 120, minH: 100, maxH: 140 },
-                'fence': { minW: 150, maxW: 300, minH: 15, maxH: 25 },
-                'tree': { minW: 30, maxW: 50, minH: 50, maxH: 70 },
-                'rock': { minW: 20, maxW: 40, minH: 20, maxH: 40 }
+                house: { minW: 80, maxW: 120, minH: 100, maxH: 140 },
+                fence: { minW: 150, maxW: 300, minH: 15, maxH: 25 },
+                tree: { minW: 30, maxW: 50, minH: 50, maxH: 70 },
+                rock: { minW: 20, maxW: 40, minH: 20, maxH: 40 }
             }
         },
-        2: { // Water World
+        2: {
             types: ['pond', 'tree', 'rock'],
             randomCount: 12,
             sizePresets: {
-                'pond': { minW: 100, maxW: 200, minH: 80, maxH: 160 },
-                'tree': { minW: 40, maxW: 60, minH: 60, maxH: 80 },
-                'rock': { minW: 30, maxW: 50, minH: 30, maxH: 50 }
+                pond: { minW: 100, maxW: 200, minH: 80, maxH: 160 },
+                tree: { minW: 40, maxW: 60, minH: 60, maxH: 80 },
+                rock: { minW: 30, maxW: 50, minH: 30, maxH: 50 }
             }
         },
-        3: { // Forest
+        3: {
             types: ['tree', 'bush', 'rock'],
             randomCount: 15,
             sizePresets: {
-                'tree': { minW: 40, maxW: 60, minH: 70, maxH: 90 },
-                'bush': { minW: 20, maxW: 40, minH: 20, maxH: 40 },
-                'rock': { minW: 20, maxW: 40, minH: 20, maxH: 40 }
+                tree: { minW: 40, maxW: 60, minH: 70, maxH: 90 },
+                bush: { minW: 20, maxW: 40, minH: 20, maxH: 40 },
+                rock: { minW: 20, maxW: 40, minH: 20, maxH: 40 }
             }
         },
-        4: { // Mirror World
+        4: {
             types: ['mirror', 'geometric'],
             randomCount: 10,
             sizePresets: {
-                'mirror': { minW: 50, maxW: 100, minH: 100, maxH: 150 },
-                'geometric': { minW: 40, maxW: 80, minH: 40, maxH: 80 }
+                mirror: { minW: 50, maxW: 100, minH: 100, maxH: 150 },
+                geometric: { minW: 40, maxW: 80, minH: 40, maxH: 80 }
             }
         },
-        5: { // Mystical
+        5: {
             types: ['portal', 'obelisk'],
             randomCount: 8,
             sizePresets: {
-                'portal': { minW: 60, maxW: 100, minH: 100, maxH: 120 },
-                'obelisk': { minW: 30, maxW: 50, minH: 80, maxH: 120 }
+                portal: { minW: 60, maxW: 100, minH: 100, maxH: 120 },
+                obelisk: { minW: 30, maxW: 50, minH: 80, maxH: 120 }
             }
         }
     };
-
-    const config = levelConfig[currentLevel] || levelConfig[1];
-    
-    try {
-        const response = await fetch('obstacles.json');
-        const data = await response.json();
-        
-        // Filter and map obstacles from JSON
-        obstacles = data
-            .filter(obs => config.types.includes(obs.type))
-            .map(item => new Obstacle(
-                item.x,
-                item.y,
-                item.width,
-                item.height,
-                item.type,
-                item.color // Use color from JSON
-            ));
-
-        // Add random level-appropriate obstacles
-        obstacles = obstacles.concat(generateRandomObstacles(config.randomCount, config));
-        
-    } catch (error) {
-        console.error('Error loading:', error);
-        // Fallback to all random obstacles
-        obstacles = generateRandomObstacles(20 + config.randomCount, config);
-    }
-
-    // Apply center clearance filter
-    const centerX = CANVAS_WIDTH/2;
-    const centerY = CANVAS_HEIGHT/2;
-    const clearance = 150;
-    
-    obstacles = obstacles.filter(obs => {
-        const obsCenterX = obs.x + obs.width/2;
-        const obsCenterY = obs.y + obs.height/2;
-        return Math.sqrt(
-            Math.pow(obsCenterX - centerX, 2) + 
-            Math.pow(obsCenterY - centerY, 2)
-        ) > clearance;
-    });
-
-    console.log(`Level ${currentLevel} loaded with ${obstacles.length} obstacles`);
 }
 
-// Updated random obstacle generator
+async function fetchObstacleData(url) {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status} - ${response.statusText}`);
+    }
+
+    const text = await response.text();
+    console.log('Raw JSON:', text);
+
+    const data = JSON.parse(text);
+    console.log('Parsed data:', data);
+
+    if (!Array.isArray(data)) {
+        throw new Error('Invalid obstacle data format - expected array');
+    }
+
+    return data;
+}
+
+function createObstacleFromData(item, config) {
+    return new Obstacle(
+        item.x ?? 0,
+        item.y ?? 0,
+        item.width ?? 40,
+        item.height ?? 40,
+        item.type ?? config.types[0],
+        item.color
+    );
+}
+
 function generateRandomObstacles(count, config) {
     const newObstacles = [];
-    
+
     for (let i = 0; i < count; i++) {
-        const type = config.types[Math.floor(Math.random() * config.types.length)];
+        const type = pickRandom(config.types);
         const preset = config.sizePresets[type];
-        
-        const width = preset.minW + Math.random() * (preset.maxW - preset.minW);
-        const height = preset.minH + Math.random() * (preset.maxH - preset.minH);
-        
+
+        const width = randomBetween(preset.minW, preset.maxW);
+        const height = randomBetween(preset.minH, preset.maxH);
+
         const maxX = CANVAS_WIDTH - width - 20;
         const maxY = CANVAS_HEIGHT - height - 20;
-        
+
         newObstacles.push(new Obstacle(
             20 + Math.random() * maxX,
             20 + Math.random() * maxY,
             width,
             height,
-            type // Color will be auto-generated by Obstacle class
+            type
         ));
     }
-    
+
     return newObstacles;
 }
 
-    try {
-        const response = await fetch('obstacles.json');
-        const data = await response.json();
-        
-        // Process loaded obstacles
-        obstacles = data
-            .filter(item => types.includes(item.type)) // Keep only level-appropriate types
-            .map(item => new Obstacle(
-                item.x, 
-                item.y, 
-                item.width || 40,
-                item.height || 40,
-                item.type || types[0] // Default to first type in level config
-            ));
-        
-        // Add level-appropriate random obstacles
-        obstacles = obstacles.concat(generateRandomObstacles(randomCount));
-        
-    } catch (error) {
-        console.error('Error loading obstacles:', error);
-        // Generate full set of random obstacles for current level
-        obstacles = generateRandomObstacles(20 + randomCount);
-    }
-
-    // Existing clearance filter remains the same
-    const centerX = CANVAS_WIDTH/2;
-    const centerY = CANVAS_HEIGHT/2;
-    const clearance = 150;
-    
-    obstacles = obstacles.filter(obs => {
-        const obsCenterX = obs.x + obs.width/2;
-        const obsCenterY = obs.y + obs.height/2;
-        const distance = Math.sqrt(
-            Math.pow(obsCenterX - centerX, 2) + 
-            Math.pow(obsCenterY - centerY, 2)
-        );
-        return distance > clearance;
-    });
-    
-    console.log(`Level ${currentLevel} loaded with ${obstacles.length} obstacles`);
+function getFallbackConfig() {
+    return {
+        types: ['tree', 'rock'],
+        randomCount: 10,
+        sizePresets: {
+            tree: { minW: 30, maxW: 50, minH: 50, maxH: 70 },
+            rock: { minW: 20, maxW: 40, minH: 20, maxH: 40 }
+        }
+    };
 }
+
+function pickRandom(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+function randomBetween(min, max) {
+    return min + Math.random() * (max - min);
+}
+
+function getDistance(x1, y1, x2, y2) {
+    return Math.hypot(x2 - x1, y2 - y1);
+}
+
+        
 async function loadCollectibles() {
 
     const collectibleConfig = {
@@ -786,10 +818,18 @@ async function loadCollectibles() {
             item.value || 50,
             item.phase || 1
         ));
+
     } catch (error) {
         console.warn('Using default collectibles');
+
+ // Initialize phase collectibles BEFORE using them
+ player.phase2Collectibles = [/*...*/];
+ player.phase3Collectibles = [/*...*/];
+ 
+ // Generate collectibles
+ const gridCollectibles = generateCollectibleGrid(6, 5, 1);
         
-        const gridCollectibles = generateCollectibleGrid(6, 5, 1);
+   
         const manualPhase1Collectibles = [
             new Collectible(150, 350, 30, 30, 'star', 100, 1),
             new Collectible(400, 250, 25, 25, 'gem', 75, 1),
@@ -920,29 +960,51 @@ function resizeCanvas() {
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
     
+    // Calculate scale to fit container while maintaining aspect ratio
     const scale = Math.min(
         containerWidth / CANVAS_WIDTH,
         containerHeight / CANVAS_HEIGHT
     );
     
-    // Update canvas styling
+    // Apply the scale
     canvas.style.width = `${CANVAS_WIDTH * scale}px`;
     canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
     
-    // Set actual canvas dimensions
+    // Center the canvas
+    canvas.style.position = 'absolute';
+    canvas.style.left = `${(containerWidth - CANVAS_WIDTH * scale) / 2}px`;
+    canvas.style.top = `${(containerHeight - CANVAS_HEIGHT * scale) / 2}px`;
+    
+    // Handle high DPI displays
     const dpr = window.devicePixelRatio || 1;
     canvas.width = CANVAS_WIDTH * dpr;
     canvas.height = CANVAS_HEIGHT * dpr;
-    
-    // Reset transform and scale
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 }
+
+function gameLoop() {
+
+    
+    obstacles.forEach(o => o.draw());
+    collectibles.forEach(c => c.draw());
+    player.update();
+    player.draw();
+    
+    updateDebugInfo();
+    requestAnimationFrame(gameLoop);
+}
+    console.log('Canvas Scale:', scale);
+    console.log('Canvas Real Size:', canvas.offsetWidth, canvas.offsetHeight);
+    console.log('Container Size:', container.clientWidth, container.clientHeight);
+
+
 
 function gameLoop() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     setLevelTheme();
     
+ 
+
     // Update and draw particles
     particles = particles.filter(p => p.life > 0);
     particles.forEach(p => {
@@ -955,73 +1017,34 @@ function gameLoop() {
         p.update();
         p.draw();
     });
-    
     obstacles.forEach(o => o.draw());
     collectibles.forEach(c => c.draw());
-    player.update();
     player.draw();
-    updateDebugInfo();
+    
     requestAnimationFrame(gameLoop);
 }
 
 
 
 async function initGame() {
+    // Basic canvas setup
     canvas = document.getElementById('game-canvas');
-    if (!canvas) {
-        console.error('Canvas element not found!');
-        return;
-    }
-
-    await Promise.all([loadObstacles(), loadCollectibles()]);
-    player = new Player(50, 50);
-        // Center player in clear area
-        player.x = CANVAS_WIDTH/2 - PLAYER_SIZE/2;
-        player.y = CANVAS_HEIGHT/2 - PLAYER_SIZE/2;
-
     ctx = canvas.getContext('2d');
     
-    sounds.collect = document.getElementById('collect-sound');
-    sounds.phase = document.getElementById('phase-sound');
-    sounds.warning = document.getElementById('warning-sound');
-    sounds.obstacle = document.getElementById('obstacle-sound');
-    sounds.bumpWarning = document.getElementById('bump-warning');
+    // Initial player position
+    player = new Player(CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
     
-    try {
-        await Promise.all([
-            sounds.collect?.load(),
-            sounds.phase?.load(),
-            sounds.warning?.load(),
-            sounds.obstacle?.load(),
-            sounds.bumpWarning?.load()
-        ]);
-    } catch (error) {
-        console.warn("Sound preload error:", error);
-    }
-
-    if (!document.getElementById('debug-info')) {
-        const debugInfo = document.createElement('div');
-        debugInfo.id = 'debug-info';
-        document.body.appendChild(debugInfo);
-    }
+    // Load game elements
+    await loadObstacles();
+    await loadCollectibles();
     
-    if (!document.getElementById('score-display')) {
-        const scoreDisplay = document.createElement('div');
-        scoreDisplay.id = 'score-display';
-        document.body.appendChild(scoreDisplay);
-    }
-    
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    
-    await Promise.all([loadObstacles(), loadCollectibles()]);
-    
-    player = new Player(50, 50);
-    phaseStartTime = Date.now();
-    timeLeft = PHASE_TIME_LIMIT;
-    
+    // Setup controls
     setupControls();
+    resizeCanvas();
+    
+    // Start game loop
     gameLoop();
 }
 
-window.onload = initGame;
+window.onload = function() {
+}
