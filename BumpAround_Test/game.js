@@ -461,12 +461,25 @@ class Player extends GameObject {
         this.flash();
         if (sounds.lose) sounds.lose.play();
     }
+
+    isNear(other) {
+        const buffer = 10;  // distance in pixels you have to get close
+        const dx = (this.x + this.width / 2) - (other.x + other.width / 2);
+        const dy = (this.y + this.height / 2) - (other.y + other.height / 2);
+        const distance = Math.sqrt(dx * dx + dy * dy);
+    
+        const requiredDistance = (this.width / 2) + (other.width / 2) - buffer;
+    
+        return distance < requiredDistance;
+    }
+    
+
     checkCollectibles() {
         for (let i = collectibles.length - 1; i >= 0; i--) {
             const collectible = collectibles[i];
             if (!collectible.collected &&
                 collectible.phase <= currentPhase &&
-                this.collidesWith(collectible)) {
+                this.isNear(collectible)) {   
     
                 collectible.collected = true;
                 score += collectible.value;
