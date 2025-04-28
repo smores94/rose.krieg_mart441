@@ -532,7 +532,7 @@ class Player extends GameObject {
                 else if (collectible.phase === 4) {
                     phase4Collected++;
                     if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT && score >= 1500) {  // Score requirement!
-                        spawnDangerObstacles(5);
+                        spawnDangerObstacles(2);
                         currentPhase = 5;
                         phaseUnlockMessage = 'Phase 5 Unlocked!';
                         phaseUnlockTimer = Date.now();
