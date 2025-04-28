@@ -9,14 +9,20 @@ const COLLECTIBLE_BASE_SPEED = .4;
 const KNOCKBACK_FORCE = 0.5;
 const FLASH_DURATION = 200;
 const PHASE2_COUNT = 15; // Number of phase 2 collectibles needed to win
-const PHASE3_COUNT = 25; // Number of phase 3 collectibles needed to win
-const PHASE4_COUNT = 35; // Number of phase 4 collectibles needed to win
-const PHASE5_COUNT = 50; // Number of phase 5 collectibles needed to win
+const PHASE3_COUNT = 20; // Number of phase 3 collectibles needed to win
+const PHASE4_COUNT = 25; // Number of phase 4 collectibles needed to win
+const PHASE5_COUNT = 30; // Number of phase 5 collectibles needed to win
 const PHASE1_TIME_LIMIT = 15000;
 const PHASE2_TIME_LIMIT = 30000;
 const PHASE3_TIME_LIMIT = 40000;
 const PHASE4_TIME_LIMIT = 45000;
 const PHASE5_TIME_LIMIT = 50000;
+const PHASE1_SCORE_REQUIRED = 500; 
+const PHASE2_SCORE_REQUIRED = 1500;
+const PHASE3_SCORE_REQUIRED = 3000;
+const PHASE4_SCORE_REQUIRED = 6000;
+const PHASE5_SCORE_REQUIRED = 15000;  // Final win condition
+
 
 
 // Game Variables
@@ -41,6 +47,8 @@ let canvasOffsetY = 0;
 let phaseUnlockMessage = '';
 let phaseUnlockTimer = 0;
 let dangerObstacles = [];
+let gameOver = false;
+
 
 
 
@@ -57,6 +65,8 @@ const sounds = {
     lose: null,
     win: null
 };
+
+
 
 
 // Game Classes
@@ -480,59 +490,60 @@ class Player extends GameObject {
             if (!collectible.collected &&
                 collectible.phase <= currentPhase &&
                 this.isNear(collectible)) {   
-    
+                
                 collectible.collected = true;
                 score += collectible.value;
     
+                // Track how many collected
                 if (collectible.phase === 1) {
                     phase1Collected++;
-                    if (currentPhase === 1 && phase1Collected >= PHASE1_COUNT) {
+                    if (currentPhase === 1 && phase1Collected >= PHASE1_COUNT && score >= 500) {  // Score requirement!
                         currentPhase = 2;
                         phaseUnlockMessage = 'Phase 2 Unlocked!';
                         phaseUnlockTimer = Date.now();
                         console.log("Phase 2 unlocked!");
-                        spawnCollectibles(2, 17);
+                        spawnCollectibles(2, 10);
                         if (sounds.level) sounds.level.play();
                     }
                 } 
                 else if (collectible.phase === 2) {
                     phase2Collected++;
-                    if (currentPhase === 2 && phase2Collected >= PHASE2_COUNT) {
-                        spawnDangerObstacles(3); // ⚡ Spawn dangers when Phase 3 unlocks!
+                    if (currentPhase === 2 && phase2Collected >= PHASE2_COUNT && score >= 1500) {  // Score requirement!
+                        spawnDangerObstacles(3);
                         currentPhase = 3;
                         phaseUnlockMessage = 'Phase 3 Unlocked!';
                         phaseUnlockTimer = Date.now();
                         console.log("Phase 3 unlocked!");
-                        spawnCollectibles(3, 26);
+                        spawnCollectibles(3, 20);
                         if (sounds.level) sounds.level.play();
                     }
                 } 
                 else if (collectible.phase === 3) {
                     phase3Collected++;
-                    if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT) {
+                    if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT && score >= 3000) {  // Score requirement!
                         currentPhase = 4;
                         phaseUnlockMessage = 'Phase 4 Unlocked!';
                         phaseUnlockTimer = Date.now();
                         console.log("Phase 4 unlocked!");
-                        spawnCollectibles(4, 37);
+                        spawnCollectibles(4, 25);
                         if (sounds.level) sounds.level.play();
                     }
                 } 
                 else if (collectible.phase === 4) {
                     phase4Collected++;
-                    if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT) {
-                        spawnDangerObstacles(5); // ⚡ Spawn more dangers when Phase 5 unlocks!
+                    if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT && score >= 6000) {  // Score requirement!
+                        spawnDangerObstacles(5);
                         currentPhase = 5;
                         phaseUnlockMessage = 'Phase 5 Unlocked!';
                         phaseUnlockTimer = Date.now();
                         console.log("Phase 5 unlocked!");
-                        spawnCollectibles(5, 50);
+                        spawnCollectibles(5, 30);
                         if (sounds.level) sounds.level.play();
                     }
                 } 
                 else if (collectible.phase === 5) {
                     phase5Collected++;
-                    if (currentPhase === 5 && phase5Collected >= PHASE5_COUNT) {
+                    if (currentPhase === 5 && phase5Collected >= PHASE5_COUNT && score >= 15000) {  // Final score requirement!
                         phaseUnlockMessage = 'Winner Winner Chicken Dinner!';
                         phaseUnlockTimer = Date.now();
                         console.log("You win! 🎉");
@@ -557,8 +568,6 @@ class Player extends GameObject {
             }
         }
     }
-    
-
 }
     
 function spawnCollectibles(phase, count) {
@@ -1010,20 +1019,24 @@ function resizeCanvas() {
 }
 
 function gameLoop() {
+    if (gameOver) return;  // 🛑 Stop the loop if game over!
+
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-    
+
     obstacles.forEach(o => o.draw());
     dangerObstacles.forEach(d => d.draw());
     collectibles.forEach(c => c.draw());
     player.update();
     player.draw();
-
     dangerObstacles.forEach(d => {
         d.update();
         d.draw();
     });
-    
-    
+
+    updateDebugInfo();
+
+    checkPhaseTimeout();  // 🛠 Check for timeout and failure
+
     if (phaseUnlockMessage && (Date.now() - phaseUnlockTimer) < 3000) {
         ctx.font = 'bold 48px Arial';
         ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
@@ -1032,7 +1045,10 @@ function gameLoop() {
         ctx.textAlign = 'center';
         ctx.strokeText(phaseUnlockMessage, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
         ctx.fillText(phaseUnlockMessage, CANVAS_WIDTH / 2, CANVAS_HEIGHT / 2);
+    
     }
+
+
     if (currentPhase === 1 && phase1Collected >= PHASE1_COUNT) {
         currentPhase = 2;
         phaseUnlockMessage = 'Phase 2 Unlocked!';
@@ -1062,6 +1078,103 @@ function gameLoop() {
     updateDebugInfo();
     requestAnimationFrame(gameLoop);
 }
+
+function checkPhaseTimeout() {
+    const now = Date.now();
+    let phaseTimeLimit;
+
+    if (currentPhase === 1) phaseTimeLimit = PHASE1_TIME_LIMIT;
+    else if (currentPhase === 2) phaseTimeLimit = PHASE2_TIME_LIMIT;
+    else if (currentPhase === 3) phaseTimeLimit = PHASE3_TIME_LIMIT;
+    else if (currentPhase === 4) phaseTimeLimit = PHASE4_TIME_LIMIT;
+    else phaseTimeLimit = PHASE5_TIME_LIMIT;
+
+    if (now - phaseStartTime > phaseTimeLimit) {
+        // ✅ Correct collectible + score checks
+        if (
+            (currentPhase === 1 && (phase1Collected < PHASE1_COUNT || score < PHASE1_SCORE_REQUIRED)) ||
+            (currentPhase === 2 && (phase2Collected < PHASE2_COUNT || score < PHASE2_SCORE_REQUIRED)) ||
+            (currentPhase === 3 && (phase3Collected < PHASE3_COUNT || score < PHASE3_SCORE_REQUIRED)) ||
+            (currentPhase === 4 && (phase4Collected < PHASE4_COUNT || score < PHASE4_SCORE_REQUIRED)) ||
+            (currentPhase === 5 && (phase5Collected < PHASE5_COUNT || score < PHASE5_SCORE_REQUIRED))
+        ) {
+            triggerGameOver();
+        }
+    }
+}
+
+
+function triggerGameOver() {
+    console.log('Game Over!');
+    gameOver = true;
+
+    ctx.font = 'bold 64px Arial';
+    ctx.fillStyle = 'red';
+    ctx.textAlign = 'center';
+    ctx.fillText('GAME OVER', CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+
+    if (sounds.gameover) {
+        sounds.gameover.currentTime = 0;
+        sounds.gameover.play();
+    }
+
+    showRestartButton(); // ⬅️ NEW!
+}
+
+function showRestartButton() {
+    let restartButton = document.getElementById('restart-button');
+    if (!restartButton) {
+        restartButton = document.createElement('button');
+        restartButton.id = 'restart-button';
+        restartButton.textContent = 'Restart';
+        restartButton.style.position = 'absolute';
+        restartButton.style.left = '50%';
+        restartButton.style.top = '60%';
+        restartButton.style.transform = 'translate(-50%, -50%)';
+        restartButton.style.padding = '15px 30px';
+        restartButton.style.fontSize = '24px';
+        restartButton.style.backgroundColor = '#D72638';
+        restartButton.style.color = 'white';
+        restartButton.style.border = 'none';
+        restartButton.style.borderRadius = '10px';
+        restartButton.style.cursor = 'pointer';
+        restartButton.style.zIndex = '1000';
+        document.body.appendChild(restartButton);
+    } else {
+        restartButton.style.display = 'block';
+    }
+
+    restartButton.onclick = function() {
+        restartGame();
+    };
+}
+function restartGame() {
+    // Clean up
+    const restartButton = document.getElementById('restart-button');
+    if (restartButton) {
+        restartButton.remove();
+    }
+
+    gameOver = false;
+    score = 0;
+    currentPhase = 1;
+    phase1Collected = 0;
+    phase2Collected = 0;
+    phase3Collected = 0;
+    phase4Collected = 0;
+    phase5Collected = 0;
+    phaseStartTime = Date.now();
+    timeLeft = PHASE1_TIME_LIMIT;
+    phaseUnlockMessage = '';
+
+    // Reset arrays
+    obstacles = [];
+    collectibles = [];
+    dangerObstacles = [];
+
+    initGame(); // 🛠 Reinitialize everything
+}
+
 
 
 window.onload = function() {
@@ -1093,6 +1206,8 @@ async function initGame() {
     sounds.obstacle = document.getElementById('obstacle');
     sounds.level = document.getElementById('level');
     sounds.win = document.getElementById('win');
+    sounds.gameover = document.getElementById('gameover');
+
 
     preloadSounds();
 
