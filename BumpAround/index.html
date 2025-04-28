@@ -65,7 +65,6 @@
         #start-button:hover {
             background-color: #45a049;
         }
-
     </style>
 </head>
 
@@ -82,13 +81,32 @@
         </div>
     </div>
 
+    <!-- Audio files -->
+    <audio id="collect" src="./audio/collect.wav" preload="auto"></audio>
+    <audio id="collect2" src="./audio/collect2.wav" preload="auto"></audio>
+    <audio id="treasure" src="./audio/treasure.wav" preload="auto"></audio>
+    <audio id="lose" src="./audio/lose.wav" preload="auto"></audio>
+    <audio id="phase" src="./audio/phase.wav" preload="auto"></audio>
+    <audio id="warning" src="./audio/warning.wav" preload="auto"></audio>
+    <audio id="obstacle" src="./audio/obstacle.wav" preload="auto"></audio>
+    <audio id="level" src="./audio/level.wav" preload="auto"></audio>
+    <audio id="win" src="./audio/win.wav" preload="auto"></audio>
+    <audio id="gameover" src="./audio/gameover.wav" preload="auto"></audio>
 
+    <!-- Game Script -->
+    <script src="game.js"></script>
+
+    <!-- Start Button Logic -->
     <script>
         document.getElementById('start-button').addEventListener('click', function() {
             document.getElementById('start-screen').style.display = 'none';
             startGame();
         });
-        </script>
+    </script>
+</body>
+</html>
+
+
         
 
 
@@ -107,7 +125,7 @@
     <audio id="obstacle" src="./audio/obstacle.wav" preload="auto"></audio>
     <audio id="lose" src="./audio/lose.wav" preload="auto"></audio>
     <audio id="gameover" src="./audio/gameover.wav" preload="auto"></audio>
-    <audio id="background-music" src="./audio/pookatori.mp3" loop></audio>
+
 
 
 
