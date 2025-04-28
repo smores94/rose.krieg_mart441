@@ -442,7 +442,7 @@ class Player extends GameObject {
         for (const danger of dangerObstacles) {
             if (tempPlayer.collidesWith(danger)) {
                 this.handleDangerCollision();
-                // Note: Don't break movement if hit danger
+         
             }
         }
 
