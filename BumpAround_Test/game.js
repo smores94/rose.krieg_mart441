@@ -12,16 +12,16 @@ const PHASE2_COUNT = 15; // Number of phase 2 collectibles needed to win
 const PHASE3_COUNT = 20; // Number of phase 3 collectibles needed to win
 const PHASE4_COUNT = 25; // Number of phase 4 collectibles needed to win
 const PHASE5_COUNT = 30; // Number of phase 5 collectibles needed to win
-const PHASE1_TIME_LIMIT = 15000;
-const PHASE2_TIME_LIMIT = 30000;
-const PHASE3_TIME_LIMIT = 40000;
-const PHASE4_TIME_LIMIT = 45000;
-const PHASE5_TIME_LIMIT = 50000;
-const PHASE1_SCORE_REQUIRED = 500; 
-const PHASE2_SCORE_REQUIRED = 1500;
-const PHASE3_SCORE_REQUIRED = 3000;
-const PHASE4_SCORE_REQUIRED = 6000;
-const PHASE5_SCORE_REQUIRED = 15000;  // Final win condition
+const PHASE1_TIME_LIMIT = 30000;
+const PHASE2_TIME_LIMIT = 60000;
+const PHASE3_TIME_LIMIT = 90000;
+const PHASE4_TIME_LIMIT = 120000;
+const PHASE5_TIME_LIMIT = 180000;
+const PHASE1_SCORE_REQUIRED = 150; 
+const PHASE2_SCORE_REQUIRED = 450;
+const PHASE3_SCORE_REQUIRED = 800;
+const PHASE4_SCORE_REQUIRED = 1500;
+const PHASE5_SCORE_REQUIRED = 2000;  // Final win condition
 
 
 
@@ -497,7 +497,7 @@ class Player extends GameObject {
                 // Track how many collected
                 if (collectible.phase === 1) {
                     phase1Collected++;
-                    if (currentPhase === 1 && phase1Collected >= PHASE1_COUNT && score >= 500) {  // Score requirement!
+                    if (currentPhase === 1 && phase1Collected >= PHASE1_COUNT && score >= 150) {  // Score requirement!
                         currentPhase = 2;
                         phaseUnlockMessage = 'Phase 2 Unlocked!';
                         phaseUnlockTimer = Date.now();
@@ -508,7 +508,7 @@ class Player extends GameObject {
                 } 
                 else if (collectible.phase === 2) {
                     phase2Collected++;
-                    if (currentPhase === 2 && phase2Collected >= PHASE2_COUNT && score >= 1500) {  // Score requirement!
+                    if (currentPhase === 2 && phase2Collected >= PHASE2_COUNT && score >= 450) {  // Score requirement!
                         spawnDangerObstacles(3);
                         currentPhase = 3;
                         phaseUnlockMessage = 'Phase 3 Unlocked!';
@@ -520,7 +520,7 @@ class Player extends GameObject {
                 } 
                 else if (collectible.phase === 3) {
                     phase3Collected++;
-                    if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT && score >= 3000) {  // Score requirement!
+                    if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT && score >= 800) {  // Score requirement!
                         currentPhase = 4;
                         phaseUnlockMessage = 'Phase 4 Unlocked!';
                         phaseUnlockTimer = Date.now();
@@ -531,7 +531,7 @@ class Player extends GameObject {
                 } 
                 else if (collectible.phase === 4) {
                     phase4Collected++;
-                    if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT && score >= 6000) {  // Score requirement!
+                    if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT && score >= 1500) {  // Score requirement!
                         spawnDangerObstacles(5);
                         currentPhase = 5;
                         phaseUnlockMessage = 'Phase 5 Unlocked!';
@@ -543,7 +543,7 @@ class Player extends GameObject {
                 } 
                 else if (collectible.phase === 5) {
                     phase5Collected++;
-                    if (currentPhase === 5 && phase5Collected >= PHASE5_COUNT && score >= 15000) {  // Final score requirement!
+                    if (currentPhase === 5 && phase5Collected >= PHASE5_COUNT && score >= 2000) {  // Final score requirement!
                         phaseUnlockMessage = 'Winner Winner Chicken Dinner!';
                         phaseUnlockTimer = Date.now();
                         console.log("You win! 🎉");
@@ -1049,31 +1049,7 @@ function gameLoop() {
     }
 
 
-    if (currentPhase === 1 && phase1Collected >= PHASE1_COUNT) {
-        currentPhase = 2;
-        phaseUnlockMessage = 'Phase 2 Unlocked!';
-        phaseUnlockTimer = Date.now();
-        if (sounds.level) sounds.level.play();
-    }
-    if (currentPhase === 2 && phase2Collected >= PHASE2_COUNT) {
-        currentPhase = 3;
-        phaseUnlockMessage = 'Phase 3 Unlocked!';
-        phaseUnlockTimer = Date.now();
-        if (sounds.level) sounds.level.play();
-    }
-    if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT) {
-        currentPhase = 4;
-        phaseUnlockMessage = 'Phase 4 Unlocked!';
-        phaseUnlockTimer = Date.now();
-        if (sounds.level) sounds.level.play();
-    }
-    if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT) {
-        currentPhase = 5;
-        phaseUnlockMessage = 'Phase 5 Unlocked!';
-        phaseUnlockTimer = Date.now();
-        if (sounds.level) sounds.level.play();
-    }
-                
+   
 
     updateDebugInfo();
     requestAnimationFrame(gameLoop);
