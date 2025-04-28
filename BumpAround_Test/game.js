@@ -4,7 +4,6 @@ const CANVAS_HEIGHT = 800;
 const PLAYER_SIZE = 40;
 const SCORE_INCREMENT = 10;
 const PHASE1_COUNT = 5;
-
 const OBSTACLE_PENALTY = 5;
 const COLLECTIBLE_BASE_SPEED = .4;
 const KNOCKBACK_FORCE = 0.5;
@@ -13,11 +12,11 @@ const PHASE2_COUNT = 15; // Number of phase 2 collectibles needed to win
 const PHASE3_COUNT = 25; // Number of phase 3 collectibles needed to win
 const PHASE4_COUNT = 35; // Number of phase 4 collectibles needed to win
 const PHASE5_COUNT = 50; // Number of phase 5 collectibles needed to win
-const PHASE1_TIME_LIMIT = 60000;
-const PHASE2_TIME_LIMIT = 40000;
-const PHASE3_TIME_LIMIT = 30000;
-const PHASE4_TIME_LIMIT = 20000;
-const PHASE5_TIME_LIMIT = 10000;
+const PHASE1_TIME_LIMIT = 15000;
+const PHASE2_TIME_LIMIT = 30000;
+const PHASE3_TIME_LIMIT = 40000;
+const PHASE4_TIME_LIMIT = 45000;
+const PHASE5_TIME_LIMIT = 50000;
 
 
 // Game Variables
@@ -41,6 +40,8 @@ let canvasOffsetX = 0;
 let canvasOffsetY = 0;
 let phaseUnlockMessage = '';
 let phaseUnlockTimer = 0;
+let dangerObstacles = [];
+
 
 
 
@@ -159,6 +160,45 @@ class Obstacle extends GameObject {
         }
     }
 }
+
+
+class DangerObstacle extends Obstacle {
+    constructor(x, y, width, height) {
+        super(x, y, width, height, 'danger');
+        this.color = '#FF0000'; // Bright red danger
+        this.speedX = (Math.random() - 0.5) * 4;
+        this.speedY = (Math.random() - 0.5) * 4;
+    }
+
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        // Bounce off walls
+        if (this.x < 0 || this.x > CANVAS_WIDTH - this.width) {
+            this.speedX *= -1;
+        }
+        if (this.y < 0 || this.y > CANVAS_HEIGHT - this.height) {
+            this.speedY *= -1;
+        }
+    }
+
+    draw() {
+        ctx.fillStyle = '#8B0000'; // dark red background for danger
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        ctx.fillStyle = 'white';
+        ctx.font = `${this.width * 0.6}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // Draw skull emoji ☠️ or just "!"
+        ctx.fillText('☠️', this.x + this.width/2, this.y + this.height/2);
+    }
+}
+
+
+
 
 class Collectible extends GameObject {
     constructor(x, y, width, height, type, value, phase = 1) {
@@ -331,24 +371,12 @@ class Player extends GameObject {
     draw() {
         ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.arc(
-            this.x + this.width/2,
-            this.y + this.height/2,
-            this.width/2,
-            0,
-            Math.PI * 2
-        );
+        ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
         ctx.fill();
-        
+
         ctx.fillStyle = 'white';
         ctx.beginPath();
-        ctx.arc(
-            this.x + this.width/2 + (this.width/4),
-            this.y + this.height/2 - (this.height/4),
-            this.width/8,
-            0,
-            Math.PI * 2
-        );
+        ctx.arc(this.x + this.width/2 + (this.width/4), this.y + this.height/2 - (this.height/4), this.width/8, 0, Math.PI * 2);
         ctx.fill();
     }
 
@@ -362,93 +390,36 @@ class Player extends GameObject {
 
     update() {
         let dx = 0, dy = 0;
-        
-        if (keys.ArrowUp) dy -= this.speed;
-        if (keys.ArrowDown) dy += this.speed;
-        if (keys.ArrowLeft) dx -= this.speed;
-        if (keys.ArrowRight) dx += this.speed;
-        
-        if (dx !== 0 && dy !== 0) {
-            dx *= 0.7071;
-            dy *= 0.7071;
-        }
-        
-        const newX = this.x + dx;
-        const newY = this.y + dy;
-        const tempPlayer = new Player(newX, newY);
-        
-        const withinBounds = 
-            newX >= 0 && 
-            newX <= CANVAS_WIDTH - this.width &&
-            newY >= 0 && 
-            newY <= CANVAS_HEIGHT - this.height;
-        
-        let canMove = withinBounds;
-        let hitObstacle = false;
-        
-        if (canMove) {
-            for (const obstacle of obstacles) {
-                if (tempPlayer.collidesWith(obstacle)) {
-                    canMove = false;
-                    hitObstacle = true;
-                    break;
-                }
-            }
-        }
-        
-        if (canMove) {
-            this.x = newX;
-            this.y = newY;
-            this.checkCollectibles();
-        } else if (hitObstacle) {
-            // Apply penalty and effects
-            score = Math.max(0, score - OBSTACLE_PENALTY);
-            updateScore();
-            
-            // Knockback effect
-            this.x -= dx * KNOCKBACK_FORCE;
-            this.y -= dy * KNOCKBACK_FORCE;
-            
-            // Visual feedback
-            this.flash();
-            if (sounds.obstacle) sounds.obstacle.play();
-        }
-    }
 
-    update() {
-        // Movement input
-        let dx = 0, dy = 0;
-        
         if (keys.ArrowUp) dy -= this.speed;
         if (keys.ArrowDown) dy += this.speed;
         if (keys.ArrowLeft) dx -= this.speed;
         if (keys.ArrowRight) dx += this.speed;
-        
-        // Diagonal movement normalization
+
+        // Normalize diagonal movement
         if (dx !== 0 && dy !== 0) {
             dx *= 0.7071;
             dy *= 0.7071;
         }
-        
-        // Calculate new position
+
         const newX = this.x + dx;
         const newY = this.y + dy;
-        
+
         // Boundary check
         if (newX < 0 || newX > CANVAS_WIDTH - this.width ||
             newY < 0 || newY > CANVAS_HEIGHT - this.height) {
-            return; // Don't move outside canvas
+            return;
         }
-        
-        // Check for obstacle collisions
+
         const now = Date.now();
         if (now - this.lastCollisionTime < this.collisionCooldown) {
-            return; // Skip movement during cooldown
+            return;
         }
-        
+
         let canMove = true;
         const tempPlayer = new Player(newX, newY);
-        
+
+        // Check obstacle collisions
         for (const obstacle of obstacles) {
             if (tempPlayer.collidesWith(obstacle)) {
                 this.handleCollision();
@@ -456,32 +427,40 @@ class Player extends GameObject {
                 break;
             }
         }
-        
+
+        // Check danger obstacles separately (they don't block movement)
+        for (const danger of dangerObstacles) {
+            if (tempPlayer.collidesWith(danger)) {
+                this.handleDangerCollision();
+                // Note: Don't break movement if hit danger
+            }
+        }
+
         if (canMove) {
             this.x = newX;
             this.y = newY;
             this.checkCollectibles();
         }
     }
-    
+
     handleCollision() {
         const now = Date.now();
         this.lastCollisionTime = now;
-        
-        // Apply penalty
+
         score = Math.max(0, score - OBSTACLE_PENALTY);
         updateScore();
-        
-        // Visual feedback
+
         this.flash();
         if (sounds.obstacle) sounds.obstacle.play();
-     
-        
-        // No position change - just prevent movement during cooldown
     }
 
+    handleDangerCollision() {
+        score = Math.max(0, score - 50);  // Danger penalty
+        updateScore();
 
-    
+        this.flash();
+        if (sounds.lose) sounds.lose.play();
+    }
     checkCollectibles() {
         for (let i = collectibles.length - 1; i >= 0; i--) {
             const collectible = collectibles[i];
@@ -502,9 +481,11 @@ class Player extends GameObject {
                         spawnCollectibles(2, 17);
                         if (sounds.level) sounds.level.play();
                     }
-                } else if (collectible.phase === 2) {
+                } 
+                else if (collectible.phase === 2) {
                     phase2Collected++;
                     if (currentPhase === 2 && phase2Collected >= PHASE2_COUNT) {
+                        spawnDangerObstacles(3); // ⚡ Spawn dangers when Phase 3 unlocks!
                         currentPhase = 3;
                         phaseUnlockMessage = 'Phase 3 Unlocked!';
                         phaseUnlockTimer = Date.now();
@@ -512,7 +493,8 @@ class Player extends GameObject {
                         spawnCollectibles(3, 26);
                         if (sounds.level) sounds.level.play();
                     }
-                } else if (collectible.phase === 3) {
+                } 
+                else if (collectible.phase === 3) {
                     phase3Collected++;
                     if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT) {
                         currentPhase = 4;
@@ -522,9 +504,11 @@ class Player extends GameObject {
                         spawnCollectibles(4, 37);
                         if (sounds.level) sounds.level.play();
                     }
-                } else if (collectible.phase === 4) {
+                } 
+                else if (collectible.phase === 4) {
                     phase4Collected++;
                     if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT) {
+                        spawnDangerObstacles(5); // ⚡ Spawn more dangers when Phase 5 unlocks!
                         currentPhase = 5;
                         phaseUnlockMessage = 'Phase 5 Unlocked!';
                         phaseUnlockTimer = Date.now();
@@ -532,7 +516,8 @@ class Player extends GameObject {
                         spawnCollectibles(5, 50);
                         if (sounds.level) sounds.level.play();
                     }
-                } else if (collectible.phase === 5) {
+                } 
+                else if (collectible.phase === 5) {
                     phase5Collected++;
                     if (currentPhase === 5 && phase5Collected >= PHASE5_COUNT) {
                         phaseUnlockMessage = 'Winner Winner Chicken Dinner!';
@@ -544,24 +529,23 @@ class Player extends GameObject {
     
                 updateScore();
     
-
-// Play random collect sound
-const rand = Math.random();
-if (rand < 0.33 && sounds.collect) {
-    sounds.collect.currentTime = 0;
-    sounds.collect.play();
-} else if (rand < 0.66 && sounds.collect2) {
-    sounds.collect2.currentTime = 0;
-    sounds.collect2.play();
-} else if (sounds.treasure) {
-    sounds.treasure.currentTime = 0;
-    sounds.treasure.play();
-}
-
-
+                // Play random collect sound
+                const rand = Math.random();
+                if (rand < 0.33 && sounds.collect) {
+                    sounds.collect.currentTime = 0;
+                    sounds.collect.play();
+                } else if (rand < 0.66 && sounds.collect2) {
+                    sounds.collect2.currentTime = 0;
+                    sounds.collect2.play();
+                } else if (sounds.treasure) {
+                    sounds.treasure.currentTime = 0;
+                    sounds.treasure.play();
+                }
             }
         }
     }
+    
+
 }
     
 function spawnCollectibles(phase, count) {
@@ -581,6 +565,16 @@ function spawnCollectibles(phase, count) {
         collectibles.push(new Collectible(x, y, size, size, type, value, phase));
     }
 }
+
+function spawnDangerObstacles(count) {
+    for (let i = 0; i < count; i++) {
+        const size = 30;
+        const x = Math.random() * (CANVAS_WIDTH - size);
+        const y = Math.random() * (CANVAS_HEIGHT - size);
+        dangerObstacles.push(new DangerObstacle(x, y, size, size));
+    }
+}
+
     
 
 async function loadObstacles() {
@@ -1006,9 +1000,16 @@ function gameLoop() {
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
     
     obstacles.forEach(o => o.draw());
+    dangerObstacles.forEach(d => d.draw());
     collectibles.forEach(c => c.draw());
     player.update();
     player.draw();
+
+    dangerObstacles.forEach(d => {
+        d.update();
+        d.draw();
+    });
+    
     
     if (phaseUnlockMessage && (Date.now() - phaseUnlockTimer) < 3000) {
         ctx.font = 'bold 48px Arial';
