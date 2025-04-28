@@ -653,7 +653,8 @@ checkCollision(obstacle) {
                 
                 updateScore();
                 if (sounds.collect) sounds.collect.play();
-                collectibles.splice(i, 1);
+                collectibles.splice(i, 1); 
+            checkLevelProgression();
             }
         }
     }
@@ -1040,6 +1041,17 @@ function generateCollectibleGrid(columns, rows, phase = 1)
     return gridCollectibles;
 }
 
+function checkLevelProgression() {
+    if (score >= PHASE5_SCORE_REQUIRED && currentLevel < 5) {
+        advanceLevel();
+    } else if (score >= PHASE4_SCORE_REQUIRED && currentLevel < 4) {
+        advanceLevel();
+    } else if (score >= PHASE3_SCORE_REQUIRED && currentLevel < 3) {
+        advanceLevel();
+    } else if (score >= PHASE2_SCORE_REQUIRED && currentLevel < 2) {
+        advanceLevel();
+    }
+}
 
 function setupControls() {
     window.addEventListener('keydown', (e) => {

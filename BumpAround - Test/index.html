@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bump Around</title>
+    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<!-- Start Screen with Image -->
+<div id="start-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; color: white; display: flex; flex-direction: column; align-items: center;">
+    <!-- Image Container (Top Half) -->
+    <div style="height: 50vh; width: 100%; overflow: hidden; display: flex; justify-content: center;">
+        <img src="./img/bumparound.jpg" 
+             alt="Game Title Image" 
+             style="height: 100%; width: auto; object-fit: cover;">
+    </div>
+
+    <!-- Button Container (Bottom Half) -->
+    <div style="height: 50vh; display: flex; align-items: center; justify-content: center;">
+        <button onclick="startGame()" 
+                style="padding: 20px; font-size: 24px; margin-top: -20vh;">
+            CLICK TO START GAME
+        </button>
+    </div>
+</div>
+
+    <!-- Game Container -->
+    <div id="game-container" style="position: fixed; inset: 0;">
+        <canvas id="game-canvas"></canvas>
+    </div>
+
+    <div id="game-wrapper">
+        <div id="score-panel">
+            <div id="score-display">Score: 0</div>
+            <div id="phase-display">Phase: 1</div>
+      
+        </div>
+    
+        <div id="game-container">
+            <canvas id="game-canvas"></canvas>
+        </div>
+    </div>
+    
+      
+
+
+
+    <!-- Audio -->
+    <audio id="collect-sound" src="./audio/collect.wav" preload="auto"></audio>
+    <audio id="phase-sound" src="./audio/treasure.wav" preload="auto"></audio>
+    <audio id="warning-sound" src="./audio/warning.wav" preload="auto"></audio>
+    <audio id="obstacle-sound" src="./audio/tap.wav" preload="auto"></audio>
+    <audio id="bump-warning" src="./audio/bump.wav" preload="auto"></audio>
+
+    
+    <!-- Game Code -->
+    <script src="game.js"></script>
+</body>
+</html>

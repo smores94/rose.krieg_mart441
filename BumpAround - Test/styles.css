@@ -1,0 +1,62 @@
+/* Basic reset */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  background-color: #0c0c0c;
+}
+
+/* Start Screen Styling */
+#start-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(#1e1e1e, #3a3a3a);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+#start-screen h1 {
+  font-size: 64px;
+  margin-bottom: 30px;
+}
+
+#start-button {
+  padding: 15px 30px;
+  font-size: 24px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ff6600;
+  color: white;
+  cursor: pointer;
+  animation: bounce 1.5s infinite ease-in-out;
+}
+
+#start-button:hover {
+  background-color: #ff8533;
+}
+
+/* Canvas */
+#gameCanvas {
+  display: block;
+  background-color: #87CEFA; /* Sky blue background */
+}
+
+/* Bouncy Animation */
+@keyframes bounce {
+  0%, 100% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-10px);
+  }
+}
+
+
