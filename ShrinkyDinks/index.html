@@ -92,6 +92,7 @@
 
         <audio id="pop" src="./pop.wav"></audio>
         <audio id="squeak" src="./squeak.wav"></audio>
+        <audio id="loseSound" src="./lose.mp3"></audio>
 
     </div>
 
@@ -131,6 +132,10 @@
         const regularHitSound = document.getElementById('pop');
 const surpriseHitSound = document.getElementById('squeak');
 const winSound = document.getElementById('badass');
+const loseSound = document.getElementById('loseSound');
+
+
+
 
 let lastSoundTime = 0;
 const soundCooldown = 300; // milliseconds
@@ -434,13 +439,18 @@ function playHitSound(target) {
                 
                 // Check for timeout
                 if (levelTimer >= levelTimeLimit) {
-                    gameActive = false;
-                    flashBackground();
-                    finalMessage.textContent = "TIME'S UP!";
-                    finalMessage.style.color = "#F44336";
-                    gameOverMessage.style.display = 'block';
-                    return;
-                }
+    gameActive = false;
+    flashBackground();
+    if (level >= 4) {
+        loseSound.currentTime = 0;
+        loseSound.play();
+    }
+    finalMessage.textContent = "TIME'S UP!";
+    finalMessage.style.color = "#F44336";
+    gameOverMessage.style.display = 'block';
+    return;
+}
+
             }
 
             // Check for loss condition
