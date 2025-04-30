@@ -600,7 +600,11 @@ function spawnDangerObstacles(count) {
     }
 }
 
-    
+if (!gameOver) {
+    spawnDangerObstacles(4);
+    console.log("Level 4: total dangers =", dangerObstacles.length);
+}
+
 
 async function loadObstacles() {
     // Helper function for generating random obstacles
