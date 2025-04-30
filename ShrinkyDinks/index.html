@@ -130,6 +130,7 @@
         //audio
         const regularHitSound = document.getElementById('pop');
 const surpriseHitSound = document.getElementById('squeak');
+const winSound = document.getElementById('badass');
 
 let lastSoundTime = 0;
 const soundCooldown = 300; // milliseconds
@@ -632,6 +633,8 @@ function playHitSound(target) {
                     } else {
                         gameActive = false;
                         flashBackground();
+                        winSound.currentTime = 0;
+                        winSound.play();
                         finalMessage.textContent = "YOU BEAT ALL LEVELS!";
                         finalMessage.style.color = "#4CAF50";
                         gameOverMessage.style.display = 'block';
