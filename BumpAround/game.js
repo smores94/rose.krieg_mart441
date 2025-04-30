@@ -494,62 +494,65 @@ class Player extends GameObject {
                 collectible.collected = true;
                 score += collectible.value;
     
-                // Track how many collected
-                if (collectible.phase === 1) {
-                    phase1Collected++;
-                    if (currentPhase === 1 && phase1Collected >= PHASE1_COUNT && score >= 150) {  // Score requirement!
-                        currentPhase = 2;
-                        phaseUnlockMessage = 'Phase 2 Unlocked!';
-                        phaseUnlockTimer = Date.now();
-                        console.log("Phase 2 unlocked!");
-                        spawnCollectibles(2, 10);
-                        if (sounds.level) sounds.level.play();
-                    }
-                } 
-                else if (collectible.phase === 2) {
-                    phase2Collected++;
-                    if (currentPhase === 2 && phase2Collected >= PHASE2_COUNT && score >= 450) {  // Score requirement!
-                        spawnDangerObstacles(2);
-                        currentPhase = 3;
-                        phaseUnlockMessage = 'Phase 3 Unlocked!';
-                        phaseUnlockTimer = Date.now();
-                        console.log("Phase 3 unlocked!");
-                        spawnCollectibles(3, 20);
-                        if (sounds.level) sounds.level.play();
-                    }
-                } 
-                else if (collectible.phase === 3) {
-                    phase3Collected++;
-                    if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT && score >= 800) {  // Score requirement!
-                        currentPhase = 4;
-                        phaseUnlockMessage = 'Phase 4 Unlocked!';
-                        phaseUnlockTimer = Date.now();
-                        console.log("Phase 4 unlocked!");
-                        spawnCollectibles(4, 25);
-                        if (sounds.level) sounds.level.play();
-                    }
-                } 
-                else if (collectible.phase === 4) {
-                    phase4Collected++;
-                    if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT && score >= 1500) {  // Score requirement!
-                        spawnDangerObstacles(2);
-                        currentPhase = 5;
-                        phaseUnlockMessage = 'Phase 5 Unlocked!';
-                        phaseUnlockTimer = Date.now();
-                        console.log("Phase 5 unlocked!");
-                        spawnCollectibles(5, 30);
-                        if (sounds.level) sounds.level.play();
-                    }
-                } 
-                else if (collectible.phase === 5) {
-                    phase5Collected++;
-                    if (currentPhase === 5 && phase5Collected >= PHASE5_COUNT && score >= 2000) {  // Final score requirement!
-                        phaseUnlockMessage = 'Winner Winner Chicken Dinner!';
-                        phaseUnlockTimer = Date.now();
-                        console.log("You win! 🎉");
-                        if (sounds.win) sounds.win.play();
-                    }
-                }
+               // Track how many collected
+if (collectible.phase === 1) {
+    phase1Collected++;
+    if (currentPhase === 1 && phase1Collected >= PHASE1_COUNT && score >= 150) {
+        currentPhase = 2;
+        phaseUnlockMessage = 'Phase 2 Unlocked!';
+        phaseUnlockTimer = Date.now();
+        console.log("Phase 2 unlocked!");
+        spawnCollectibles(2, 10);
+        if (sounds.level) sounds.level.play();
+    }
+} 
+else if (collectible.phase === 2) {
+    phase2Collected++;
+    if (currentPhase === 2 && phase2Collected >= PHASE2_COUNT && score >= 450) {
+        if (!gameOver) spawnDangerObstacles(2); // ✅ 2 dangers for Level 3
+        currentPhase = 3;
+        phaseUnlockMessage = 'Phase 3 Unlocked!';
+        phaseUnlockTimer = Date.now();
+        console.log("Phase 3 unlocked!");
+        spawnCollectibles(3, 20);
+        if (sounds.level) sounds.level.play();
+    }
+} 
+else if (collectible.phase === 3) {
+    phase3Collected++;
+    if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT && score >= 800) {
+        if (!gameOver) spawnDangerObstacles(4); // ✅ 4 dangers for Level 4
+        currentPhase = 4;
+        phaseUnlockMessage = 'Phase 4 Unlocked!';
+        phaseUnlockTimer = Date.now();
+        console.log("Phase 4 unlocked!");
+        spawnCollectibles(4, 25);
+        if (sounds.level) sounds.level.play();
+    }
+} 
+else if (collectible.phase === 4) {
+    phase4Collected++;
+    if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT && score >= 1500) {
+        if (!gameOver) spawnDangerObstacles(6); // ✅ 6 dangers for Level 5
+        currentPhase = 5;
+        phaseUnlockMessage = 'Phase 5 Unlocked!';
+        phaseUnlockTimer = Date.now();
+        console.log("Phase 5 unlocked!");
+        spawnCollectibles(5, 30);
+        if (sounds.level) sounds.level.play();
+    }
+} 
+else if (collectible.phase === 5) {
+    phase5Collected++;
+    if (currentPhase === 5 && phase5Collected >= PHASE5_COUNT && score >= 2000) {
+        phaseUnlockMessage = 'Winner Winner Chicken Dinner!';
+        phaseUnlockTimer = Date.now();
+        console.log("You win! 🎉");
+        if (sounds.win) sounds.win.play();
+        gameOver = true; // ✅ Prevent further spawning
+    }
+}
+
     
                 updateScore();
     
