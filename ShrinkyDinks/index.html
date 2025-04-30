@@ -89,6 +89,10 @@
             <div id="finalMessage"></div>
             <button id="playAgain">Play Again</button>
         </div>
+
+        <audio id="pop" src="./pop.wav"></audio>
+        <audio id="squeak" src="./squeak.wav"></audio>
+
     </div>
 
     <script>
@@ -122,6 +126,32 @@
         let gameLoopRunning = false;
         let lastCollisionTime = 0;
         const collisionCooldown = 10; // frames
+
+        //audio
+        const regularHitSound = document.getElementById('pop');
+const surpriseHitSound = document.getElementById('squeak');
+
+let lastSoundTime = 0;
+const soundCooldown = 300; // milliseconds
+
+function playHitSound(target) {
+    const now = Date.now();
+    if (now - lastSoundTime < soundCooldown) return;
+    lastSoundTime = now;
+
+    let sound;
+    if (surpriseTarget && target === surpriseTarget) {
+        sound = surpriseHitSound;
+    } else {
+        sound = regularHitSound;
+    }
+
+    sound.currentTime = 0;
+    sound.volume = isInvincible ? 0.3 : 1.0;
+    sound.play();
+}
+
+
         
         // Game variables
         let directionChangeTimer = 0;
@@ -486,8 +516,10 @@
                 target.update();
                 
                 // Check collision
-                if (player.checkCollision(target)) {
-                    if (!collisionOccurred) {
+  if (player.checkCollision(target)) {
+    playHitSound(target);
+    if (!collisionOccurred) {
+
                         flashFrames = maxFlashFrames;
                         
                         if (!isInvincible) {
