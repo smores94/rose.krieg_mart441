@@ -92,8 +92,8 @@
 
         <audio id="pop" src="./pop.wav"></audio>
         <audio id="squeak" src="./squeak.wav"></audio>
-        <audio id="lose" src="./lose.mp3"></audio>
-        <audio id="badass" src="./badass.mp3"></audio>
+        <audio id="loseSound" src="./lose.mp3"></audio>
+        <audio id="winSound" src="./badass.mp3"></audio>
 
 
     </div>
@@ -456,7 +456,7 @@ if (level >= 3) {
                 if (levelTimer >= levelTimeLimit) {
     gameActive = false;
     flashBackground();
-    if (level >= 4) {
+    if (level >= 3) {
         loseSound.currentTime = 0;
         loseSound.play();
     }
