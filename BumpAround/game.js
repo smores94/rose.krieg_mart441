@@ -521,7 +521,7 @@ else if (collectible.phase === 2) {
 else if (collectible.phase === 3) {
     phase3Collected++;
     if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT && score >= 800) {
-        if (!gameOver) spawnDangerObstacles(4); // ✅ 4 dangers for Level 4
+        if (!gameOver) spawnDangerObstacles(2); // ✅ 4 dangers for Level 4
         currentPhase = 4;
         phaseUnlockMessage = 'Phase 4 Unlocked!';
         phaseUnlockTimer = Date.now();
@@ -533,7 +533,7 @@ else if (collectible.phase === 3) {
 else if (collectible.phase === 4) {
     phase4Collected++;
     if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT && score >= 1500) {
-        if (!gameOver) spawnDangerObstacles(6); // ✅ 6 dangers for Level 5
+        if (!gameOver) spawnDangerObstacles(2); // ✅ 6 dangers for Level 5
         currentPhase = 5;
         phaseUnlockMessage = 'Phase 5 Unlocked!';
         phaseUnlockTimer = Date.now();
@@ -598,11 +598,6 @@ function spawnDangerObstacles(count) {
         const y = Math.random() * (CANVAS_HEIGHT - size);
         dangerObstacles.push(new DangerObstacle(x, y, size, size));
     }
-}
-
-if (!gameOver) {
-    spawnDangerObstacles(4);
-    console.log("Level 4: total dangers =", dangerObstacles.length);
 }
 
 
