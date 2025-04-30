@@ -93,6 +93,8 @@
         <audio id="pop" src="./pop.wav"></audio>
         <audio id="squeak" src="./squeak.wav"></audio>
         <audio id="loseSound" src="./lose.mp3"></audio>
+        <audio id="badass" src="./win.mp3"></audio>
+
 
     </div>
 
@@ -109,6 +111,8 @@
         
         // Game state
         let background = '#87CEEB';
+        let secondSurpriseTarget = null;
+        let secondSurpriseTriggered = false;
         let collisionOccurred = false;
         let shrinkFactor = 0.9;
         let minSize = 10;
@@ -322,12 +326,19 @@ function playHitSound(target) {
                 ));
             }
             
-            // Set time limits for levels 4+
-            if (level >= 4) {
-                levelTimer = 0;
-                levelTimeLimit = level === 4 ? 420 : 500;
-                timerWarningActive = false;
-            }
+           // Set time limits for levels 3+
+if (level >= 3) {
+    levelTimer = 0;
+    if (level === 3) {
+        levelTimeLimit = 300; // ⏱️ 5 minutes for level 3 (adjust as needed)
+    } else if (level === 4) {
+        levelTimeLimit = 420;
+    } else {
+        levelTimeLimit = 500;
+    }
+    timerWarningActive = false;
+}
+
 
             // Pre-create surprise target for level 4/5
             if (level >= 4) {
@@ -373,6 +384,9 @@ function playHitSound(target) {
             levelTimer = 0;
             levelTimeLimit = 0;
             timerWarningActive = false;
+            secondSurpriseTarget = null;
+            secondSurpriseTriggered = false;
+
 
  
     
@@ -427,7 +441,8 @@ function playHitSound(target) {
     }
 
             // Handle level timer for levels 4+
-            if (level >= 4 && levelTimeLimit > 0) {
+            if (level >= 3 && levelTimeLimit > 0) {
+
                 levelTimer += 1/60;
                 
                 // Check if time is running out
@@ -543,6 +558,32 @@ function playHitSound(target) {
                             
                             const playerShrunk = player.shrink();
                             const targetShrunk = target.shrink();
+                            
+// If surpriseTarget shrinks to 50% or less and second hasn't spawned yet
+if (
+    level === 5 &&
+    target === surpriseTarget &&
+    !secondSurpriseTriggered &&
+    target.width <= target.initialWidth * 0.5
+) {
+    const sizeMultiplier = 3; // slightly smaller than the first
+    secondSurpriseTarget = new GameObject(
+        Math.random() * (canvas.width - 50 * sizeMultiplier),
+        Math.random() * (canvas.height - 50 * sizeMultiplier),
+        50 * sizeMultiplier, 50 * sizeMultiplier,
+        '#FF00FF',
+        (Math.random() - 0.5) * 8,
+        (Math.random() - 0.5) * 8
+    );
+
+    targets.push(secondSurpriseTarget);
+    secondSurpriseTriggered = true;
+
+    background = '#FF66CC';
+    setTimeout(() => background = '#87CEEB', 600);
+}
+
+
                             if (playerShrunk || targetShrunk) {
                                 background = '#FFA07A';
                                 clearTimeout(backgroundTimeout);
