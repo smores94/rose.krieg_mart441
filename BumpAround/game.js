@@ -12,10 +12,10 @@ const PHASE2_COUNT = 15; // Number of phase 2 collectibles needed to win
 const PHASE3_COUNT = 20; // Number of phase 3 collectibles needed to win
 const PHASE4_COUNT = 25; // Number of phase 4 collectibles needed to win
 const PHASE5_COUNT = 30; // Number of phase 5 collectibles needed to win
-const PHASE1_TIME_LIMIT = 30000;
-const PHASE2_TIME_LIMIT = 60000;
-const PHASE3_TIME_LIMIT = 90000;
-const PHASE4_TIME_LIMIT = 120000;
+const PHASE1_TIME_LIMIT = 40000;
+const PHASE2_TIME_LIMIT = 70000;
+const PHASE3_TIME_LIMIT = 100000;
+const PHASE4_TIME_LIMIT = 130000;
 const PHASE5_TIME_LIMIT = 180000;
 const PHASE1_SCORE_REQUIRED = 150; 
 const PHASE2_SCORE_REQUIRED = 450;
@@ -591,14 +591,19 @@ function spawnCollectibles(phase, count) {
     }
 }
 
-function spawnDangerObstacles(count) {
-    for (let i = 0; i < count; i++) {
-        const size = 30;
-        const x = Math.random() * (CANVAS_WIDTH - size);
-        const y = Math.random() * (CANVAS_HEIGHT - size);
-        dangerObstacles.push(new DangerObstacle(x, y, size, size));
+
+    function spawnDangerObstacles(count) {
+        console.log(`Spawning ${count} danger obstacles at phase ${currentPhase}`);
+        for (let i = 0; i < count; i++) {
+            const size = 30;
+            const x = Math.random() * (CANVAS_WIDTH - size);
+            const y = Math.random() * (CANVAS_HEIGHT - size);
+            dangerObstacles.push(new DangerObstacle(x, y, size, size));
+        }
     }
-}
+    
+
+
 
 
 async function loadObstacles() {
