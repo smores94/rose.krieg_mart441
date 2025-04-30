@@ -92,8 +92,8 @@
 
         <audio id="pop" src="./pop.wav"></audio>
         <audio id="squeak" src="./squeak.wav"></audio>
-        <audio id="loseSound" src="./lose.mp3"></audio>
-        <audio id="badass" src="./win.mp3"></audio>
+        <audio id="lose" src="./lose.mp3"></audio>
+        <audio id="badass" src="./badass.mp3"></audio>
 
 
     </div>
@@ -652,8 +652,9 @@ if (
                 ctx.fillText(`INVINCIBLE! ${(invincibleTimer/60).toFixed(1)}s`, 20, 150);
             }
             
-            // Draw timer for levels 4+
-            if (level >= 4 && levelTimeLimit > 0) {
+          // Draw timer for levels 3+
+if (level >= 3 && levelTimeLimit > 0) {
+
                 const timeLeft = Math.ceil(levelTimeLimit - levelTimer);
                 const timerColor = timeLeft <= timerWarningThreshold ? '#FF0000' : '#000';
                 ctx.fillStyle = timerColor;
