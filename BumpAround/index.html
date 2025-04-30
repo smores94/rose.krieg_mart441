@@ -5,7 +5,6 @@
     <title>Bump Around</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* Ensure proper scaling on mobile */
         @viewport {
             width: device-width;
             zoom: 1.0;
@@ -30,14 +29,13 @@
             display: block;
         }
 
-        /* Start screen styles */
         #start-screen {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: #000000cc; /* semi-transparent black */
+            background: #000000cc;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -90,33 +88,10 @@
     <audio id="warning" src="./audio/warning.wav" preload="auto"></audio>
     <audio id="obstacle" src="./audio/obstacle.wav" preload="auto"></audio>
     <audio id="level" src="./audio/level.wav" preload="auto"></audio>
-    <audio id="win" src="./audio/win.wav" preload="auto"></audio>
     <audio id="gameover" src="./audio/gameover.mp3" preload="auto"></audio>
-    <audio id="win" src="./audio/win.mp3"></audio>
- 
+    <audio id="win" src="./audio/win.mp3" preload="auto"></audio>
 
-
-
-    <!-- Start Button Logic -->
-    <script>
-        document.getElementById('start-button').addEventListener('click', function() {
-            document.getElementById('start-screen').style.display = 'none';
-            startGame();
-        });
-    </script>
-</body>
-</html>
-
-     <!-- Scripts -->
+    <!-- Game Scripts -->
     <script src="game.js"></script>
+    <script
 
-    <script>
-        // Start screen logic
-        document.getElementById('start-button').addEventListener('click', function() {
-            document.getElementById('start-screen').style.display = 'none';
-       
-            // startGame();
-        });
-    </script>
-</body>
-</html>
