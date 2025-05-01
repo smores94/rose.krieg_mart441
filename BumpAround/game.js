@@ -381,12 +381,12 @@ class Player extends GameObject {
     draw() {
         ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.arc(this.x + this.width/2, this.y + this.height/2, this.width/2, 0, Math.PI * 2);
+        ctx.arc(this.x + this.width / 2, this.y + this.height / 2, this.width / 2, 0, Math.PI * 2);
         ctx.fill();
 
         ctx.fillStyle = 'white';
         ctx.beginPath();
-        ctx.arc(this.x + this.width/2 + (this.width/4), this.y + this.height/2 - (this.height/4), this.width/8, 0, Math.PI * 2);
+        ctx.arc(this.x + this.width / 2 + (this.width / 4), this.y + this.height / 2 - (this.height / 4), this.width / 8, 0, Math.PI * 2);
         ctx.fill();
     }
 
@@ -406,7 +406,6 @@ class Player extends GameObject {
         if (keys.ArrowLeft) dx -= this.speed;
         if (keys.ArrowRight) dx += this.speed;
 
-        // Normalize diagonal movement
         if (dx !== 0 && dy !== 0) {
             dx *= 0.7071;
             dy *= 0.7071;
@@ -415,7 +414,6 @@ class Player extends GameObject {
         const newX = this.x + dx;
         const newY = this.y + dy;
 
-        // Boundary check
         if (newX < 0 || newX > CANVAS_WIDTH - this.width ||
             newY < 0 || newY > CANVAS_HEIGHT - this.height) {
             return;
@@ -429,7 +427,6 @@ class Player extends GameObject {
         let canMove = true;
         const tempPlayer = new Player(newX, newY);
 
-        // Check obstacle collisions
         for (const obstacle of obstacles) {
             if (tempPlayer.collidesWith(obstacle)) {
                 this.handleCollision();
@@ -438,11 +435,9 @@ class Player extends GameObject {
             }
         }
 
-        // Check danger obstacles separately (they don't block movement)
         for (const danger of dangerObstacles) {
             if (tempPlayer.collidesWith(danger)) {
                 this.handleDangerCollision();
-         
             }
         }
 
@@ -460,10 +455,10 @@ class Player extends GameObject {
         score = Math.max(0, score - OBSTACLE_PENALTY);
         updateScore();
 
-        if (score <= 0) {
+        if (score <= 0 && !gameOver) {
             triggerGameOver();
+            return;
         }
-        
 
         this.flash();
         if (sounds.obstacle) sounds.obstacle.play();
@@ -473,36 +468,40 @@ class Player extends GameObject {
         score = Math.max(0, score - 50);  // Danger penalty
         updateScore();
 
-        if (score <= 0) {
+        if (score <= 0 && !gameOver) {
             triggerGameOver();
+            return;
         }
-        
 
         this.flash();
         if (sounds.lose) sounds.lose.play();
     }
 
+
     isNear(other) {
-        const buffer = 10;  // distance in pixels you have to get close
+        const buffer = 10;
         const dx = (this.x + this.width / 2) - (other.x + other.width / 2);
         const dy = (this.y + this.height / 2) - (other.y + other.height / 2);
         const distance = Math.sqrt(dx * dx + dy * dy);
-    
         const requiredDistance = (this.width / 2) + (other.width / 2) - buffer;
-    
+
         return distance < requiredDistance;
     }
     
 
     checkCollectibles() {
+        if (gameOver) return; // Don't collect after game ends
+
         for (let i = collectibles.length - 1; i >= 0; i--) {
             const collectible = collectibles[i];
             if (!collectible.collected &&
                 collectible.phase <= currentPhase &&
-                this.isNear(collectible)) {   
-                
+                this.isNear(collectible)) {
+
                 collectible.collected = true;
                 score += collectible.value;
+
+                updateScore();
     
                // Track how many collected
 if (collectible.phase === 1) {
