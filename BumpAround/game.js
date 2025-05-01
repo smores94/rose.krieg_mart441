@@ -1150,13 +1150,17 @@ function showRestartButton() {
         restartGame();
     };
 }
+
+
+
 function restartGame() {
-    // Clean up
+    // Remove restart button
     const restartButton = document.getElementById('restart-button');
     if (restartButton) {
         restartButton.remove();
     }
 
+    // Reset game flags and variables
     gameOver = false;
     score = 0;
     currentPhase = 1;
@@ -1165,17 +1169,28 @@ function restartGame() {
     phase3Collected = 0;
     phase4Collected = 0;
     phase5Collected = 0;
-    phaseStartTime = Date.now();
-    timeLeft = PHASE1_TIME_LIMIT;
     phaseUnlockMessage = '';
+    timeWarningPlayed = false;
 
-    // Reset arrays
+    // Clear arrays
     obstacles = [];
     collectibles = [];
     dangerObstacles = [];
 
-    initGame(); // 🛠 Reinitialize everything
+    // Fully clear canvas
+    if (ctx) ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    // Reset keys
+    keys = {};
+
+    // Remove old canvas events if needed (optional)
+    window.removeEventListener('resize', resizeCanvas);
+
+    // Force reload assets from scratch
+    initGame();  
 }
+    initGame(); // 🛠 Reinitialize everything
+
 
 
 
