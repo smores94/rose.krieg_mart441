@@ -499,6 +499,8 @@ if (collectible.phase === 1) {
     phase1Collected++;
     if (currentPhase === 1 && phase1Collected >= PHASE1_COUNT && score >= 150) {
         currentPhase = 2;
+        phaseStartTime = Date.now(); // 🔧 Reset timer
+        timeWarningPlayed = false;
         phaseUnlockMessage = 'Phase 2 Unlocked!';
         phaseUnlockTimer = Date.now();
         console.log("Phase 2 unlocked!");
@@ -511,6 +513,8 @@ else if (collectible.phase === 2) {
     if (currentPhase === 2 && phase2Collected >= PHASE2_COUNT && score >= 450) {
         if (!gameOver) spawnDangerObstacles(2); // ✅ 2 dangers for Level 3
         currentPhase = 3;
+        phaseStartTime = Date.now(); // 🔧 Reset timer
+        timeWarningPlayed = false;
         phaseUnlockMessage = 'Phase 3 Unlocked!';
         phaseUnlockTimer = Date.now();
         console.log("Phase 3 unlocked!");
@@ -523,6 +527,8 @@ else if (collectible.phase === 3) {
     if (currentPhase === 3 && phase3Collected >= PHASE3_COUNT && score >= 800) {
         if (!gameOver) spawnDangerObstacles(2); // ✅ 4 dangers for Level 4
         currentPhase = 4;
+        phaseStartTime = Date.now(); // 🔧 Reset timer
+        timeWarningPlayed = false;
         phaseUnlockMessage = 'Phase 4 Unlocked!';
         phaseUnlockTimer = Date.now();
         console.log("Phase 4 unlocked!");
@@ -535,6 +541,8 @@ else if (collectible.phase === 4) {
     if (currentPhase === 4 && phase4Collected >= PHASE4_COUNT && score >= 1500) {
         if (!gameOver) spawnDangerObstacles(2); // ✅ 6 dangers for Level 5
         currentPhase = 5;
+        phaseStartTime = Date.now(); // 🔧 Reset timer
+        timeWarningPlayed = false;
         phaseUnlockMessage = 'Phase 5 Unlocked!';
         phaseUnlockTimer = Date.now();
         console.log("Phase 5 unlocked!");
@@ -545,6 +553,8 @@ else if (collectible.phase === 4) {
 else if (collectible.phase === 5) {
     phase5Collected++;
     if (currentPhase === 5 && phase5Collected >= PHASE5_COUNT && score >= 2000) {
+        phaseStartTime = Date.now(); // 🔧 Reset timer
+        timeWarningPlayed = false;
         phaseUnlockMessage = 'Winner Winner Chicken Dinner!';
         phaseUnlockTimer = Date.now();
         console.log("You win! 🎉");
