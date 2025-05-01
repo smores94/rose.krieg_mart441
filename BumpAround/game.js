@@ -460,6 +460,11 @@ class Player extends GameObject {
         score = Math.max(0, score - OBSTACLE_PENALTY);
         updateScore();
 
+        if (score <= 0) {
+            triggerGameOver();
+        }
+        
+
         this.flash();
         if (sounds.obstacle) sounds.obstacle.play();
     }
@@ -467,6 +472,11 @@ class Player extends GameObject {
     handleDangerCollision() {
         score = Math.max(0, score - 50);  // Danger penalty
         updateScore();
+
+        if (score <= 0) {
+            triggerGameOver();
+        }
+        
 
         this.flash();
         if (sounds.lose) sounds.lose.play();
