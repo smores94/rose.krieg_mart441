@@ -1042,10 +1042,12 @@ function resizeCanvas() {
     canvas.width = CANVAS_WIDTH * dpr;
     canvas.height = CANVAS_HEIGHT * dpr;
     ctx.scale(dpr, dpr);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);  // ✅ Clear prior scaling
+    ctx.scale(dpr, dpr);
 }
 
 function gameLoop() {
-    if (gameOver) return;  // 🛑 Stop the loop if game over!
+    if (gameOver) return;  // Stop the loop if game over!
 
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -1194,15 +1196,6 @@ function restartGame() {
 
 
 
-window.onload = function() {
-    document.body.addEventListener('click', () => {
-        unlockAudio();  // Unlock sounds
-        startGame();    // Then start the game
-    }, { once: true });
-};
-
-
-
 
 async function initGame() {
     canvas = document.getElementById('game-canvas');
@@ -1243,6 +1236,7 @@ async function initGame() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
+    
     await Promise.all([loadObstacles(), loadCollectibles()]);
 
     player = new Player(50, 50);
