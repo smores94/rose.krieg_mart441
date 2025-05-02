@@ -1201,9 +1201,8 @@ window.onload = function() {
     }, { once: true });
 };
 
-function startGame() {
-    initGame();
-}
+
+
 
 async function initGame() {
     canvas = document.getElementById('game-canvas');
