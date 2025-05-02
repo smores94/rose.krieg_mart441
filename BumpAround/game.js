@@ -1326,16 +1326,7 @@ function restartGame() {
 
 
 
-window.onload = function() {
-    document.body.addEventListener('click', () => {
-        unlockAudio();  // Unlock sounds
-        startGame();    // Then start the game
-    }, { once: true });
-};
 
-function startGame() {
-    initGame();
-}
 
 async function initGame() {
     canvas = document.getElementById('game-canvas');
