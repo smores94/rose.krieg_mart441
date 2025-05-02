@@ -1021,29 +1021,31 @@ function resizeCanvas() {
     const container = document.getElementById('game-container');
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
-
+    
+    // Calculate scale to fit container while maintaining aspect ratio
     const scale = Math.min(
         containerWidth / CANVAS_WIDTH,
         containerHeight / CANVAS_HEIGHT
     );
-
+    
+    // Apply the scale
     canvas.style.width = `${CANVAS_WIDTH * scale}px`;
     canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
+    
+    // Center the canvas
     canvas.style.position = 'absolute';
     canvas.style.left = `${(containerWidth - CANVAS_WIDTH * scale) / 2}px`;
     canvas.style.top = `${(containerHeight - CANVAS_HEIGHT * scale) / 2}px`;
-
+    
+    // Handle high DPI displays
     const dpr = window.devicePixelRatio || 1;
     canvas.width = CANVAS_WIDTH * dpr;
     canvas.height = CANVAS_HEIGHT * dpr;
-
-    ctx.setTransform(1, 0, 0, 1, 0, 0);  //  Reset any existing transform
-    ctx.scale(dpr, dpr);                // Then apply correct scaling
+    ctx.scale(dpr, dpr);
 }
 
-
 function gameLoop() {
-    if (gameOver) return;  // Stop the loop if game over!
+    if (gameOver) return;  // 🛑 Stop the loop if game over!
 
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
@@ -1187,11 +1189,21 @@ function restartGame() {
     // Force reload assets from scratch
     initGame();  
 }
-    
+    initGame(); // 🛠 Reinitialize everything
 
 
 
 
+window.onload = function() {
+    document.body.addEventListener('click', () => {
+        unlockAudio();  // Unlock sounds
+        startGame();    // Then start the game
+    }, { once: true });
+};
+
+function startGame() {
+    initGame();
+}
 
 async function initGame() {
     canvas = document.getElementById('game-canvas');
@@ -1232,7 +1244,6 @@ async function initGame() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    
     await Promise.all([loadObstacles(), loadCollectibles()]);
 
     player = new Player(50, 50);
