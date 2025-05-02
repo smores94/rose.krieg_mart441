@@ -84,25 +84,21 @@
 <body>
   <div id="game-container">
 
-    <!-- Left: actual game canvas + overlay -->
-    <div id="canvas-container">
-      <canvas id="game-canvas"></canvas>
-
-      <div id="start-screen" class="overlay">
-        <img id="start-image" src="./img/bumparound.jpg" alt="Game Banner">
-        <button id="start-button">Start Game</button>
-      </div>
-    </div>
-
-    <!-- Right: fixed sidebar for score & debug -->
-    <div id="sidebar">
-      <div id="score-display">Score: 0</div>
-      <div id="debug-info">
-        Phase: 1<br>
-        Time: 0:00
-      </div>
-    </div>
-  </div>
+    <div id="game-container">
+        +    <!-- 1) Canvas pane first -->
+        +    <div id="canvas-container">
+        +      <canvas id="game-canvas"></canvas>
+        +      <div id="start-screen" class="overlay">
+        +        …  
+        +      </div>
+        +    </div>
+        +
+        +    <!-- 2) Sidebar pane second -->
+        +    <div id="sidebar">
+        +      <div id="score-display">Score: 0</div>
+        +      <div id="debug-info">Phase: 1<br>Time: 0:00</div>
+        +    </div>
+        +  </div>
 
   <!-- Audio elements -->
   <audio id="collect"  src="./audio/collect.wav"  preload="auto"></audio>
