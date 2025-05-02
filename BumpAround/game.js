@@ -1023,11 +1023,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn     = document.getElementById('start-button');
   
     btn.addEventListener('click', () => {
-      overlay.classList.add('hidden');
-      unlockAudio();    // enable audio playback
-      initGame();       // start or restart the game
+      overlay.classList.add('hidden');  // hide overlay
+      unlockAudio();                    // unlock sounds
+  
+      if (btn.textContent === 'Restart') {
+        restartGame();                  // fresh restart
+      } else {
+        initGame();                     // first‐time start
+      }
     });
   });
+  
   
   // 2) Input Controls Setup
   function setupControls() {
