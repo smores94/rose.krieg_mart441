@@ -1189,7 +1189,7 @@ function restartGame() {
     // Force reload assets from scratch
     initGame();  
 }
-    initGame(); // 🛠 Reinitialize everything
+    
 
 
 
