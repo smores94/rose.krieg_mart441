@@ -1,6 +1,6 @@
 // Game Constants
-const CANVAS_WIDTH = 1200;
-const CANVAS_HEIGHT = 800;
+let CANVAS_WIDTH  = window.innerWidth;
+let CANVAS_HEIGHT = window.innerHeight;
 const PLAYER_SIZE = 40;
 const SCORE_INCREMENT = 10;
 const PHASE1_COUNT = 5;
@@ -1087,22 +1087,32 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // 5) Canvas Resize & DPR Handling (place before gameLoop)
   function resizeCanvas() {
-    const cont = document.getElementById('game-container');
-    const w = cont.clientWidth, h = cont.clientHeight;
-    const scale = Math.min(w/CANVAS_WIDTH, h/CANVAS_HEIGHT);
-  
-    canvas.style.width  = `${CANVAS_WIDTH*scale}px`;
-    canvas.style.height = `${CANVAS_HEIGHT*scale}px`;
-    canvas.style.left   = `${(w - CANVAS_WIDTH*scale)/2}px`;
-    canvas.style.top    = `${(h - CANVAS_HEIGHT*scale)/2}px`;
-  
+    // Get device pixel ratio for crisp rendering on high-DPI screens
     const dpr = window.devicePixelRatio || 1;
-    canvas.width  = CANVAS_WIDTH * dpr;
-    canvas.height = CANVAS_HEIGHT * dpr;
   
-    ctx.setTransform(1,0,0,1,0,0);
+    // Full-window size in CSS pixels
+    const cssWidth  = window.innerWidth;
+    const cssHeight = window.innerHeight;
+  
+    // Stretch the canvas element itself to cover the window
+    canvas.style.width  = cssWidth + 'px';
+    canvas.style.height = cssHeight + 'px';
+    canvas.style.left   = '0';
+    canvas.style.top    = '0';
+  
+    // And set its drawing buffer to match actual pixels
+    canvas.width  = cssWidth  * dpr;
+    canvas.height = cssHeight * dpr;
+  
+    // Reset any transforms and scale for DPI
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
+  
+    // If your game logic uses constants, update them:
+    CANVAS_WIDTH  = cssWidth;
+    CANVAS_HEIGHT = cssHeight;
   }
+  
   
   // 6) Main Game Loop
   function gameLoop() {
