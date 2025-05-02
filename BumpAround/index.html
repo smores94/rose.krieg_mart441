@@ -1,135 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Bump Around</title>
-  <link rel="stylesheet" href="styles.css">
-  <style>
-    @viewport { width: device-width; zoom: 1.0; }
-    body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
+    <meta charset="UTF-8">
+    <title>Bump Around</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @viewport {
+            width: device-width;
+            zoom: 1.0;
+        }
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #game-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
 
-    /* 1) Main container: flex left/right */
-    #game-container {
-      display: flex;
-      height: 100vh;
-      margin: 0;
-    }
+        /* Overlay (start / game-over) */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+        }
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
 
-    /* 2) Left: canvas + overlay */
-    #canvas-container {
-      position: relative;
-      flex: 1;
-      overflow: hidden;
-    }
-    #game-canvas {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* 3) Overlay (Start / Game Over) */
-    .overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.75);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      transition: opacity 0.3s ease;
-    }
-    .overlay.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-    #start-image {
-      max-width: 80%;
-      max-height: 40%;
-      margin-bottom: 20px;
-    }
-    #start-button {
-      padding: 15px 30px;
-      font-size: 24px;
-      border: none;
-      background-color: #4CAF50;
-      color: white;
-      cursor: pointer;
-      border-radius: 10px;
-      transition: background-color 0.3s;
-    }
-    #start-button:hover {
-      background-color: #45a049;
-    }
-
-    /* 4) Right: sidebar for score & debug */
-#sidebar {
-  width: 200px;           
-  min-width: 200px;
-  background: #111;
-  color: #fff;
-  padding: 16px;          
-  box-sizing: border-box;
-}
-
-#score-display {
-  font-size: 20px;        
-  margin-bottom: 12px;    
-}
-
-#debug-info {
-  font-size: 14px;
-  line-height: 1.4;
-  white-space: pre-line;  
-}
-
-  </style>
+        #start-image {
+            max-width: 80%;
+            max-height: 40%;
+            margin-bottom: 20px;
+        }
+        #start-button {
+            padding: 15px 30px;
+            font-size: 24px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+        #start-button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-  <div id="game-container">
-    <!-- Left pane: canvas + overlay -->
-    <div id="canvas-container">
-      <canvas id="game-canvas"></canvas>
-      <div id="start-screen" class="overlay">
-        <img id="start-image" src="./img/bumparound.jpg" alt="Game Banner">
-        <button id="start-button">Start Game</button>
-      </div>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        <div id="debug-info"></div>
+        <div id="score-display"></div>
+
+        <!-- Overlay Start / Game-Over Screen -->
+        <div id="start-screen" class="overlay">
+            <img id="start-image" src="./img/bumparound.jpg" alt="Game Banner">
+            <button id="start-button">Start Game</button>
+        </div>
     </div>
 
-    <!-- Right pane: sidebar -->
-    <div id="sidebar">
-      <div id="score-display">Score: 0</div>
-      <div id="debug-info">Phase: 1\nTime: 0:00</div>
-    </div>
-  </div>
+    <!-- Audio files -->
+    <audio id="collect" src="./audio/collect.wav" preload="auto"></audio>
+    <audio id="collect2" src="./audio/collect2.wav" preload="auto"></audio>
+    <audio id="treasure" src="./audio/treasure.wav" preload="auto"></audio>
+    <audio id="lose" src="./audio/lose.wav" preload="auto"></audio>
+    <audio id="phase" src="./audio/phase.wav" preload="auto"></audio>
+    <audio id="warning" src="./audio/warning.wav" preload="auto"></audio>
+    <audio id="obstacle" src="./audio/obstacle.wav" preload="auto"></audio>
+    <audio id="level" src="./audio/level.wav" preload="auto"></audio>
+    <audio id="gameover" src="./audio/gameover.mp3" preload="auto"></audio>
+    <audio id="win" src="./audio/win.mp3"></audio>
 
-  <!-- Audio files -->
-  <audio id="collect"     src="./audio/collect.wav"     preload="auto"></audio>
-  <audio id="collect2"    src="./audio/collect2.wav"    preload="auto"></audio>
-  <audio id="treasure"    src="./audio/treasure.wav"    preload="auto"></audio>
-  <audio id="lose"        src="./audio/lose.wav"        preload="auto"></audio>
-  <audio id="phase"       src="./audio/phase.wav"       preload="auto"></audio>
-  <audio id="warning"     src="./audio/warning.wav"     preload="auto"></audio>
-  <audio id="obstacle"    src="./audio/obstacle.wav"    preload="auto"></audio>
-  <audio id="level"       src="./audio/level.wav"       preload="auto"></audio>
-  <audio id="gameover"    src="./audio/gameover.mp3"    preload="auto"></audio>
-  <audio id="win"         src="./audio/win.mp3"></audio>
-
-  <!-- Game Script -->
-  <script src="game.js"></script>
-  <script>
-    // Only start/restart via the overlay button
-    document.addEventListener('DOMContentLoaded', () => {
-      const overlay = document.getElementById('start-screen');
-      const btn     = document.getElementById('start-button');
-
-      btn.addEventListener('click', () => {
-        overlay.classList.add('hidden');
-        unlockAudio();
-        initGame();
-      });
-    });
-  </script>
+    <!-- Game Script -->
+    <script src="game.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('start-screen');
+            const btn = document.getElementById('start-button');
+            btn.addEventListener('click', () => {
+                overlay.classList.add('hidden');
+                unlockAudio();
+                initGame();
+            });
+        });
+    </script>
 </body>
 </html>
