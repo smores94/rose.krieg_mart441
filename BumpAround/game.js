@@ -1,6 +1,6 @@
 // Game Constants
-let CANVAS_WIDTH  = window.innerWidth;
-let CANVAS_HEIGHT = window.innerHeight;
+const CANVAS_WIDTH = 1200;
+const CANVAS_HEIGHT = 800;
 const PLAYER_SIZE = 40;
 const SCORE_INCREMENT = 10;
 const PHASE1_COUNT = 5;
@@ -1087,32 +1087,34 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // 5) Canvas Resize & DPR Handling (place before gameLoop)
   function resizeCanvas() {
-    // Get device pixel ratio for crisp rendering on high-DPI screens
+    const container = document.getElementById('game-container');
+    if (!container) return;
+
+    // Get container dimensions
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+
+    // Calculate scale to fit while maintaining aspect ratio
+    const scale = Math.min(
+        containerWidth / CANVAS_WIDTH,
+        containerHeight / CANVAS_HEIGHT
+    );
+
+    // Apply scaling to canvas style
+    canvas.style.width = `${CANVAS_WIDTH * scale}px`;
+    canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
+    canvas.style.left = `${(containerWidth - CANVAS_WIDTH * scale) / 2}px`;
+    canvas.style.top = `${(containerHeight - CANVAS_HEIGHT * scale) / 2}px`;
+
+    // Handle high DPI displays
     const dpr = window.devicePixelRatio || 1;
-  
-    // Full-window size in CSS pixels
-    const cssWidth  = window.innerWidth;
-    const cssHeight = window.innerHeight;
-  
-    // Stretch the canvas element itself to cover the window
-    canvas.style.width  = cssWidth + 'px';
-    canvas.style.height = cssHeight + 'px';
-    canvas.style.left   = '0';
-    canvas.style.top    = '0';
-  
-    // And set its drawing buffer to match actual pixels
-    canvas.width  = cssWidth  * dpr;
-    canvas.height = cssHeight * dpr;
-  
-    // Reset any transforms and scale for DPI
+    canvas.width = CANVAS_WIDTH * dpr;
+    canvas.height = CANVAS_HEIGHT * dpr;
+
+    // Scale the context to account for DPR
     ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
-  
-    // If your game logic uses constants, update them:
-    CANVAS_WIDTH  = cssWidth;
-    CANVAS_HEIGHT = cssHeight;
-  }
-  
+}
   
   // 6) Main Game Loop
   function gameLoop() {
@@ -1385,7 +1387,7 @@ async function initGame() {
 
     await Promise.all([loadObstacles(), loadCollectibles()]);
 
-    player = new Player(80, 80);
+    player = new Player(80, 70);
     phaseStartTime = Date.now();
     timeLeft = PHASE1_TIME_LIMIT; //  Start with Phase 1 time limit!
 
