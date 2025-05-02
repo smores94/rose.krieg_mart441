@@ -1375,9 +1375,9 @@ async function initGame() {
 
     await Promise.all([loadObstacles(), loadCollectibles()]);
 
-    player = new Player(50, 50);
+    player = new Player(50, 70);
     phaseStartTime = Date.now();
-    timeLeft = PHASE1_TIME_LIMIT; // 🛠 Start with Phase 1 time limit!
+    timeLeft = PHASE1_TIME_LIMIT; //  Start with Phase 1 time limit!
 
     setupControls();
     gameLoop();
