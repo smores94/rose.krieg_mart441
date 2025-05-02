@@ -8,30 +8,29 @@
     @viewport { width: device-width; zoom: 1.0; }
     body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
 
-    /* 1) Main container: flex left/right */
+    /* 1) Split layout */
     #game-container {
       display: flex;
       height: 100vh;
-      margin: 0;
     }
 
-    /* 2) Left: canvas + overlay */
+    /* 2) Canvas side */
     #canvas-container {
       position: relative;
-      flex: 1;
+      flex: 1;               /* take all space except sidebar */
       overflow: hidden;
     }
     #game-canvas {
-      display: block;
       width: 100%;
       height: 100%;
+      display: block;
     }
 
     /* 3) Overlay (Start / Game Over) */
     .overlay {
       position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top:0; left:0;
+      width:100%; height:100%;
       background: rgba(0,0,0,0.75);
       display: flex;
       flex-direction: column;
@@ -63,7 +62,7 @@
       background-color: #45a049;
     }
 
-    /* 4) Right: sidebar for score & debug */
+    /* 4) Sidebar */
     #sidebar {
       width: 240px;
       background: #111;
@@ -84,38 +83,42 @@
 </head>
 <body>
   <div id="game-container">
-    <!-- Left pane: canvas + overlay -->
+
+    <!-- Left: actual game canvas + overlay -->
     <div id="canvas-container">
       <canvas id="game-canvas"></canvas>
+
       <div id="start-screen" class="overlay">
         <img id="start-image" src="./img/bumparound.jpg" alt="Game Banner">
         <button id="start-button">Start Game</button>
       </div>
     </div>
 
-    <!-- Right pane: sidebar -->
+    <!-- Right: fixed sidebar for score & debug -->
     <div id="sidebar">
       <div id="score-display">Score: 0</div>
-      <div id="debug-info">Phase: 1\nTime: 0:00</div>
+      <div id="debug-info">
+        Phase: 1<br>
+        Time: 0:00
+      </div>
     </div>
   </div>
 
-  <!-- Audio files -->
-  <audio id="collect"     src="./audio/collect.wav"     preload="auto"></audio>
-  <audio id="collect2"    src="./audio/collect2.wav"    preload="auto"></audio>
-  <audio id="treasure"    src="./audio/treasure.wav"    preload="auto"></audio>
-  <audio id="lose"        src="./audio/lose.wav"        preload="auto"></audio>
-  <audio id="phase"       src="./audio/phase.wav"       preload="auto"></audio>
-  <audio id="warning"     src="./audio/warning.wav"     preload="auto"></audio>
-  <audio id="obstacle"    src="./audio/obstacle.wav"    preload="auto"></audio>
-  <audio id="level"       src="./audio/level.wav"       preload="auto"></audio>
-  <audio id="gameover"    src="./audio/gameover.mp3"    preload="auto"></audio>
-  <audio id="win"         src="./audio/win.mp3"></audio>
+  <!-- Audio elements -->
+  <audio id="collect"  src="./audio/collect.wav"  preload="auto"></audio>
+  <audio id="collect2" src="./audio/collect2.wav" preload="auto"></audio>
+  <audio id="treasure" src="./audio/treasure.wav" preload="auto"></audio>
+  <audio id="lose"     src="./audio/lose.wav"     preload="auto"></audio>
+  <audio id="phase"    src="./audio/phase.wav"    preload="auto"></audio>
+  <audio id="warning"  src="./audio/warning.wav"  preload="auto"></audio>
+  <audio id="obstacle" src="./audio/obstacle.wav" preload="auto"></audio>
+  <audio id="level"    src="./audio/level.wav"    preload="auto"></audio>
+  <audio id="gameover" src="./audio/gameover.mp3" preload="auto"></audio>
+  <audio id="win"      src="./audio/win.mp3"></audio>
 
-  <!-- Game Script -->
+  <!-- Your game code -->
   <script src="game.js"></script>
   <script>
-    // Only start/restart via the overlay button
     document.addEventListener('DOMContentLoaded', () => {
       const overlay = document.getElementById('start-screen');
       const btn     = document.getElementById('start-button');
@@ -129,3 +132,4 @@
   </script>
 </body>
 </html>
+
