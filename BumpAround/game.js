@@ -1017,35 +1017,167 @@ function updateDebugInfo() {
 }
 
 
-function resizeCanvas() {
-    const container = document.getElementById('game-container');
-    const containerWidth = container.clientWidth;
-    const containerHeight = container.clientHeight;
-    
-    // Calculate scale to fit container while maintaining aspect ratio
-    const scale = Math.min(
-        containerWidth / CANVAS_WIDTH,
-        containerHeight / CANVAS_HEIGHT
-    );
-    
-    // Apply the scale
-    canvas.style.width = `${CANVAS_WIDTH * scale}px`;
-    canvas.style.height = `${CANVAS_HEIGHT * scale}px`;
-    
-    // Center the canvas
-    canvas.style.position = 'absolute';
-    canvas.style.left = `${(containerWidth - CANVAS_WIDTH * scale) / 2}px`;
-    canvas.style.top = `${(containerHeight - CANVAS_HEIGHT * scale) / 2}px`;
-    
-    // Handle high DPI displays
+// 1) Overlay Start/Restart Button (runs once DOM is ready)
+document.addEventListener('DOMContentLoaded', () => {
+    const overlay = document.getElementById('start-screen');
+    const btn     = document.getElementById('start-button');
+  
+    btn.addEventListener('click', () => {
+      overlay.classList.add('hidden');
+      unlockAudio();    // enable audio playback
+      initGame();       // start or restart the game
+    });
+  });
+  
+  // 2) Input Controls Setup
+  function setupControls() {
+    window.addEventListener('keydown', e => {
+      if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) keys[e.key] = true;
+    });
+    window.addEventListener('keyup',   e => {
+      if (['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) keys[e.key] = false;
+    });
+  }
+  
+  // 3) Score Display
+  function updateScore() {
+    const el = document.getElementById('score-display');
+    if (el) el.textContent = `Score: ${score}`;
+  }
+  
+  // 4) Debug Info Display
+  function updateDebugInfo() {
+    const el = document.getElementById('debug-info');
+    if (!el) return;
+  
+    const limits = {
+      1: PHASE1_TIME_LIMIT,
+      2: PHASE2_TIME_LIMIT,
+      3: PHASE3_TIME_LIMIT,
+      4: PHASE4_TIME_LIMIT
+    };
+    let limit = limits[currentPhase] || PHASE5_TIME_LIMIT;
+  
+    timeLeft = Math.max(0, limit - (Date.now() - phaseStartTime));
+    if (timeLeft < 10000 && !timeWarningPlayed) {
+      sounds.warning?.play();
+      timeWarningPlayed = true;
+    }
+  
+    const m = Math.floor(timeLeft/60000);
+    const s = Math.floor((timeLeft%60000)/1000);
+  
+    el.innerHTML = `
+      Phase: ${currentPhase}<br>
+      Phase 1: ${phase1Collected}/${PHASE1_COUNT}<br>
+      ${currentPhase>=2?`Phase 2: ${phase2Collected}/${PHASE2_COUNT}<br>`:''}
+      ${currentPhase>=3?`Phase 3: ${phase3Collected}/${PHASE3_COUNT}<br>`:''}
+      ${currentPhase>=4?`Phase 4: ${phase4Collected}/${PHASE4_COUNT}<br>`:''}
+      ${currentPhase>=5?`Phase 5: ${phase5Collected}/${PHASE5_COUNT}<br>`:''}
+      Time: ${m}:${s<10?'0':''}${s}<br>
+      Score: ${score}
+    `;
+  }
+  
+  // 5) Canvas Resize & DPR Handling (place before gameLoop)
+  function resizeCanvas() {
+    const cont = document.getElementById('game-container');
+    const w = cont.clientWidth, h = cont.clientHeight;
+    const scale = Math.min(w/CANVAS_WIDTH, h/CANVAS_HEIGHT);
+  
+    canvas.style.width  = `${CANVAS_WIDTH*scale}px`;
+    canvas.style.height = `${CANVAS_HEIGHT*scale}px`;
+    canvas.style.left   = `${(w - CANVAS_WIDTH*scale)/2}px`;
+    canvas.style.top    = `${(h - CANVAS_HEIGHT*scale)/2}px`;
+  
     const dpr = window.devicePixelRatio || 1;
-    canvas.width = CANVAS_WIDTH * dpr;
+    canvas.width  = CANVAS_WIDTH * dpr;
     canvas.height = CANVAS_HEIGHT * dpr;
+  
+    ctx.setTransform(1,0,0,1,0,0);
     ctx.scale(dpr, dpr);
-}
+  }
+  
+  // 6) Main Game Loop
+  function gameLoop() {
+    if (gameOver) return;
+    ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+  
+    obstacles.forEach(o=>o.draw());
+    dangerObstacles.forEach(d=>d.draw());
+    collectibles.forEach(c=>c.draw());
+    player.update();
+    player.draw();
+  
+    dangerObstacles.forEach(d=>{ d.update(); d.draw(); });
+  
+    updateDebugInfo();
+    checkPhaseTimeout();
+  
+    if (phaseUnlockMessage && Date.now()-phaseUnlockTimer<3000) {
+      ctx.font = 'bold 48px Arial';
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 4;
+      ctx.textAlign = 'center';
+      ctx.strokeText(phaseUnlockMessage, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+      ctx.fillText(phaseUnlockMessage, CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+    }
+  
+    requestAnimationFrame(gameLoop);
+  }
+  
+  // 7) Phase Timeout & Game Over
+  function checkPhaseTimeout() {
+    const now = Date.now();
+    const limits = {1:PHASE1_TIME_LIMIT,2:PHASE2_TIME_LIMIT,3:PHASE3_TIME_LIMIT,4:PHASE4_TIME_LIMIT};
+    let limit = limits[currentPhase]||PHASE5_TIME_LIMIT;
+  
+    if (now - phaseStartTime > limit) {
+      const reqs = {
+        1:[phase1Collected,PHASE1_COUNT,score,PHASE1_SCORE_REQUIRED],
+        2:[phase2Collected,PHASE2_COUNT,score,PHASE2_SCORE_REQUIRED],
+        3:[phase3Collected,PHASE3_COUNT,score,PHASE3_SCORE_REQUIRED],
+        4:[phase4Collected,PHASE4_COUNT,score,PHASE4_SCORE_REQUIRED],
+        5:[phase5Collected,PHASE5_COUNT,score,PHASE5_SCORE_REQUIRED]
+      }[currentPhase];
+      if (reqs && (reqs[0]<reqs[1]||reqs[2]<reqs[3])) triggerGameOver();
+    }
+  }
+  
+  // 8) Game Over & Overlay Restart
+  function triggerGameOver() {
+    gameOver = true;
+    ctx.clearRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
+    ctx.font='bold 64px Arial'; ctx.fillStyle='red'; ctx.textAlign='center';
+    ctx.fillText('GAME OVER', CANVAS_WIDTH/2, CANVAS_HEIGHT/2);
+    sounds.gameover?.play();
+  
+    const overlay = document.getElementById('start-screen');
+    overlay.classList.remove('hidden');
+    const btn = document.getElementById('start-button');
+    btn.textContent = 'Restart';
+    btn.onclick = () => { overlay.classList.add('hidden'); restartGame(); };
+  }
+  
+  // 9) Reset & Reinitialize
+  function restartGame() {
+    gameOver = false;
+    score = 0; currentPhase = 1;
+    phase1Collected = phase2Collected = phase3Collected = phase4Collected = phase5Collected = 0;
+    phaseUnlockMessage = ''; timeWarningPlayed = false;
+    obstacles = []; collectibles = []; dangerObstacles = []; keys = {};
+    window.removeEventListener('resize', resizeCanvas);
+    initGame();
+  }
+  
+  // 10) Wire resize listener once at init
+  window.addEventListener('resize', resizeCanvas);
+
+  
 
 function gameLoop() {
-    if (gameOver) return;  // 🛑 Stop the loop if game over!
+    if (gameOver) return;  //  Stop the loop if game over!
 
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
