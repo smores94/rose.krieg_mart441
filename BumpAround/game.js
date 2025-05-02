@@ -26,7 +26,7 @@ const PHASE5_SCORE_REQUIRED = 2000;  // Final win condition
 
 
 // Game Variables
-let canvas, ctx;
+
 let obstacles = [];
 let collectibles = [];
 let player;
