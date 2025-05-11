@@ -1,0 +1,1087 @@
+[
+    {
+        "id": 1,
+        "type": "diamond",
+        "x": 825.72,
+        "y": 163.01,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 1
+    },
+    {
+        "id": 2,
+        "type": "coin",
+        "x": 296.57,
+        "y": 364.73,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 1
+    },
+    {
+        "id": 3,
+        "type": "gem",
+        "x": 497.29,
+        "y": 320.11,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 1
+    },
+    {
+        "id": 4,
+        "type": "crown",
+        "x": 36.1,
+        "y": 363.8,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 1
+    },
+    {
+        "id": 5,
+        "type": "crown",
+        "x": 532.16,
+        "y": 44.87,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 1
+    },
+    {
+        "id": 6,
+        "type": "crown",
+        "x": 460.49,
+        "y": 258.92,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 2
+    },
+    {
+        "id": 7,
+        "type": "crown",
+        "x": 398.18,
+        "y": 107.23,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 2
+    },
+    {
+        "id": 8,
+        "type": "crown",
+        "x": 506.52,
+        "y": 717.01,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 2
+    },
+    {
+        "id": 9,
+        "type": "coin",
+        "x": 581.86,
+        "y": 709.5,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 2
+    },
+    {
+        "id": 10,
+        "type": "star",
+        "x": 34.4,
+        "y": 338.1,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 2
+    },
+    {
+        "id": 11,
+        "type": "gem",
+        "x": 162.76,
+        "y": 620.61,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 2
+    },
+    {
+        "id": 12,
+        "type": "crown",
+        "x": 509.35,
+        "y": 456.85,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 2
+    },
+    {
+        "id": 13,
+        "type": "star",
+        "x": 1041.3,
+        "y": 5.12,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 2
+    },
+    {
+        "id": 14,
+        "type": "coin",
+        "x": 541.39,
+        "y": 38.29,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 2
+    },
+    {
+        "id": 15,
+        "type": "star",
+        "x": 1032.03,
+        "y": 119.0,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 2
+    },
+    {
+        "id": 16,
+        "type": "star",
+        "x": 783.55,
+        "y": 36.59,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 2
+    },
+    {
+        "id": 17,
+        "type": "gem",
+        "x": 607.25,
+        "y": 673.81,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 2
+    },
+    {
+        "id": 18,
+        "type": "star",
+        "x": 404.56,
+        "y": 477.44,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 2
+    },
+    {
+        "id": 19,
+        "type": "crown",
+        "x": 1070.46,
+        "y": 95.39,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 2
+    },
+    {
+        "id": 20,
+        "type": "gem",
+        "x": 1147.46,
+        "y": 499.26,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 2
+    },
+    {
+        "id": 21,
+        "type": "crown",
+        "x": 359.67,
+        "y": 112.56,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 3
+    },
+    {
+        "id": 22,
+        "type": "star",
+        "x": 928.71,
+        "y": 697.76,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 3
+    },
+    {
+        "id": 23,
+        "type": "gem",
+        "x": 391.7,
+        "y": 326.45,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 3
+    },
+    {
+        "id": 24,
+        "type": "star",
+        "x": 313.33,
+        "y": 38.18,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 3
+    },
+    {
+        "id": 25,
+        "type": "coin",
+        "x": 780.58,
+        "y": 491.91,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 3
+    },
+    {
+        "id": 26,
+        "type": "gem",
+        "x": 509.37,
+        "y": 463.81,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 3
+    },
+    {
+        "id": 27,
+        "type": "gem",
+        "x": 1134.09,
+        "y": 304.16,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 3
+    },
+    {
+        "id": 28,
+        "type": "star",
+        "x": 567.12,
+        "y": 723.99,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 3
+    },
+    {
+        "id": 29,
+        "type": "star",
+        "x": 321.94,
+        "y": 17.35,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 3
+    },
+    {
+        "id": 30,
+        "type": "diamond",
+        "x": 179.5,
+        "y": 675.49,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 3
+    },
+    {
+        "id": 31,
+        "type": "star",
+        "x": 314.4,
+        "y": 233.9,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 3
+    },
+    {
+        "id": 32,
+        "type": "coin",
+        "x": 263.34,
+        "y": 421.71,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 3
+    },
+    {
+        "id": 33,
+        "type": "coin",
+        "x": 103.76,
+        "y": 546.26,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 3
+    },
+    {
+        "id": 34,
+        "type": "gem",
+        "x": 703.21,
+        "y": 586.99,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 3
+    },
+    {
+        "id": 35,
+        "type": "gem",
+        "x": 187.56,
+        "y": 749.56,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 3
+    },
+    {
+        "id": 36,
+        "type": "diamond",
+        "x": 106.04,
+        "y": 408.31,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 3
+    },
+    {
+        "id": 37,
+        "type": "diamond",
+        "x": 704.98,
+        "y": 225.72,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 3
+    },
+    {
+        "id": 38,
+        "type": "star",
+        "x": 68.82,
+        "y": 546.91,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 3
+    },
+    {
+        "id": 39,
+        "type": "coin",
+        "x": 932.59,
+        "y": 641.71,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 3
+    },
+    {
+        "id": 40,
+        "type": "crown",
+        "x": 94.48,
+        "y": 498.84,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 3
+    },
+    {
+        "id": 41,
+        "type": "gem",
+        "x": 1138.63,
+        "y": 472.22,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 4
+    },
+    {
+        "id": 42,
+        "type": "coin",
+        "x": 772.81,
+        "y": 460.32,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 4
+    },
+    {
+        "id": 43,
+        "type": "crown",
+        "x": 1143.18,
+        "y": 749.83,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 4
+    },
+    {
+        "id": 44,
+        "type": "gem",
+        "x": 411.02,
+        "y": 327.26,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 4
+    },
+    {
+        "id": 45,
+        "type": "diamond",
+        "x": 427.07,
+        "y": 318.47,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 4
+    },
+    {
+        "id": 46,
+        "type": "gem",
+        "x": 870.31,
+        "y": 654.07,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 4
+    },
+    {
+        "id": 47,
+        "type": "crown",
+        "x": 47.76,
+        "y": 590.08,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 4
+    },
+    {
+        "id": 48,
+        "type": "diamond",
+        "x": 704.95,
+        "y": 273.91,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 4
+    },
+    {
+        "id": 49,
+        "type": "diamond",
+        "x": 87.72,
+        "y": 546.14,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 4
+    },
+    {
+        "id": 50,
+        "type": "crown",
+        "x": 564.16,
+        "y": 457.62,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 4
+    },
+    {
+        "id": 51,
+        "type": "coin",
+        "x": 140.23,
+        "y": 47.03,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 4
+    },
+    {
+        "id": 52,
+        "type": "gem",
+        "x": 1093.98,
+        "y": 469.54,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 4
+    },
+    {
+        "id": 53,
+        "type": "crown",
+        "x": 88.38,
+        "y": 186.9,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 4
+    },
+    {
+        "id": 54,
+        "type": "crown",
+        "x": 839.63,
+        "y": 356.58,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 4
+    },
+    {
+        "id": 55,
+        "type": "crown",
+        "x": 232.9,
+        "y": 197.18,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 4
+    },
+    {
+        "id": 56,
+        "type": "crown",
+        "x": 647.95,
+        "y": 179.74,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 4
+    },
+    {
+        "id": 57,
+        "type": "coin",
+        "x": 888.31,
+        "y": 115.63,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 4
+    },
+    {
+        "id": 58,
+        "type": "crown",
+        "x": 479.11,
+        "y": 333.46,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 4
+    },
+    {
+        "id": 59,
+        "type": "coin",
+        "x": 963.52,
+        "y": 313.84,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 4
+    },
+    {
+        "id": 60,
+        "type": "gem",
+        "x": 349.15,
+        "y": 335.07,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 4
+    },
+    {
+        "id": 61,
+        "type": "star",
+        "x": 1056.41,
+        "y": 528.89,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 4
+    },
+    {
+        "id": 62,
+        "type": "crown",
+        "x": 693.07,
+        "y": 645.98,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 4
+    },
+    {
+        "id": 63,
+        "type": "star",
+        "x": 739.59,
+        "y": 505.31,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 4
+    },
+    {
+        "id": 64,
+        "type": "coin",
+        "x": 664.04,
+        "y": 659.31,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 4
+    },
+    {
+        "id": 65,
+        "type": "star",
+        "x": 771.14,
+        "y": 725.03,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 4
+    },
+    {
+        "id": 66,
+        "type": "gem",
+        "x": 999.35,
+        "y": 246.38,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 5
+    },
+    {
+        "id": 67,
+        "type": "diamond",
+        "x": 142.62,
+        "y": 423.68,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 5
+    },
+    {
+        "id": 68,
+        "type": "crown",
+        "x": 849.33,
+        "y": 71.94,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 5
+    },
+    {
+        "id": 69,
+        "type": "coin",
+        "x": 496.26,
+        "y": 261.5,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 5
+    },
+    {
+        "id": 70,
+        "type": "star",
+        "x": 289.91,
+        "y": 658.55,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 5
+    },
+    {
+        "id": 71,
+        "type": "diamond",
+        "x": 1151.92,
+        "y": 574.86,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 5
+    },
+    {
+        "id": 72,
+        "type": "star",
+        "x": 319.31,
+        "y": 337.73,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 5
+    },
+    {
+        "id": 73,
+        "type": "star",
+        "x": 773.58,
+        "y": 308.44,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 5
+    },
+    {
+        "id": 74,
+        "type": "coin",
+        "x": 432.71,
+        "y": 490.41,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 5
+    },
+    {
+        "id": 75,
+        "type": "star",
+        "x": 508.37,
+        "y": 706.74,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 5
+    },
+    {
+        "id": 76,
+        "type": "star",
+        "x": 1131.31,
+        "y": 746.45,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 5
+    },
+    {
+        "id": 77,
+        "type": "diamond",
+        "x": 510.85,
+        "y": 502.63,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 5
+    },
+    {
+        "id": 78,
+        "type": "gem",
+        "x": 600.91,
+        "y": 572.24,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 5
+    },
+    {
+        "id": 79,
+        "type": "coin",
+        "x": 142.74,
+        "y": 418.08,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 5
+    },
+    {
+        "id": 80,
+        "type": "gem",
+        "x": 1031.06,
+        "y": 595.29,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 5
+    },
+    {
+        "id": 81,
+        "type": "crown",
+        "x": 126.12,
+        "y": 651.52,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 5
+    },
+    {
+        "id": 82,
+        "type": "coin",
+        "x": 396.4,
+        "y": 229.82,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 5
+    },
+    {
+        "id": 83,
+        "type": "crown",
+        "x": 1149.41,
+        "y": 741.24,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 5
+    },
+    {
+        "id": 84,
+        "type": "crown",
+        "x": 953.95,
+        "y": 418.83,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 5
+    },
+    {
+        "id": 85,
+        "type": "coin",
+        "x": 582.26,
+        "y": 635.7,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 5
+    },
+    {
+        "id": 86,
+        "type": "gem",
+        "x": 497.78,
+        "y": 559.22,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 5
+    },
+    {
+        "id": 87,
+        "type": "diamond",
+        "x": 1158.87,
+        "y": 679.67,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 5
+    },
+    {
+        "id": 88,
+        "type": "gem",
+        "x": 1129.37,
+        "y": 153.93,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 5
+    },
+    {
+        "id": 89,
+        "type": "coin",
+        "x": 533.63,
+        "y": 316.46,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 5
+    },
+    {
+        "id": 90,
+        "type": "coin",
+        "x": 1056.29,
+        "y": 751.75,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 5
+    },
+    {
+        "id": 91,
+        "type": "diamond",
+        "x": 621.84,
+        "y": 675.36,
+        "width": 35,
+        "height": 35,
+        "value": 200,
+        "phase": 5
+    },
+    {
+        "id": 92,
+        "type": "coin",
+        "x": 984.8,
+        "y": 185.52,
+        "width": 20,
+        "height": 20,
+        "value": 10,
+        "phase": 5
+    },
+    {
+        "id": 93,
+        "type": "gem",
+        "x": 1138.53,
+        "y": 394.1,
+        "width": 25,
+        "height": 25,
+        "value": 50,
+        "phase": 5
+    },
+    {
+        "id": 94,
+        "type": "star",
+        "x": 433.17,
+        "y": 4.41,
+        "width": 30,
+        "height": 30,
+        "value": 100,
+        "phase": 5
+    },
+    {
+        "id": 95,
+        "type": "crown",
+        "x": 1007.25,
+        "y": 656.79,
+        "width": 40,
+        "height": 40,
+        "value": 500,
+        "phase": 5
+    },
+    {
+        "id": 16,
+        "type": "mirrorShard",
+        "x": 1115.68,
+        "y": 373.06,
+        "width": 26,
+        "height": 35,
+        "phase": 6
+    },
+    {
+        "id": 17,
+        "type": "diamondShard",
+        "x": 54.05,
+        "y": 105.56,
+        "width": 22,
+        "height": 35,
+        "phase": 6
+    },
+    {
+        "id": 18,
+        "type": "mirrorShard",
+        "x": 124.48,
+        "y": 54.36,
+        "width": 28,
+        "height": 38,
+        "phase": 6
+    },
+    {
+        "id": 19,
+        "type": "diamondShard",
+        "x": 568.62,
+        "y": 175.29,
+        "width": 33,
+        "height": 36,
+        "phase": 6
+    },
+    {
+        "id": 20,
+        "type": "glassFragment",
+        "x": 549.55,
+        "y": 746.9,
+        "width": 20,
+        "height": 25,
+        "phase": 6
+    },
+    {
+        "id": 21,
+        "type": "flower",
+        "x": 723.51,
+        "y": 247.85,
+        "width": 22,
+        "height": 27,
+        "phase": 7
+    },
+    {
+        "id": 22,
+        "type": "rainbow",
+        "x": 82.49,
+        "y": 432.43,
+        "width": 191,
+        "height": 59,
+        "phase": 7
+    },
+    {
+        "id": 23,
+        "type": "rainbow",
+        "x": 783.34,
+        "y": 184.31,
+        "width": 158,
+        "height": 53,
+        "phase": 7
+    },
+    {
+        "id": 24,
+        "type": "balloon",
+        "x": 1102.39,
+        "y": 706.1,
+        "width": 36,
+        "height": 77,
+        "phase": 7
+    },
+    {
+        "id": 25,
+        "type": "flower",
+        "x": 601.89,
+        "y": 371.09,
+        "width": 24,
+        "height": 25,
+        "phase": 7
+    },
+    {
+        "id": 26,
+        "type": "skullPile",
+        "x": 752.8,
+        "y": 251.39,
+        "width": 48,
+        "height": 32,
+        "phase": 8
+    },
+    {
+        "id": 27,
+        "type": "tombstone",
+        "x": 590.95,
+        "y": 135.79,
+        "width": 50,
+        "height": 89,
+        "phase": 8
+    },
+    {
+        "id": 28,
+        "type": "tombstone",
+        "x": 943.7,
+        "y": 489.2,
+        "width": 49,
+        "height": 77,
+        "phase": 8
+    },
+    {
+        "id": 29,
+        "type": "skullPile",
+        "x": 944.76,
+        "y": 191.22,
+        "width": 49,
+        "height": 31,
+        "phase": 8
+    },
+    {
+        "id": 30,
+        "type": "brokenStatue",
+        "x": 619.37,
+        "y": 303.61,
+        "width": 111,
+        "height": 138,
+        "phase": 8
+    }
+]

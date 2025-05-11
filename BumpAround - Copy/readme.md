@@ -1,5 +1,14 @@
 # rose.krieg_mart441
 
-I did about 300 revisions on this, mostly related to trying to get a reset button to function (which did not happen), and a "you won". Neither ended up working and to be honest, even after running the whole thing through AI, still could not get it to function correctly. Getting some mad respect for game developers these days. 
 
-The actual assigned portion of this assignment went pretty well. The biggest challenge I think I had with that was getting the game to subtract points for bouncing into the objects. I was so impressed with that, I thought the reset button would be no problem, as I've done it before, I'm still bothered by it! 
+Each level you must collect a certain amount of collectibles and get to a certain score:
+PHASE1_SCORE_REQUIRED = 500; 
+PHASE2_SCORE_REQUIRED = 1500;
+PHASE3_SCORE_REQUIRED = 3000;
+PHASE4_SCORE_REQUIRED = 6000;
+PHASE5_SCORE_REQUIRED = 15000;
+
+Phases 3-5 have "Danger Spawn" which will subtract when you touch them!
+
+And don't forget, when you "bump" into obstacles, it also subtracts from your score, so be
+careful when you "Bump Around"!

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bump Around</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @viewport {
+            width: device-width;
+            zoom: 1.0;
+        }
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        #game-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Overlay (start / game-over) */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+        }
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #start-image {
+            max-width: 80%;
+            max-height: 40%;
+            margin-bottom: 20px;
+        }
+        #start-button {
+            padding: 15px 30px;
+            font-size: 24px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: background-color 0.3s;
+        }
+        #start-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        <!--<div id="debug-info"></div>
+  
+
+        <!-Overlay Start / Game-Over Screen -->
+        <div id="start-screen" class="overlay">
+            <img id="start-image" src="./img/bumparound.jpg" alt="Game Banner">
+            <button id="start-button">Start Game</button>
+        </div>
+    </div>
+
+    <!-- Audio files -->
+    <!-- Game Sound Effects -->
+<audio id="collect" src="audio/collect.wav" preload="auto"></audio>
+<audio id="collect2" src="audio/collect2.wav" preload="auto"></audio>
+<audio id="treasure" src="audio/treasure.wav" preload="auto"></audio>
+<audio id="phase" src="audio/phase.wav" preload="auto"></audio>
+<audio id="warning" src="audio/warning.mp3" preload="auto"></audio>
+<audio id="obstacle" src="audio/obstacle.wav" preload="auto"></audio>
+<audio id="level" src="audio/level.wav" preload="auto"></audio>
+<audio id="lose" src="audio/lose.wav" preload="auto"></audio>
+<audio id="win" src="audio/win.mp3" preload="auto"></audio>
+<audio id="gameover" src="audio/gameover.mp3" preload="auto"></audio>
+<!---Phase 6 - mirror world---->
+<audio id="mirrorAmbience" src="audio/mirrorAmbience.mp3" preload="auto" loop></audio>
+<audio id="mirrorSpawn" src="audio/mirrorSpawn.mp3" preload="auto"></audio>
+<audio id="coin1" src="audio/coin1.mp3" preload="auto"></audio>
+<audio id="coin2" src="audio/coin2.mp3" preload="auto"></audio>
+<audio id="coin3" src="audio/coin3.mp3" preload="auto"></audio>
+<audio id="shieldhit" src="audio/shieldhit.mp3" preload="auto"></audio>
+<audio id="glitch" src="audio/glitch.mp3" preload="auto"></audio>
+<!-- Phase 7: Candyland / Fairyland -->
+<audio id="fairyDance" src="audio/fairyDance.mp3" preload="auto" loop></audio>
+<audio id="magic1" src="audio/magic1.mp3" preload="auto"></audio>
+<audio id="magic2" src="audio/magic2.mp3" preload="auto"></audio>
+<audio id="magic3" src="audio/magic3.mp3" preload="auto"></audio>
+<audio id="laugh" src="audio/laugh.mp3" preload="auto"></audio>
+
+<!-- Phase 8: Final Eclipse -->
+<audio id="finale_hymn" src="audio/finale_hymn.mp3" preload="auto" loop></audio>
+<audio id="shard1" src="audio/shard1.mp3" preload="auto"></audio>
+<audio id="shard2" src="audio/shard2.mp3" preload="auto"></audio>
+<audio id="shard3" src="audio/shard3.mp3" preload="auto"></audio>
+<audio id="whisper" src="audio/echofade.mp3" preload="auto"></audio>
+<audio id="metalscrape" src="audio/metalscrape.mp3" preload="auto"></audio>
+
+
+    <!-- Game Script -->
+    <script src="game.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const overlay = document.getElementById('start-screen');
+            const btn = document.getElementById('start-button');
+            btn.addEventListener('click', () => {
+                overlay.classList.add('hidden');
+                unlockAudio();
+                initGame();
+            });
+        });
+    </script>
+</body>
+</html>
